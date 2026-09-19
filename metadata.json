@@ -1,0 +1,6 @@
+{
+  "name": "ArchScope - Remote Architectural BIM Services & Scope Estimator",
+  "description": "Interactive fee, drawing sheet calculator, and client acquisition suite for remote BIM modeling, Revit documentation, and permit sets.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

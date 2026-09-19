@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSpecialistOwner() {
+      return isSignedIn() && request.auth.token.email == 'arslan.qaiser1991@gmail.com';
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidLead(data) {
+      return (
+        ((data.name is string && data.name.size() > 0 && data.name.size() <= 200) ||
+         (data.clientName is string && data.clientName.size() > 0 && data.clientName.size() <= 200))
+        && data.email is string && data.email.size() > 3 && data.email.size() <= 254
+        && data.status is string && (data.status in ['new', 'contacted', 'in_review', 'proposal_sent', 'retained', 'archived', 'converted'])
+      );
+    }
+
+    match /leads/{leadId} {
+      allow create: if isValidId(leadId) && isValidLead(request.resource.data);
+      allow read, update, delete: if isSignedIn();
+    }
+
+    match /specialists/{specialistId} {
+      allow read: if true;
+      allow write: if isSpecialistOwner() && isValidId(specialistId);
+    }
+
+    match /test/{testId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+  }
+}

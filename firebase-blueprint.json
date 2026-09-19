@@ -1,0 +1,71 @@
+{
+  "entities": {
+    "Lead": {
+      "title": "Lead",
+      "description": "Architectural client lead or project scope inquiry submitted via the calculator.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for the lead" },
+        "name": { "type": "string", "description": "Client full name or firm contact" },
+        "email": { "type": "string", "description": "Contact email address" },
+        "phone": { "type": "string", "description": "Phone or WhatsApp number" },
+        "firmOrRole": { "type": "string", "description": "Company, firm name or client role" },
+        "projectType": { "type": "string", "description": "Type of architectural project" },
+        "scopeLevel": { "type": "string", "description": "Selected LOD level or drawing package tier" },
+        "timeline": { "type": "string", "description": "Required project timeline" },
+        "squareFootage": { "type": "number", "description": "Gross square footage" },
+        "estimatedFeeMin": { "type": "number", "description": "Minimum estimated scope fee in USD" },
+        "estimatedFeeMax": { "type": "number", "description": "Maximum estimated scope fee in USD" },
+        "status": {
+          "type": "string",
+          "enum": ["new", "contacted", "in_review", "proposal_sent", "retained", "archived"],
+          "description": "Current pipeline status of this lead"
+        },
+        "submittedAt": { "type": "string", "description": "ISO timestamp of lead submission" },
+        "notes": { "type": "string", "description": "Specialist follow-up notes" }
+      },
+      "required": ["name", "email", "status", "submittedAt"]
+    },
+    "SpecialistProfile": {
+      "title": "SpecialistProfile",
+      "description": "Public and configurable architectural specialist details and credentials.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Specialist identifier" },
+        "name": { "type": "string", "description": "Specialist professional name" },
+        "title": { "type": "string", "description": "Professional designation" },
+        "location": { "type": "string", "description": "Operating base and time zone" },
+        "email": { "type": "string", "description": "Direct communication email" },
+        "phone": { "type": "string", "description": "Official phone contact" },
+        "whatsapp": { "type": "string", "description": "Direct WhatsApp connection number" },
+        "hourlyRate": { "type": "number", "description": "Standard drafting and BIM hourly rate" },
+        "bio": { "type": "string", "description": "Professional bio and software expertise summary" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp of last update" }
+      },
+      "required": ["name", "title", "email"]
+    },
+    "TestConnection": {
+      "title": "TestConnection",
+      "description": "Diagnostic document used to verify initial client connection to Firestore.",
+      "type": "object",
+      "properties": {
+        "status": { "type": "string" },
+        "timestamp": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/leads/{leadId}": {
+      "schema": { "$ref": "#/entities/Lead" },
+      "description": "Collection of incoming architectural scope estimates and prospect leads"
+    },
+    "/specialists/{specialistId}": {
+      "schema": { "$ref": "#/entities/SpecialistProfile" },
+      "description": "Configurable profile records for the architectural BIM practice"
+    },
+    "/test/{testId}": {
+      "schema": { "$ref": "#/entities/TestConnection" },
+      "description": "Health check and connection verification endpoint"
+    }
+  }
+}
