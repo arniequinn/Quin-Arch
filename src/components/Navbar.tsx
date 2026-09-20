@@ -1,5 +1,5 @@
 import React from "react";
-import { Compass, MessageSquare, UserCheck, Layers, Sparkles, FolderDown, ExternalLink, Lock, Linkedin } from "lucide-react";
+import { Compass, MessageSquare, UserCheck, Layers, Sparkles, Lock, Linkedin } from "lucide-react";
 import { SpecialistProfile } from "../types";
 
 interface NavbarProps {
@@ -74,21 +74,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Action Controls */}
         <div className="flex items-center space-x-2 sm:space-x-2.5">
-          {/* Direct Dropbox Work Vault Link */}
-          {specialist.socials?.dropboxFolder && (
-            <a
-              href={specialist.socials.dropboxFolder}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-300 text-xs font-medium border border-neutral-800 transition-all hover:border-blue-500/40"
-              title="Browse complete PDF drawing folder on Dropbox"
-            >
-              <FolderDown className="w-3.5 h-3.5 text-blue-400" />
-              <span className="hidden md:inline">Work Vault</span>
-              <ExternalLink className="w-3 h-3 text-neutral-500" />
-            </a>
-          )}
-
           {/* Direct WhatsApp Quick Connect */}
           {specialist.whatsapp && (
             <a

@@ -119,7 +119,6 @@ export interface SpecialistSocials {
   fiverr: string;
   freelancer: string;
   upwork: string;
-  dropboxFolder: string;
 }
 
 export interface SpecialistProfile {
@@ -153,7 +152,6 @@ export interface PortfolioItem {
   imageUrl: string;
   cadPreviewUrl?: string;
   pdfUrl?: string;
-  dropboxUrl?: string;
   isRealClientWork?: boolean;
   specs: { label: string; value: string }[];
   tags: string[];

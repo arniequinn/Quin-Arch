@@ -89,18 +89,6 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                 <ExternalLink className="w-3 h-3 ml-0.5 opacity-70" />
               </a>
 
-              <a
-                href={socials?.dropboxFolder}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 transition-all flex items-center space-x-1.5"
-                title="Browse full original PDF drawings and document archives"
-              >
-                <FolderDown className="w-4 h-4" />
-                <span>Dropbox Work Vault</span>
-                <ExternalLink className="w-3 h-3 ml-0.5 opacity-70" />
-              </a>
-
               <button
                 onClick={onOpenEditor}
                 className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all flex items-center space-x-1.5 cursor-pointer ${
@@ -370,16 +358,6 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                 >
                   <Linkedin className="w-4 h-4 fill-white" />
                   <span>LinkedIn Profile</span>
-                </a>
-
-                <a
-                  href={socials?.dropboxFolder}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm flex items-center space-x-2 shadow-md shadow-blue-600/20 transition-all cursor-pointer"
-                >
-                  <FolderDown className="w-4 h-4" />
-                  <span>Open Dropbox PDF Folder</span>
                 </a>
 
                 <button

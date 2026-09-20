@@ -20,8 +20,7 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
     cadcrowd: "https://www.cadcrowd.com/profile/36968-quintessential-architecture",
     fiverr: "https://www.fiverr.com/s/X0R4azm",
     freelancer: "https://www.freelancer.com/u/arslanqaiser1991?frm=arslanqaiser1991&sb=t",
-    upwork: "https://www.upwork.com/freelancers/~017cb25c6f0d1d2375?mp_source=share",
-    dropboxFolder: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0"
+    upwork: "https://www.upwork.com/freelancers/~017cb25c6f0d1d2375?mp_source=share"
   },
   availableFor: [
     "Full-Service Remote Architectural CAD Drafting",
@@ -244,7 +243,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     sheetDetails: "Complete Permit Drawing Package • PDF Architectural Set",
     imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
     pdfUrl: assetUrl("/portfolio/docs/Barndominium.pdf"),
-    dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
       { label: "Typology", value: "Custom Barndominium & Residence" },
@@ -268,7 +266,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     sheetDetails: "Elevated Structural Framing • Full Permitting Set",
     imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80",
     pdfUrl: assetUrl("/portfolio/docs/Beach House - Texas.pdf"),
-    dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
       { label: "Location", value: "Coastal Texas (Gulf Coast)" },
@@ -292,7 +289,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     sheetDetails: "Commercial Hospitality Set • Kitchen Equipment Plan",
     imageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80",
     pdfUrl: assetUrl("/portfolio/docs/Slamburger.pdf"),
-    dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
       { label: "Sector", value: "Commercial Hospitality / Food Service" },
@@ -311,7 +307,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     sheetDetails: "Photorealistic 3D Render + Architectural Layout",
     imageUrl: assetUrl("/portfolio/barn-residence-vray.jpg"),
     pdfUrl: assetUrl("/portfolio/docs/Barn & Residence.pdf"),
-    dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
       { label: "Typology", value: "Equestrian Barn & Estate" },
@@ -335,7 +330,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     sheetDetails: "3D Perspective Render + Documentation Set",
     imageUrl: assetUrl("/portfolio/cran-perspective.jpg"),
     pdfUrl: assetUrl("/portfolio/docs/Cran.pdf"),
-    dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
       { label: "Design Style", value: "Modern Minimalist Cantilever" },
@@ -354,7 +348,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     sheetDetails: "Multi-Family Apartment Typologies & Plans",
     imageUrl: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=900&q=80",
     pdfUrl: assetUrl("/portfolio/docs/Flats.pdf"),
-    dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
       { label: "Typology", value: "Multi-Family Apartment Flats" },

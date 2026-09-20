@@ -262,17 +262,6 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
                       <ExternalLink className="w-2.5 h-2.5 ml-0.5 opacity-70" />
                     </a>
                   )}
-                  {currentProfile.socials?.dropboxFolder && (
-                    <a
-                      href={currentProfile.socials.dropboxFolder}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-blue-950/50 border border-blue-500/30 text-blue-300 text-[11px] hover:text-blue-200 transition-colors"
-                    >
-                      <span>Dropbox Work Vault</span>
-                      <ExternalLink className="w-2.5 h-2.5 ml-0.5 opacity-70" />
-                    </a>
-                  )}
                 </div>
               </div>
 
@@ -437,7 +426,7 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
             {/* Social and Portfolio Links Section */}
             <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 font-mono">
-                Online Profiles, Freelance Portals & Dropbox Vault
+                Online Profiles & Freelance Portals
               </h4>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -542,19 +531,6 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
                   />
                 </div>
 
-                <div className="sm:col-span-2">
-                  <label className="block text-neutral-400 font-mono mb-1 text-[11px]">Dropbox Work Vault (PDFs/Drawings)</label>
-                  <input
-                    type="text"
-                    value={formData.socials?.dropboxFolder || ""}
-                    onChange={(e) => setFormData({
-                      ...formData,
-                      socials: { ...formData.socials, dropboxFolder: e.target.value }
-                    })}
-                    placeholder="https://www.dropbox.com/scl/fo/..."
-                    className="w-full px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-700 text-neutral-200 text-xs focus:outline-none focus:border-amber-500"
-                  />
-                </div>
               </div>
             </div>
 

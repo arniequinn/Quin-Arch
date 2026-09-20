@@ -315,16 +315,6 @@ export default function App() {
                   Cad Crowd
                 </a>
               )}
-              {specialist.socials?.dropboxFolder && (
-                <a
-                  href={specialist.socials.dropboxFolder}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors underline underline-offset-4"
-                >
-                  Dropbox Work Vault (PDFs)
-                </a>
-              )}
             </div>
           </div>
 
