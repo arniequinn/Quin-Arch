@@ -25,7 +25,7 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
   availableFor: [
     "Full-Service Remote Architectural CAD Drafting",
     "Municipal Permit Drawing Sets (IBC, IRC, Title 24, FBC)",
-    "Revit 3D BIM Modeling (LOD 200 - 400)",
+    "3D BIM Modeling (LOD 200 - 400)",
     "Parametric & Algorithmic Design (Rhino + Grasshopper)",
     "MEP & Structural Clash Detection (Navisworks)",
     "Millwork / Casework Fabrication Shop Drawings",
@@ -33,19 +33,18 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
     "Dedicated White-Label CAD/BIM Retainers for Architecture & Engineering Firms"
   ],
   softwareProficiencies: [
-    "Autodesk Revit 2024 (BIM LOD 200-400)",
+    "3D BIM Modeling Software (LOD 200-400)",
     "AutoCAD Architectural & Detailing",
     "Rhino 7 / Grasshopper Algorithmic",
     "Ladybug & Karamba 3D (Solar/Structural)",
     "Autodesk Navisworks (Clash Detection)",
     "V-Ray / Lumion / Twinmotion 4K",
-    "ArchiCAD / GDL Scripting & Tapir API",
     "Bluebeam Revu (Plan Check QA/QC)"
   ],
   yearsExperience: 9,
   completedProjectsCount: 380,
   baseHourlyRate: 45,
-  bio: "Senior Architect & Computational Technologist with a B.Arch (Distinction in Design) from the prestigious National College of Arts (NCA). Backed by 9+ years of independent remote consulting and firm coordination across residential, commercial, and hospitality sectors. Specializing in code-compliant permit packages, high-detail Revit BIM models, parametric solar/wind analysis, and zero-headache digital project delivery for international architects and builders."
+  bio: "Senior Architect & Computational Technologist with a B.Arch (Distinction in Design) from the prestigious National College of Arts (NCA). Backed by 9+ years of independent remote consulting and firm coordination across residential, commercial, and hospitality sectors. Specializing in code-compliant permit packages, high-detail 3D BIM models, parametric solar/wind analysis, and zero-headache digital project delivery for international architects and builders."
 };
 
 export const PROJECT_TYPES: ProjectTypeOption[] = [
@@ -133,7 +132,7 @@ export const PROJECT_TYPES: ProjectTypeOption[] = [
     defaultSqFt: 3000,
     baseComplexity: 0.75,
     baseSheets: 8,
-    description: "Converting PDF scans, hand sketches, Matterport surveys, or 3D point-cloud files into clean, editable AutoCAD and Revit files.",
+    description: "Converting PDF scans, hand sketches, Matterport surveys, or 3D point-cloud files into clean, editable AutoCAD and BIM files.",
     badge: "Digital Twin",
     image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80"
   }
@@ -142,7 +141,7 @@ export const PROJECT_TYPES: ProjectTypeOption[] = [
 export const SERVICE_OPTIONS: ServiceOption[] = [
   {
     id: "permit_drawings",
-    name: "2D Permit Drawing Sets (CAD / Revit)",
+    name: "2D Permit Drawing Sets (CAD / BIM)",
     shortName: "Permit Drawings",
     category: "Drafting",
     description: "Complete municipal permit submission package: Site plan, dimensioned floor plans, exterior elevations, building sections, window/door schedules, and life safety notes.",
@@ -150,20 +149,20 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     minPrice: 950,
     standardTurnaroundDays: 7,
     sheetImpact: 10,
-    softwareUsed: ["AutoCAD 2024", "Autodesk Revit", "Bluebeam Revu"],
+    softwareUsed: ["AutoCAD 2024", "3D BIM Software", "Bluebeam Revu"],
     popular: true
   },
   {
     id: "bim_modeling",
-    name: "3D BIM Modeling (Revit LOD 200 - 400)",
-    shortName: "3D BIM (Revit)",
+    name: "3D BIM Modeling (LOD 200 - 400)",
+    shortName: "3D BIM Modeling",
     category: "BIM",
-    description: "Intelligent building information modeling in Revit with parametric families, wall assemblies, material takeoff schedules, and clash-ready geometry.",
+    description: "Intelligent building information modeling with parametric families, wall assemblies, material takeoff schedules, and clash-ready geometry.",
     basePricePerSqFt: 0.75,
     minPrice: 1100,
     standardTurnaroundDays: 8,
     sheetImpact: 6,
-    softwareUsed: ["Autodesk Revit", "Navisworks", "BIM 360", "IFC"],
+    softwareUsed: ["3D BIM Software", "Navisworks", "BIM 360", "IFC"],
     popular: true
   },
   {
@@ -176,7 +175,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     minPrice: 850,
     standardTurnaroundDays: 7,
     sheetImpact: 8,
-    softwareUsed: ["AutoCAD", "Revit", "AIA CAD Standards"],
+    softwareUsed: ["AutoCAD", "3D BIM Software", "AIA CAD Standards"],
     popular: true
   },
   {
@@ -189,7 +188,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     minPrice: 650,
     standardTurnaroundDays: 5,
     sheetImpact: 5,
-    softwareUsed: ["AutoCAD", "Cabinet Vision", "Revit"],
+    softwareUsed: ["AutoCAD", "Cabinet Vision", "3D BIM Software"],
     popular: false
   },
   {
@@ -215,7 +214,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     minPrice: 600,
     standardTurnaroundDays: 5,
     sheetImpact: 4,
-    softwareUsed: ["Navisworks Manage", "Revit MEP", "AutoCAD MEP"],
+    softwareUsed: ["Navisworks Manage", "3D BIM Software", "AutoCAD MEP"],
     popular: false
   },
   {
@@ -223,12 +222,12 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     name: "Matterport / Scan to BIM / As-Built CAD",
     shortName: "As-Built Conversion",
     category: "Drafting",
-    description: "Transforming 3D point clouds (E57, LAS), matterport virtual tours, or hand-measured redlines into clean, layered, editable 2D DWG and 3D Revit models.",
+    description: "Transforming 3D point clouds (E57, LAS), matterport virtual tours, or hand-measured redlines into clean, layered, editable 2D DWG and 3D BIM models.",
     basePricePerSqFt: 0.35,
     minPrice: 500,
     standardTurnaroundDays: 4,
     sheetImpact: 4,
-    softwareUsed: ["Revit", "AutoCAD", "CloudCompare"],
+    softwareUsed: ["3D BIM Software", "AutoCAD", "CloudCompare"],
     popular: false
   }
 ];
@@ -239,7 +238,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     title: "Barndominium Residence & Living Quarters",
     category: "CAD Permit Sets",
     description: "Full architectural working drawings for a custom steel/timber frame Barndominium. Delivered complete foundation plans, structural mezzanine layouts, code-compliant egress stairs, electrical schedules, and insulated wall envelope sections.",
-    software: ["AutoCAD Architectural", "Revit BIM", "Bluebeam Revu"],
+    software: ["AutoCAD Architectural", "3D BIM", "Bluebeam Revu"],
     sheetDetails: "Complete Permit Drawing Package • PDF Architectural Set",
     imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
     pdfUrl: assetUrl("/portfolio/docs/Barndominium.pdf"),
@@ -262,7 +261,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     title: "Texas Coastal Beach House Residence",
     category: "CAD Permit Sets",
     description: "Architectural permit drawing package for an elevated coastal residence in Texas. Designed for high-velocity coastal hurricane wind zones with deep piling foundation, wraparound cantilever sundeck, open cathedral living, and IRC storm compliance.",
-    software: ["AutoCAD", "Revit", "IRC / Coastal Code Standards"],
+    software: ["AutoCAD", "3D BIM", "IRC / Coastal Code Standards"],
     sheetDetails: "Elevated Structural Framing • Full Permitting Set",
     imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80",
     pdfUrl: assetUrl("/portfolio/docs/Beach House - Texas.pdf"),
@@ -285,7 +284,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     title: "Slamburger Commercial Fast-Food Restaurant & Kitchen",
     category: "CAD Permit Sets",
     description: "Complete commercial hospitality and food-service architectural documentation. Produced front-of-house customer dining layout, commercial kitchen hood chases, grease trap routing, ADA compliant restrooms, and branded exterior facade elevations.",
-    software: ["Revit", "AutoCAD MEP", "Health & Fire Code"],
+    software: ["3D BIM", "AutoCAD MEP", "Health & Fire Code"],
     sheetDetails: "Commercial Hospitality Set • Kitchen Equipment Plan",
     imageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80",
     pdfUrl: assetUrl("/portfolio/docs/Slamburger.pdf"),
@@ -303,7 +302,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     title: "Barn & Luxury Rural Residence Estate",
     category: "3D Visualization",
     description: "High-end rural estate combining equestrian barn facilities with contemporary luxury residential quarters. Produced photorealistic exterior V-Ray visualization capturing natural timber siding, ambient lighting, and timber-truss ceiling geometry.",
-    software: ["V-Ray", "3ds Max / SketchUp", "Revit", "Photoshop CC"],
+    software: ["V-Ray", "3ds Max / SketchUp", "3D BIM", "Photoshop CC"],
     sheetDetails: "Photorealistic 3D Render + Architectural Layout",
     imageUrl: assetUrl("/portfolio/barn-residence-vray.jpg"),
     pdfUrl: assetUrl("/portfolio/docs/Barn & Residence.pdf"),
@@ -326,14 +325,14 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     title: "Cran Modern Cantilevered Residence",
     category: "3D Visualization",
     description: "Striking modernist architectural project featuring dramatic cantilevered concrete slabs, expansive floor-to-ceiling curtain wall glazing, and integrated passive solar overhangs with complete documentation sheets.",
-    software: ["Revit", "V-Ray", "Rhino 3D", "Photoshop"],
+    software: ["3D BIM", "V-Ray", "Rhino 3D", "Photoshop"],
     sheetDetails: "3D Perspective Render + Documentation Set",
     imageUrl: assetUrl("/portfolio/cran-perspective.jpg"),
     pdfUrl: assetUrl("/portfolio/docs/Cran.pdf"),
     isRealClientWork: true,
     specs: [
       { label: "Design Style", value: "Modern Minimalist Cantilever" },
-      { label: "Documentation", value: "Revit Model + Perspective Render" },
+      { label: "Documentation", value: "3D BIM Model + Perspective Render" },
       { label: "Turnaround", value: "Rapid Asynchronous Delivery" },
       { label: "Verification", value: "Authentic Client Work Sample" }
     ],
@@ -342,9 +341,9 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
   {
     id: "sample-urban-flats",
     title: "Urban Multi-Family Residential Flats & Layouts",
-    category: "3D BIM & Revit",
+    category: "3D BIM",
     description: "Space-optimized multi-unit residential apartment layout and unit typologies, fire egress stairs, MEP shafts, and structural grid alignment for urban development.",
-    software: ["Revit 2024", "AutoCAD", "IBC Code Standards"],
+    software: ["3D BIM Software", "AutoCAD", "IBC Code Standards"],
     sheetDetails: "Multi-Family Apartment Typologies & Plans",
     imageUrl: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=900&q=80",
     pdfUrl: assetUrl("/portfolio/docs/Flats.pdf"),
@@ -355,7 +354,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
       { label: "Standards", value: "IBC Multi-Family Residential" },
       { label: "Verification", value: "Authentic Client Work Sample" }
     ],
-    tags: ["Multi-Family", "Flats", "BIM Revit", "Urban Architecture"],
+    tags: ["Multi-Family", "Flats", "3D BIM", "Urban Architecture"],
     clientReview: {
       quote: "Delivered exactly what was required for our architectural competition. Highly recommended!",
       platform: "Fiverr",

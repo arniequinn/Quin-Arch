@@ -229,7 +229,7 @@ export const BlueprintReportModal: React.FC<BlueprintReportModalProps> = ({
                         {sheet.description}
                       </td>
                       <td className="px-3 py-2 text-right font-mono text-[11px] text-neutral-400 print:text-black">
-                        {sheet.revitLOD || "LOD 300"}
+                        {sheet.bimLOD || "LOD 300"}
                       </td>
                     </tr>
                   ))}
@@ -252,7 +252,7 @@ export const BlueprintReportModal: React.FC<BlueprintReportModalProps> = ({
                 </div>
                 <div className="text-[11px] text-neutral-400">
                   <span className="font-semibold text-neutral-200 print:text-black">Primary Software: </span>
-                  {blueprint.bimAndTechnicalSpecs?.recommendedSoftware || "Autodesk Revit 2024 / AutoCAD"}
+                  {blueprint.bimAndTechnicalSpecs?.recommendedSoftware || "3D BIM Modeling Software / AutoCAD"}
                 </div>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {(blueprint.bimAndTechnicalSpecs?.deliveryFormats || calculation.techStack).map((fmt) => (

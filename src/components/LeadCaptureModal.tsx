@@ -104,7 +104,7 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({
           </div>
           <div className="flex items-center space-x-2">
             <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>Revit/CAD Tech Delivery Spec</span>
+            <span>BIM/CAD Tech Delivery Spec</span>
           </div>
           <div className="flex items-center space-x-2">
             <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />

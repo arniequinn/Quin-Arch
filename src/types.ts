@@ -88,7 +88,7 @@ export interface DrawingSheet {
   sheetNumber: string;
   sheetTitle: string;
   description: string;
-  revitLOD?: string;
+  bimLOD?: string;
 }
 
 export interface PhasingMilestone {
@@ -145,7 +145,7 @@ export interface SpecialistProfile {
 export interface PortfolioItem {
   id: string;
   title: string;
-  category: "CAD Permit Sets" | "3D BIM & Revit" | "3D Visualization" | "Millwork & Detailing" | "Before & After Conversion";
+  category: "CAD Permit Sets" | "3D BIM" | "3D Visualization" | "Millwork & Detailing" | "Before & After Conversion";
   description: string;
   software: string[];
   sheetDetails: string;

@@ -125,7 +125,7 @@ export default function App() {
               <div className="flex flex-wrap items-center gap-2.5 mb-6">
                 <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
                   <Compass className="w-3.5 h-3.5" />
-                  <span>Remote Architectural BIM Services • Revit LOD 200–400 • CAD Permitting</span>
+                  <span>Remote Architectural BIM Services • BIM LOD 200–400 • CAD Permitting</span>
                 </div>
               </div>
 
@@ -140,7 +140,7 @@ export default function App() {
               {/* Sub-copy */}
               <p className="mt-5 text-base sm:text-lg text-neutral-300 leading-relaxed max-w-2xl">
                 Partner with an NCA-trained senior architect for code-compliant
-                remote architectural BIM services, Autodesk Revit 3D modeling (LOD 200–400), and
+                remote architectural BIM services, 3D BIM modeling (LOD 200–400), and
                 millimeter-precise permit drawing sets (IBC/IRC/Title 24). Save 60-70% overhead
                 compared to in-house drafter payroll with 24-48h redline turnarounds.
               </p>
@@ -196,7 +196,7 @@ export default function App() {
                 </div>
                 <div>
                   <span className="text-neutral-100 font-bold block text-sm">LOD 200 - 400</span>
-                  <span className="text-neutral-400 text-[11px]">Revit BIM Modeling</span>
+                  <span className="text-neutral-400 text-[11px]">3D BIM Modeling</span>
                 </div>
                 <div>
                   <span className="text-amber-400 font-bold block text-sm">24-48h</span>
@@ -204,7 +204,7 @@ export default function App() {
                 </div>
                 <div>
                   <span className="text-emerald-400 font-bold block text-sm">100% Native</span>
-                  <span className="text-neutral-400 text-[11px]">RVT, DWG & Arch D PDF</span>
+                  <span className="text-neutral-400 text-[11px]">IFC, DWG & Arch D PDF</span>
                 </div>
               </div>
 

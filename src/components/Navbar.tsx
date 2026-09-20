@@ -53,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </div>
             <p className="text-xs text-neutral-400 hidden md:block whitespace-nowrap overflow-hidden text-ellipsis">
-              Arslan Qaiser • CAD Drafting • Revit BIM • Permit Sets • 3D V-Ray
+              Arslan Qaiser • CAD Drafting • 3D BIM • Permit Sets • 3D V-Ray
             </p>
           </div>
         </button>

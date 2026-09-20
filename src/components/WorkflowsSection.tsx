@@ -32,13 +32,13 @@ export const WorkflowsSection: React.FC<WorkflowsSectionProps> = ({ onScrollToEs
       icon: Cloud,
       title: "Seamless Cloud BIM & CAD Integration",
       description:
-        "Work in your preferred ecosystem: Autodesk BIM 360, Autodesk Construction Cloud (ACC), Revit Central Worksharing, Google Drive, or Dropbox. Direct integration into your existing office titleblocks and CAD layering.",
+        "Work in your preferred ecosystem: BIM 360, Autodesk Construction Cloud (ACC), cloud BIM worksharing, Google Drive, or Dropbox. Direct integration into your existing office titleblocks and CAD layering.",
     },
     {
       icon: FileCode2,
       title: "National CAD Standard & AIA Layering",
       description:
-        "Every floor plan, section, and detail is delivered using proper line weights, dimension styles, annotation standards, and Revit parametric families ready for immediate contractor bidding or city stamping.",
+        "Every floor plan, section, and detail is delivered using proper line weights, dimension styles, annotation standards, and parametric BIM families ready for immediate contractor bidding or city stamping.",
     },
   ];
 
@@ -50,7 +50,7 @@ export const WorkflowsSection: React.FC<WorkflowsSectionProps> = ({ onScrollToEs
       features: [
         "Fixed milestone-based pricing",
         "Includes 2 rounds of plan-check revisions",
-        "Full native .RVT, .DWG & Vector PDFs",
+        "Full native BIM, .DWG & Vector PDFs",
         "Guaranteed completion date",
       ],
       cta: "Calculate Project Fee",
@@ -61,7 +61,7 @@ export const WorkflowsSection: React.FC<WorkflowsSectionProps> = ({ onScrollToEs
       description: "White-label drafting and BIM extension of your in-house team. Offload production backlog without hiring lag.",
       features: [
         "Dedicated weekly drafting bandwidth (20-40 hrs/wk)",
-        "Use your studio's custom Revit templates & families",
+        "Use your studio's custom BIM templates & families",
         "Direct Slack / Teams communication",
         "Priority 24-hour turnaround queue",
       ],

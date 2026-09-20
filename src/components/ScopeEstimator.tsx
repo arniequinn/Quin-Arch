@@ -546,7 +546,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                       </span>
                       <span className="truncate text-neutral-300">{sheet.sheetTitle}</span>
                       <span className="text-[10px] text-neutral-500 ml-1 shrink-0 font-mono">
-                        {sheet.revitLOD || "LOD 300"}
+                        {sheet.bimLOD || "LOD 300"}
                       </span>
                     </div>
                   ))}
@@ -582,7 +582,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                 <span>Specialist Delivery Guarantee</span>
               </div>
               <p className="leading-relaxed text-[11px]">
-                • 100% Native Files: Full access to clean Revit (.RVT) families & AutoCAD (.DWG) layers.
+                • 100% Native Files: Full access to clean BIM families & AutoCAD (.DWG) layers.
                 <br />
                 • Fast Redlines: 24 to 48-hour turnarounds on city plan-check corrections.
                 <br />

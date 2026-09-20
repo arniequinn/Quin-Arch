@@ -401,7 +401,7 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-amber-400 font-bold">•</span>
-                    <span>Revit BIM Central cloud-worksharing (BIM 360 / ACC)</span>
+                    <span>Cloud BIM worksharing (BIM 360 / ACC)</span>
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-amber-400 font-bold">•</span>

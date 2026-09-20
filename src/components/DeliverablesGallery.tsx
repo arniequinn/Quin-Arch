@@ -28,7 +28,7 @@ export const DeliverablesGallery: React.FC = () => {
   const categories = [
     "All",
     "CAD Permit Sets",
-    "3D BIM & Revit",
+    "3D BIM",
     "3D Visualization",
     "Millwork & Detailing",
     "Before & After Conversion",
@@ -80,7 +80,7 @@ export const DeliverablesGallery: React.FC = () => {
             </h3>
             <p className="text-xs text-neutral-400 mt-1">
               Drag the slider below to inspect how preliminary concepts and field redlines are transformed into
-              millimeter-precise Revit BIM assemblies and city permit drawing sheets.
+              millimeter-precise BIM assemblies and city permit drawing sheets.
             </p>
           </div>
 
@@ -93,7 +93,7 @@ export const DeliverablesGallery: React.FC = () => {
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute top-4 right-4 z-10 px-3 py-1 rounded bg-neutral-950/80 backdrop-blur-md border border-amber-500/50 text-amber-400 text-xs font-mono font-bold">
-              DELIVERABLE: Revit LOD 350 Model & Permit CAD
+              DELIVERABLE: BIM LOD 350 Model & Permit CAD
             </div>
 
             {/* Foreground: Preliminary Hand Sketch / Concept (Clipped by slider position) */}

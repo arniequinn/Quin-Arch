@@ -86,51 +86,51 @@ export function calculateScope(input: ScopeCalculationInput): ScopeCalculationRe
 
   // Determine drawing sheets
   const sheets: DrawingSheet[] = [
-    { sheetNumber: "G-001", sheetTitle: "Cover Sheet, Project Directory & Code Data", description: "Zoning summary, building height, occupancy type, sheet index, vicinity map", revitLOD: "LOD 100" },
-    { sheetNumber: "G-002", sheetTitle: "Life Safety & Egress Plan", description: "Exit access travel distances, occupant loads, illuminated exit signs, fire extinguisher tags", revitLOD: "LOD 200" },
-    { sheetNumber: "C-101", sheetTitle: "Architectural Site Plan & Setbacks", description: "Property lines, setbacks, easement boundaries, parking layout, accessible route", revitLOD: "LOD 200" },
+    { sheetNumber: "G-001", sheetTitle: "Cover Sheet, Project Directory & Code Data", description: "Zoning summary, building height, occupancy type, sheet index, vicinity map", bimLOD: "LOD 100" },
+    { sheetNumber: "G-002", sheetTitle: "Life Safety & Egress Plan", description: "Exit access travel distances, occupant loads, illuminated exit signs, fire extinguisher tags", bimLOD: "LOD 200" },
+    { sheetNumber: "C-101", sheetTitle: "Architectural Site Plan & Setbacks", description: "Property lines, setbacks, easement boundaries, parking layout, accessible route", bimLOD: "LOD 200" },
   ];
 
   if (input.projectTypeId.includes("renovation") || input.projectTypeId.includes("addition") || input.projectTypeId.includes("as_built")) {
-    sheets.push({ sheetNumber: "A-100", sheetTitle: "Existing Conditions & Demolition Plan", description: "Existing partitions to remain, walls to be demolished, salvage schedules", revitLOD: "LOD 200" });
+    sheets.push({ sheetNumber: "A-100", sheetTitle: "Existing Conditions & Demolition Plan", description: "Existing partitions to remain, walls to be demolished, salvage schedules", bimLOD: "LOD 200" });
   }
 
   sheets.push(
-    { sheetNumber: "A-101", sheetTitle: "Dimensioned Architectural Floor Plan", description: "Full interior partition layout, door/window callouts, room names, area calculations", revitLOD: "LOD 300" },
-    { sheetNumber: "A-102", sheetTitle: "Reflected Ceiling Plan (RCP) & Lighting", description: "Ceiling grid, heights, soffits, recessed downlights, decorative fixture locations", revitLOD: "LOD 300" },
-    { sheetNumber: "A-103", sheetTitle: "Roof Plan & Drainage Callouts", description: "Roof pitch, valley flashing, scuppers, gutters, roof access, equipment curbs", revitLOD: "LOD 300" },
-    { sheetNumber: "A-201", sheetTitle: "Exterior Building Elevations (North & South)", description: "Exterior cladding finishes, vertical datum lines, window head/sill heights", revitLOD: "LOD 300" },
-    { sheetNumber: "A-202", sheetTitle: "Exterior Building Elevations (East & West)", description: "Finished grades, chimney clearances, exterior lighting fixtures, material tags", revitLOD: "LOD 300" },
-    { sheetNumber: "A-301", sheetTitle: "Longitudinal & Transverse Building Sections", description: "Full-height vertical cuts, floor-to-floor heights, structural header callouts", revitLOD: "LOD 300" }
+    { sheetNumber: "A-101", sheetTitle: "Dimensioned Architectural Floor Plan", description: "Full interior partition layout, door/window callouts, room names, area calculations", bimLOD: "LOD 300" },
+    { sheetNumber: "A-102", sheetTitle: "Reflected Ceiling Plan (RCP) & Lighting", description: "Ceiling grid, heights, soffits, recessed downlights, decorative fixture locations", bimLOD: "LOD 300" },
+    { sheetNumber: "A-103", sheetTitle: "Roof Plan & Drainage Callouts", description: "Roof pitch, valley flashing, scuppers, gutters, roof access, equipment curbs", bimLOD: "LOD 300" },
+    { sheetNumber: "A-201", sheetTitle: "Exterior Building Elevations (North & South)", description: "Exterior cladding finishes, vertical datum lines, window head/sill heights", bimLOD: "LOD 300" },
+    { sheetNumber: "A-202", sheetTitle: "Exterior Building Elevations (East & West)", description: "Finished grades, chimney clearances, exterior lighting fixtures, material tags", bimLOD: "LOD 300" },
+    { sheetNumber: "A-301", sheetTitle: "Longitudinal & Transverse Building Sections", description: "Full-height vertical cuts, floor-to-floor heights, structural header callouts", bimLOD: "LOD 300" }
   );
 
   if (input.selectedServiceIds.includes("construction_docs") || input.selectedServiceIds.includes("permit_drawings")) {
     sheets.push(
-      { sheetNumber: "A-401", sheetTitle: "Wall Assemblies & Envelope Details", description: "R-value thermal specs, rainscreen details, continuous insulation, vapor retarder", revitLOD: "LOD 400" },
-      { sheetNumber: "A-402", sheetTitle: "Foundation & Sill Plate Details", description: "Anchor bolt spacing, capillary break, perimeter insulation, crawlspace/slab tie-in", revitLOD: "LOD 400" },
-      { sheetNumber: "A-403", sheetTitle: "Stair, Guardrail & Handrail Sections", description: "Tread/riser geometry, 4\" sphere code clearance, baluster anchorage details", revitLOD: "LOD 350" }
+      { sheetNumber: "A-401", sheetTitle: "Wall Assemblies & Envelope Details", description: "R-value thermal specs, rainscreen details, continuous insulation, vapor retarder", bimLOD: "LOD 400" },
+      { sheetNumber: "A-402", sheetTitle: "Foundation & Sill Plate Details", description: "Anchor bolt spacing, capillary break, perimeter insulation, crawlspace/slab tie-in", bimLOD: "LOD 400" },
+      { sheetNumber: "A-403", sheetTitle: "Stair, Guardrail & Handrail Sections", description: "Tread/riser geometry, 4\" sphere code clearance, baluster anchorage details", bimLOD: "LOD 350" }
     );
   }
 
   if (input.selectedServiceIds.includes("millwork_shop_drawings") || input.projectTypeId.includes("interior") || input.projectTypeId.includes("hospitality")) {
     sheets.push(
-      { sheetNumber: "A-501", sheetTitle: "Interior Kitchen & Cabinetry Elevations", description: "Millwork construction details, Blum hardware callouts, quartz countertop miters", revitLOD: "LOD 350" },
-      { sheetNumber: "A-502", sheetTitle: "Interior Bathroom & Custom Joinery Details", description: "Vanity fabrication, mirror backlighting, plumbing rough-in locations", revitLOD: "LOD 350" }
+      { sheetNumber: "A-501", sheetTitle: "Interior Kitchen & Cabinetry Elevations", description: "Millwork construction details, Blum hardware callouts, quartz countertop miters", bimLOD: "LOD 350" },
+      { sheetNumber: "A-502", sheetTitle: "Interior Bathroom & Custom Joinery Details", description: "Vanity fabrication, mirror backlighting, plumbing rough-in locations", bimLOD: "LOD 350" }
     );
   }
 
-  sheets.push({ sheetNumber: "A-601", sheetTitle: "Door, Window & Hardware Schedules", description: "Manufacturer sizes, U-factors, SHGC solar heat gain, tempered glazing, egress marks", revitLOD: "LOD 300" });
+  sheets.push({ sheetNumber: "A-601", sheetTitle: "Door, Window & Hardware Schedules", description: "Manufacturer sizes, U-factors, SHGC solar heat gain, tempered glazing, egress marks", bimLOD: "LOD 300" });
 
   if (input.selectedServiceIds.includes("mep_structural_coordination") || input.selectedServiceIds.includes("bim_modeling")) {
-    sheets.push({ sheetNumber: "M-101", sheetTitle: "MEP & Structural Coordination Sheet", description: "Clash-detected composite overlay showing HVAC trunk lines, plumbing stacks & steel beams", revitLOD: "LOD 350" });
+    sheets.push({ sheetNumber: "M-101", sheetTitle: "MEP & Structural Coordination Sheet", description: "Clash-detected composite overlay showing HVAC trunk lines, plumbing stacks & steel beams", bimLOD: "LOD 350" });
   }
 
   // Collect tech stack
   const techSet = new Set<string>();
-  techSet.add("Autodesk Revit 2024 (.RVT)");
+  techSet.add("3D BIM Model (Native File)");
   techSet.add("AutoCAD Architectural (.DWG)");
   techSet.add("Print-Ready Vector PDF (Arch D 24x36)");
-  techSet.add("BIMx / IFC 3D Digital Model");
+  techSet.add("IFC 3D Digital Model");
 
   if (input.selectedServiceIds.includes("photoreal_rendering")) {
     techSet.add("Lumion 2024 / 4K UHD Render Stills");
@@ -169,11 +169,11 @@ export function buildCompleteBlueprint(
   const projectType = PROJECT_TYPES.find((p) => p.id === input.projectTypeId) || PROJECT_TYPES[0];
 
   return {
-    executiveSummary: `Tailored architectural delivery roadmap for ${input.projectTitle || projectType.name} (${input.areaSqFt} sq ft). Prepared for turn-key remote execution utilizing cloud-coordinated BIM (Revit/CAD). Designed to streamline municipal plan-check review and provide clear, error-free documentation for bidding and construction.`,
+    executiveSummary: `Tailored architectural delivery roadmap for ${input.projectTitle || projectType.name} (${input.areaSqFt} sq ft). Prepared for turn-key remote execution utilizing cloud-coordinated BIM/CAD workflows. Designed to streamline municipal plan-check review and provide clear, error-free documentation for bidding and construction.`,
     recommendedDrawingSet: result.recommendedSheets,
     bimAndTechnicalSpecs: {
-      recommendedSoftware: "Autodesk Revit 2024 • AutoCAD Architectural Desktop • Bluebeam Revu",
-      bimStandard: "AIA CAD Layering Guidelines • US National CAD Standard (NCS) • Revit LOD 300",
+      recommendedSoftware: "3D BIM Modeling Software • AutoCAD Architectural Desktop • Bluebeam Revu",
+      bimStandard: "AIA CAD Layering Guidelines • US National CAD Standard (NCS) • BIM LOD 300",
       deliveryFormats: result.techStack,
     },
     permitAndCodeChecklist: result.permitNotes,
@@ -181,7 +181,7 @@ export function buildCompleteBlueprint(
       {
         phase: "Phase 1: Project Kickoff & Base Modeling",
         durationDays: Math.max(2, Math.round(result.estimatedTurnaroundDays * 0.3)),
-        deliverables: "Revit model setup, site plan orientation, grid line layout, primary partition & structural core.",
+        deliverables: "3D BIM model setup, site plan orientation, grid line layout, primary partition & structural core.",
       },
       {
         phase: "Phase 2: Working Drawings & Redline Review",
@@ -191,7 +191,7 @@ export function buildCompleteBlueprint(
       {
         phase: "Phase 3: Detailing & Code Coordination",
         durationDays: Math.max(2, Math.round(result.estimatedTurnaroundDays * 0.3)),
-        deliverables: "Enclosure assemblies, waterproofing details, millwork sheets, final vector PDF release and native DWG/RVT files.",
+        deliverables: "Enclosure assemblies, waterproofing details, millwork sheets, final vector PDF release and native DWG/BIM files.",
       },
     ],
     costSavingsInsight: `Partnering with a remote architecture specialist saves your firm approximately $${result.clientSavingsAmount.toLocaleString()} (${result.savingsPercentage}% savings) compared to hiring an in-house drafter, with zero recruitment lag and immediate turnaround.`,
