@@ -10,6 +10,10 @@ export interface ScopeCalculationInput {
   timelineId: string;
   projectTitle?: string;
   customNotes?: string;
+  // Sheet numbers the visitor has manually removed from the recommended set.
+  // Pricing and the active sheet count exclude these; recommendedSheets still
+  // returns the full list so the UI can show them as unchecked/removable.
+  excludedSheetNumbers?: string[];
 }
 
 export interface ScopeCalculationResult {
@@ -92,22 +96,28 @@ export function calculateScope(input: ScopeCalculationInput): ScopeCalculationRe
     sheets.push({ sheetNumber: "M-101", sheetTitle: "MEP & Structural Coordination Sheet", description: "Clash-detected composite overlay showing HVAC trunk lines, plumbing stacks & steel beams", bimLOD: "LOD 350" });
   }
 
+  // The visitor may have manually unchecked specific sheets from the recommended set — those
+  // are excluded from pricing and counts, but stay in `sheets` (returned below) so the UI can
+  // still render and re-offer them.
+  const excluded = new Set(input.excludedSheetNumbers || []);
+  const activeSheets = excluded.size > 0 ? sheets.filter((s) => !excluded.has(s.sheetNumber)) : sheets;
+
   // ==========================================
-  // Price: sum each sheet's LOD-tier base rate, scaled by project-type complexity and a
+  // Price: sum each active sheet's LOD-tier base rate, scaled by project-type complexity and a
   // sublinear area factor (a 6,500 sq ft floor plan takes more time than an 850 sq ft one,
   // but nowhere near 7.6x more — most of the added area is repetitive).
   // ==========================================
   const areaFactor = clamp(Math.sqrt(area / projectType.defaultSqFt), 0.5, 2.4);
 
-  const sheetsSubtotal = sheets.reduce((sum, sheet) => {
+  const sheetsSubtotal = activeSheets.reduce((sum, sheet) => {
     const baseRate = LOD_BASE_PRICE[sheet.bimLOD || "LOD 300"] ?? LOD_BASE_PRICE["LOD 300"];
     return sum + baseRate * complexity * areaFactor;
   }, 0);
 
   // Larger drawing sets amortize model setup/coordination overhead better per sheet.
   let volumeDiscount = 1;
-  if (sheets.length >= 20) volumeDiscount = 0.90;
-  else if (sheets.length >= 16) volumeDiscount = 0.95;
+  if (activeSheets.length >= 20) volumeDiscount = 0.90;
+  else if (activeSheets.length >= 16) volumeDiscount = 0.95;
 
   // Project stage: how much of the LOD-350 production work is actually still ahead. Grounded in
   // industry fee-distribution research (Schematic Design is only ~15% of total effort; Design
@@ -149,7 +159,7 @@ export function calculateScope(input: ScopeCalculationInput): ScopeCalculationRe
   // "60-120 hours for a full permit/CD set" and "$100-250/hr" figures from current market research.
   // Scaled by the same project-stage factor so a redline-only job is compared against an
   // in-house redline-only effort, not a full from-scratch set.
-  const estimatedHours = Math.round((sheets.length * 8 + area / 300) * stageMultiplier);
+  const estimatedHours = Math.round((activeSheets.length * 8 + area / 300) * stageMultiplier);
   const inHouseCostEstimate = Math.round(estimatedHours * 115);
   const clientMidpoint = Math.round((finalMin + finalMax) / 2);
   const clientSavingsAmount = Math.max(1200, inHouseCostEstimate - clientMidpoint);
@@ -182,7 +192,7 @@ export function calculateScope(input: ScopeCalculationInput): ScopeCalculationRe
     estimatedFeeMin: finalMin,
     estimatedFeeMax: finalMax,
     estimatedTurnaroundDays: totalDays,
-    recommendedSheetsCount: sheets.length,
+    recommendedSheetsCount: activeSheets.length,
     inHouseCostEstimate,
     clientSavingsAmount,
     savingsPercentage,

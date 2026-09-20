@@ -39,6 +39,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
   const [currentStageId, setCurrentStageId] = useState<string>("schematic");
   const [timelineId, setTimelineId] = useState<string>("standard");
   const [projectTitle, setProjectTitle] = useState<string>("Modern Residence Project");
+  const [excludedSheetNumbers, setExcludedSheetNumbers] = useState<string[]>([]);
 
   // Selected project type object
   const currentProjectType = useMemo(() => {
@@ -67,6 +68,15 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
     });
   };
 
+  // Toggle an individual sheet in/out of the priced set
+  const handleToggleSheet = (sheetNumber: string) => {
+    setExcludedSheetNumbers((prev) =>
+      prev.includes(sheetNumber)
+        ? prev.filter((n) => n !== sheetNumber)
+        : [...prev, sheetNumber]
+    );
+  };
+
   // Build calculation input
   const calculationInput: ScopeCalculationInput = useMemo(() => ({
     projectTypeId,
@@ -76,7 +86,8 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
     currentStageId,
     timelineId,
     projectTitle,
-  }), [projectTypeId, selectedServiceIds, areaSqFt, jurisdictionId, currentStageId, timelineId, projectTitle]);
+    excludedSheetNumbers,
+  }), [projectTypeId, selectedServiceIds, areaSqFt, jurisdictionId, currentStageId, timelineId, projectTitle, excludedSheetNumbers]);
 
   // Calculated results in real-time
   const calculation = useMemo(() => {
@@ -563,26 +574,61 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                 </div>
               </div>
 
-              {/* Full Drawing Sheet Index */}
+              {/* Full Drawing Sheet Index — click any sheet to remove it from the priced set */}
               <div className="mt-5">
-                <span className="text-xs font-semibold text-neutral-300 block mb-2">
-                  Included Sheet Index ({calculation.recommendedSheets.length} Sheets):
-                </span>
-                <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1 text-xs">
-                  {calculation.recommendedSheets.map((sheet) => (
-                    <div
-                      key={sheet.sheetNumber}
-                      className="flex items-center justify-between text-[11px] text-neutral-300 py-1 px-2 rounded bg-neutral-950/60"
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-semibold text-neutral-300">
+                    Sheet Index ({calculation.recommendedSheetsCount} of {calculation.recommendedSheets.length} Selected):
+                  </span>
+                  {excludedSheetNumbers.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setExcludedSheetNumbers([])}
+                      className="text-[10px] text-amber-400 hover:text-amber-300 font-mono underline underline-offset-2 cursor-pointer"
                     >
-                      <span className="font-mono text-amber-400 font-semibold shrink-0 mr-2">
-                        {sheet.sheetNumber}
-                      </span>
-                      <span className="truncate text-neutral-300">{sheet.sheetTitle}</span>
-                      <span className="text-[10px] text-neutral-500 ml-1 shrink-0 font-mono">
-                        {sheet.bimLOD || "LOD 300"}
-                      </span>
-                    </div>
-                  ))}
+                      Reset all
+                    </button>
+                  )}
+                </div>
+                <p className="text-[10px] text-neutral-500 mb-2">
+                  Don't need a sheet? Click it to remove it — the price updates instantly.
+                </p>
+                <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1 text-xs">
+                  {calculation.recommendedSheets.map((sheet) => {
+                    const isExcluded = excludedSheetNumbers.includes(sheet.sheetNumber);
+                    return (
+                      <div
+                        key={sheet.sheetNumber}
+                        onClick={() => handleToggleSheet(sheet.sheetNumber)}
+                        className={`flex items-center justify-between text-[11px] py-1 px-2 rounded cursor-pointer transition-all ${
+                          isExcluded
+                            ? "bg-neutral-950/30 opacity-50"
+                            : "bg-neutral-950/60 hover:bg-neutral-900"
+                        }`}
+                      >
+                        <div className="flex items-center space-x-1.5 min-w-0">
+                          <div
+                            className={`w-3.5 h-3.5 rounded-sm flex items-center justify-center border shrink-0 ${
+                              isExcluded
+                                ? "border-neutral-700 bg-neutral-900"
+                                : "bg-amber-500 border-amber-500 text-neutral-950"
+                            }`}
+                          >
+                            {!isExcluded && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                          </div>
+                          <span className={`font-mono font-semibold shrink-0 ${isExcluded ? "text-neutral-500" : "text-amber-400"}`}>
+                            {sheet.sheetNumber}
+                          </span>
+                          <span className={`truncate ${isExcluded ? "text-neutral-500 line-through" : "text-neutral-300"}`}>
+                            {sheet.sheetTitle}
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-neutral-500 ml-1 shrink-0 font-mono">
+                          {sheet.bimLOD || "LOD 300"}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -612,6 +658,11 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                 <Check className="w-3.5 h-3.5 text-amber-400" />
                 <span>Sends this exact scope directly to {specialist.name.split(" ")[0]} • No forms</span>
               </div>
+
+              <p className="mt-3 text-center text-[10px] text-neutral-500 leading-relaxed">
+                This is a best-effort estimate, not a binding quote. A firm price and contract are
+                provided once {specialist.name.split(" ")[0]} or the team has reviewed your full project material.
+              </p>
             </div>
 
             {/* Quick Guarantees Card */}

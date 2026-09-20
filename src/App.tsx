@@ -5,13 +5,14 @@ import {
   ArrowRight,
   MessageSquare,
   Mail,
-  Linkedin
+  Linkedin,
+  TrendingDown
 } from "lucide-react";
 import { Navbar } from "./components/Navbar";
+import { HeroBackgroundVideo } from "./components/HeroBackgroundVideo";
 import { ScopeEstimator } from "./components/ScopeEstimator";
 import { LODGuide } from "./components/LODGuide";
 import { DeliverablesGallery } from "./components/DeliverablesGallery";
-import { VideoShowcaseSection } from "./components/VideoShowcaseSection";
 import { WorkflowsSection } from "./components/WorkflowsSection";
 import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
 import { SpecialistDataModal } from "./components/SpecialistDataModal";
@@ -82,11 +83,14 @@ export default function App() {
       <main className="flex-1">
 
         {/* Architectural Hero Banner */}
-        <section className="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden">
-          {/* Subtle architectural coordinate grid in background */}
+        <section className="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden min-h-[640px] flex items-center">
+          {/* Background: looping rendering animation, muted, no controls */}
+          <HeroBackgroundVideo />
+
+          {/* Subtle architectural coordinate grid overlay */}
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:20px_20px]" />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="max-w-3xl">
 
               {/* Badges Bar: Service scope */}
@@ -105,12 +109,20 @@ export default function App() {
                 </span>
               </h1>
 
+              {/* The Hook — pulled out of the body copy so it can't be missed */}
+              <div className="mt-5 inline-flex flex-wrap items-center gap-x-2.5 gap-y-1 px-4 py-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 backdrop-blur-sm">
+                <TrendingDown className="w-4 h-4 text-amber-400 shrink-0" />
+                <span className="text-lg sm:text-xl font-extrabold text-amber-400">Save 60-70%</span>
+                <span className="text-sm text-neutral-100">vs in-house drafter payroll</span>
+                <span className="hidden sm:inline text-neutral-500">•</span>
+                <span className="text-sm font-bold text-emerald-400">24-48h redline turnaround</span>
+              </div>
+
               {/* Sub-copy */}
-              <p className="mt-5 text-base sm:text-lg text-neutral-300 leading-relaxed max-w-2xl">
+              <p className="mt-4 text-base sm:text-lg text-neutral-300 leading-relaxed max-w-2xl">
                 Partner with an NCA-trained senior architect for code-compliant
                 remote architectural BIM services, 3D BIM modeling (LOD 200–350), and
-                millimeter-precise permit drawing sets (IBC/IRC/Title 24). Save 60-70% overhead
-                compared to in-house drafter payroll with 24-48h redline turnarounds.
+                millimeter-precise permit drawing sets (IBC/IRC/Title 24).
               </p>
 
               {/* Action Buttons */}
@@ -188,9 +200,6 @@ export default function App() {
 
         {/* 2. Concrete Proof: Technical Deliverables & Before/After Gallery */}
         <DeliverablesGallery />
-
-        {/* 2b. Video Proof: Rendering Animation & Production Footage */}
-        <VideoShowcaseSection specialist={specialist} />
 
         {/* 3. Value Proposition: Remote Delivery Advantage & Engagement Models */}
         <WorkflowsSection onScrollToEstimator={scrollToEstimator} />
