@@ -1,6 +1,6 @@
 # ArchScope — Quintessential Architecture
 
-A static marketing site with an interactive project scope & fee estimator for Arslan Qaiser / Quintessential Architecture.
+A static marketing site with an interactive project scope & fee estimator for Quintessential Architecture.
 
 This is a fully static React + Vite site — no backend, no API keys, no database. The scope estimator, blueprint generator, and lead capture all run entirely in the visitor's browser, and route inquiries to WhatsApp/email instead of a server.
 
