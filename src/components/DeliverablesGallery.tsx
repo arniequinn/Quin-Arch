@@ -52,8 +52,8 @@ export const DeliverablesGallery: React.FC = () => {
             High-Precision Architectural & BIM Deliverables
           </h2>
           <p className="mt-3 text-sm text-neutral-400 leading-relaxed">
-            Examine authentic drawing sets, permit packages, and photorealistic 3D visualizations executed for 
-            clients across North America, the UK, and internationally. Click any drawing set to inspect the PDF.
+            A sample of authentic drawing sets, permit packages, and photorealistic 3D visualizations executed for
+            clients across North America, the UK, and internationally.
           </p>
 
           <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
@@ -194,7 +194,7 @@ export const DeliverablesGallery: React.FC = () => {
                 <div className="absolute inset-0 bg-neutral-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <span className="px-4 py-2 rounded-xl bg-amber-500 text-neutral-950 text-xs font-bold flex items-center space-x-2 shadow-lg">
                     <Eye className="w-4 h-4" />
-                    <span>Inspect Drawing Set & Specs</span>
+                    <span>View Project Details</span>
                   </span>
                 </div>
 

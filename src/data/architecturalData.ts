@@ -214,29 +214,6 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
 
 export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
   {
-    id: "sample-barndominium",
-    title: "Barndominium Residence & Living Quarters",
-    category: "CAD Permit Sets",
-    description: "Full architectural working drawings for a custom steel/timber frame Barndominium. Delivered complete foundation plans, structural mezzanine layouts, code-compliant egress stairs, electrical schedules, and insulated wall envelope sections.",
-    software: ["AutoCAD Architectural", "3D BIM", "Bluebeam Revu"],
-    sheetDetails: "Complete Permit Drawing Package • PDF Architectural Set",
-    imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-    pdfUrl: assetUrl("/portfolio/docs/Barndominium.pdf"),
-    isRealClientWork: true,
-    specs: [
-      { label: "Typology", value: "Custom Barndominium & Residence" },
-      { label: "Deliverable", value: "Full Construction Document Set" },
-      { label: "Drawing Format", value: "24x36 Arch D + Scaled PDF" },
-      { label: "Verification", value: "Authentic Client Work Sample" }
-    ],
-    tags: ["Barndominium", "Permit Set", "Steel/Timber Frame", "Residential CAD"],
-    clientReview: {
-      quote: "Outstanding drafting precision and fast response time. Understood the framing and mezzanine nuances right away.",
-      platform: "Upwork",
-      rating: 5
-    }
-  },
-  {
     id: "sample-beach-house",
     title: "Texas Coastal Beach House Residence",
     category: "CAD Permit Sets",
@@ -244,7 +221,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     software: ["AutoCAD", "3D BIM", "IRC / Coastal Code Standards"],
     sheetDetails: "Elevated Structural Framing • Full Permitting Set",
     imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80",
-    pdfUrl: assetUrl("/portfolio/docs/Beach House - Texas.pdf"),
     isRealClientWork: true,
     specs: [
       { label: "Location", value: "Coastal Texas (Gulf Coast)" },
@@ -267,7 +243,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     software: ["3D BIM", "AutoCAD MEP", "Health & Fire Code"],
     sheetDetails: "Commercial Hospitality Set • Kitchen Equipment Plan",
     imageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80",
-    pdfUrl: assetUrl("/portfolio/docs/Slamburger.pdf"),
     isRealClientWork: true,
     specs: [
       { label: "Sector", value: "Commercial Hospitality / Food Service" },
@@ -285,7 +260,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     software: ["3D BIM", "V-Ray", "Rhino 3D", "Photoshop"],
     sheetDetails: "3D Perspective Render + Documentation Set",
     imageUrl: assetUrl("/portfolio/cran-perspective.jpg"),
-    pdfUrl: assetUrl("/portfolio/docs/Cran.pdf"),
     isRealClientWork: true,
     specs: [
       { label: "Design Style", value: "Modern Minimalist Cantilever" },
@@ -303,7 +277,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     software: ["3D BIM Software", "AutoCAD", "IBC Code Standards"],
     sheetDetails: "Multi-Family Apartment Typologies & Plans",
     imageUrl: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=900&q=80",
-    pdfUrl: assetUrl("/portfolio/docs/Flats.pdf"),
     isRealClientWork: true,
     specs: [
       { label: "Typology", value: "Multi-Family Apartment Flats" },

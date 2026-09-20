@@ -11,7 +11,6 @@ import {
   Briefcase, 
   UserCheck,
   ExternalLink,
-  FolderDown,
   GraduationCap,
   Globe,
   Instagram,
@@ -331,24 +330,6 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                       <ExternalLink className="w-3.5 h-3.5 text-neutral-600 group-hover:text-red-400 transition-colors" />
                     </a>
                   )}
-
-                  {/* Master Architecture Portfolio PDF */}
-                  <a
-                    href={assetUrl("/portfolio/docs/Architecture Portfolio - Arslan Qaiser_compressed.pdf")}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-all flex items-center justify-between group"
-                  >
-                    <div>
-                      <div className="text-xs font-bold text-amber-300">
-                        Portfolio PDF
-                      </div>
-                      <div className="text-[10px] text-neutral-400">
-                        Comprehensive Work Set
-                      </div>
-                    </div>
-                    <FileText className="w-3.5 h-3.5 text-amber-400" />
-                  </a>
                 </div>
               </div>
 
@@ -456,15 +437,6 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                   >
                     <FileText className="w-3.5 h-3.5 text-amber-400" />
                     <span>Download CV (Minimal)</span>
-                  </a>
-                  <a
-                    href={assetUrl("/portfolio/docs/Architecture Portfolio - Arslan Qaiser_compressed.pdf")}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-xs text-neutral-300 flex items-center space-x-1.5 transition-all"
-                  >
-                    <FolderDown className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Master Portfolio (PDF)</span>
                   </a>
                 </div>
               </div>
