@@ -17,6 +17,7 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
     linkedin: "https://www.linkedin.com/in/arslan-qaiser-947976188/",
     instagram: "https://instagram.com/quin_arch",
     instagramHandle: "@quin_arch",
+    youtube: "https://www.youtube.com/@arslanqaiser6980",
     cadcrowd: "https://www.cadcrowd.com/profile/36968-quintessential-architecture",
     fiverr: "https://www.fiverr.com/s/X0R4azm",
     freelancer: "https://www.freelancer.com/u/arslanqaiser1991?frm=arslanqaiser1991&sb=t",
@@ -145,10 +146,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "Permit Drawings",
     category: "Drafting",
     description: "Complete municipal permit submission package: Site plan, dimensioned floor plans, exterior elevations, building sections, window/door schedules, and life safety notes.",
-    basePricePerSqFt: 0.65,
-    minPrice: 950,
     standardTurnaroundDays: 7,
-    sheetImpact: 10,
     softwareUsed: ["AutoCAD 2024", "3D BIM Software", "Bluebeam Revu"],
     popular: true
   },
@@ -158,10 +156,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "3D BIM Modeling",
     category: "BIM",
     description: "Intelligent building information modeling with parametric families, wall assemblies, material takeoff schedules, and clash-ready geometry.",
-    basePricePerSqFt: 0.75,
-    minPrice: 1100,
     standardTurnaroundDays: 8,
-    sheetImpact: 6,
     softwareUsed: ["3D BIM Software", "Navisworks", "BIM 360", "IFC"],
     popular: true
   },
@@ -171,10 +166,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "CD Sets & Details",
     category: "Documentation",
     description: "Heavy-duty working drawings for general contractors: 1/2\" to 3\" scale architectural details, wall waterproofing assemblies, foundation details, and structural callouts.",
-    basePricePerSqFt: 0.55,
-    minPrice: 850,
     standardTurnaroundDays: 7,
-    sheetImpact: 8,
     softwareUsed: ["AutoCAD", "3D BIM Software", "AIA CAD Standards"],
     popular: true
   },
@@ -184,10 +176,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "Millwork & Shop Drawings",
     category: "Documentation",
     description: "Millimeter-accurate shop drawings for custom cabinetry fabricators, staircases, reception desks, vanity units, and joinery details with hardware specs.",
-    basePricePerSqFt: 0.40,
-    minPrice: 650,
     standardTurnaroundDays: 5,
-    sheetImpact: 5,
     softwareUsed: ["AutoCAD", "Cabinet Vision", "3D BIM Software"],
     popular: false
   },
@@ -197,10 +186,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "3D Renders (4K)",
     category: "Visualization",
     description: "Ultra-high-definition 4K renderings with realistic sunlight, materials, landscape, and atmospheric lighting for marketing, client approvals, and zoning boards.",
-    basePricePerSqFt: 0.45,
-    minPrice: 700,
     standardTurnaroundDays: 4,
-    sheetImpact: 4,
     softwareUsed: ["Lumion 2024", "3ds Max", "V-Ray / Enscape", "Photoshop"],
     popular: true
   },
@@ -210,10 +196,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "MEP/Structural Coordination",
     category: "Coordination",
     description: "Overlaying structural steel/timber and MEP ducts/plumbing runs to detect conflicts before breaking ground, saving tens of thousands in field change orders.",
-    basePricePerSqFt: 0.35,
-    minPrice: 600,
     standardTurnaroundDays: 5,
-    sheetImpact: 4,
     softwareUsed: ["Navisworks Manage", "3D BIM Software", "AutoCAD MEP"],
     popular: false
   },
@@ -223,10 +206,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "As-Built Conversion",
     category: "Drafting",
     description: "Transforming 3D point clouds (E57, LAS), matterport virtual tours, or hand-measured redlines into clean, layered, editable 2D DWG and 3D BIM models.",
-    basePricePerSqFt: 0.35,
-    minPrice: 500,
     standardTurnaroundDays: 4,
-    sheetImpact: 4,
     softwareUsed: ["3D BIM Software", "AutoCAD", "CloudCompare"],
     popular: false
   }
@@ -298,29 +278,6 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     tags: ["Commercial", "Restaurant", "Commercial Kitchen", "Storefront"]
   },
   {
-    id: "sample-barn-residence",
-    title: "Barn & Luxury Rural Residence Estate",
-    category: "3D Visualization",
-    description: "High-end rural estate combining equestrian barn facilities with contemporary luxury residential quarters. Produced photorealistic exterior V-Ray visualization capturing natural timber siding, ambient lighting, and timber-truss ceiling geometry.",
-    software: ["V-Ray", "3ds Max / SketchUp", "3D BIM", "Photoshop CC"],
-    sheetDetails: "Photorealistic 3D Render + Architectural Layout",
-    imageUrl: assetUrl("/portfolio/barn-residence-vray.jpg"),
-    pdfUrl: assetUrl("/portfolio/docs/Barn & Residence.pdf"),
-    isRealClientWork: true,
-    specs: [
-      { label: "Typology", value: "Equestrian Barn & Estate" },
-      { label: "Render Engine", value: "Chaos V-Ray Photorealistic" },
-      { label: "Materiality", value: "Board & Batten, Heavy Timber" },
-      { label: "Verification", value: "Authentic Client Work Sample" }
-    ],
-    tags: ["V-Ray Render", "Rural Estate", "Barn Residence", "3D Modeling"],
-    clientReview: {
-      quote: "The 3D render perfectly captured the client's dream vision. Superb lighting and materials.",
-      platform: "Cad Crowd",
-      rating: 5
-    }
-  },
-  {
     id: "sample-cran-residence",
     title: "Cran Modern Cantilevered Residence",
     category: "3D Visualization",
@@ -375,11 +332,11 @@ export const JURISDICTIONS = [
 ];
 
 export const PROJECT_STAGES = [
-  { id: "napkin_sketch", name: "Concept / Hand Sketch / Idea", desc: "You have rough sketches, Pinterest references, or general floor plan goals." },
-  { id: "schematic", name: "Schematic Design (In Progress)", desc: "Preliminary layouts are decided; you need them turned into professional CAD/BIM." },
-  { id: "permit_ready", name: "Need Full Municipal Permit Set", desc: "Ready for formal city building permit submission with all required code sheets." },
-  { id: "construction_bidding", name: "Ready for Contractor Bidding & CD Set", desc: "Need heavy-duty detail sheets, wall sections, and schedules for accurate sub bids." },
-  { id: "redlines_revisions", name: "City Comments / Redline Revisions", desc: "Permit plan check comments or engineer redlines that need rapid 24-48hr turnaround." }
+  { id: "napkin_sketch", name: "Concept / Hand Sketch / Idea", desc: "You have rough sketches, Pinterest references, or general floor plan goals.", priceMultiplier: 1.05 },
+  { id: "schematic", name: "Schematic Design (In Progress)", desc: "Preliminary layouts are decided; you need them turned into professional CAD/BIM.", priceMultiplier: 1.0 },
+  { id: "permit_ready", name: "Need Full Municipal Permit Set", desc: "Ready for formal city building permit submission with all required code sheets.", priceMultiplier: 0.95 },
+  { id: "construction_bidding", name: "Ready for Contractor Bidding & CD Set", desc: "Need heavy-duty detail sheets, wall sections, and schedules for accurate sub bids.", priceMultiplier: 1.0 },
+  { id: "redlines_revisions", name: "City Comments / Redline Revisions", desc: "Permit plan check comments or engineer redlines that need rapid 24-48hr turnaround.", priceMultiplier: 0.35 }
 ];
 
 export const TIMELINE_OPTIONS = [

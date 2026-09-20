@@ -17,7 +17,8 @@ import {
   Instagram,
   FileText,
   Lock,
-  Linkedin
+  Linkedin,
+  Youtube
 } from "lucide-react";
 import { SpecialistProfile } from "../types";
 import { assetUrl } from "../utils/assetPath";
@@ -307,6 +308,29 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                     </div>
                     <ExternalLink className="w-3.5 h-3.5 text-neutral-600 group-hover:text-pink-400 transition-colors" />
                   </a>
+
+                  {/* YouTube */}
+                  {socials?.youtube && (
+                    <a
+                      href={socials.youtube}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2.5 rounded-xl bg-neutral-950/80 hover:bg-neutral-800 border border-neutral-800 hover:border-red-500/50 transition-all flex items-center justify-between group"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <Youtube className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                        <div>
+                          <div className="text-xs font-bold text-neutral-200 group-hover:text-red-400 transition-colors">
+                            YouTube
+                          </div>
+                          <div className="text-[10px] text-neutral-500">
+                            Rendering Videos
+                          </div>
+                        </div>
+                      </div>
+                      <ExternalLink className="w-3.5 h-3.5 text-neutral-600 group-hover:text-red-400 transition-colors" />
+                    </a>
+                  )}
 
                   {/* Master Architecture Portfolio PDF */}
                   <a

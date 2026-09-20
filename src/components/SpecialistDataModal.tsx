@@ -462,6 +462,20 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
                 </div>
 
                 <div>
+                  <label className="block text-neutral-400 font-mono mb-1 text-[11px]">YouTube Channel URL</label>
+                  <input
+                    type="text"
+                    value={formData.socials?.youtube || ""}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      socials: { ...formData.socials, youtube: e.target.value }
+                    })}
+                    placeholder="https://www.youtube.com/@yourchannel"
+                    className="w-full px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-700 text-neutral-200 text-xs focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+
+                <div>
                   <label className="block text-neutral-400 font-mono mb-1 text-[11px]">Instagram Handle</label>
                   <input
                     type="text"

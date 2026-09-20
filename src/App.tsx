@@ -11,14 +11,12 @@ import { Navbar } from "./components/Navbar";
 import { ScopeEstimator } from "./components/ScopeEstimator";
 import { LODGuide } from "./components/LODGuide";
 import { DeliverablesGallery } from "./components/DeliverablesGallery";
+import { VideoShowcaseSection } from "./components/VideoShowcaseSection";
 import { WorkflowsSection } from "./components/WorkflowsSection";
 import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
-import { LeadCaptureModal } from "./components/LeadCaptureModal";
-import { BlueprintReportModal } from "./components/BlueprintReportModal";
 import { SpecialistDataModal } from "./components/SpecialistDataModal";
 import { DEFAULT_SPECIALIST_PROFILE } from "./data/architecturalData";
-import { SpecialistProfile, ArchitecturalBlueprint } from "./types";
-import { ScopeCalculationInput, ScopeCalculationResult } from "./utils/calculator";
+import { SpecialistProfile } from "./types";
 import { isOwnerAuthorized } from "./services/ownerAuth";
 
 export default function App() {
@@ -48,19 +46,6 @@ export default function App() {
 
   const [isOwnerEditingUnlocked, setIsOwnerEditingUnlocked] = useState(() => isOwnerAuthorized());
 
-  // Modals state
-  const [isLeadCaptureOpen, setIsLeadCaptureOpen] = useState(false);
-  const [activeCalculationInput, setActiveCalculationInput] = useState<ScopeCalculationInput | null>(null);
-  const [activeCalculationResult, setActiveCalculationResult] = useState<ScopeCalculationResult | null>(null);
-
-  const [isBlueprintOpen, setIsBlueprintOpen] = useState(false);
-  const [activeBlueprint, setActiveBlueprint] = useState<ArchitecturalBlueprint | null>(null);
-  const [activeLeadData, setActiveLeadData] = useState<{ name: string; email: string; phone?: string; firmOrRole: string; customNotes?: string; projectFilesLink?: string }>({
-    name: "",
-    email: "",
-    firmOrRole: "",
-  });
-
   const [isSpecialistEditorOpen, setIsSpecialistEditorOpen] = useState(false);
 
   // Update specialist profile (restricted to the owner's passkey-unlocked browser session)
@@ -72,24 +57,6 @@ export default function App() {
     setSpecialist(updated);
     localStorage.setItem("archscope_specialist_profile_v4", JSON.stringify(updated));
     setIsOwnerEditingUnlocked(true);
-  };
-
-  // Trigger Lead Capture from Estimator
-  const handleProceedToLeadCapture = (input: ScopeCalculationInput, calculation: ScopeCalculationResult) => {
-    setActiveCalculationInput(input);
-    setActiveCalculationResult(calculation);
-    setIsLeadCaptureOpen(true);
-  };
-
-  // Blueprint generated callback
-  const handleBlueprintGenerated = (
-    blueprint: ArchitecturalBlueprint,
-    leadData: { name: string; email: string; phone?: string; firmOrRole: string; customNotes?: string; projectFilesLink?: string }
-  ) => {
-    setActiveBlueprint(blueprint);
-    setActiveLeadData(leadData);
-    setIsLeadCaptureOpen(false);
-    setIsBlueprintOpen(true);
   };
 
   // Smooth scroll to estimator
@@ -214,13 +181,16 @@ export default function App() {
         </section>
 
         {/* 1. Core Lead Magnet: The Interactive Scope & Fee Estimator */}
-        <ScopeEstimator onProceedToLeadCapture={handleProceedToLeadCapture} />
+        <ScopeEstimator specialist={specialist} />
 
         {/* 1b. Educational: What LOD means and what's actually included */}
         <LODGuide />
 
         {/* 2. Concrete Proof: Technical Deliverables & Before/After Gallery */}
         <DeliverablesGallery />
+
+        {/* 2b. Video Proof: Rendering Animation & Production Footage */}
+        <VideoShowcaseSection specialist={specialist} />
 
         {/* 3. Value Proposition: Remote Delivery Advantage & Engagement Models */}
         <WorkflowsSection onScrollToEstimator={scrollToEstimator} />
@@ -277,6 +247,16 @@ export default function App() {
                   className="hover:text-amber-400 transition-colors"
                 >
                   Instagram ({specialist.socials.instagramHandle || "@quin_arch"})
+                </a>
+              )}
+              {specialist.socials?.youtube && (
+                <a
+                  href={specialist.socials.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-red-400 transition-colors"
+                >
+                  YouTube
                 </a>
               )}
               {specialist.socials?.upwork && (
@@ -348,28 +328,6 @@ export default function App() {
       </footer>
 
       {/* Modals & Drawers */}
-      {isLeadCaptureOpen && activeCalculationInput && activeCalculationResult && (
-        <LeadCaptureModal
-          isOpen={isLeadCaptureOpen}
-          onClose={() => setIsLeadCaptureOpen(false)}
-          input={activeCalculationInput}
-          calculation={activeCalculationResult}
-          onBlueprintGenerated={handleBlueprintGenerated}
-        />
-      )}
-
-      {isBlueprintOpen && activeBlueprint && activeCalculationInput && activeCalculationResult && (
-        <BlueprintReportModal
-          isOpen={isBlueprintOpen}
-          onClose={() => setIsBlueprintOpen(false)}
-          blueprint={activeBlueprint}
-          input={activeCalculationInput}
-          calculation={activeCalculationResult}
-          leadData={activeLeadData}
-          specialist={specialist}
-        />
-      )}
-
       {isSpecialistEditorOpen && (
         <SpecialistDataModal
           isOpen={isSpecialistEditorOpen}

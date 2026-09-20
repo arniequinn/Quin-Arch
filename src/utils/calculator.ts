@@ -1,5 +1,5 @@
-import { PROJECT_TYPES, SERVICE_OPTIONS } from "../data/architecturalData";
-import { ArchitecturalBlueprint, DrawingSheet } from "../types";
+import { PROJECT_TYPES, SERVICE_OPTIONS, PROJECT_STAGES } from "../data/architecturalData";
+import { DrawingSheet } from "../types";
 
 export interface ScopeCalculationInput {
   projectTypeId: string;
@@ -25,66 +25,33 @@ export interface ScopeCalculationResult {
   permitNotes: string[];
 }
 
+// Base price per sheet at each LOD tier, calibrated against researched US remote/outsourced
+// BIM & CAD drafting rates ($25-150/sheet outsourced; LOD 300 modeling ~$0.25-0.45/sqft; LOD 350
+// coordination sheets command a premium over LOD 300 for multi-trade interface work). Applied at
+// a reference project size — see areaFactor below for how it scales with actual building size.
+const LOD_BASE_PRICE: Record<string, number> = {
+  "LOD 100": 175,
+  "LOD 200": 260,
+  "LOD 300": 340,
+  "LOD 350": 460,
+};
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
 export function calculateScope(input: ScopeCalculationInput): ScopeCalculationResult {
   const projectType = PROJECT_TYPES.find((p) => p.id === input.projectTypeId) || PROJECT_TYPES[0];
   const selectedServices = SERVICE_OPTIONS.filter((s) => input.selectedServiceIds.includes(s.id));
-  
-  // Base area
+
   const area = Math.max(200, input.areaSqFt || 2000);
   const complexity = projectType.baseComplexity;
 
-  // Calculate base service pricing
-  let totalMin = 0;
-  let totalMax = 0;
-  let totalDays = 4;
-  let totalSheets = projectType.baseSheets;
-
-  if (selectedServices.length === 0) {
-    // Default to at least permit drawings if none selected
-    totalMin = 1200;
-    totalMax = 2200;
-    totalDays = 8;
-  } else {
-    selectedServices.forEach((service) => {
-      // Area-based pricing scaled by complexity
-      const calculatedServicePrice = area * service.basePricePerSqFt * complexity;
-      const basePrice = Math.max(service.minPrice, calculatedServicePrice);
-      
-      totalMin += Math.round(basePrice * 0.85);
-      totalMax += Math.round(basePrice * 1.25);
-      totalDays = Math.max(totalDays, service.standardTurnaroundDays + Math.round(area / 3000));
-      totalSheets += service.sheetImpact;
-    });
-
-    // Multi-service bundling discount (15% if 3+ services)
-    if (selectedServices.length >= 3) {
-      totalMin = Math.round(totalMin * 0.85);
-      totalMax = Math.round(totalMax * 0.85);
-    }
-  }
-
-  // Adjust for timeline
-  let timelineMultiplier = 1.0;
-  if (input.timelineId === "expedited") {
-    timelineMultiplier = 1.25;
-    totalDays = Math.max(4, Math.round(totalDays * 0.65));
-  } else if (input.timelineId === "urgent") {
-    timelineMultiplier = 1.5;
-    totalDays = Math.max(3, Math.round(totalDays * 0.45));
-  }
-
-  const finalMin = Math.round(totalMin * timelineMultiplier);
-  const finalMax = Math.round(totalMax * timelineMultiplier);
-
-  // In-house comparison (Average US/UK Drafter/Architect billable rate is $90-$140/hr or $85k/yr + 30% overhead)
-  // Typically an in-house firm spends 60-120 hours on a full permit/CD set
-  const estimatedHours = Math.round((totalSheets * 4.5) + (area / 300));
-  const inHouseCostEstimate = Math.round(estimatedHours * 115);
-  const clientMidpoint = Math.round((finalMin + finalMax) / 2);
-  const clientSavingsAmount = Math.max(1200, inHouseCostEstimate - clientMidpoint);
-  const savingsPercentage = Math.min(78, Math.round((clientSavingsAmount / inHouseCostEstimate) * 100));
-
-  // Determine drawing sheets
+  // ==========================================
+  // Build the actual drawing sheet set. This is the single source of truth —
+  // the price below is computed FROM this list, not a separate parallel estimate,
+  // so the fee always reflects exactly what's being selected.
+  // ==========================================
   const sheets: DrawingSheet[] = [
     { sheetNumber: "G-001", sheetTitle: "Cover Sheet, Project Directory & Code Data", description: "Zoning summary, building height, occupancy type, sheet index, vicinity map", bimLOD: "LOD 100" },
     { sheetNumber: "G-002", sheetTitle: "Life Safety & Egress Plan", description: "Exit access travel distances, occupant loads, illuminated exit signs, fire extinguisher tags", bimLOD: "LOD 200" },
@@ -125,6 +92,69 @@ export function calculateScope(input: ScopeCalculationInput): ScopeCalculationRe
     sheets.push({ sheetNumber: "M-101", sheetTitle: "MEP & Structural Coordination Sheet", description: "Clash-detected composite overlay showing HVAC trunk lines, plumbing stacks & steel beams", bimLOD: "LOD 350" });
   }
 
+  // ==========================================
+  // Price: sum each sheet's LOD-tier base rate, scaled by project-type complexity and a
+  // sublinear area factor (a 6,500 sq ft floor plan takes more time than an 850 sq ft one,
+  // but nowhere near 7.6x more — most of the added area is repetitive).
+  // ==========================================
+  const areaFactor = clamp(Math.sqrt(area / projectType.defaultSqFt), 0.5, 2.4);
+
+  const sheetsSubtotal = sheets.reduce((sum, sheet) => {
+    const baseRate = LOD_BASE_PRICE[sheet.bimLOD || "LOD 300"] ?? LOD_BASE_PRICE["LOD 300"];
+    return sum + baseRate * complexity * areaFactor;
+  }, 0);
+
+  // Larger drawing sets amortize model setup/coordination overhead better per sheet.
+  let volumeDiscount = 1;
+  if (sheets.length >= 20) volumeDiscount = 0.90;
+  else if (sheets.length >= 16) volumeDiscount = 0.95;
+
+  // Project stage: how much of the LOD-350 production work is actually still ahead. Grounded in
+  // industry fee-distribution research (Schematic Design is only ~15% of total effort; Design
+  // Development + Construction Documents — the phases that turn a schematic into full
+  // documentation — make up 50-75%), so only "redlines/corrections" (fixing an existing set
+  // rather than producing one) gets a real discount.
+  const stage = PROJECT_STAGES.find((s) => s.id === input.currentStageId);
+  const stageMultiplier = stage?.priceMultiplier ?? 1.0;
+
+  const discountedSubtotal = sheetsSubtotal * volumeDiscount * stageMultiplier;
+
+  // Turnaround: driven by whichever selected service has the longest standard delivery time.
+  let totalDays = 4;
+  selectedServices.forEach((service) => {
+    totalDays = Math.max(totalDays, service.standardTurnaroundDays + Math.round(area / 3000));
+  });
+
+  // Redline/plan-check corrections are explicitly a rapid, bounded task, not a full production run.
+  if (input.currentStageId === "redlines_revisions") {
+    totalDays = Math.min(totalDays, 2);
+  }
+
+  // Timeline urgency multiplier
+  let timelineMultiplier = 1.0;
+  if (input.timelineId === "expedited") {
+    timelineMultiplier = 1.25;
+    totalDays = Math.max(4, Math.round(totalDays * 0.65));
+  } else if (input.timelineId === "urgent") {
+    timelineMultiplier = 1.5;
+    totalDays = Math.max(3, Math.round(totalDays * 0.45));
+  }
+
+  const finalMin = Math.round(discountedSubtotal * 0.90 * timelineMultiplier);
+  const finalMax = Math.round(discountedSubtotal * 1.18 * timelineMultiplier);
+
+  // In-house comparison: a US/UK in-house drafter juggling multiple projects (meetings,
+  // context-switching, no dedicated production pipeline) typically runs ~8 hours/sheet for a
+  // permit+BIM package this involved, billed around $100-130/hr onshore — consistent with the
+  // "60-120 hours for a full permit/CD set" and "$100-250/hr" figures from current market research.
+  // Scaled by the same project-stage factor so a redline-only job is compared against an
+  // in-house redline-only effort, not a full from-scratch set.
+  const estimatedHours = Math.round((sheets.length * 8 + area / 300) * stageMultiplier);
+  const inHouseCostEstimate = Math.round(estimatedHours * 115);
+  const clientMidpoint = Math.round((finalMin + finalMax) / 2);
+  const clientSavingsAmount = Math.max(1200, inHouseCostEstimate - clientMidpoint);
+  const savingsPercentage = Math.min(78, Math.round((clientSavingsAmount / inHouseCostEstimate) * 100));
+
   // Collect tech stack
   const techSet = new Set<string>();
   techSet.add("3D BIM Model (Native File)");
@@ -159,46 +189,5 @@ export function calculateScope(input: ScopeCalculationInput): ScopeCalculationRe
     recommendedSheets: sheets,
     techStack: Array.from(techSet),
     permitNotes,
-  };
-}
-
-export function buildCompleteBlueprint(
-  input: ScopeCalculationInput,
-  result: ScopeCalculationResult
-): ArchitecturalBlueprint {
-  const projectType = PROJECT_TYPES.find((p) => p.id === input.projectTypeId) || PROJECT_TYPES[0];
-
-  return {
-    executiveSummary: `Tailored architectural delivery roadmap for ${input.projectTitle || projectType.name} (${input.areaSqFt} sq ft). Prepared for turn-key remote execution utilizing cloud-coordinated BIM/CAD workflows. Designed to streamline municipal plan-check review and provide clear, error-free documentation for bidding and construction.`,
-    recommendedDrawingSet: result.recommendedSheets,
-    bimAndTechnicalSpecs: {
-      recommendedSoftware: "3D BIM Modeling Software • AutoCAD Architectural Desktop • Bluebeam Revu",
-      bimStandard: "AIA CAD Layering Guidelines • US National CAD Standard (NCS) • BIM LOD 300",
-      deliveryFormats: result.techStack,
-    },
-    permitAndCodeChecklist: result.permitNotes,
-    phasingMilestones: [
-      {
-        phase: "Phase 1: Project Kickoff & Base Modeling",
-        durationDays: Math.max(2, Math.round(result.estimatedTurnaroundDays * 0.3)),
-        deliverables: "3D BIM model setup, site plan orientation, grid line layout, primary partition & structural core.",
-      },
-      {
-        phase: "Phase 2: Working Drawings & Redline Review",
-        durationDays: Math.max(2, Math.round(result.estimatedTurnaroundDays * 0.4)),
-        deliverables: "Exterior elevations, building sections, door/window schedules, ceiling & roof plans sent for client markup.",
-      },
-      {
-        phase: "Phase 3: Detailing & Code Coordination",
-        durationDays: Math.max(2, Math.round(result.estimatedTurnaroundDays * 0.3)),
-        deliverables: "Enclosure assemblies, waterproofing details, millwork sheets, final vector PDF release and native DWG/BIM files.",
-      },
-    ],
-    costSavingsInsight: `Partnering with a remote architecture specialist saves your firm approximately $${result.clientSavingsAmount.toLocaleString()} (${result.savingsPercentage}% savings) compared to hiring an in-house drafter, with zero recruitment lag and immediate turnaround.`,
-    specialistRecommendedAddons: [
-      "4K Photorealistic Exterior & Interior Twilight Renders for client presentation",
-      "Full Millwork Shop Drawings with cut-lists for custom cabinetry fabricators",
-      "Expedited 24-48 Hour Turnaround for Municipal Plan-Check Redline Corrections",
-    ],
   };
 }

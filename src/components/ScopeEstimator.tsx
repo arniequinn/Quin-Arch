@@ -1,32 +1,31 @@
 import React, { useState, useMemo } from "react";
-import { 
-  Building2, 
-  Check, 
-  Clock, 
-  FileText, 
-  Layers, 
-  ShieldAlert, 
-  Sparkles, 
-  TrendingUp, 
-  ArrowRight,
-  Info,
-  Maximize2
+import {
+  Check,
+  Clock,
+  FileText,
+  Layers,
+  MessageSquare,
+  Mail,
+  ShieldAlert,
+  Sparkles,
+  TrendingUp
 } from "lucide-react";
-import { 
-  PROJECT_TYPES, 
-  SERVICE_OPTIONS, 
-  JURISDICTIONS, 
-  PROJECT_STAGES, 
-  TIMELINE_OPTIONS 
+import {
+  PROJECT_TYPES,
+  SERVICE_OPTIONS,
+  JURISDICTIONS,
+  PROJECT_STAGES,
+  TIMELINE_OPTIONS
 } from "../data/architecturalData";
 import { calculateScope, ScopeCalculationInput } from "../utils/calculator";
+import { SpecialistProfile } from "../types";
 
 interface ScopeEstimatorProps {
-  onProceedToLeadCapture: (input: ScopeCalculationInput, calculation: ReturnType<typeof calculateScope>) => void;
+  specialist: SpecialistProfile;
 }
 
 export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
-  onProceedToLeadCapture,
+  specialist,
 }) => {
   // Estimator States
   const [projectTypeId, setProjectTypeId] = useState<string>("residential_single");
@@ -83,6 +82,43 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
   const calculation = useMemo(() => {
     return calculateScope(calculationInput);
   }, [calculationInput]);
+
+  // Pre-filled contact messages so a visitor can send this exact configuration directly —
+  // no form, no gate, since everything is already visible on screen.
+  const selectedServiceNames = selectedServiceIds
+    .map((id) => SERVICE_OPTIONS.find((s) => s.id === id)?.shortName)
+    .filter(Boolean)
+    .join(", ");
+
+  const whatsappUrl = useMemo(() => {
+    const text = encodeURIComponent(
+      `Hi ${specialist.name}, I just configured a project scope on ArchScope!\n\n` +
+      `• Project: ${projectTitle || "Architecture Project"} (${areaSqFt.toLocaleString()} sq ft)\n` +
+      `• Type: ${currentProjectType.name}\n` +
+      `• Services: ${selectedServiceNames}\n` +
+      `• Drawing Set: ${calculation.recommendedSheetsCount} Sheets\n` +
+      `• Turnaround: ~${calculation.estimatedTurnaroundDays} Days\n` +
+      `• Estimated Fee: $${calculation.estimatedFeeMin.toLocaleString()} - $${calculation.estimatedFeeMax.toLocaleString()}\n\n` +
+      `I'd like to discuss this project.`
+    );
+    return `https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${text}`;
+  }, [specialist, projectTitle, areaSqFt, currentProjectType, selectedServiceNames, calculation]);
+
+  const mailtoUrl = useMemo(() => {
+    const subject = encodeURIComponent(`Architectural Project Scope: ${projectTitle || "New Project"}`);
+    const body = encodeURIComponent(
+      `Hi ${specialist.name},\n\nI just configured a project scope on ArchScope:\n\n` +
+      `Project: ${projectTitle || "Architecture Project"}\n` +
+      `Area: ${areaSqFt.toLocaleString()} sq ft\n` +
+      `Type: ${currentProjectType.name}\n` +
+      `Services: ${selectedServiceNames}\n` +
+      `Drawing Set: ${calculation.recommendedSheetsCount} Sheets\n` +
+      `Turnaround: ~${calculation.estimatedTurnaroundDays} Days\n` +
+      `Estimated Fee: $${calculation.estimatedFeeMin.toLocaleString()} - $${calculation.estimatedFeeMax.toLocaleString()}\n\n` +
+      `Please let me know your availability for a kick-off review.`
+    );
+    return `mailto:${specialist.email}?subject=${subject}&body=${body}`;
+  }, [specialist, projectTitle, areaSqFt, currentProjectType, selectedServiceNames, calculation]);
 
   const quickAreaPresets = [850, 1500, 2800, 4500, 7500];
 
@@ -344,9 +380,6 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
 
                         <div className="text-right shrink-0">
                           <span className="text-xs font-mono font-semibold text-neutral-300">
-                            +{service.sheetImpact} Sheets
-                          </span>
-                          <span className="block text-[11px] text-neutral-500">
                             ~{service.standardTurnaroundDays}d turnaround
                           </span>
                         </div>
@@ -553,20 +586,31 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                 </div>
               </div>
 
-              {/* High-Converting CTA Button */}
-              <button
-                id="generate-blueprint-cta-btn"
-                type="button"
-                onClick={() => onProceedToLeadCapture(calculationInput, calculation)}
-                className="w-full mt-6 py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center space-x-2 group cursor-pointer"
-              >
-                <span>Unlock Full Blueprint & Sheet List</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-              
+              {/* Direct Contact CTAs — no form, no gate; everything above is already visible */}
+              <div className="mt-6 grid grid-cols-2 gap-2.5">
+                <a
+                  id="whatsapp-estimate-cta-btn"
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-sm shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  <span>WhatsApp</span>
+                </a>
+                <a
+                  id="email-estimate-cta-btn"
+                  href={mailtoUrl}
+                  className="py-3.5 px-3 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-100 font-bold text-sm border border-neutral-700 transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                >
+                  <Mail className="w-4 h-4 text-amber-400" />
+                  <span>Email</span>
+                </a>
+              </div>
+
               <div className="mt-3 flex items-center justify-center space-x-2 text-[11px] text-neutral-400">
                 <Check className="w-3.5 h-3.5 text-amber-400" />
-                <span>Instant PDF/Printable spec • 100% Free diagnostic</span>
+                <span>Sends this exact scope directly to {specialist.name.split(" ")[0]} • No forms</span>
               </div>
             </div>
 
