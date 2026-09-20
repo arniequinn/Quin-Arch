@@ -20,6 +20,7 @@ import {
   Linkedin
 } from "lucide-react";
 import { SpecialistProfile } from "../types";
+import { assetUrl } from "../utils/assetPath";
 
 interface SpecialistProfileCardProps {
   specialist: SpecialistProfile;
@@ -321,7 +322,7 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
 
                   {/* Master Architecture Portfolio PDF */}
                   <a
-                    href="/portfolio/docs/Architecture Portfolio - Arslan Qaiser_compressed.pdf"
+                    href={assetUrl("/portfolio/docs/Architecture Portfolio - Arslan Qaiser_compressed.pdf")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-all flex items-center justify-between group"
@@ -446,7 +447,7 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                 </span>
                 <div className="flex flex-wrap gap-2">
                   <a
-                    href="/portfolio/docs/AQ CV Minimal.pdf"
+                    href={assetUrl("/portfolio/docs/AQ CV Minimal.pdf")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-xs text-neutral-300 flex items-center space-x-1.5 transition-all"
@@ -455,7 +456,7 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                     <span>Download CV (Minimal)</span>
                   </a>
                   <a
-                    href="/portfolio/docs/Architecture Portfolio - Arslan Qaiser_compressed.pdf"
+                    href={assetUrl("/portfolio/docs/Architecture Portfolio - Arslan Qaiser_compressed.pdf")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-xs text-neutral-300 flex items-center space-x-1.5 transition-all"

@@ -25,7 +25,7 @@ interface BlueprintReportModalProps {
   blueprint: ArchitecturalBlueprint;
   input: ScopeCalculationInput;
   calculation: ScopeCalculationResult;
-  leadData: { name: string; email: string; phone?: string; firmOrRole: string };
+  leadData: { name: string; email: string; phone?: string; firmOrRole: string; customNotes?: string; projectFilesLink?: string };
   specialist: SpecialistProfile;
 }
 
@@ -51,9 +51,12 @@ export const BlueprintReportModal: React.FC<BlueprintReportModalProps> = ({
     `Hi ${specialist.name}, I just configured my project blueprint on ArchScope!\n\n` +
     `• Project: ${input.projectTitle || "Architecture Project"} (${input.areaSqFt} sq ft)\n` +
     `• Role: ${leadData.firmOrRole} (${leadData.name})\n` +
+    `• Contact: ${leadData.email}${leadData.phone ? " / " + leadData.phone : ""}\n` +
     `• Estimated Scope: ${calculation.recommendedSheetsCount} Sheets (~${calculation.estimatedTurnaroundDays} Days)\n` +
-    `• Estimated Fee: $${calculation.estimatedFeeMin} - $${calculation.estimatedFeeMax}\n\n` +
-    `I'd like to discuss kicking off remote drafting/BIM production with you!`
+    `• Estimated Fee: $${calculation.estimatedFeeMin} - $${calculation.estimatedFeeMax}\n` +
+    (leadData.projectFilesLink ? `• Project Files: ${leadData.projectFilesLink}\n` : "") +
+    (leadData.customNotes ? `• Notes: ${leadData.customNotes}\n` : "") +
+    `\nI'd like to discuss kicking off remote drafting/BIM production with you!`
   );
 
   const whatsappUrl = `https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${whatsappText}`;
@@ -67,8 +70,10 @@ export const BlueprintReportModal: React.FC<BlueprintReportModalProps> = ({
     `Area: ${input.areaSqFt} sq ft\n` +
     `Services: ${input.selectedServiceIds.join(", ")}\n` +
     `Client: ${leadData.name} (${leadData.email}, ${leadData.firmOrRole})\n` +
-    `Estimated Scope: ${calculation.recommendedSheetsCount} Sheets (~${calculation.estimatedTurnaroundDays} Days)\n\n` +
-    `Please let me know your availability for a kick-off review.\n\nBest regards,\n${leadData.name}`
+    `Estimated Scope: ${calculation.recommendedSheetsCount} Sheets (~${calculation.estimatedTurnaroundDays} Days)\n` +
+    (leadData.projectFilesLink ? `Project Files: ${leadData.projectFilesLink}\n` : "") +
+    (leadData.customNotes ? `Notes: ${leadData.customNotes}\n` : "") +
+    `\nPlease let me know your availability for a kick-off review.\n\nBest regards,\n${leadData.name}`
   )}`;
 
   return (

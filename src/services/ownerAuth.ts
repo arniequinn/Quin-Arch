@@ -1,5 +1,3 @@
-import { User } from "firebase/auth";
-
 export const OWNER_EMAIL = "arslan.qaiser1991@gmail.com";
 
 // Accepted owner master passkeys (case-insensitive)
@@ -11,14 +9,6 @@ const ACCEPTED_PASSKEYS = [
 ];
 
 const PASSKEY_SESSION_KEY = "archscope_owner_session_authenticated";
-
-/**
- * Checks if the currently signed-in Firebase user is the verified specialist owner.
- */
-export function isOwnerUser(user: User | null): boolean {
-  if (!user || !user.email) return false;
-  return user.email.trim().toLowerCase() === OWNER_EMAIL.toLowerCase();
-}
 
 /**
  * Checks if the owner has been authenticated via master passkey in the current session.
@@ -60,8 +50,8 @@ export function clearOwnerPasskeySession(): void {
 }
 
 /**
- * Returns true if the user is authenticated either via Firebase owner email or verified passkey.
+ * Returns true if the current browser session has unlocked owner editing via passkey.
  */
-export function isOwnerAuthorized(user: User | null): boolean {
-  return isOwnerUser(user) || isOwnerPasskeyVerified();
+export function isOwnerAuthorized(): boolean {
+  return isOwnerPasskeyVerified();
 }

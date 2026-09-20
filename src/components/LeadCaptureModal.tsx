@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { X, Lock, Sparkles, CheckCircle2, ArrowRight, ShieldCheck, Loader2, Link2, FolderUp } from "lucide-react";
-import { ScopeCalculationInput, ScopeCalculationResult } from "../utils/calculator";
+import { ScopeCalculationInput, ScopeCalculationResult, buildCompleteBlueprint } from "../utils/calculator";
 import { ArchitecturalBlueprint } from "../types";
-import { saveLeadToFirestore } from "../lib/firebase";
 
 interface LeadCaptureModalProps {
   isOpen: boolean;
   onClose: () => void;
   input: ScopeCalculationInput;
   calculation: ScopeCalculationResult;
-  onBlueprintGenerated: (blueprint: ArchitecturalBlueprint, leadData: { name: string; email: string; phone?: string; firmOrRole: string }) => void;
+  onBlueprintGenerated: (blueprint: ArchitecturalBlueprint, leadData: { name: string; email: string; phone?: string; firmOrRole: string; customNotes?: string; projectFilesLink?: string }) => void;
 }
 
 export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({
@@ -41,96 +40,23 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({
     setErrorMessage("");
 
     try {
-      // 1. Call AI Analysis Endpoint
-      let generatedBlueprint: ArchitecturalBlueprint | null = null;
-      try {
-        const response = await fetch("/api/ai/analyze-project", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            projectTitle: input.projectTitle,
-            projectType: input.projectTypeId,
-            services: input.selectedServiceIds,
-            areaSqFt: input.areaSqFt,
-            locationJurisdiction: input.jurisdictionId,
-            currentStage: input.currentStageId,
-            timeline: input.timelineId,
-            customNotes,
-          }),
-        });
+      // Blueprint is synthesized entirely in the browser from the scope calculation
+      const generatedBlueprint: ArchitecturalBlueprint = buildCompleteBlueprint(input, calculation);
 
-        if (response.ok) {
-          const data = await response.json();
-          if (data.blueprint) {
-            generatedBlueprint = data.blueprint;
-          }
-        }
-      } catch (aiErr) {
-        console.warn("AI generation fallback to algorithmic blueprint:", aiErr);
-      }
-
-      // If AI didn't return (e.g. offline), synthesize from calculation
-      if (!generatedBlueprint) {
-        const { buildCompleteBlueprint } = await import("../utils/calculator");
-        generatedBlueprint = buildCompleteBlueprint(input, calculation);
-      }
-
-      // 2. Store the captured lead in server database & Firebase Firestore
-      const leadId = "lead_" + Date.now() + "_" + Math.random().toString(36).substring(2, 7);
-      const leadPayload = {
-        id: leadId,
-        createdAt: new Date().toISOString(),
-        clientName,
-        email,
-        phone,
-        firmOrRole,
-        projectTitle: input.projectTitle || "Architectural Project",
-        projectType: input.projectTypeId,
-        services: input.selectedServiceIds,
-        areaSqFt: input.areaSqFt,
-        locationJurisdiction: input.jurisdictionId,
-        currentStage: input.currentStageId,
-        timeline: input.timelineId,
-        customNotes,
-        projectFilesLink: projectFilesLink.trim() || undefined,
-        estimatedFeeRange: {
-          min: calculation.estimatedFeeMin,
-          max: calculation.estimatedFeeMax,
-        },
-        estimatedTurnaroundDays: calculation.estimatedTurnaroundDays,
-        recommendedSheetsCount: calculation.recommendedSheetsCount,
-        generatedBlueprint,
-        status: "new" as const,
-      };
-
-      // Save to Firebase Firestore
-      try {
-        await saveLeadToFirestore(leadPayload);
-      } catch (firestoreErr) {
-        console.warn("Firestore lead direct save note:", firestoreErr);
-      }
-
-      // Store in Express server database
-      try {
-        await fetch("/api/leads", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(leadPayload),
-        });
-      } catch (leadSaveErr) {
-        console.warn("Lead save error:", leadSaveErr);
-      }
-
-      // 3. Callback to show the unlocked Blueprint
+      // No backend to persist this lead to — the captured details are handed
+      // back to the parent, which routes the visitor to WhatsApp/email so the
+      // inquiry reaches the specialist directly.
       onBlueprintGenerated(generatedBlueprint, {
         name: clientName,
         email,
         phone,
         firmOrRole,
+        customNotes: customNotes.trim() || undefined,
+        projectFilesLink: projectFilesLink.trim() || undefined,
       });
 
     } catch (err: any) {
-      console.error("Submission error:", err);
+      console.error("Blueprint generation error:", err);
       setErrorMessage("Something went wrong while generating the blueprint. Please try again.");
     } finally {
       setIsSubmitting(false);

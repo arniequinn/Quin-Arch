@@ -1,31 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { 
-  X, 
-  Save, 
-  Check, 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  DollarSign, 
-  Briefcase, 
-  Lock, 
-  ShieldCheck, 
-  KeyRound, 
-  AlertCircle, 
+import {
+  X,
+  Save,
+  Check,
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  DollarSign,
+  Briefcase,
+  Lock,
+  ShieldCheck,
+  KeyRound,
+  AlertCircle,
   ExternalLink,
   ShieldAlert,
-  LogIn,
   Linkedin
 } from "lucide-react";
 import { SpecialistProfile } from "../types";
-import { User as FirebaseUser } from "firebase/auth";
-import { 
-  OWNER_EMAIL, 
-  isOwnerUser, 
-  isOwnerPasskeyVerified, 
-  verifyOwnerPasskey, 
-  clearOwnerPasskeySession 
+import {
+  OWNER_EMAIL,
+  isOwnerPasskeyVerified,
+  verifyOwnerPasskey,
+  clearOwnerPasskeySession
 } from "../services/ownerAuth";
 
 interface SpecialistDataModalProps {
@@ -33,8 +30,6 @@ interface SpecialistDataModalProps {
   onClose: () => void;
   currentProfile: SpecialistProfile;
   onSaveProfile: (profile: SpecialistProfile) => void;
-  currentUser?: FirebaseUser | null;
-  onSignIn?: () => void;
 }
 
 export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
@@ -42,8 +37,6 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
   onClose,
   currentProfile,
   onSaveProfile,
-  currentUser = null,
-  onSignIn,
 }) => {
   const [formData, setFormData] = useState<SpecialistProfile>({ ...currentProfile });
   const [savedSuccess, setSavedSuccess] = useState(false);
@@ -57,8 +50,7 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
 
   if (!isOpen) return null;
 
-  const isGoogleOwner = isOwnerUser(currentUser);
-  const isAuthorized = isGoogleOwner || sessionUnlocked;
+  const isAuthorized = sessionUnlocked;
 
   const handleVerifyPasskey = (e: React.FormEvent) => {
     e.preventDefault();
@@ -148,56 +140,15 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
                 </div>
               </div>
 
-              {/* Owner Sign-In & Passkey Unlock Options */}
-              <div className="pt-2 border-t border-amber-500/20 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {/* Method 1: Google Account */}
-                <div className="p-3 rounded-lg bg-neutral-900 border border-neutral-800 space-y-2">
+              {/* Owner Passkey Unlock */}
+              <div className="pt-2 border-t border-amber-500/20">
+                <div className="p-3 rounded-lg bg-neutral-900 border border-neutral-800 space-y-2 max-w-sm">
                   <div className="text-[11px] font-mono text-neutral-400 uppercase font-semibold">
-                    Method 1: Owner Google Account
+                    Owner Master Passkey
                   </div>
-                  {currentUser ? (
-                    <div className="space-y-2">
-                      <p className="text-xs text-neutral-300">
-                        Signed in as <span className="font-mono text-amber-300">{currentUser.email}</span>
-                      </p>
-                      <p className="text-[11px] text-red-400">
-                        Not authorized as owner ({OWNER_EMAIL}).
-                      </p>
-                      {onSignIn && (
-                        <button
-                          type="button"
-                          onClick={onSignIn}
-                          className="w-full py-1.5 px-2.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-medium transition-colors flex items-center justify-center space-x-1.5"
-                        >
-                          <LogIn className="w-3.5 h-3.5" />
-                          <span>Switch to Owner Google Account</span>
-                        </button>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="space-y-2">
-                      <p className="text-xs text-neutral-400">
-                        Sign in with the verified owner email ({OWNER_EMAIL}) to unlock immediately.
-                      </p>
-                      {onSignIn && (
-                        <button
-                          type="button"
-                          onClick={onSignIn}
-                          className="w-full py-2 px-3 rounded-lg bg-amber-500 hover:bg-amber-400 text-neutral-950 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-sm"
-                        >
-                          <LogIn className="w-3.5 h-3.5" />
-                          <span>Sign In as Arslan Qaiser</span>
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {/* Method 2: Owner Passkey */}
-                <div className="p-3 rounded-lg bg-neutral-900 border border-neutral-800 space-y-2">
-                  <div className="text-[11px] font-mono text-neutral-400 uppercase font-semibold">
-                    Method 2: Owner Master Passkey
-                  </div>
+                  <p className="text-xs text-neutral-400">
+                    Only Arslan Qaiser ({OWNER_EMAIL}) should have this passkey. Enter it to unlock editing.
+                  </p>
                   <form onSubmit={handleVerifyPasskey} className="space-y-2">
                     <div className="relative">
                       <input
@@ -347,7 +298,7 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
               <div className="flex items-center space-x-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span className="text-xs text-emerald-200 font-medium">
-                  Verified Owner Active: <span className="font-mono text-emerald-300">{isGoogleOwner ? currentUser?.email : "Owner Passkey Session"}</span>
+                  Verified Owner Active: <span className="font-mono text-emerald-300">Owner Passkey Session</span>
                 </span>
               </div>
               <button

@@ -1,4 +1,5 @@
 import { ProjectTypeOption, ServiceOption, PortfolioItem, SpecialistProfile } from "../types";
+import { assetUrl } from "../utils/assetPath";
 
 export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
   name: "Arslan Qaiser",
@@ -10,8 +11,8 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
   whatsapp: "+923224316477",
   location: "Lahore, Pakistan (Delivering to USA, UK, Canada, Australia & International)",
   education: "Bachelor of Architecture (B.Arch, Distinction in Design) — National College of Arts (NCA)",
-  logoUrl: "/portfolio/quin-arch-logo.png",
-  avatarUrl: "/portfolio/arslan-profile.png",
+  logoUrl: assetUrl("/portfolio/quin-arch-logo.png"),
+  avatarUrl: assetUrl("/portfolio/arslan-profile.png"),
   socials: {
     linkedin: "https://www.linkedin.com/in/arslan-qaiser-947976188/",
     instagram: "https://instagram.com/quin_arch",
@@ -242,7 +243,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     software: ["AutoCAD Architectural", "Revit BIM", "Bluebeam Revu"],
     sheetDetails: "Complete Permit Drawing Package • PDF Architectural Set",
     imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-    pdfUrl: "/portfolio/docs/Barndominium.pdf",
+    pdfUrl: assetUrl("/portfolio/docs/Barndominium.pdf"),
     dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
@@ -266,7 +267,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     software: ["AutoCAD", "Revit", "IRC / Coastal Code Standards"],
     sheetDetails: "Elevated Structural Framing • Full Permitting Set",
     imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80",
-    pdfUrl: "/portfolio/docs/Beach House - Texas.pdf",
+    pdfUrl: assetUrl("/portfolio/docs/Beach House - Texas.pdf"),
     dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
@@ -290,7 +291,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     software: ["Revit", "AutoCAD MEP", "Health & Fire Code"],
     sheetDetails: "Commercial Hospitality Set • Kitchen Equipment Plan",
     imageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80",
-    pdfUrl: "/portfolio/docs/Slamburger.pdf",
+    pdfUrl: assetUrl("/portfolio/docs/Slamburger.pdf"),
     dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
@@ -308,8 +309,8 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     description: "High-end rural estate combining equestrian barn facilities with contemporary luxury residential quarters. Produced photorealistic exterior V-Ray visualization capturing natural timber siding, ambient lighting, and timber-truss ceiling geometry.",
     software: ["V-Ray", "3ds Max / SketchUp", "Revit", "Photoshop CC"],
     sheetDetails: "Photorealistic 3D Render + Architectural Layout",
-    imageUrl: "/portfolio/barn-residence-vray.jpg",
-    pdfUrl: "/portfolio/docs/Barn & Residence.pdf",
+    imageUrl: assetUrl("/portfolio/barn-residence-vray.jpg"),
+    pdfUrl: assetUrl("/portfolio/docs/Barn & Residence.pdf"),
     dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
@@ -332,8 +333,8 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     description: "Striking modernist architectural project featuring dramatic cantilevered concrete slabs, expansive floor-to-ceiling curtain wall glazing, and integrated passive solar overhangs with complete documentation sheets.",
     software: ["Revit", "V-Ray", "Rhino 3D", "Photoshop"],
     sheetDetails: "3D Perspective Render + Documentation Set",
-    imageUrl: "/portfolio/cran-perspective.jpg",
-    pdfUrl: "/portfolio/docs/Cran.pdf",
+    imageUrl: assetUrl("/portfolio/cran-perspective.jpg"),
+    pdfUrl: assetUrl("/portfolio/docs/Cran.pdf"),
     dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [
@@ -352,7 +353,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     software: ["Revit 2024", "AutoCAD", "IBC Code Standards"],
     sheetDetails: "Multi-Family Apartment Typologies & Plans",
     imageUrl: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=900&q=80",
-    pdfUrl: "/portfolio/docs/Flats.pdf",
+    pdfUrl: assetUrl("/portfolio/docs/Flats.pdf"),
     dropboxUrl: "https://www.dropbox.com/scl/fo/t7jqz170q5uytn782wenx/AKXLp72qWAXWdGh8EagvT88?rlkey=7y6i7voh4pn8qecicrfoa7xn1&st=mn4wh8ym&dl=0",
     isRealClientWork: true,
     specs: [

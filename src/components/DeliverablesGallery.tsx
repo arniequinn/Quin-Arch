@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { PORTFOLIO_SAMPLES } from "../data/architecturalData";
 import { PortfolioItem } from "../types";
+import { assetUrl } from "../utils/assetPath";
 
 export const DeliverablesGallery: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -69,7 +70,7 @@ export const DeliverablesGallery: React.FC = () => {
             </a>
 
             <a
-              href="/portfolio/docs/Architecture Portfolio - Arslan Qaiser_compressed.pdf"
+              href={assetUrl("/portfolio/docs/Architecture Portfolio - Arslan Qaiser_compressed.pdf")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-xs text-amber-300 font-medium transition-all"
