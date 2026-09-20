@@ -530,13 +530,13 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                 </div>
               </div>
 
-              {/* Drawing Preview list peek */}
+              {/* Full Drawing Sheet Index */}
               <div className="mt-5">
                 <span className="text-xs font-semibold text-neutral-300 block mb-2">
-                  Included Sheet Sample Index:
+                  Included Sheet Index ({calculation.recommendedSheets.length} Sheets):
                 </span>
-                <div className="space-y-1.5 max-h-32 overflow-y-auto pr-1 text-xs">
-                  {calculation.recommendedSheets.slice(0, 4).map((sheet) => (
+                <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1 text-xs">
+                  {calculation.recommendedSheets.map((sheet) => (
                     <div
                       key={sheet.sheetNumber}
                       className="flex items-center justify-between text-[11px] text-neutral-300 py-1 px-2 rounded bg-neutral-950/60"
@@ -550,11 +550,6 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                       </span>
                     </div>
                   ))}
-                  {calculation.recommendedSheets.length > 4 && (
-                    <div className="text-[11px] text-neutral-500 text-center py-1 font-mono">
-                      + {calculation.recommendedSheets.length - 4} additional coordinated sheets
-                    </div>
-                  )}
                 </div>
               </div>
 

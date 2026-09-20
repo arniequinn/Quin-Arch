@@ -25,7 +25,7 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
   availableFor: [
     "Full-Service Remote Architectural CAD Drafting",
     "Municipal Permit Drawing Sets (IBC, IRC, Title 24, FBC)",
-    "3D BIM Modeling (LOD 200 - 400)",
+    "3D BIM Modeling (LOD 200 - 350)",
     "Parametric & Algorithmic Design (Rhino + Grasshopper)",
     "MEP & Structural Clash Detection (Navisworks)",
     "Millwork / Casework Fabrication Shop Drawings",
@@ -33,7 +33,7 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
     "Dedicated White-Label CAD/BIM Retainers for Architecture & Engineering Firms"
   ],
   softwareProficiencies: [
-    "3D BIM Modeling Software (LOD 200-400)",
+    "3D BIM Modeling Software (LOD 200-350)",
     "AutoCAD Architectural & Detailing",
     "Rhino 7 / Grasshopper Algorithmic",
     "Ladybug & Karamba 3D (Solar/Structural)",
@@ -154,7 +154,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
   },
   {
     id: "bim_modeling",
-    name: "3D BIM Modeling (LOD 200 - 400)",
+    name: "3D BIM Modeling (LOD 200 - 350)",
     shortName: "3D BIM Modeling",
     category: "BIM",
     description: "Intelligent building information modeling with parametric families, wall assemblies, material takeoff schedules, and clash-ready geometry.",

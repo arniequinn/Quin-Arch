@@ -106,8 +106,8 @@ export function calculateScope(input: ScopeCalculationInput): ScopeCalculationRe
 
   if (input.selectedServiceIds.includes("construction_docs") || input.selectedServiceIds.includes("permit_drawings")) {
     sheets.push(
-      { sheetNumber: "A-401", sheetTitle: "Wall Assemblies & Envelope Details", description: "R-value thermal specs, rainscreen details, continuous insulation, vapor retarder", bimLOD: "LOD 400" },
-      { sheetNumber: "A-402", sheetTitle: "Foundation & Sill Plate Details", description: "Anchor bolt spacing, capillary break, perimeter insulation, crawlspace/slab tie-in", bimLOD: "LOD 400" },
+      { sheetNumber: "A-401", sheetTitle: "Wall Assemblies & Envelope Details", description: "R-value thermal specs, rainscreen details, continuous insulation, vapor retarder", bimLOD: "LOD 350" },
+      { sheetNumber: "A-402", sheetTitle: "Foundation & Sill Plate Details", description: "Anchor bolt spacing, capillary break, perimeter insulation, crawlspace/slab tie-in", bimLOD: "LOD 350" },
       { sheetNumber: "A-403", sheetTitle: "Stair, Guardrail & Handrail Sections", description: "Tread/riser geometry, 4\" sphere code clearance, baluster anchorage details", bimLOD: "LOD 350" }
     );
   }

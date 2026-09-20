@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "./components/Navbar";
 import { ScopeEstimator } from "./components/ScopeEstimator";
+import { LODGuide } from "./components/LODGuide";
 import { DeliverablesGallery } from "./components/DeliverablesGallery";
 import { WorkflowsSection } from "./components/WorkflowsSection";
 import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
@@ -125,7 +126,7 @@ export default function App() {
               <div className="flex flex-wrap items-center gap-2.5 mb-6">
                 <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
                   <Compass className="w-3.5 h-3.5" />
-                  <span>Remote Architectural BIM Services • BIM LOD 200–400 • CAD Permitting</span>
+                  <span>Remote Architectural BIM Services • BIM LOD 200–350 • CAD Permitting</span>
                 </div>
               </div>
 
@@ -140,7 +141,7 @@ export default function App() {
               {/* Sub-copy */}
               <p className="mt-5 text-base sm:text-lg text-neutral-300 leading-relaxed max-w-2xl">
                 Partner with an NCA-trained senior architect for code-compliant
-                remote architectural BIM services, 3D BIM modeling (LOD 200–400), and
+                remote architectural BIM services, 3D BIM modeling (LOD 200–350), and
                 millimeter-precise permit drawing sets (IBC/IRC/Title 24). Save 60-70% overhead
                 compared to in-house drafter payroll with 24-48h redline turnarounds.
               </p>
@@ -195,7 +196,7 @@ export default function App() {
                   <span className="text-neutral-400 text-[11px]">CAD Layering Standards</span>
                 </div>
                 <div>
-                  <span className="text-neutral-100 font-bold block text-sm">LOD 200 - 400</span>
+                  <span className="text-neutral-100 font-bold block text-sm">LOD 200 - 350</span>
                   <span className="text-neutral-400 text-[11px]">3D BIM Modeling</span>
                 </div>
                 <div>
@@ -214,6 +215,9 @@ export default function App() {
 
         {/* 1. Core Lead Magnet: The Interactive Scope & Fee Estimator */}
         <ScopeEstimator onProceedToLeadCapture={handleProceedToLeadCapture} />
+
+        {/* 1b. Educational: What LOD means and what's actually included */}
+        <LODGuide />
 
         {/* 2. Concrete Proof: Technical Deliverables & Before/After Gallery */}
         <DeliverablesGallery />

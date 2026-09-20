@@ -138,7 +138,7 @@ export const BlueprintReportModal: React.FC<BlueprintReportModalProps> = ({
                     DIGITAL SPECIFICATION
                   </div>
                   <div className="text-xs font-bold text-neutral-100 print:text-black">
-                    LOD 300 / 400 READY
+                    LOD 300 / 350 READY
                   </div>
                   <div className="text-[8px] text-neutral-500 font-mono">
                     {new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
