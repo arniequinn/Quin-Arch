@@ -15,11 +15,21 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSpecialistEditor,
   onScrollToEstimator,
 }) => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-neutral-800/80 bg-neutral-950/90 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand / Logo */}
-        <div className="flex items-center space-x-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        {/* Brand / Logo — click to return to the top of the page */}
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className="flex items-center space-x-3 shrink-0 min-w-0 bg-transparent border-0 p-0 m-0 cursor-pointer text-left"
+          title="Go to homepage"
+          aria-label="Go to homepage"
+        >
           {specialist.logoUrl ? (
             <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-700/80 p-1 flex items-center justify-center shrink-0 shadow-md">
               <img
@@ -29,27 +39,27 @@ export const Navbar: React.FC<NavbarProps> = ({
               />
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-neutral-950 shadow-md shadow-amber-500/20">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-neutral-950 shadow-md shadow-amber-500/20 shrink-0">
               <Compass className="w-5 h-5 stroke-[2.5]" />
             </div>
           )}
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-base sm:text-lg text-neutral-100 tracking-tight">
+              <span className="font-bold text-base sm:text-lg text-neutral-100 tracking-tight whitespace-nowrap">
                 {specialist.brandName || specialist.name}
               </span>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30">
+              <span className="hidden xl:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30 whitespace-nowrap">
                 Remote Architecture & BIM
               </span>
             </div>
-            <p className="text-xs text-neutral-400 hidden md:block">
+            <p className="text-xs text-neutral-400 hidden md:block whitespace-nowrap overflow-hidden text-ellipsis">
               Arslan Qaiser • CAD Drafting • Revit BIM • Permit Sets • 3D V-Ray
             </p>
           </div>
-        </div>
+        </button>
 
         {/* Navigation Links */}
-        <nav className="hidden lg:flex items-center space-x-5 text-xs font-medium text-neutral-300">
+        <nav className="hidden xl:flex items-center space-x-5 text-xs font-medium text-neutral-300 shrink-0">
           <a
             href="#estimator"
             onClick={(e) => {
@@ -82,7 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-950/70 hover:bg-emerald-900/80 border border-emerald-500/30 text-emerald-400 text-xs font-mono transition-all hover:border-emerald-500/60"
+              className="hidden 2xl:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-950/70 hover:bg-emerald-900/80 border border-emerald-500/30 text-emerald-400 text-xs font-mono transition-all hover:border-emerald-500/60"
               title="Direct WhatsApp: +92 322 4316477"
             >
               <MessageSquare className="w-3.5 h-3.5 fill-emerald-500/20" />
