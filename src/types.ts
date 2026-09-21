@@ -38,6 +38,35 @@ export interface DrawingSheet {
   bimLOD?: string;
 }
 
+// One image in a track's background collage. "wide" renders full-width in its own row;
+// "tall" images are slim enough to pair up two-across with another "tall" image.
+export interface TrackImage {
+  src: string;
+  aspect: "wide" | "tall";
+}
+
+export interface TargetMarket {
+  id: string;
+  name: string;
+  shortName: string;
+}
+
+// Researched, undiscounted market-rate benchmarks per target market — used only to show
+// visitors what they'd typically pay locally/onshore. The rates actually offered live in
+// OFFERED_RATES (architecturalData.ts) and stay flat regardless of the visitor's market.
+export interface MarketBenchmarkRates {
+  // Freelance/outsourced BIM-CAD technician market rate — used to benchmark our flat
+  // technician offering (OFFERED_RATES.technicianHourlyEquivalent) against.
+  technicianHourly: number;
+  // Fully-loaded in-house/onshore drafter payroll cost (salary + overhead, no dedicated
+  // production pipeline) — used for the "vs in-house drafter" comparison in the estimator.
+  // Meaningfully higher than technicianHourly, which is a freelance market rate, not payroll.
+  inHousePayrollHourly: number;
+  consultantHourly: number;
+  exteriorRenderPerSqFt: number;
+  interiorRenderPerSqFt: number;
+}
+
 export interface SpecialistSocials {
   instagram: string;
   instagramHandle: string;

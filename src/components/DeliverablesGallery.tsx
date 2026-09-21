@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { 
-  FileCheck2, 
-  Eye, 
-  ExternalLink, 
-  Layers, 
-  Sparkles, 
-  Check, 
-  Maximize2,
+import {
+  FileCheck2,
+  Eye,
+  ExternalLink,
+  Layers,
+  Check,
   Sliders,
   FileText,
   X,

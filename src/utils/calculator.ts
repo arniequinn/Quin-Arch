@@ -1,4 +1,4 @@
-import { PROJECT_TYPES, SERVICE_OPTIONS, PROJECT_STAGES } from "../data/architecturalData";
+import { PROJECT_TYPES, SERVICE_OPTIONS, PROJECT_STAGES, JURISDICTION_TO_MARKET, MARKET_BENCHMARK_RATES } from "../data/architecturalData";
 import { DrawingSheet } from "../types";
 
 export interface ScopeCalculationInput {
@@ -24,6 +24,9 @@ export interface ScopeCalculationResult {
   inHouseCostEstimate: number; // cost of hiring local US/UK in-house architect/drafter for this scope
   clientSavingsAmount: number;
   savingsPercentage: number;
+  // False for very large/complex/rushed scopes where our flat worldwide rate can legitimately
+  // land above a cheaper market's in-house benchmark — the UI must not claim savings then.
+  hasSavings: boolean;
   recommendedSheets: DrawingSheet[];
   techStack: string[];
   permitNotes: string[];
@@ -153,17 +156,32 @@ export function calculateScope(input: ScopeCalculationInput): ScopeCalculationRe
   const finalMin = Math.round(discountedSubtotal * 0.90 * timelineMultiplier);
   const finalMax = Math.round(discountedSubtotal * 1.18 * timelineMultiplier);
 
-  // In-house comparison: a US/UK in-house drafter juggling multiple projects (meetings,
+  // In-house comparison: an in-house drafter juggling multiple projects (meetings,
   // context-switching, no dedicated production pipeline) typically runs ~8 hours/sheet for a
-  // permit+BIM package this involved, billed around $100-130/hr onshore — consistent with the
-  // "60-120 hours for a full permit/CD set" and "$100-250/hr" figures from current market research.
+  // permit+BIM package this involved. Billed at the researched onshore BIM/CAD technician rate
+  // for the visitor's own market (see MARKET_BENCHMARK_RATES) — so a US visitor sees a US
+  // benchmark, a UK visitor a UK benchmark, etc. — rather than one generic figure.
   // Scaled by the same project-stage factor so a redline-only job is compared against an
-  // in-house redline-only effort, not a full from-scratch set.
+  // in-house redline-only effort, not a full from-scratch set. Also scaled by the same rush
+  // premium we apply to ourselves — an in-house team pays real overtime/expediting costs too,
+  // so it would be inconsistent (and lets our own rush premium make us look artificially worse)
+  // to hold the in-house side flat while our price climbs for urgent timelines.
+  const marketId = JURISDICTION_TO_MARKET[input.jurisdictionId] || "us";
+  const marketPayrollHourly = MARKET_BENCHMARK_RATES[marketId]?.inHousePayrollHourly ?? MARKET_BENCHMARK_RATES.us.inHousePayrollHourly;
   const estimatedHours = Math.round((activeSheets.length * 8 + area / 300) * stageMultiplier);
-  const inHouseCostEstimate = Math.round(estimatedHours * 115);
+  const inHouseCostEstimate = Math.round(estimatedHours * marketPayrollHourly * timelineMultiplier);
   const clientMidpoint = Math.round((finalMin + finalMax) / 2);
-  const clientSavingsAmount = Math.max(1200, inHouseCostEstimate - clientMidpoint);
-  const savingsPercentage = Math.min(78, Math.round((clientSavingsAmount / inHouseCostEstimate) * 100));
+
+  // Never claim savings that aren't real: for very large, complex, and/or rushed scopes, our
+  // flat worldwide rate can legitimately land above a cheaper local market's in-house benchmark.
+  // hasSavings drives the UI — when false, the comparison is shown plainly instead of dressed up
+  // as a discount. Also require the rounded percentage to be at least 1% — a technically-positive
+  // but sub-1%-rounding difference would otherwise display as a silly-looking "Save $12 (0%)".
+  const rawSavings = inHouseCostEstimate - clientMidpoint;
+  const rawSavingsPercentage = rawSavings > 0 ? Math.round((rawSavings / inHouseCostEstimate) * 100) : 0;
+  const hasSavings = rawSavings > 0 && rawSavingsPercentage >= 1;
+  const clientSavingsAmount = hasSavings ? rawSavings : 0;
+  const savingsPercentage = hasSavings ? Math.min(78, rawSavingsPercentage) : 0;
 
   // Collect tech stack
   const techSet = new Set<string>();
@@ -172,9 +190,6 @@ export function calculateScope(input: ScopeCalculationInput): ScopeCalculationRe
   techSet.add("Print-Ready Vector PDF (Arch D 24x36)");
   techSet.add("IFC 3D Digital Model");
 
-  if (input.selectedServiceIds.includes("photoreal_rendering")) {
-    techSet.add("Lumion 2024 / 4K UHD Render Stills");
-  }
   if (input.selectedServiceIds.includes("mep_structural_coordination")) {
     techSet.add("Navisworks Manage Clash Report (.NWC)");
   }
@@ -196,6 +211,7 @@ export function calculateScope(input: ScopeCalculationInput): ScopeCalculationRe
     inHouseCostEstimate,
     clientSavingsAmount,
     savingsPercentage,
+    hasSavings,
     recommendedSheets: sheets,
     techStack: Array.from(techSet),
     permitNotes,

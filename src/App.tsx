@@ -12,11 +12,13 @@ import { Navbar } from "./components/Navbar";
 import { HeroBackgroundVideo } from "./components/HeroBackgroundVideo";
 import { ScopeEstimator } from "./components/ScopeEstimator";
 import { LODGuide } from "./components/LODGuide";
+import { CombinedPricingSection } from "./components/CombinedPricingSection";
+import { ImageSlideshowBand } from "./components/ImageSlideshowBand";
 import { DeliverablesGallery } from "./components/DeliverablesGallery";
 import { WorkflowsSection } from "./components/WorkflowsSection";
 import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
 import { SpecialistDataModal } from "./components/SpecialistDataModal";
-import { DEFAULT_SPECIALIST_PROFILE } from "./data/architecturalData";
+import { DEFAULT_SPECIALIST_PROFILE, BIMCAD_WORKFLOW_IMAGES, VISUALIZATION_SHOWCASE_IMAGES } from "./data/architecturalData";
 import { SpecialistProfile } from "./types";
 import { isOwnerAuthorized } from "./services/ownerAuth";
 
@@ -68,6 +70,14 @@ export default function App() {
     }
   };
 
+  // Smooth scroll to any of the three pricing track sections
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans selection:bg-amber-500 selection:text-neutral-950 flex flex-col justify-between">
 
@@ -94,16 +104,41 @@ export default function App() {
             <div className="max-w-3xl">
 
               {/* Badges Bar: Service scope */}
-              <div className="flex flex-wrap items-center gap-2.5 mb-6">
+              <div className="flex flex-wrap items-center gap-2.5 mb-4">
                 <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
                   <Compass className="w-3.5 h-3.5" />
-                  <span>Remote Architectural BIM Services • BIM LOD 200–350 • CAD Permitting</span>
+                  <span>Remote Architectural Visualization • BIM LOD 200–350 • CAD Permitting</span>
                 </div>
+              </div>
+
+              {/* Quick jump to each pricing track — kept low-key, not competing with the main CTA */}
+              <div className="flex flex-wrap items-center gap-2 mb-6 text-xs">
+                <button
+                  type="button"
+                  onClick={() => scrollToSection("consultancy")}
+                  className="px-3 py-1.5 rounded-full border border-neutral-700/80 bg-neutral-900/50 text-neutral-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors cursor-pointer"
+                >
+                  Consultancy
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection("visualization")}
+                  className="px-3 py-1.5 rounded-full border border-neutral-700/80 bg-neutral-900/50 text-neutral-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors cursor-pointer"
+                >
+                  Visualization
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection("bim-cad")}
+                  className="px-3 py-1.5 rounded-full border border-neutral-700/80 bg-neutral-900/50 text-neutral-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors cursor-pointer"
+                >
+                  BIM/CAD
+                </button>
               </div>
 
               {/* Display Headline targeting long-tail search queries */}
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-neutral-100 tracking-tight leading-[1.12]">
-                Remote Architectural BIM Services & Permit CAD Sets.{" "}
+                Remote Architectural Visualization, BIM Services & Permit Sets.{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500">
                   Delivered Globally.
                 </span>
@@ -192,25 +227,37 @@ export default function App() {
           </div>
         </section>
 
-        {/* 1. Core Lead Magnet: The Interactive Scope & Fee Estimator */}
-        <ScopeEstimator specialist={specialist} />
-
-        {/* 1b. Educational: What LOD means and what's actually included */}
-        <LODGuide />
-
-        {/* 2. Concrete Proof: Technical Deliverables & Before/After Gallery */}
-        <DeliverablesGallery />
-
-        {/* 3. Value Proposition: Remote Delivery Advantage & Engagement Models */}
-        <WorkflowsSection onScrollToEstimator={scrollToEstimator} />
-
-        {/* 4. Specialist Identity & Direct Booking */}
+        {/* 1. Specialist Identity & Direct Booking */}
         <SpecialistProfileCard
           specialist={specialist}
           onOpenEditor={() => setIsSpecialistEditorOpen(true)}
           onScrollToEstimator={scrollToEstimator}
           isOwner={isOwnerEditingUnlocked}
         />
+
+        {/* 2. Value Proposition: Remote Delivery Advantage & Engagement Models */}
+        <WorkflowsSection onScrollToEstimator={scrollToEstimator} />
+
+        {/* 3. Concrete Proof: Technical Deliverables & Before/After Gallery */}
+        <DeliverablesGallery />
+
+        {/* 4. Architect Consultant + Visualization, side by side */}
+        <CombinedPricingSection specialist={specialist} />
+
+        {/* Breathing-space divider: finished-render slideshow, following Visualization */}
+        <ImageSlideshowBand images={VISUALIZATION_SHOWCASE_IMAGES} imagesPerCard={1} title="Renderings & Past Work" />
+
+        {/* 5. BIM/CAD Technician — the Scope Estimator, plain section */}
+        <div id="bim-cad" className="scroll-mt-16">
+          <ScopeEstimator specialist={specialist} />
+        </div>
+
+        {/* Breathing-space divider: real BIM/CAD production screenshots, following BIM/CAD —
+            paired two-up since these screenshots are wide */}
+        <ImageSlideshowBand images={BIMCAD_WORKFLOW_IMAGES} imagesPerCard={2} title="BIM/CAD Production Workflow" />
+
+        {/* 6. Educational: What LOD means and what's actually included — after the BIM slideshow */}
+        <LODGuide />
 
       </main>
 
@@ -312,8 +359,9 @@ export default function App() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-neutral-900">
-            <div className="flex items-center space-x-6 text-neutral-400">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-neutral-400">
               <a href="#estimator" className="hover:text-amber-400 transition-colors">Scope Estimator</a>
+              <a href="#consultancy" className="hover:text-amber-400 transition-colors">Pricing</a>
               <a href="#deliverables" className="hover:text-amber-400 transition-colors">Drawing Sets & PDFs</a>
               <a href="#workflows" className="hover:text-amber-400 transition-colors">Delivery Process</a>
               <a href="#specialist" className="hover:text-amber-400 transition-colors">About Specialist</a>

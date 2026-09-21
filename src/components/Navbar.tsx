@@ -26,7 +26,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <button
           type="button"
           onClick={scrollToTop}
-          className="flex items-center space-x-3 shrink-0 min-w-0 bg-transparent border-0 p-0 m-0 cursor-pointer text-left"
+          className="flex items-center space-x-3 min-w-0 bg-transparent border-0 p-0 m-0 cursor-pointer text-left"
           title="Go to homepage"
           aria-label="Go to homepage"
         >
@@ -44,8 +44,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           )}
           <div className="min-w-0">
-            <div className="flex items-center space-x-2">
-              <span className="font-bold text-base sm:text-lg text-neutral-100 tracking-tight whitespace-nowrap">
+            <div className="flex items-center space-x-2 min-w-0">
+              <span className="font-bold text-base sm:text-lg text-neutral-100 tracking-tight whitespace-nowrap overflow-hidden text-ellipsis min-w-0">
                 {specialist.brandName || specialist.name}
               </span>
               <span className="hidden xl:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30 whitespace-nowrap">
@@ -83,7 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Action Controls */}
-        <div className="flex items-center space-x-2 sm:space-x-2.5">
+        <div className="flex items-center space-x-2 sm:space-x-2.5 shrink-0">
           {/* Direct WhatsApp Quick Connect */}
           {specialist.whatsapp && (
             <a

@@ -1,14 +1,10 @@
 import React from "react";
-import { 
-  Award, 
-  CheckCircle2, 
-  Compass, 
-  Mail, 
-  MapPin, 
-  MessageSquare, 
-  Phone, 
-  Sparkles, 
-  Briefcase, 
+import {
+  CheckCircle2,
+  Compass,
+  Mail,
+  MapPin,
+  MessageSquare,
   UserCheck,
   ExternalLink,
   GraduationCap,
@@ -62,11 +58,11 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                 </div>
               )}
               <div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-lg font-extrabold text-neutral-100 tracking-tight">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <span className="text-lg font-extrabold text-neutral-100 tracking-tight whitespace-nowrap">
                     {specialist.brandName || "Quintessential Architecture"}
                   </span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 whitespace-nowrap">
                     Available for Remote Contracts
                   </span>
                 </div>

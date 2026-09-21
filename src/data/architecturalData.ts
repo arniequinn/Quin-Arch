@@ -1,4 +1,4 @@
-import { ProjectTypeOption, ServiceOption, PortfolioItem, SpecialistProfile } from "../types";
+import { ProjectTypeOption, ServiceOption, PortfolioItem, SpecialistProfile, TargetMarket, MarketBenchmarkRates, TrackImage } from "../types";
 import { assetUrl } from "../utils/assetPath";
 
 export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
@@ -181,16 +181,6 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     popular: false
   },
   {
-    id: "photoreal_rendering",
-    name: "3D Photorealistic Exterior & Interior Renders",
-    shortName: "3D Renders (4K)",
-    category: "Visualization",
-    description: "Ultra-high-definition 4K renderings with realistic sunlight, materials, landscape, and atmospheric lighting for marketing, client approvals, and zoning boards.",
-    standardTurnaroundDays: 4,
-    softwareUsed: ["Lumion 2024", "3ds Max", "V-Ray / Enscape", "Photoshop"],
-    popular: true
-  },
-  {
     id: "mep_structural_coordination",
     name: "Structural & MEP Coordination Overlay",
     shortName: "MEP/Structural Coordination",
@@ -254,20 +244,20 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
   },
   {
     id: "sample-cran-residence",
-    title: "Cran Modern Cantilevered Residence",
-    category: "3D Visualization",
-    description: "Striking modernist architectural project featuring dramatic cantilevered concrete slabs, expansive floor-to-ceiling curtain wall glazing, and integrated passive solar overhangs with complete documentation sheets.",
-    software: ["3D BIM", "V-Ray", "Rhino 3D", "Photoshop"],
-    sheetDetails: "3D Perspective Render + Documentation Set",
+    title: "Cran Residence — Traditional Two-Story Home",
+    category: "3D BIM",
+    description: "Classic two-story red brick residence with a pitched roof, bay-fronted entry, and fenced front garden. Modeled from client sketches into a coordinated 3D BIM massing study for early design sign-off ahead of full construction documentation.",
+    software: ["3D BIM Software", "AutoCAD"],
+    sheetDetails: "3D BIM Massing Study + Elevation Set",
     imageUrl: assetUrl("/portfolio/cran-perspective.jpg"),
     isRealClientWork: true,
     specs: [
-      { label: "Design Style", value: "Modern Minimalist Cantilever" },
-      { label: "Documentation", value: "3D BIM Model + Perspective Render" },
+      { label: "Design Style", value: "Traditional Brick Residential" },
+      { label: "Documentation", value: "3D BIM Massing Model" },
       { label: "Turnaround", value: "Rapid Asynchronous Delivery" },
       { label: "Verification", value: "Authentic Client Work Sample" }
     ],
-    tags: ["Modern Villa", "Cantilever", "Curtain Wall", "V-Ray 3D"]
+    tags: ["Traditional Home", "Residential Massing", "Brick Facade", "3D BIM"]
   },
   {
     id: "sample-urban-flats",
@@ -291,6 +281,34 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
       rating: 5
     }
   }
+];
+
+// Real production screenshots (ArchiCAD schedules, Rhino/Grasshopper scripting, environmental
+// analysis, facade scripting) plus finished renders — used as the moving background collage
+// behind the BIM/CAD Technician section. "wide" images get a full-width row; "tall" ones are
+// slim enough to pair up two-across in the same row (see TrackImageBackdrop).
+export const BIMCAD_WORKFLOW_IMAGES: TrackImage[] = [
+  { src: assetUrl("/portfolio/bimcad-workflow/01-window-schedule.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/bimcad-workflow/02-grasshopper-rolling-polygon.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/bimcad-workflow/03-nesting-optimization.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/bimcad-workflow/04-gis-site-terrain.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/bimcad-workflow/05-structural-model-calc.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/bimcad-workflow/06-facade-paneling-script.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/bimcad-workflow/07-solar-wind-analysis.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/bimcad-workflow/08-environmental-analysis.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/bimcad-workflow/09-diagrid-pattern-script.jpg"), aspect: "wide" }
+  // The 3 finished tower renders (10-12) are intentionally excluded here — this set is kept to
+  // production screenshots only, for visual consistency across the paired-up slideshow cards.
+];
+
+// Finished interior/exterior renders — the slideshow band between the Consultancy and
+// Visualization sections, leading into the Visualization track.
+export const VISUALIZATION_SHOWCASE_IMAGES: TrackImage[] = [
+  { src: assetUrl("/portfolio/visualization-showcase/01-home-office.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/02-dark-living-room.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/03-bright-loft.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/04-restaurant-interior.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/05-classical-dining.jpg"), aspect: "wide" }
 ];
 
 export const JURISDICTIONS = [
@@ -317,3 +335,65 @@ export const TIMELINE_OPTIONS = [
   { id: "expedited", name: "Expedited (7-10 Days)", multiplier: 1.25, badge: "Popular for Permits" },
   { id: "urgent", name: "Rush / Rapid Turnaround (3-5 Days)", multiplier: 1.5, badge: "Priority Queue" }
 ];
+
+// ==========================================================================
+// Geo-specific pricing. Client-facing rates stay flat worldwide (OFFERED_RATES,
+// below) — that consistency IS the pitch. What changes per market is only the
+// "what you'd typically pay locally" comparison, so a US or AU visitor sees a
+// realistic onshore benchmark instead of a generic figure.
+//
+// Benchmarks are researched blended-market rates (Sept 2026):
+//  - BIM/CAD technician: freelance/outsourced Revit & BIM drafting runs
+//    ~$35-95/hr with US/EU clients (CAD-only $25-70/hr); North America &
+//    Oceania sit at the top of that band (~$40-80/hr blended).
+//  - Architect consultant: mid-level (3-7yr) freelance consulting runs
+//    ~$70-110/hr US, £45-70/hr UK (~$58-90 USD), AUD 80-120/hr AU (~$52-78 USD).
+//  - Rendering: exterior/full-scene visualization commonly runs $2-5/sq ft;
+//    interior visualization runs $0.50-2.00/sq ft, with UK/AU/CA running
+//    modestly below US list rates and non-tier-1 markets lower still.
+// ==========================================================================
+
+export const TARGET_MARKETS: TargetMarket[] = [
+  { id: "us", name: "United States", shortName: "US" },
+  { id: "uk", name: "United Kingdom", shortName: "UK" },
+  { id: "au", name: "Australia", shortName: "AU" },
+  { id: "ca", name: "Canada", shortName: "CA" },
+  { id: "international", name: "International / Other", shortName: "Intl" }
+];
+
+export const MARKET_BENCHMARK_RATES: Record<string, MarketBenchmarkRates> = {
+  us: { technicianHourly: 65, inHousePayrollHourly: 115, consultantHourly: 95, exteriorRenderPerSqFt: 4.0, interiorRenderPerSqFt: 1.75 },
+  uk: { technicianHourly: 58, inHousePayrollHourly: 95, consultantHourly: 80, exteriorRenderPerSqFt: 3.5, interiorRenderPerSqFt: 1.5 },
+  au: { technicianHourly: 68, inHousePayrollHourly: 105, consultantHourly: 85, exteriorRenderPerSqFt: 3.75, interiorRenderPerSqFt: 1.6 },
+  ca: { technicianHourly: 55, inHousePayrollHourly: 90, consultantHourly: 78, exteriorRenderPerSqFt: 3.25, interiorRenderPerSqFt: 1.4 },
+  international: { technicianHourly: 45, inHousePayrollHourly: 70, consultantHourly: 60, exteriorRenderPerSqFt: 2.5, interiorRenderPerSqFt: 1.1 }
+};
+
+// Maps the building-code jurisdiction a visitor picks in the Scope Estimator to a target
+// market, so the estimator's savings comparison is geo-aware without a second dropdown.
+export const JURISDICTION_TO_MARKET: Record<string, string> = {
+  us_irc_ibc: "us",
+  us_california: "us",
+  us_florida: "us",
+  us_new_york: "us",
+  uk_eurocode: "uk",
+  canada_nbc: "ca",
+  australia_ncc: "au",
+  international_custom: "international"
+};
+
+// What we actually charge — flat worldwide, a consistent 50-60% below the US benchmark
+// (the highest-demand market researched above), which lands proportionally even deeper
+// below UK/AU/CA/international benchmarks.
+export const OFFERED_RATES = {
+  // BIM/CAD Technician: effective hourly equivalent of the deliverable-driven sheet
+  // pricing in calculator.ts, shown for comparison (~57% off the $65/hr US benchmark).
+  technicianHourlyEquivalent: 28,
+  // Architect Consultant: flat rate (~53% off the $95/hr US benchmark).
+  consultantHourly: 45,
+  // Visualization / Rendering, priced per sq ft of the visualized area.
+  exteriorRenderPerSqFt: 1.75, // ~56% off the $4.00/sq ft US benchmark
+  interiorRenderPerSqFt: 0.75, // ~57% off the $1.75/sq ft US benchmark
+  minExteriorRenderFee: 350,
+  minInteriorRenderFee: 200
+};

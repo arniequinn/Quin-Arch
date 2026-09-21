@@ -1,13 +1,11 @@
 import React from "react";
-import { 
-  Cloud, 
-  Clock4, 
-  DollarSign, 
-  FileCode2, 
-  Zap, 
-  CheckCircle2, 
-  ArrowRight,
-  ShieldCheck
+import {
+  Cloud,
+  DollarSign,
+  FileCode2,
+  Zap,
+  CheckCircle2,
+  ArrowRight
 } from "lucide-react";
 
 interface WorkflowsSectionProps {

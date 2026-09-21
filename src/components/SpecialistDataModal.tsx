@@ -365,6 +365,7 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
                 <input
                   type="number"
                   value={formData.yearsExperience}
+                  onWheel={(e) => e.currentTarget.blur()}
                   onChange={(e) => setFormData({ ...formData, yearsExperience: Number(e.target.value) || 0 })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-950 border border-neutral-700 text-sm text-neutral-100 focus:outline-none focus:border-amber-500 font-mono"
                 />
@@ -377,6 +378,7 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
                 <input
                   type="number"
                   value={formData.completedProjectsCount}
+                  onWheel={(e) => e.currentTarget.blur()}
                   onChange={(e) => setFormData({ ...formData, completedProjectsCount: Number(e.target.value) || 0 })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-950 border border-neutral-700 text-sm text-neutral-100 focus:outline-none focus:border-amber-500 font-mono"
                 />
@@ -389,6 +391,7 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
                 <input
                   type="number"
                   value={formData.baseHourlyRate}
+                  onWheel={(e) => e.currentTarget.blur()}
                   onChange={(e) => setFormData({ ...formData, baseHourlyRate: Number(e.target.value) || 0 })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-neutral-950 border border-neutral-700 text-sm text-neutral-100 focus:outline-none focus:border-amber-500 font-mono"
                 />

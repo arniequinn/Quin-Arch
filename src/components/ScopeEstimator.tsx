@@ -19,6 +19,7 @@ import {
 } from "../data/architecturalData";
 import { calculateScope, ScopeCalculationInput } from "../utils/calculator";
 import { SpecialistProfile } from "../types";
+import { EstimateDisclaimer } from "./EstimateDisclaimer";
 
 interface ScopeEstimatorProps {
   specialist: SpecialistProfile;
@@ -143,7 +144,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-4">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Interactive Architectural Scope & Fee Diagnostic</span>
+            <span>BIM/CAD Technician Track — Interactive Scope & Fee Diagnostic</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-neutral-100 tracking-tight">
             Estimate Your Project Scope, Permit Drawing Set & Fees
@@ -243,6 +244,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                       max={50000}
                       step={50}
                       value={areaSqFt}
+                      onWheel={(e) => e.currentTarget.blur()}
                       onChange={(e) => setAreaSqFt(Math.max(200, Number(e.target.value) || 0))}
                       className="w-28 px-3 py-1.5 rounded-lg bg-neutral-950 border border-neutral-700 text-right font-mono font-bold text-amber-400 text-sm focus:outline-none focus:border-amber-500"
                     />
@@ -349,10 +351,10 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                           : "bg-neutral-950/60 border-neutral-800/80 hover:border-neutral-700 hover:bg-neutral-950"
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-start space-x-3">
+                      <div className="flex items-start justify-between gap-3 flex-wrap sm:flex-nowrap">
+                        <div className="flex items-start space-x-3 min-w-0 flex-1">
                           <div
-                            className={`w-5 h-5 rounded mt-0.5 flex items-center justify-center border transition-all ${
+                            className={`w-5 h-5 rounded mt-0.5 flex items-center justify-center border transition-all shrink-0 ${
                               isChecked
                                 ? "bg-amber-500 border-amber-500 text-neutral-950"
                                 : "border-neutral-700 bg-neutral-900"
@@ -360,8 +362,8 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                           >
                             {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                           </div>
-                          <div>
-                            <div className="flex items-center space-x-2">
+                          <div className="min-w-0">
+                            <div className="flex items-center flex-wrap gap-x-2 gap-y-1">
                               <span className="font-semibold text-sm text-neutral-100">
                                 {service.name}
                               </span>
@@ -375,7 +377,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                               {service.description}
                             </p>
                             {/* Software badges */}
-                            <div className="flex items-center space-x-2 mt-2">
+                            <div className="flex items-center flex-wrap gap-2 mt-2">
                               <span className="text-[11px] text-neutral-500">Tech:</span>
                               {service.softwareUsed.map((sw) => (
                                 <span
@@ -550,27 +552,40 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                 </div>
               </div>
 
-              {/* In-House Cost Comparison & Savings */}
+              {/* In-House Cost Comparison & Savings — only framed as a discount when it honestly is
+                  one; very large/complex/rushed scopes can legitimately land at or above a cheaper
+                  market's in-house benchmark, and the UI should never claim a savings that isn't real */}
               <div className="mt-5 p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20">
                 <div className="flex items-center space-x-2">
                   <TrendingUp className="w-4 h-4 text-amber-400" />
                   <span className="text-xs font-bold text-amber-300">
-                    Client Value vs In-House Drafter
+                    {calculation.hasSavings ? "Client Value vs In-House Drafter" : "Cost Comparison"}
                   </span>
                 </div>
                 <div className="mt-2 text-xs text-neutral-300 space-y-1">
                   <div className="flex justify-between">
-                    <span className="text-neutral-400">Typical in-house firm cost:</span>
-                    <span className="font-mono line-through text-neutral-500">
+                    <span className="text-neutral-400">
+                      Typical in-house cost ({JURISDICTIONS.find((j) => j.id === jurisdictionId)?.name.split(" (")[0] || "US"}):
+                    </span>
+                    <span className={`font-mono ${calculation.hasSavings ? "line-through text-neutral-500" : "text-neutral-300"}`}>
                       ${calculation.inHouseCostEstimate.toLocaleString()}
                     </span>
                   </div>
-                  <div className="flex justify-between font-semibold">
-                    <span className="text-amber-200">Your Estimated Savings:</span>
-                    <span className="font-mono text-amber-400">
-                      ~${calculation.clientSavingsAmount.toLocaleString()} ({calculation.savingsPercentage}%)
-                    </span>
-                  </div>
+                  {calculation.hasSavings ? (
+                    <div className="flex justify-between font-semibold">
+                      <span className="text-amber-200">Your Estimated Savings:</span>
+                      <span className="font-mono text-amber-400">
+                        ~${calculation.clientSavingsAmount.toLocaleString()} ({calculation.savingsPercentage}%)
+                      </span>
+                    </div>
+                  ) : (
+                    <p className="text-[11px] text-neutral-400 pt-1 leading-relaxed">
+                      For this scope, service mix, and timeline, this fee runs close to typical
+                      in-house rates in this market — the value here is guaranteed turnaround and
+                      zero long-term overhead, not a straight discount. A standard timeline or a
+                      smaller service bundle usually costs less.
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -659,10 +674,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                 <span>Sends this exact scope directly to {specialist.name.split(" ")[0]} • No forms</span>
               </div>
 
-              <p className="mt-3 text-center text-[10px] text-neutral-500 leading-relaxed">
-                This is a best-effort estimate, not a binding quote. A firm price and contract are
-                provided once {specialist.name.split(" ")[0]} or the team has reviewed your full project material.
-              </p>
+              <EstimateDisclaimer specialistFirstName={specialist.name.split(" ")[0]} className="mt-4" />
             </div>
 
             {/* Quick Guarantees Card */}
