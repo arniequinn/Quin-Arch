@@ -74,39 +74,40 @@ export const DeliverablesGallery: React.FC = () => {
               INTERACTIVE COMPARISON WORKFLOW
             </span>
             <h3 className="text-xl font-bold text-neutral-100 mt-1">
-              From Rough Schematic Sketch / Redline to Code-Compliant BIM Model
+              From Parametric Script to Photorealistic Render
             </h3>
             <p className="text-xs text-neutral-400 mt-1">
-              Drag the slider below to inspect how preliminary concepts and field redlines are transformed into
-              millimeter-precise BIM assemblies and city permit drawing sheets.
+              Drag the slider below to see the Rhino + Grasshopper facade-pattern definition behind this tower
+              transform into its finished architectural visualization.
             </p>
           </div>
 
-          {/* Slider comparison viewport */}
+          {/* Slider comparison viewport — both images render at the viewport's full, fixed size at
+              all times; only a clip-path on the foreground wrapper changes as the slider moves, so
+              neither image ever resizes or shifts, no matter where the handle is dragged. */}
           <div className="relative w-full h-72 sm:h-96 rounded-xl overflow-hidden select-none border border-neutral-700 bg-neutral-950">
-            {/* Background: Final Stamped CAD Drawing / BIM Render */}
+            {/* Background: finished render, full-size, never clipped */}
             <img
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80"
-              alt="Completed BIM CAD Deliverable"
+              src={assetUrl("/portfolio/bimcad-workflow/12-cube-facade-render.webp")}
+              alt="Finished photorealistic tower facade render"
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute top-4 right-4 z-10 px-3 py-1 rounded bg-neutral-950/80 backdrop-blur-md border border-amber-500/50 text-amber-400 text-xs font-mono font-bold">
-              DELIVERABLE: BIM LOD 350 Model & Permit CAD
+              RENDER: Photorealistic Facade Visualization
             </div>
 
-            {/* Foreground: Preliminary Hand Sketch / Concept (Clipped by slider position) */}
+            {/* Foreground: Grasshopper parametric script, same full size, revealed via clip-path */}
             <div
-              className="absolute inset-y-0 left-0 overflow-hidden"
-              style={{ width: `${sliderPosition}%` }}
+              className="absolute inset-0 overflow-hidden pointer-events-none"
+              style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
             >
               <img
-                src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80"
-                alt="Original Preliminary Concept"
-                className="absolute inset-0 w-full h-full object-cover filter contrast-125 sepia-[0.3]"
-                style={{ width: "100%", minWidth: "100%" }}
+                src={assetUrl("/portfolio/bimcad-workflow/09-diagrid-pattern-script.jpg")}
+                alt="Rhino and Grasshopper parametric facade-pattern script"
+                className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute top-4 left-4 z-10 px-3 py-1 rounded bg-neutral-950/80 backdrop-blur-md border border-neutral-700 text-neutral-300 text-xs font-mono">
-                INPUT: Rough Sketch / Point Cloud Scan
+                SCRIPT: Rhino + Grasshopper Facade Definition
               </div>
             </div>
 
@@ -128,13 +129,13 @@ export const DeliverablesGallery: React.FC = () => {
               value={sliderPosition}
               onChange={(e) => setSliderPosition(Number(e.target.value))}
               className="absolute inset-0 opacity-0 cursor-ew-resize w-full h-full z-20"
-              aria-label="Before and after transformation slider"
+              aria-label="Parametric script to finished render transformation slider"
             />
           </div>
 
           <div className="mt-3 flex items-center justify-between text-xs text-neutral-400 font-mono">
-            <span>◀ Drag Left: Reveal Finished Model</span>
-            <span>Drag Right: Reveal Initial Input ▶</span>
+            <span>◀ Drag Left: Reveal Finished Render</span>
+            <span>Drag Right: Reveal Parametric Script ▶</span>
           </div>
         </div>
 
