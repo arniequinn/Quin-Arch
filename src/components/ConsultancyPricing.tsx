@@ -40,7 +40,7 @@ export const ConsultancyPricing: React.FC<ConsultancyPricingProps> = ({ speciali
           <TrendingDown className="w-3.5 h-3.5" />
           <span>Architect Consultant</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-100 tracking-tight">
+        <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-neutral-100 tracking-tight">
           Hourly Design & Strategy Consulting
         </h2>
         <p className="mt-3 text-sm text-neutral-400 leading-relaxed">

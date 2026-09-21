@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+/* index.html loads Plus Jakarta Sans, Space Grotesk, and JetBrains Mono, but nothing ever wired
+   them into Tailwind's font-sans/font-mono utilities — every element, including all ~80
+   font-mono price/data displays across the estimators, has been silently falling back to the
+   browser's default system font this whole time. */
+@theme {
+  /* Body/UI text sitewide (this is what font-sans, and the unstyled default, resolve to). */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* A distinct, more geometric face for headings only — kept out of body copy so the pairing
+     reads as a deliberate choice rather than one face doing every job. */
+  --font-display: "Space Grotesk", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  /* Tabular figures: prices, sheet numbers, rates — anywhere digits need to line up. */
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* Headings wrap to a balanced last line instead of leaving a stray word or two orphaned. */
+h1, h2, h3 {
+  text-wrap: balance;
+}

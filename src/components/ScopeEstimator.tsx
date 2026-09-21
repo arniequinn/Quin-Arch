@@ -148,7 +148,7 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
             <Sparkles className="w-3.5 h-3.5" />
             <span>BIM/CAD Technician Track — Interactive Scope & Fee Diagnostic</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-neutral-100 tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-neutral-100 tracking-tight">
             Estimate Your Project Scope, Permit Drawing Set & Fees
           </h2>
           <p className="mt-3 text-base text-neutral-400 leading-relaxed">

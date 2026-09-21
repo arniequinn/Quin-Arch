@@ -77,7 +77,7 @@ export const WorkflowsSection: React.FC<WorkflowsSectionProps> = ({ onScrollToEs
           <span className="text-xs font-bold uppercase tracking-wider text-amber-400 font-mono">
             THE REMOTE DIGITAL ADVANTAGE
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-neutral-100 tracking-tight mt-2">
+          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-neutral-100 tracking-tight mt-2">
             Why Architecture Studios & Contractors Outsource Production
           </h2>
           <p className="mt-3 text-sm text-neutral-400 leading-relaxed">

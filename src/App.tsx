@@ -148,7 +148,7 @@ export default function App() {
               </div>
 
               {/* Display Headline targeting long-tail search queries */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-neutral-100 tracking-tight leading-[1.12]">
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-neutral-100 tracking-tight leading-[1.12]">
                 Remote Architectural Visualization, BIM Services & Permit Sets.{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500">
                   Delivered Globally.

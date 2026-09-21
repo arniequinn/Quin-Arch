@@ -133,7 +133,7 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                 )}
 
                 <div>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-100 tracking-tight">
+                  <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-neutral-100 tracking-tight">
                     {specialist.name}
                   </h2>
                   <p className="text-sm text-amber-400 font-medium mt-0.5">

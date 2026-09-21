@@ -49,7 +49,7 @@ export const LODGuide: React.FC = () => {
             <Info className="w-3.5 h-3.5" />
             <span>Understanding BIM Deliverables</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-neutral-100 tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-neutral-100 tracking-tight">
             What is LOD (Level of Development)?
           </h2>
           <p className="mt-3 text-sm text-neutral-400 leading-relaxed">
