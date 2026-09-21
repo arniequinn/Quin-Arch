@@ -1,17 +1,29 @@
 @import "tailwindcss";
 
-/* index.html loads Plus Jakarta Sans, Space Grotesk, and JetBrains Mono, but nothing ever wired
-   them into Tailwind's font-sans/font-mono utilities — every element, including all ~80
-   font-mono price/data displays across the estimators, has been silently falling back to the
-   browser's default system font this whole time. */
+/* index.html loads DM Sans, Cormorant Garamond, and JetBrains Mono, wired into Tailwind's
+   font-sans/font-display/font-mono utilities below. */
 @theme {
   /* Body/UI text sitewide (this is what font-sans, and the unstyled default, resolve to). */
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  /* A distinct, more geometric face for headings only — kept out of body copy so the pairing
-     reads as a deliberate choice rather than one face doing every job. */
-  --font-display: "Space Grotesk", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* An editorial serif for headings only — kept out of body copy so the pairing reads as a
+     deliberate choice rather than one face doing every job. */
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   /* Tabular figures: prices, sheet numbers, rates — anywhere digits need to line up. */
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Brass accent, replacing stock Tailwind amber sitewide — every amber-* utility already in
+     use (buttons, borders, highlighted text) retints through this without touching call sites. */
+  --color-amber-50: #FAF6ED;
+  --color-amber-100: #F3EAD3;
+  --color-amber-200: #E9D9AF;
+  --color-amber-300: #DCC28A;
+  --color-amber-400: #CEAA5F;
+  --color-amber-500: #B5904A;
+  --color-amber-600: #96762F;
+  --color-amber-700: #785E29;
+  --color-amber-800: #5A4620;
+  --color-amber-900: #3D2F16;
+  --color-amber-950: #241C0D;
 }
 
 /* Headings wrap to a balanced last line instead of leaving a stray word or two orphaned. */

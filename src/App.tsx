@@ -19,7 +19,7 @@ import { DeliverablesGallery } from "./components/DeliverablesGallery";
 import { WorkflowsSection } from "./components/WorkflowsSection";
 import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
 import { SpecialistDataModal } from "./components/SpecialistDataModal";
-import { DEFAULT_SPECIALIST_PROFILE, BIMCAD_WORKFLOW_IMAGES, VISUALIZATION_SHOWCASE_IMAGES } from "./data/architecturalData";
+import { DEFAULT_SPECIALIST_PROFILE, BIMCAD_WORKFLOW_IMAGES, VISUALIZATION_SHOWCASE_IMAGES, EXTERIOR_SHOWCASE_IMAGES } from "./data/architecturalData";
 import { SpecialistProfile } from "./types";
 import { isOwnerAuthorized } from "./services/ownerAuth";
 
@@ -232,7 +232,10 @@ export default function App() {
         <CombinedPricingSection specialist={specialist} />
 
         {/* Breathing-space divider: finished-render slideshow, following Visualization */}
-        <ImageSlideshowBand images={VISUALIZATION_SHOWCASE_IMAGES} imagesPerCard={1} title="Renderings & Past Work" />
+        <ImageSlideshowBand images={VISUALIZATION_SHOWCASE_IMAGES} imagesPerCard={1} title="Interior Visualization" />
+
+        {/* Breathing-space divider: exterior renders & facade studies, distinct from interiors above */}
+        <ImageSlideshowBand images={EXTERIOR_SHOWCASE_IMAGES} imagesPerCard={1} title="Exterior Visualization" />
 
         {/* 5. BIM/CAD Technician — the Scope Estimator, plain section */}
         <div id="bim-cad" className="scroll-mt-16">
@@ -241,7 +244,7 @@ export default function App() {
 
         {/* Breathing-space divider: real BIM/CAD production screenshots, following BIM/CAD —
             paired two-up since these screenshots are wide */}
-        <ImageSlideshowBand images={BIMCAD_WORKFLOW_IMAGES} imagesPerCard={2} title="BIM/CAD Production Workflow" />
+        <ImageSlideshowBand images={BIMCAD_WORKFLOW_IMAGES} imagesPerCard={2} title="BIM / CAD Workflow" />
 
         {/* 6. Educational: What LOD means and what's actually included — after the BIM slideshow */}
         <LODGuide />

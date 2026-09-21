@@ -24,7 +24,7 @@ export interface ServiceOption {
   id: string;
   name: string;
   shortName: string;
-  category: "Drafting" | "BIM" | "Documentation" | "Visualization" | "Coordination";
+  category: "Virtual Design & Construction";
   description: string;
   standardTurnaroundDays: number;
   softwareUsed: string[];

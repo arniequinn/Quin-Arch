@@ -323,6 +323,14 @@ export const VISUALIZATION_SHOWCASE_IMAGES: TrackImage[] = [
   { src: assetUrl("/portfolio/visualization-showcase/05-classical-dining.jpg"), aspect: "wide" }
 ];
 
+// Finished exterior renders and facade studies — a distinct slideshow band from the interior
+// showcase above, surfacing massing/facade work that isn't shown anywhere else on the site.
+export const EXTERIOR_SHOWCASE_IMAGES: TrackImage[] = [
+  { src: assetUrl("/portfolio/barn-residence-vray.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/bimcad-workflow/11-facade-closeup-render.webp"), aspect: "wide" },
+  { src: assetUrl("/portfolio/bimcad-workflow/12-cube-facade-render.webp"), aspect: "wide" }
+];
+
 export const JURISDICTIONS = [
   { id: "us_irc_ibc", name: "USA - International Building / Residential Code (IBC / IRC)", standard: "IBC 2024 / IRC 2024" },
   { id: "us_california", name: "California (CBC / CRC / Title 24 Energy / LADBS)", standard: "California Code of Regulations Title 24" },
