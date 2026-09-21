@@ -70,14 +70,6 @@ export default function App() {
     }
   };
 
-  // Smooth scroll to any of the three pricing track sections
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans selection:bg-amber-500 selection:text-neutral-950 flex flex-col justify-between">
 
@@ -134,13 +126,12 @@ export default function App() {
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => scrollToSection("gallery")}
+                <a
+                  href={`${import.meta.env.BASE_URL}services/`}
                   className="flex items-center space-x-2 px-6 py-3.5 rounded border border-neutral-700 text-neutral-300 text-sm hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer"
                 >
-                  <span>View Selected Work</span>
-                </button>
+                  <span>View Services</span>
+                </a>
               </div>
 
               {/* Direct contact — present, but de-emphasized relative to the primary action */}
