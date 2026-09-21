@@ -1,5 +1,5 @@
-import React from "react";
-import { Compass, MessageSquare, Linkedin } from "lucide-react";
+import React, { useState } from "react";
+import { Compass, MessageSquare, Linkedin, Menu, X } from "lucide-react";
 import { SpecialistProfile } from "../types";
 
 interface NavbarProps {
@@ -15,6 +15,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onScrollToEstimator,
   isHomePage = true,
 }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const homeAnchor = (hash: string) =>
     isHomePage ? hash : `${import.meta.env.BASE_URL}${hash}`;
 
@@ -119,8 +121,93 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             Scope Planner
           </button>
+
+          {/* Mobile/tablet nav toggle — the full <nav> above is xl-only, so this is the only
+              way to reach Services, Case Studies, etc. below that breakpoint. */}
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
+            aria-expanded={isMobileMenuOpen}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            className="xl:hidden p-2 -mr-1 rounded-md text-neutral-400 hover:text-neutral-100 hover:bg-neutral-900 transition-colors cursor-pointer"
+          >
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile/tablet nav panel */}
+      {isMobileMenuOpen && (
+        <nav className="xl:hidden border-t border-neutral-800/60 bg-neutral-950/98 backdrop-blur-md px-4 sm:px-6 py-4 flex flex-col space-y-1 text-sm font-medium text-neutral-300">
+          <a
+            href={`${import.meta.env.BASE_URL}services/`}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="py-2.5 hover:text-amber-400 transition-colors"
+          >
+            Services
+          </a>
+          <a
+            href={`${import.meta.env.BASE_URL}case-studies/`}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="py-2.5 hover:text-amber-400 transition-colors"
+          >
+            Case Studies
+          </a>
+          <a
+            href={homeAnchor("#estimator")}
+            onClick={(e) => {
+              setIsMobileMenuOpen(false);
+              if (isHomePage) { e.preventDefault(); onScrollToEstimator(); }
+            }}
+            className="py-2.5 hover:text-amber-400 transition-colors"
+          >
+            Scope Planner
+          </a>
+          <a
+            href={homeAnchor("#deliverables")}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="py-2.5 hover:text-amber-400 transition-colors"
+          >
+            Construction Documentation
+          </a>
+          <a
+            href={homeAnchor("#workflows")}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="py-2.5 hover:text-amber-400 transition-colors"
+          >
+            Delivery Process
+          </a>
+          <a
+            href={homeAnchor("#specialist")}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="py-2.5 hover:text-amber-400 transition-colors"
+          >
+            Principal Architect
+          </a>
+          {specialist.whatsapp && (
+            <a
+              href={`https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
+                "Hi Arslan, I found your architectural portfolio and would like to discuss a project."
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2.5 border-t border-neutral-800/60 mt-1 pt-3.5 flex items-center space-x-2 hover:text-emerald-400 transition-colors"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>WhatsApp</span>
+            </a>
+          )}
+          <a
+            href={specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="py-2.5 flex items-center space-x-2 hover:text-sky-400 transition-colors"
+          >
+            <Linkedin className="w-4 h-4" />
+            <span>LinkedIn</span>
+          </a>
+        </nav>
+      )}
     </header>
   );
 };
