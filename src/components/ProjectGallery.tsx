@@ -9,6 +9,7 @@ export interface ImageGroup {
 
 interface ProjectGalleryProps {
   groups: ImageGroup[];
+  id?: string;
 }
 
 const AUTOPLAY_MS = 6000;
@@ -18,7 +19,7 @@ const FADE_MS = 700;
 // bands (interior renders, exterior renders, BIM/CAD production screenshots) with one
 // mechanism: category tabs switch the set, arrows/dots/keyboard let a visitor hold on any
 // image as long as they want, and autoplay pauses on hover or the moment someone interacts.
-export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ groups }) => {
+export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ groups, id }) => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -52,7 +53,7 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ groups }) => {
 
   return (
     <section
-      id="gallery"
+      id={id}
       className="relative bg-neutral-950 border-t border-neutral-900 py-12 sm:py-16"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}

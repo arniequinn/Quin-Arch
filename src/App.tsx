@@ -212,27 +212,34 @@ export default function App() {
         {/* 2. Value Proposition: Remote Delivery Advantage & Engagement Models */}
         <WorkflowsSection onScrollToEstimator={scrollToEstimator} />
 
-        {/* 3. Concrete Proof: Technical Deliverables & Before/After Gallery */}
+        {/* 3. Concrete Proof: Technical Deliverables Gallery */}
         <DeliverablesGallery />
 
-        {/* 4. Architect Consultant + Visualization, side by side */}
-        <CombinedPricingSection specialist={specialist} />
-
-        {/* One navigable gallery covering interior renders, exterior renders, and BIM/CAD
-            production screenshots — category tabs switch the set instead of stacking three
-            separate auto-cycling full-viewport bands down the page. */}
+        {/* Navigable gallery of finished renders — replaces the old before/after script/render
+            slider with the full interior + exterior visualization sets. */}
         <ProjectGallery
+          id="gallery"
           groups={[
             { label: "Interior Visualization", images: VISUALIZATION_SHOWCASE_IMAGES },
             { label: "Exterior Visualization", images: EXTERIOR_SHOWCASE_IMAGES },
-            { label: "BIM / CAD Workflow", images: BIMCAD_WORKFLOW_IMAGES },
           ]}
         />
+
+        {/* 4. Architect Consultant + Visualization, side by side */}
+        <CombinedPricingSection specialist={specialist} />
 
         {/* 5. BIM/CAD Technician — the Scope Estimator, plain section */}
         <div id="bim-cad" className="scroll-mt-16">
           <ScopeEstimator specialist={specialist} />
         </div>
+
+        {/* Real BIM/CAD production screenshots, immediately before the LOD breakdown they
+            substantiate. */}
+        <ProjectGallery
+          groups={[
+            { label: "BIM / CAD Workflow", images: BIMCAD_WORKFLOW_IMAGES },
+          ]}
+        />
 
         {/* 6. Educational: What LOD means and what's actually included */}
         <LODGuide />

@@ -5,7 +5,6 @@ import {
   ExternalLink,
   Layers,
   Check,
-  Sliders,
   FileText,
   X,
   Download,
@@ -19,9 +18,6 @@ import { assetUrl } from "../utils/assetPath";
 export const DeliverablesGallery: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
-
-  // Before & After comparison slider position (0-100%)
-  const [sliderPosition, setSliderPosition] = useState<number>(50);
 
   const categories = [
     "All",
@@ -64,78 +60,6 @@ export const DeliverablesGallery: React.FC = () => {
               <FileText className="w-4 h-4 text-amber-400" />
               <span>Open Master Architectural Portfolio (PDF)</span>
             </a>
-          </div>
-        </div>
-
-        {/* Interactive Before & After Highlight Feature */}
-        <div className="mb-14 p-6 sm:p-8 rounded-2xl bg-neutral-900/90 border border-neutral-800 shadow-xl overflow-hidden relative">
-          <div className="max-w-3xl mb-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-400 font-mono">
-              INTERACTIVE COMPARISON WORKFLOW
-            </span>
-            <h3 className="text-xl font-bold text-neutral-100 mt-1">
-              From Parametric Script to Photorealistic Render
-            </h3>
-            <p className="text-xs text-neutral-400 mt-1">
-              Drag the slider below to see the Rhino + Grasshopper facade-pattern definition behind this tower
-              transform into its finished architectural visualization.
-            </p>
-          </div>
-
-          {/* Slider comparison viewport — both images render at the viewport's full, fixed size at
-              all times; only a clip-path on the foreground wrapper changes as the slider moves, so
-              neither image ever resizes or shifts, no matter where the handle is dragged. */}
-          <div className="relative w-full h-72 sm:h-96 rounded-xl overflow-hidden select-none border border-neutral-700 bg-neutral-950">
-            {/* Background: finished render, full-size, never clipped */}
-            <img
-              src={assetUrl("/portfolio/bimcad-workflow/12-cube-facade-render.webp")}
-              alt="Finished photorealistic tower facade render"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute top-4 right-4 z-10 px-3 py-1 rounded bg-neutral-950/80 backdrop-blur-md border border-amber-500/50 text-amber-400 text-xs font-mono font-bold">
-              RENDER: Photorealistic Facade Visualization
-            </div>
-
-            {/* Foreground: Grasshopper parametric script, same full size, revealed via clip-path */}
-            <div
-              className="absolute inset-0 overflow-hidden pointer-events-none"
-              style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
-            >
-              <img
-                src={assetUrl("/portfolio/bimcad-workflow/06-facade-paneling-script.jpg")}
-                alt="Rhino and Grasshopper parametric facade-pattern script"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute top-4 left-4 z-10 px-3 py-1 rounded bg-neutral-950/80 backdrop-blur-md border border-neutral-700 text-neutral-300 text-xs font-mono">
-                SCRIPT: Rhino + Grasshopper Facade Definition
-              </div>
-            </div>
-
-            {/* Divider Line & Handle */}
-            <div
-              className="absolute inset-y-0 w-1 bg-amber-400 shadow-lg cursor-ew-resize flex items-center justify-center pointer-events-none"
-              style={{ left: `${sliderPosition}%` }}
-            >
-              <div className="w-8 h-8 rounded-full bg-amber-500 text-neutral-950 flex items-center justify-center font-bold text-xs shadow-md border-2 border-neutral-950">
-                <Sliders className="w-4 h-4" />
-              </div>
-            </div>
-
-            {/* Invisible Range Input for Smooth Dragging */}
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={sliderPosition}
-              onChange={(e) => setSliderPosition(Number(e.target.value))}
-              className="absolute inset-0 opacity-0 cursor-ew-resize w-full h-full z-20"
-              aria-label="Parametric script to finished render transformation slider"
-            />
-          </div>
-
-          <div className="mt-3 flex items-center justify-between text-xs text-neutral-400 font-mono">
-            <span>◀ Drag Left: Reveal Finished Render</span>
-            <span>Drag Right: Reveal Parametric Script ▶</span>
           </div>
         </div>
 
