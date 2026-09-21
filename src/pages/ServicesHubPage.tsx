@@ -34,8 +34,8 @@ export const ServicesHubPage: React.FC = () => {
       title: "Architect Consultant",
       description:
         "Design coordination, code-compliance review, and computational/parametric consulting for studios and contractors who need a second set of expert eyes.",
-      href: `${base}#consultancy`,
-      cta: "View Pricing",
+      href: `${base}services/consultancy/`,
+      cta: "View Service Details",
     },
   ];
 

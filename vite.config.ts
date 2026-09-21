@@ -26,6 +26,7 @@ export default defineConfig(() => {
           servicesHub: path.resolve(__dirname, 'services/index.html'),
           servicesVisualization: path.resolve(__dirname, 'services/visualization/index.html'),
           servicesBimCad: path.resolve(__dirname, 'services/bim-cad-drafting/index.html'),
+          servicesConsultancy: path.resolve(__dirname, 'services/consultancy/index.html'),
         },
       },
     },
