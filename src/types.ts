@@ -38,6 +38,14 @@ export interface DrawingSheet {
   bimLOD?: string;
 }
 
+// Reference per-sq-ft rate for one service line item in the estimator — display-only, not an
+// editable input. offeredPerSqFt is derived from the same LOD-tier base pricing calculator.ts
+// uses; marketPerSqFt is the researched industry-standard rate it's discounted against.
+export interface ServiceRateInfo {
+  offeredPerSqFt: number;
+  marketPerSqFt: number;
+}
+
 // One image in a track's background collage. "wide" renders full-width in its own row;
 // "tall" images are slim enough to pair up two-across with another "tall" image.
 export interface TrackImage {

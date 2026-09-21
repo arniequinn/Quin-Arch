@@ -8,14 +8,16 @@ import {
   Mail,
   ShieldAlert,
   Sparkles,
-  TrendingUp
+  TrendingUp,
+  Info
 } from "lucide-react";
 import {
   PROJECT_TYPES,
   SERVICE_OPTIONS,
   JURISDICTIONS,
   PROJECT_STAGES,
-  TIMELINE_OPTIONS
+  TIMELINE_OPTIONS,
+  SERVICE_RATE_PER_SQFT
 } from "../data/architecturalData";
 import { calculateScope, ScopeCalculationInput } from "../utils/calculator";
 import { SpecialistProfile } from "../types";
@@ -392,6 +394,16 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                         </div>
 
                         <div className="text-right shrink-0">
+                          {SERVICE_RATE_PER_SQFT[service.id] && (
+                            <div className="mb-1.5">
+                              <div className="text-sm font-mono font-extrabold text-amber-400">
+                                ${SERVICE_RATE_PER_SQFT[service.id].offeredPerSqFt.toFixed(2)}/sq ft
+                              </div>
+                              <div className="text-[10px] font-mono text-neutral-500 line-through">
+                                ${SERVICE_RATE_PER_SQFT[service.id].marketPerSqFt.toFixed(2)}/sq ft
+                              </div>
+                            </div>
+                          )}
                           <span className="text-xs font-mono font-semibold text-neutral-300">
                             ~{service.standardTurnaroundDays}d turnaround
                           </span>
@@ -400,6 +412,17 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                     </div>
                   );
                 })}
+              </div>
+
+              <div className="mt-4 flex items-start space-x-2 px-3.5 py-2.5 rounded-xl bg-neutral-950/60 border border-neutral-800">
+                <Info className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                <p className="text-[11px] text-neutral-400 leading-relaxed">
+                  Rates shown are industry-standard reference pricing offered at a significant
+                  discount — they're fixed, not editable, and aren't simply additive across
+                  multiple services (the live estimate below already accounts for the overlap
+                  between bundled deliverables). {specialist.name.split(" ")[0]} alone has final
+                  say on actual rates for a given project.
+                </p>
               </div>
             </div>
 

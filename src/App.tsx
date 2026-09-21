@@ -6,7 +6,10 @@ import {
   MessageSquare,
   Mail,
   Linkedin,
-  TrendingDown
+  TrendingDown,
+  UserCheck,
+  Image as ImageIcon,
+  Layers
 } from "lucide-react";
 import { Navbar } from "./components/Navbar";
 import { HeroBackgroundVideo } from "./components/HeroBackgroundVideo";
@@ -104,34 +107,42 @@ export default function App() {
             <div className="max-w-3xl">
 
               {/* Badges Bar: Service scope */}
-              <div className="flex flex-wrap items-center gap-2.5 mb-4">
+              <div className="flex flex-wrap items-center gap-2.5 mb-5">
                 <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
                   <Compass className="w-3.5 h-3.5" />
                   <span>Remote Architectural Visualization • BIM LOD 200–350 • CAD Permitting</span>
                 </div>
+                <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-amber-500 text-neutral-950 text-xs font-extrabold shadow-md shadow-amber-500/20">
+                  Design Engineering &amp; Pre-Construction
+                </div>
               </div>
 
-              {/* Quick jump to each pricing track — kept low-key, not competing with the main CTA */}
-              <div className="flex flex-wrap items-center gap-2 mb-6 text-xs">
+              {/* Quick jump to each pricing track — bold, high-contrast buttons, not competing
+                  with the main CTA in size but clearly readable and tappable */}
+              <div className="flex flex-wrap items-center gap-2.5 mb-6">
+                <span className="text-xs font-semibold text-neutral-400 mr-0.5">Explore:</span>
                 <button
                   type="button"
                   onClick={() => scrollToSection("consultancy")}
-                  className="px-3 py-1.5 rounded-full border border-neutral-700/80 bg-neutral-900/50 text-neutral-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-lg border-2 border-neutral-600 bg-neutral-800 text-neutral-100 text-sm font-bold hover:bg-amber-500 hover:text-neutral-950 hover:border-amber-500 transition-all shadow-sm cursor-pointer flex items-center gap-1.5"
                 >
+                  <UserCheck className="w-4 h-4" />
                   Consultancy
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToSection("visualization")}
-                  className="px-3 py-1.5 rounded-full border border-neutral-700/80 bg-neutral-900/50 text-neutral-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-lg border-2 border-neutral-600 bg-neutral-800 text-neutral-100 text-sm font-bold hover:bg-amber-500 hover:text-neutral-950 hover:border-amber-500 transition-all shadow-sm cursor-pointer flex items-center gap-1.5"
                 >
+                  <ImageIcon className="w-4 h-4" />
                   Visualization
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToSection("bim-cad")}
-                  className="px-3 py-1.5 rounded-full border border-neutral-700/80 bg-neutral-900/50 text-neutral-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-lg border-2 border-neutral-600 bg-neutral-800 text-neutral-100 text-sm font-bold hover:bg-amber-500 hover:text-neutral-950 hover:border-amber-500 transition-all shadow-sm cursor-pointer flex items-center gap-1.5"
                 >
+                  <Layers className="w-4 h-4" />
                   BIM/CAD
                 </button>
               </div>

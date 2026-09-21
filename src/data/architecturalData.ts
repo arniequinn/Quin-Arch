@@ -1,4 +1,4 @@
-import { ProjectTypeOption, ServiceOption, PortfolioItem, SpecialistProfile, TargetMarket, MarketBenchmarkRates, TrackImage } from "../types";
+import { ProjectTypeOption, ServiceOption, PortfolioItem, SpecialistProfile, TargetMarket, MarketBenchmarkRates, TrackImage, ServiceRateInfo } from "../types";
 import { assetUrl } from "../utils/assetPath";
 
 export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
@@ -133,7 +133,7 @@ export const PROJECT_TYPES: ProjectTypeOption[] = [
     defaultSqFt: 3000,
     baseComplexity: 0.75,
     baseSheets: 8,
-    description: "Converting PDF scans, hand sketches, Matterport surveys, or 3D point-cloud files into clean, editable AutoCAD and BIM files.",
+    description: "Converting PDF scans and hand sketches into clean, editable AutoCAD and BIM files.",
     badge: "Digital Twin",
     image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80"
   }
@@ -189,18 +189,30 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     standardTurnaroundDays: 5,
     softwareUsed: ["Navisworks Manage", "3D BIM Software", "AutoCAD MEP"],
     popular: false
-  },
-  {
-    id: "as_built_conversion_service",
-    name: "Matterport / Scan to BIM / As-Built CAD",
-    shortName: "As-Built Conversion",
-    category: "Drafting",
-    description: "Transforming 3D point clouds (E57, LAS), matterport virtual tours, or hand-measured redlines into clean, layered, editable 2D DWG and 3D BIM models.",
-    standardTurnaroundDays: 4,
-    softwareUsed: ["3D BIM Software", "AutoCAD", "CloudCompare"],
-    popular: false
   }
 ];
+
+// Reference per-sq-ft rates shown next to each service in Step 2 of the estimator — informational
+// only, not editable, and not simply additive (selecting three services doesn't cost 3x the rate;
+// the live estimate above already accounts for the overlap between bundled deliverables).
+//
+// Derived from the same LOD-tier base pricing calculator.ts uses (LOD_BASE_PRICE), at the
+// reference project (Custom Single-Family Home: 2,800 sq ft / 14 sheets = 200 sq ft per sheet,
+// so $/sq ft for a tier = LOD_BASE_PRICE / 200):
+//   LOD 100 -> $0.88/sq ft   LOD 200 -> $1.30/sq ft   LOD 300 -> $1.70/sq ft   LOD 350 -> $2.30/sq ft
+// Each service is mapped to the LOD tier(s) its sheets fall under: permit drawings blend LOD
+// 200-300 (site/floor/elevation work), BIM modeling blends the full LOD 200-350 range, and
+// construction docs / millwork / MEP coordination are LOD 350 detail-and-coordination work, with
+// MEP coordination priced lighter since it's an overlay/review pass rather than full sheet
+// production. marketPerSqFt is the researched industry-standard rate these are discounted off —
+// consistently in the same ~53-55% range as every other track on this site.
+export const SERVICE_RATE_PER_SQFT: Record<string, ServiceRateInfo> = {
+  permit_drawings: { offeredPerSqFt: 1.50, marketPerSqFt: 3.25 },
+  bim_modeling: { offeredPerSqFt: 1.75, marketPerSqFt: 3.75 },
+  construction_docs: { offeredPerSqFt: 2.25, marketPerSqFt: 5.00 },
+  millwork_shop_drawings: { offeredPerSqFt: 2.00, marketPerSqFt: 4.25 },
+  mep_structural_coordination: { offeredPerSqFt: 1.25, marketPerSqFt: 2.75 }
+};
 
 export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
   {
