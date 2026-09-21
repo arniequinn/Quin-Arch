@@ -113,8 +113,8 @@ export const ConsultancyPricing: React.FC<ConsultancyPricingProps> = ({ speciali
               ${consulting.marketFee.toLocaleString()}
             </span>
           </div>
-          <p className="text-[11px] text-amber-400 font-semibold mt-1">
-            Save ~{consulting.savingsPercentage}% vs typical {marketLabel} rate (${market.consultantHourly}/hr)
+          <p className="text-[11px] text-neutral-500 mt-1">
+            Typical {marketLabel} rate: ${market.consultantHourly}/hr
           </p>
         </div>
 

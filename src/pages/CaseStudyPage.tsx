@@ -83,7 +83,7 @@ export const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ sample, specialist
                 <div className="flex items-center space-x-1.5 text-amber-400 mb-2">
                   <Star className="w-4 h-4 fill-amber-400" />
                   <span className="text-xs font-bold text-neutral-300 uppercase tracking-wide">
-                    {sample.clientReview.platform} Client Review
+                    Client Review
                   </span>
                 </div>
                 <p className="text-sm text-neutral-200 italic leading-relaxed">

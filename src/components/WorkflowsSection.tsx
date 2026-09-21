@@ -16,9 +16,9 @@ export const WorkflowsSection: React.FC<WorkflowsSectionProps> = ({ onScrollToEs
   const benefits = [
     {
       icon: DollarSign,
-      title: "60% - 70% Production Cost Reduction",
+      title: "Senior Capacity, No Overhead Hire",
       description:
-        "Eliminate the $85,000 - $110,000/year overhead of in-house full-time drafting staff, healthcare benefits, and costly Autodesk software workstation subscriptions. Pay only for the exact drawing sheets and BIM models you need.",
+        "Add drafting and BIM capacity exactly when a project needs it, without the lead time, payroll commitment, or software licensing of an in-house hire. Pay only for the exact drawing sheets and BIM models you need.",
     },
     {
       icon: Zap,
@@ -43,7 +43,7 @@ export const WorkflowsSection: React.FC<WorkflowsSectionProps> = ({ onScrollToEs
   const engagementModels = [
     {
       title: "Per-Project / Turnkey Fixed Price",
-      bestFor: "Developers, Builders & Homeowners",
+      bestFor: "Developers & Builders",
       description: "A single guaranteed fixed fee for the entire drawing set from schematic draft to final permit approval.",
       features: [
         "Fixed milestone-based pricing",

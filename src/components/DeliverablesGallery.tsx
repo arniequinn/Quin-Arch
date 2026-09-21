@@ -156,7 +156,7 @@ export const DeliverablesGallery: React.FC = () => {
                       <div>
                         <p className="italic text-neutral-300">"{sample.clientReview.quote}"</p>
                         <span className="text-[10px] text-amber-400/80 font-mono mt-0.5 block">
-                          Verified Client Review via {sample.clientReview.platform}
+                          Verified Client Review
                         </span>
                       </div>
                     </div>
@@ -323,7 +323,7 @@ export const DeliverablesGallery: React.FC = () => {
                       <div className="flex items-center space-x-1 text-amber-400">
                         <Star className="w-3.5 h-3.5 fill-amber-400" />
                         <span className="font-bold text-neutral-200">
-                          {selectedItem.clientReview.platform} Feedback
+                          Client Feedback
                         </span>
                       </div>
                       <p className="italic text-neutral-300">

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Globe2, Image as ImageIcon, MessageSquare, Mail, TrendingDown } from "lucide-react";
-import { TARGET_MARKETS, MARKET_BENCHMARK_RATES, OFFERED_RATES } from "../data/architecturalData";
+import { TARGET_MARKETS, OFFERED_RATES } from "../data/architecturalData";
 import { calculateVisualizationFee, RenderType } from "../utils/pricingTracks";
 import { SpecialistProfile } from "../types";
 import { EstimateDisclaimer } from "./EstimateDisclaimer";
@@ -14,7 +14,6 @@ export const VisualizationPricing: React.FC<VisualizationPricingProps> = ({ spec
   const [renderArea, setRenderArea] = useState<number>(1200);
   const [renderType, setRenderType] = useState<RenderType>("interior");
 
-  const market = MARKET_BENCHMARK_RATES[targetMarketId] ?? MARKET_BENCHMARK_RATES.us;
   const marketLabel = TARGET_MARKETS.find((m) => m.id === targetMarketId)?.name ?? "United States";
 
   const visualization = useMemo(
@@ -131,8 +130,8 @@ export const VisualizationPricing: React.FC<VisualizationPricingProps> = ({ spec
               ${visualization.marketFee.toLocaleString()}
             </span>
           </div>
-          <p className="text-[11px] text-amber-400 font-semibold mt-1">
-            Save ~{visualization.savingsPercentage}% vs typical {marketLabel} rate
+          <p className="text-[11px] text-neutral-500 mt-1">
+            Typical {marketLabel} rate: ${visualization.marketFee.toLocaleString()}
           </p>
         </div>
 
