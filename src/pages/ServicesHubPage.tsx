@@ -18,8 +18,8 @@ export const ServicesHubPage: React.FC = () => {
       title: "BIM / CAD Drafting & Construction Documentation",
       description:
         "3D BIM modeling (LOD 100–400), parametric coordination, and full municipal permit drawing sets across IBC / IRC / CBC jurisdictions.",
-      href: `${base}#bim-cad`,
-      cta: "View Scope Estimator",
+      href: `${base}services/bim-cad-drafting/`,
+      cta: "View Service Details",
     },
     {
       icon: ImageIcon,
