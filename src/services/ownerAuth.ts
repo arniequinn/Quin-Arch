@@ -1,5 +1,12 @@
 export const OWNER_EMAIL = "arslan.qaiser1991@gmail.com";
 
+// NOTE: This is NOT a real access control boundary. This is a static site with
+// no backend, so these passkeys ship in plaintext in the client JS bundle and
+// are trivially readable via view-source or devtools. This gate only decides
+// whether SpecialistDataModal writes to the visitor's own browser localStorage
+// (archscope_specialist_profile_v4) — it does not protect any shared/server-side
+// data, so bypassing it only lets someone change what they personally see
+// locally. Treated as an acceptable low-risk speed bump, not real security.
 // Accepted owner master passkeys (case-insensitive)
 const ACCEPTED_PASSKEYS = [
   "quinarch1991",
