@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
-  Compass,
   ArrowRight,
   MessageSquare,
   Mail,
   Linkedin
 } from "lucide-react";
 import { Navbar } from "./components/Navbar";
+import { Footer } from "./components/Footer";
 import { HeroBackgroundVideo } from "./components/HeroBackgroundVideo";
 import { ScopeEstimator } from "./components/ScopeEstimator";
 import { LODGuide } from "./components/LODGuide";
@@ -16,34 +16,14 @@ import { DeliverablesGallery } from "./components/DeliverablesGallery";
 import { WorkflowsSection } from "./components/WorkflowsSection";
 import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
 import { SpecialistDataModal } from "./components/SpecialistDataModal";
-import { DEFAULT_SPECIALIST_PROFILE, BIMCAD_WORKFLOW_IMAGES, VISUALIZATION_SHOWCASE_IMAGES, EXTERIOR_SHOWCASE_IMAGES } from "./data/architecturalData";
+import { BIMCAD_WORKFLOW_IMAGES, VISUALIZATION_SHOWCASE_IMAGES, EXTERIOR_SHOWCASE_IMAGES } from "./data/architecturalData";
 import { SpecialistProfile } from "./types";
 import { isOwnerAuthorized } from "./services/ownerAuth";
+import { loadSpecialistProfile, SPECIALIST_PROFILE_STORAGE_KEY } from "./services/specialistProfile";
 
 export default function App() {
   // Specialist Profile state (persisted locally in this browser only)
-  const [specialist, setSpecialist] = useState<SpecialistProfile>(() => {
-    const saved = localStorage.getItem("archscope_specialist_profile_v4");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        return {
-          ...DEFAULT_SPECIALIST_PROFILE,
-          ...parsed,
-          phone: "+92 322 4316477",
-          whatsapp: "+923224316477",
-          socials: {
-            ...DEFAULT_SPECIALIST_PROFILE.socials,
-            ...(parsed.socials || {}),
-            linkedin: parsed.socials?.linkedin || DEFAULT_SPECIALIST_PROFILE.socials.linkedin
-          }
-        };
-      } catch (e) {
-        console.error("Failed to parse saved specialist profile:", e);
-      }
-    }
-    return DEFAULT_SPECIALIST_PROFILE;
-  });
+  const [specialist, setSpecialist] = useState<SpecialistProfile>(loadSpecialistProfile);
 
   const [isSpecialistEditorOpen, setIsSpecialistEditorOpen] = useState(false);
 
@@ -54,7 +34,7 @@ export default function App() {
       return;
     }
     setSpecialist(updated);
-    localStorage.setItem("archscope_specialist_profile_v4", JSON.stringify(updated));
+    localStorage.setItem(SPECIALIST_PROFILE_STORAGE_KEY, JSON.stringify(updated));
   };
 
   // Owner-only entry point for the profile editor — deliberately absent from all public chrome
@@ -68,6 +48,18 @@ export default function App() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // The browser's native scroll-to-#hash-on-load fires before this SPA has mounted anything
+  // into #root, so a fresh navigation here from another page (e.g. a service page's "Scope
+  // Estimator" link) lands at the top instead of the anchor. Retry once mounted.
+  useEffect(() => {
+    if (window.location.hash) {
+      const el = document.getElementById(window.location.hash.slice(1));
+      if (el) {
+        el.scrollIntoView({ behavior: "auto" });
+      }
+    }
   }, []);
 
   // Smooth scroll to estimator
@@ -246,118 +238,7 @@ export default function App() {
 
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-neutral-900 bg-neutral-950 py-12 text-xs text-neutral-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center space-x-3">
-              {specialist.logoUrl ? (
-                <img
-                  src={specialist.logoUrl}
-                  alt={specialist.brandName || specialist.name}
-                  className="w-9 h-9 object-contain rounded-lg bg-neutral-900 p-1 border border-neutral-800"
-                />
-              ) : (
-                <Compass className="w-5 h-5 text-amber-500" />
-              )}
-              <div>
-                <span className="font-bold text-neutral-200 text-sm block">
-                  {specialist.brandName || specialist.name}
-                </span>
-                <span className="text-neutral-400 text-xs">
-                  {specialist.name} • {specialist.title}
-                </span>
-              </div>
-            </div>
-
-            {/* Social and freelance links in footer */}
-            <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-neutral-400">
-              <a
-                href={specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-sky-400 text-sky-400/90 font-semibold transition-colors flex items-center space-x-1"
-              >
-                <span>LinkedIn</span>
-              </a>
-              {specialist.socials?.instagram && (
-                <a
-                  href={specialist.socials.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-amber-400 transition-colors"
-                >
-                  Instagram ({specialist.socials.instagramHandle || "@quin_arch"})
-                </a>
-              )}
-              {specialist.socials?.youtube && (
-                <a
-                  href={specialist.socials.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-red-400 transition-colors"
-                >
-                  YouTube
-                </a>
-              )}
-              {specialist.socials?.upwork && (
-                <a
-                  href={specialist.socials.upwork}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-emerald-400 transition-colors"
-                >
-                  Upwork
-                </a>
-              )}
-              {specialist.socials?.fiverr && (
-                <a
-                  href={specialist.socials.fiverr}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-emerald-400 transition-colors"
-                >
-                  Fiverr
-                </a>
-              )}
-              {specialist.socials?.freelancer && (
-                <a
-                  href={specialist.socials.freelancer}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors"
-                >
-                  Freelancer
-                </a>
-              )}
-              {specialist.socials?.cadcrowd && (
-                <a
-                  href={specialist.socials.cadcrowd}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-sky-400 transition-colors"
-                >
-                  Cad Crowd
-                </a>
-              )}
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-neutral-900">
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-neutral-400">
-              <a href="#estimator" className="hover:text-amber-400 transition-colors">Scope Estimator</a>
-              <a href="#consultancy" className="hover:text-amber-400 transition-colors">Pricing</a>
-              <a href="#deliverables" className="hover:text-amber-400 transition-colors">Construction Documentation</a>
-              <a href="#workflows" className="hover:text-amber-400 transition-colors">Delivery Process</a>
-              <a href="#specialist" className="hover:text-amber-400 transition-colors">Principal Architect</a>
-            </div>
-
-            <div>
-              © {new Date().getFullYear()} {specialist.brandName || "Quintessential Architecture"}. All drawings & BIM deliverables code-compliant.
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer specialist={specialist} />
 
       {/* Modals & Drawers */}
       {isSpecialistEditorOpen && (

@@ -5,14 +5,25 @@ import { SpecialistProfile } from "../types";
 interface NavbarProps {
   specialist: SpecialistProfile;
   onScrollToEstimator: () => void;
+  /** False when rendered on a page other than the homepage — internal nav links then
+   * point back to the homepage's anchors instead of same-page hashes. */
+  isHomePage?: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   specialist,
   onScrollToEstimator,
+  isHomePage = true,
 }) => {
+  const homeAnchor = (hash: string) =>
+    isHomePage ? hash : `${import.meta.env.BASE_URL}${hash}`;
+
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (isHomePage) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.location.href = import.meta.env.BASE_URL;
+    }
   };
 
   return (
@@ -48,20 +59,23 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Navigation */}
         <nav className="hidden xl:flex items-center space-x-7 text-xs font-medium text-neutral-400 shrink-0">
+          <a href={`${import.meta.env.BASE_URL}services/`} className="hover:text-neutral-100 transition-colors tracking-wide">
+            Services
+          </a>
           <a
-            href="#estimator"
-            onClick={(e) => { e.preventDefault(); onScrollToEstimator(); }}
+            href={homeAnchor("#estimator")}
+            onClick={isHomePage ? (e) => { e.preventDefault(); onScrollToEstimator(); } : undefined}
             className="hover:text-neutral-100 transition-colors tracking-wide"
           >
             Scope Planner
           </a>
-          <a href="#deliverables" className="hover:text-neutral-100 transition-colors tracking-wide">
+          <a href={homeAnchor("#deliverables")} className="hover:text-neutral-100 transition-colors tracking-wide">
             Construction Documentation
           </a>
-          <a href="#workflows" className="hover:text-neutral-100 transition-colors tracking-wide">
+          <a href={homeAnchor("#workflows")} className="hover:text-neutral-100 transition-colors tracking-wide">
             Delivery Process
           </a>
-          <a href="#specialist" className="hover:text-neutral-100 transition-colors tracking-wide">
+          <a href={homeAnchor("#specialist")} className="hover:text-neutral-100 transition-colors tracking-wide">
             Principal Architect
           </a>
         </nav>
