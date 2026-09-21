@@ -62,6 +62,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           <a href={`${import.meta.env.BASE_URL}services/`} className="hover:text-neutral-100 transition-colors tracking-wide">
             Services
           </a>
+          <a href={`${import.meta.env.BASE_URL}case-studies/`} className="hover:text-neutral-100 transition-colors tracking-wide">
+            Case Studies
+          </a>
           <a
             href={homeAnchor("#estimator")}
             onClick={isHomePage ? (e) => { e.preventDefault(); onScrollToEstimator(); } : undefined}

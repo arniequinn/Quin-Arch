@@ -113,6 +113,7 @@ export const Footer: React.FC<FooterProps> = ({ specialist, isHomePage = true })
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-neutral-900">
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-neutral-400">
             <a href={`${import.meta.env.BASE_URL}services/`} className="hover:text-amber-400 transition-colors">Services</a>
+            <a href={`${import.meta.env.BASE_URL}case-studies/`} className="hover:text-amber-400 transition-colors">Case Studies</a>
             <a href={homeAnchor("#estimator")} className="hover:text-amber-400 transition-colors">Scope Estimator</a>
             <a href={homeAnchor("#consultancy")} className="hover:text-amber-400 transition-colors">Pricing</a>
             <a href={homeAnchor("#deliverables")} className="hover:text-amber-400 transition-colors">Construction Documentation</a>

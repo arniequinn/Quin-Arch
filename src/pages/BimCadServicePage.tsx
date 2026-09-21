@@ -78,6 +78,12 @@ const FAQS = [
 
 const PROOF_SAMPLE_IDS = ["sample-beach-house", "sample-cran-residence", "sample-urban-flats"];
 
+const CASE_STUDY_SLUGS: Record<string, string> = {
+  "sample-beach-house": "texas-coastal-beach-house",
+  "sample-cran-residence": "cran-residence",
+  "sample-urban-flats": "urban-multi-family-flats",
+};
+
 export const BimCadServicePage: React.FC<BimCadServicePageProps> = ({ specialist }) => {
   const waLink = (text: string) =>
     `https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(text)}`;
@@ -220,9 +226,13 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = ({ specialist
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {proofSamples.map((sample) => (
-              <div key={sample.id} className="rounded-2xl bg-neutral-900 border border-neutral-800 overflow-hidden flex flex-col">
+              <a
+                key={sample.id}
+                href={`${import.meta.env.BASE_URL}case-studies/${CASE_STUDY_SLUGS[sample.id]}/`}
+                className="group rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-amber-500/50 overflow-hidden flex flex-col transition-all"
+              >
                 <div className="relative h-44 overflow-hidden bg-neutral-950">
-                  <img src={sample.imageUrl} alt={sample.title} className="w-full h-full object-cover" loading="lazy" />
+                  <img src={sample.imageUrl} alt={sample.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                   {sample.isRealClientWork && (
                     <span className="absolute top-3 left-3 px-2 py-0.5 rounded-md bg-emerald-950/80 backdrop-blur-md border border-emerald-500/40 text-[10px] font-mono text-emerald-400 font-semibold flex items-center space-x-1">
                       <ShieldCheck className="w-3 h-3" />
@@ -232,7 +242,7 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = ({ specialist
                 </div>
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-sm font-bold text-neutral-100">{sample.title}</h3>
+                    <h3 className="text-sm font-bold text-neutral-100 group-hover:text-amber-400 transition-colors">{sample.title}</h3>
                     <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">{sample.sheetDetails}</p>
                   </div>
                   {sample.clientReview && (
@@ -242,7 +252,7 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = ({ specialist
                     </div>
                   )}
                 </div>
-              </div>
+              </a>
             ))}
           </div>
           <div className="mt-8 text-center">

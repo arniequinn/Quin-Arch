@@ -15,6 +15,14 @@ import { PORTFOLIO_SAMPLES } from "../data/architecturalData";
 import { PortfolioItem } from "../types";
 import { assetUrl } from "../utils/assetPath";
 
+// Maps a portfolio sample to its dedicated case-study page, where one exists.
+const CASE_STUDY_SLUGS: Record<string, string> = {
+  "sample-beach-house": "texas-coastal-beach-house",
+  "sample-slamburger": "slamburger-restaurant",
+  "sample-cran-residence": "cran-residence",
+  "sample-urban-flats": "urban-multi-family-flats",
+};
+
 export const DeliverablesGallery: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
@@ -198,6 +206,15 @@ export const DeliverablesGallery: React.FC = () => {
                     )}
 
                   </div>
+
+                  {CASE_STUDY_SLUGS[sample.id] && (
+                    <a
+                      href={`${import.meta.env.BASE_URL}case-studies/${CASE_STUDY_SLUGS[sample.id]}/`}
+                      className="block text-center text-[11px] font-semibold text-amber-400 hover:text-amber-300 transition-colors"
+                    >
+                      Read the full case study →
+                    </a>
+                  )}
                 </div>
 
               </div>
