@@ -331,6 +331,45 @@ export const EXTERIOR_SHOWCASE_IMAGES: TrackImage[] = [
   { src: assetUrl("/portfolio/bimcad-workflow/12-cube-facade-render.webp"), aspect: "wide" }
 ];
 
+export const LOD_LEVELS = [
+  {
+    level: "LOD 100",
+    name: "Conceptual",
+    description: "Overall building massing — approximate volume, area, height, and orientation. Used for early feasibility and massing studies.",
+    included: true,
+  },
+  {
+    level: "LOD 200",
+    name: "Approximate Geometry",
+    description: "Generalized systems and assemblies with approximate quantity, size, shape, and location. Suitable for early design coordination.",
+    included: true,
+  },
+  {
+    level: "LOD 300",
+    name: "Precise Geometry",
+    description: "Accurate quantity, size, shape, and location — the standard level for construction documents and permit submission.",
+    included: true,
+  },
+  {
+    level: "LOD 350",
+    name: "Coordination-Ready",
+    description: "Precise geometry plus interfaces with other building systems (structural, MEP), enabling clash detection and multi-trade coordination.",
+    included: true,
+  },
+  {
+    level: "LOD 400",
+    name: "Fabrication-Ready",
+    description: "Complete fabrication, assembly, and installation detail — precise enough for a manufacturer to build directly from the model.",
+    included: false,
+  },
+  {
+    level: "LOD 500",
+    name: "As-Built / Verified",
+    description: "Field-verified model matching the completed, constructed building — used for facility maintenance and operations.",
+    included: false,
+  },
+];
+
 export const JURISDICTIONS = [
   { id: "us_irc_ibc", name: "USA - International Building / Residential Code (IBC / IRC)", standard: "IBC 2024 / IRC 2024" },
   { id: "us_california", name: "California (CBC / CRC / Title 24 Energy / LADBS)", standard: "California Code of Regulations Title 24" },

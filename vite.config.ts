@@ -32,6 +32,7 @@ export default defineConfig(() => {
           caseStudySlamburger: path.resolve(__dirname, 'case-studies/slamburger-restaurant/index.html'),
           caseStudyCranResidence: path.resolve(__dirname, 'case-studies/cran-residence/index.html'),
           caseStudyUrbanFlats: path.resolve(__dirname, 'case-studies/urban-multi-family-flats/index.html'),
+          guideLod: path.resolve(__dirname, 'guides/lod-guide/index.html'),
         },
       },
     },

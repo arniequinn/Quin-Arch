@@ -30,3 +30,21 @@
 h1, h2, h3 {
   text-wrap: balance;
 }
+
+/* Print output (used by the LOD guide's "Save as PDF" button, which just calls window.print()):
+   strip the sticky chrome and dark theme so the browser's native print-to-PDF produces a plain,
+   readable page instead of white text on a background most printers/PDF exports won't render. */
+@media print {
+  header, footer, nav, .print-hide {
+    display: none !important;
+  }
+  body, .print-guide, .print-guide * {
+    background: #fff !important;
+    color: #111 !important;
+    box-shadow: none !important;
+  }
+  .print-guide a {
+    color: #111 !important;
+    text-decoration: underline;
+  }
+}

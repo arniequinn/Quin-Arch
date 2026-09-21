@@ -1,44 +1,6 @@
 import React from "react";
-import { Info, CheckCircle2, XCircle } from "lucide-react";
-
-const LOD_LEVELS = [
-  {
-    level: "LOD 100",
-    name: "Conceptual",
-    description: "Overall building massing — approximate volume, area, height, and orientation. Used for early feasibility and massing studies.",
-    included: true,
-  },
-  {
-    level: "LOD 200",
-    name: "Approximate Geometry",
-    description: "Generalized systems and assemblies with approximate quantity, size, shape, and location. Suitable for early design coordination.",
-    included: true,
-  },
-  {
-    level: "LOD 300",
-    name: "Precise Geometry",
-    description: "Accurate quantity, size, shape, and location — the standard level for construction documents and permit submission.",
-    included: true,
-  },
-  {
-    level: "LOD 350",
-    name: "Coordination-Ready",
-    description: "Precise geometry plus interfaces with other building systems (structural, MEP), enabling clash detection and multi-trade coordination.",
-    included: true,
-  },
-  {
-    level: "LOD 400",
-    name: "Fabrication-Ready",
-    description: "Complete fabrication, assembly, and installation detail — precise enough for a manufacturer to build directly from the model.",
-    included: false,
-  },
-  {
-    level: "LOD 500",
-    name: "As-Built / Verified",
-    description: "Field-verified model matching the completed, constructed building — used for facility maintenance and operations.",
-    included: false,
-  },
-];
+import { Info, CheckCircle2, XCircle, FileDown } from "lucide-react";
+import { LOD_LEVELS } from "../data/architecturalData";
 
 export const LODGuide: React.FC = () => {
   return (
@@ -102,6 +64,16 @@ export const LODGuide: React.FC = () => {
           precise, coordinated geometry ready for permit submission and multi-trade coordination. LOD 400
           (fabrication-ready shop detail) and LOD 500 (as-built/verified) modeling are outside current
           service scope.
+        </div>
+
+        <div className="mt-6 text-center">
+          <a
+            href={`${import.meta.env.BASE_URL}guides/lod-guide/`}
+            className="inline-flex items-center space-x-1.5 text-xs font-semibold text-amber-400 hover:text-amber-300 transition-colors"
+          >
+            <FileDown className="w-3.5 h-3.5" />
+            <span>Get this as a one-page reference →</span>
+          </a>
         </div>
       </div>
     </section>

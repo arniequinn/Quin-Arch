@@ -3,6 +3,7 @@ import {
   ArrowRight,
   CheckCircle2,
   FileCheck2,
+  FileDown,
   Mail,
   MessageSquare,
   ShieldCheck,
@@ -181,6 +182,34 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = ({ specialist
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* LOD guide cross-link */}
+      <section className="py-10 bg-neutral-950 border-t border-neutral-900">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <a
+            href={`${import.meta.env.BASE_URL}guides/lod-guide/`}
+            className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-neutral-900/70 border border-neutral-800 hover:border-amber-500/40 transition-all"
+          >
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0">
+                <FileDown className="w-4.5 h-4.5" />
+              </div>
+              <div>
+                <span className="text-sm font-bold text-neutral-100 block">
+                  Not sure what LOD you need?
+                </span>
+                <span className="text-xs text-neutral-400">
+                  Read the plain-language field guide to LOD 100–500, or get it sent to your inbox.
+                </span>
+              </div>
+            </div>
+            <span className="flex items-center space-x-1.5 text-xs font-semibold text-amber-400 group-hover:text-amber-300 transition-colors shrink-0">
+              <span>Open the LOD guide</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </span>
+          </a>
         </div>
       </section>
 
