@@ -6,18 +6,17 @@ import {
   Layers,
   MessageSquare,
   Mail,
-  ShieldAlert,
-  Sparkles,
+  ShieldCheck,
+  Lock,
   TrendingUp,
-  Info
+  Info,
+  ChevronRight
 } from "lucide-react";
 import {
   PROJECT_TYPES,
   SERVICE_OPTIONS,
   JURISDICTIONS,
-  PROJECT_STAGES,
-  TIMELINE_OPTIONS,
-  SERVICE_RATE_PER_SQFT
+  TIMELINE_OPTIONS
 } from "../data/architecturalData";
 import { calculateScope, ScopeCalculationInput } from "../utils/calculator";
 import { SpecialistProfile } from "../types";
@@ -27,10 +26,23 @@ interface ScopeEstimatorProps {
   specialist: SpecialistProfile;
 }
 
-export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
-  specialist,
-}) => {
-  // Estimator States
+// BIM Phase → project stage mapping
+const BIM_PHASES = [
+  { id: "napkin_sketch",       lodLabel: "LOD 100", name: "Concept Design",              desc: "Program brief, massing studies, site feasibility — no production drawings yet." },
+  { id: "schematic",           lodLabel: "LOD 200", name: "Schematic Design",            desc: "Coordinated floor plans and elevations locked; ready for BIM production." },
+  { id: "permit_ready",        lodLabel: "LOD 300", name: "Design Development",          desc: "Fully resolved geometry; proceeding to municipal submittal package." },
+  { id: "construction_bidding",lodLabel: "LOD 350", name: "Construction Documentation",  desc: "Detail sheets, schedules, and coordination for contractor procurement." },
+  { id: "redlines_revisions",  lodLabel: "LOD 400+", name: "Construction Administration", desc: "Plan-check response, RFI support, and as-built reconciliation." },
+] as const;
+
+// Complexity multipliers applied on top of calculator output
+const COMPLEXITY_TIERS = [
+  { id: "standard",  label: "Standard",  multiplier: 1.0,  desc: "Orthogonal geometry, conventional program, low site constraints." },
+  { id: "complex",   label: "Complex",   multiplier: 1.25, desc: "Non-orthogonal forms, multi-system coordination, constrained site." },
+  { id: "landmark",  label: "Landmark",  multiplier: 1.55, desc: "Bespoke parametric geometry, structural innovation, or heritage context." },
+] as const;
+
+export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ specialist }) => {
   const [projectTypeId, setProjectTypeId] = useState<string>("residential_single");
   const [selectedServiceIds, setSelectedServiceIds] = useState<string[]>([
     "permit_drawings",
@@ -39,142 +51,133 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
   ]);
   const [areaSqFt, setAreaSqFt] = useState<number>(2800);
   const [jurisdictionId, setJurisdictionId] = useState<string>("us_irc_ibc");
-  const [currentStageId, setCurrentStageId] = useState<string>("schematic");
+  const [bimPhaseId, setBimPhaseId] = useState<string>("schematic");
+  const [complexityId, setComplexityId] = useState<string>("standard");
   const [timelineId, setTimelineId] = useState<string>("standard");
-  const [projectTitle, setProjectTitle] = useState<string>("Modern Residence Project");
+  const [projectTitle, setProjectTitle] = useState<string>("");
   const [excludedSheetNumbers, setExcludedSheetNumbers] = useState<string[]>([]);
+  const [feeUnlocked, setFeeUnlocked] = useState<boolean>(false);
 
-  // Selected project type object
-  const currentProjectType = useMemo(() => {
-    return PROJECT_TYPES.find((p) => p.id === projectTypeId) || PROJECT_TYPES[0];
-  }, [projectTypeId]);
+  const currentProjectType = useMemo(() =>
+    PROJECT_TYPES.find((p) => p.id === projectTypeId) || PROJECT_TYPES[0],
+    [projectTypeId]
+  );
 
-  // When project type changes, optionally adapt area
+  const complexityMultiplier = useMemo(() =>
+    COMPLEXITY_TIERS.find((c) => c.id === complexityId)?.multiplier ?? 1.0,
+    [complexityId]
+  );
+
   const handleSelectProjectType = (id: string) => {
     setProjectTypeId(id);
     const p = PROJECT_TYPES.find((item) => item.id === id);
-    if (p) {
-      setAreaSqFt(p.defaultSqFt);
-    }
+    if (p) setAreaSqFt(p.defaultSqFt);
   };
 
-  // Toggle service selection
   const handleToggleService = (serviceId: string) => {
     setSelectedServiceIds((prev) => {
       if (prev.includes(serviceId)) {
-        // Prevent deselecting everything
         if (prev.length === 1) return prev;
         return prev.filter((id) => id !== serviceId);
-      } else {
-        return [...prev, serviceId];
       }
+      return [...prev, serviceId];
     });
   };
 
-  // Toggle an individual sheet in/out of the priced set
   const handleToggleSheet = (sheetNumber: string) => {
     setExcludedSheetNumbers((prev) =>
-      prev.includes(sheetNumber)
-        ? prev.filter((n) => n !== sheetNumber)
-        : [...prev, sheetNumber]
+      prev.includes(sheetNumber) ? prev.filter((n) => n !== sheetNumber) : [...prev, sheetNumber]
     );
   };
 
-  // Build calculation input
   const calculationInput: ScopeCalculationInput = useMemo(() => ({
     projectTypeId,
     selectedServiceIds,
     areaSqFt,
     jurisdictionId,
-    currentStageId,
+    currentStageId: bimPhaseId,
     timelineId,
     projectTitle,
     excludedSheetNumbers,
-  }), [projectTypeId, selectedServiceIds, areaSqFt, jurisdictionId, currentStageId, timelineId, projectTitle, excludedSheetNumbers]);
+  }), [projectTypeId, selectedServiceIds, areaSqFt, jurisdictionId, bimPhaseId, timelineId, projectTitle, excludedSheetNumbers]);
 
-  // Calculated results in real-time
-  const calculation = useMemo(() => {
-    return calculateScope(calculationInput);
-  }, [calculationInput]);
+  const baseCalc = useMemo(() => calculateScope(calculationInput), [calculationInput]);
 
-  // Pre-filled contact messages so a visitor can send this exact configuration directly —
-  // no form, no gate, since everything is already visible on screen.
+  // Apply complexity multiplier to fee output only
+  const calculation = useMemo(() => ({
+    ...baseCalc,
+    estimatedFeeMin: Math.round(baseCalc.estimatedFeeMin * complexityMultiplier),
+    estimatedFeeMax: Math.round(baseCalc.estimatedFeeMax * complexityMultiplier),
+    inHouseCostEstimate: Math.round(baseCalc.inHouseCostEstimate * complexityMultiplier),
+    clientSavingsAmount: Math.round(baseCalc.clientSavingsAmount * complexityMultiplier),
+  }), [baseCalc, complexityMultiplier]);
+
   const selectedServiceNames = selectedServiceIds
     .map((id) => SERVICE_OPTIONS.find((s) => s.id === id)?.shortName)
     .filter(Boolean)
     .join(", ");
 
+  const selectedPhaseLabel = BIM_PHASES.find((p) => p.id === bimPhaseId)?.lodLabel ?? "LOD 300";
+
   const whatsappUrl = useMemo(() => {
     const text = encodeURIComponent(
-      `Hi ${specialist.name}, I just configured a project scope on ArchScope!\n\n` +
-      `• Project: ${projectTitle || "Architecture Project"} (${areaSqFt.toLocaleString()} sq ft)\n` +
-      `• Type: ${currentProjectType.name}\n` +
+      `Hi ${specialist.name},\n\nI've configured a BIM scope on your Scope Planner:\n\n` +
+      `• Project: ${projectTitle || currentProjectType.name}\n` +
+      `• Phase: ${BIM_PHASES.find((p) => p.id === bimPhaseId)?.name ?? ""} (${selectedPhaseLabel})\n` +
+      `• Complexity: ${complexityId.charAt(0).toUpperCase() + complexityId.slice(1)}\n` +
       `• Services: ${selectedServiceNames}\n` +
       `• Drawing Set: ${calculation.recommendedSheetsCount} Sheets\n` +
-      `• Turnaround: ~${calculation.estimatedTurnaroundDays} Days\n` +
-      `• Estimated Fee: $${calculation.estimatedFeeMin.toLocaleString()} - $${calculation.estimatedFeeMax.toLocaleString()}\n\n` +
-      `I'd like to discuss this project.`
+      `• Timeline: ~${calculation.estimatedTurnaroundDays} days\n\n` +
+      `I'd like to request a fee consultation.`
     );
     return `https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${text}`;
-  }, [specialist, projectTitle, areaSqFt, currentProjectType, selectedServiceNames, calculation]);
+  }, [specialist, projectTitle, currentProjectType, bimPhaseId, selectedPhaseLabel, complexityId, selectedServiceNames, calculation]);
 
   const mailtoUrl = useMemo(() => {
-    const subject = encodeURIComponent(`Architectural Project Scope: ${projectTitle || "New Project"}`);
+    const subject = encodeURIComponent(`BIM Scope Consultation: ${projectTitle || currentProjectType.name}`);
     const body = encodeURIComponent(
-      `Hi ${specialist.name},\n\nI just configured a project scope on ArchScope:\n\n` +
-      `Project: ${projectTitle || "Architecture Project"}\n` +
-      `Area: ${areaSqFt.toLocaleString()} sq ft\n` +
-      `Type: ${currentProjectType.name}\n` +
+      `Hi ${specialist.name},\n\nI've configured a BIM scope on your Scope Planner:\n\n` +
+      `Project: ${projectTitle || currentProjectType.name}\n` +
+      `Phase: ${BIM_PHASES.find((p) => p.id === bimPhaseId)?.name ?? ""} (${selectedPhaseLabel})\n` +
+      `Complexity: ${complexityId.charAt(0).toUpperCase() + complexityId.slice(1)}\n` +
       `Services: ${selectedServiceNames}\n` +
       `Drawing Set: ${calculation.recommendedSheetsCount} Sheets\n` +
-      `Turnaround: ~${calculation.estimatedTurnaroundDays} Days\n` +
-      `Estimated Fee: $${calculation.estimatedFeeMin.toLocaleString()} - $${calculation.estimatedFeeMax.toLocaleString()}\n\n` +
-      `Please let me know your availability for a kick-off review.`
+      `Timeline: ~${calculation.estimatedTurnaroundDays} days\n\n` +
+      `Please provide a fee proposal for this scope.`
     );
     return `mailto:${specialist.email}?subject=${subject}&body=${body}`;
-  }, [specialist, projectTitle, areaSqFt, currentProjectType, selectedServiceNames, calculation]);
+  }, [specialist, projectTitle, currentProjectType, bimPhaseId, selectedPhaseLabel, complexityId, selectedServiceNames, calculation]);
 
   const quickAreaPresets = [850, 1500, 2800, 4500, 7500];
 
   return (
-    <section id="estimator" className="relative py-12 lg:py-16 scroll-mt-16">
-      {/* Background architectural grid pattern */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:16px_16px]" />
+    <section id="estimator" className="relative py-16 lg:py-24 scroll-mt-16">
+      <div className="absolute inset-0 opacity-[0.025] pointer-events-none bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:20px_20px]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Header / Intro */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>BIM/CAD Technician Track — Interactive Scope & Fee Diagnostic</span>
-          </div>
-          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-neutral-100 tracking-tight">
-            Estimate Your Project Scope, Permit Drawing Set & Fees
+
+        {/* Section Header */}
+        <div className="mb-14">
+          <p className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase mb-3">BIM/VDC Track</p>
+          <h2 className="font-display text-3xl sm:text-4xl font-bold text-neutral-100 tracking-tight">
+            BIM Scope & Resource Estimator
           </h2>
-          <p className="mt-3 text-base text-neutral-400 leading-relaxed">
-            Select your project typology and desired digital deliverables. Instantly configure a
-            custom drawing schedule, turnaround timeline, and turnkey remote fee estimate.
+          <p className="mt-3 text-neutral-400 leading-relaxed max-w-2xl">
+            Define your project phase, delivery scope, and complexity parameters.
+            Deliverables and timeline are generated in real time — fee estimate gated behind a consultation request.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Main Configuration Steps (8 cols) */}
-          <div className="lg:col-span-8 space-y-10">
-            
+
+          {/* Configuration Steps (8 cols) */}
+          <div className="lg:col-span-8 space-y-8">
+
             {/* Step 1: Project Typology */}
-            <div className="p-6 rounded-2xl bg-neutral-900/90 border border-neutral-800 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">
-                    1
-                  </div>
-                  <h3 className="text-lg font-semibold text-neutral-100">
-                    Select Project Typology
-                  </h3>
-                </div>
-                <span className="text-xs text-neutral-400">
-                  {PROJECT_TYPES.length} Typologies Available
-                </span>
+            <div className="p-6 rounded-xl bg-neutral-900/70 border border-neutral-800">
+              <div className="flex items-center space-x-3 mb-5">
+                <span className="w-6 h-6 rounded bg-neutral-800 text-neutral-400 flex items-center justify-center font-mono text-[11px]">01</span>
+                <h3 className="text-base font-semibold text-neutral-100">Project Typology</h3>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -183,291 +186,213 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                   return (
                     <button
                       key={type.id}
-                      id={`project-type-${type.id}`}
                       onClick={() => handleSelectProjectType(type.id)}
-                      className={`group relative text-left p-3.5 rounded-xl border transition-all flex flex-col justify-between ${
+                      className={`text-left p-4 rounded-lg border transition-all flex flex-col ${
                         isSelected
-                          ? "bg-amber-500/10 border-amber-500/80 ring-1 ring-amber-500/30"
-                          : "bg-neutral-950/60 border-neutral-800/80 hover:border-neutral-700 hover:bg-neutral-950"
+                          ? "bg-neutral-800 border-amber-500/60 ring-1 ring-amber-500/20"
+                          : "bg-neutral-950/50 border-neutral-800 hover:border-neutral-700"
                       }`}
                     >
-                      <div className="flex items-start justify-between w-full">
-                        <div className="flex items-center space-x-2">
-                          <span
-                            className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider ${
-                              isSelected
-                                ? "bg-amber-500 text-neutral-950"
-                                : "bg-neutral-800 text-neutral-400"
-                            }`}
-                          >
-                            {type.badge}
-                          </span>
-                        </div>
-                        {isSelected && (
-                          <div className="w-5 h-5 rounded-full bg-amber-500 text-neutral-950 flex items-center justify-center">
-                            <Check className="w-3 h-3 stroke-[3]" />
-                          </div>
-                        )}
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={`text-[10px] font-mono tracking-widest uppercase px-2 py-0.5 rounded ${
+                          isSelected ? "bg-amber-500/20 text-amber-400" : "bg-neutral-800 text-neutral-500"
+                        }`}>
+                          {type.badge}
+                        </span>
+                        {isSelected && <Check className="w-3.5 h-3.5 text-amber-400" />}
                       </div>
-
-                      <div className="mt-3">
-                        <h4 className="font-semibold text-sm text-neutral-200 group-hover:text-amber-400 transition-colors">
-                          {type.name}
-                        </h4>
-                        <p className="text-xs text-neutral-400 mt-1 line-clamp-2 leading-relaxed">
-                          {type.description}
-                        </p>
-                      </div>
-
-                      <div className="mt-3 pt-2 border-t border-neutral-800/60 flex items-center justify-between text-[11px] text-neutral-400">
-                        <span>Base: ~{type.baseSheets} Sheets</span>
-                        <span>Typical: {type.defaultSqFt.toLocaleString()} sq ft</span>
+                      <h4 className="font-medium text-sm text-neutral-200 leading-snug">{type.name}</h4>
+                      <p className="text-[11px] text-neutral-500 mt-1 leading-relaxed line-clamp-2">{type.description}</p>
+                      <div className="mt-3 pt-2 border-t border-neutral-800/60 flex justify-between text-[10px] font-mono text-neutral-500">
+                        <span>{type.baseSheets} base sheets</span>
+                        <span>~{type.defaultSqFt.toLocaleString()} SF</span>
                       </div>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Area (Square Footage) & Presets */}
-              <div className="mt-6 pt-6 border-t border-neutral-800/80">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              {/* GFA Input */}
+              <div className="mt-6 pt-6 border-t border-neutral-800">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                   <div>
-                    <label className="text-sm font-semibold text-neutral-200">
-                      Total Project Area
-                    </label>
-                    <p className="text-xs text-neutral-400">
-                      Conditioned or enclosed gross building area
-                    </p>
+                    <label className="text-sm font-medium text-neutral-200">Gross Floor Area</label>
+                    <p className="text-[11px] text-neutral-500 mt-0.5">Enclosed conditioned building area</p>
                   </div>
                   <div className="flex items-center space-x-2">
                     <input
-                      type="number"
-                      min={200}
-                      max={50000}
-                      step={50}
+                      type="number" min={200} max={50000} step={50}
                       value={areaSqFt}
                       onWheel={(e) => e.currentTarget.blur()}
                       onChange={(e) => setAreaSqFt(Math.max(200, Number(e.target.value) || 0))}
-                      className="w-28 px-3 py-1.5 rounded-lg bg-neutral-950 border border-neutral-700 text-right font-mono font-bold text-amber-400 text-sm focus:outline-none focus:border-amber-500"
+                      className="w-28 px-3 py-1.5 rounded bg-neutral-950 border border-neutral-700 text-right font-mono font-bold text-amber-400 text-sm focus:outline-none focus:border-amber-500/60"
                     />
-                    <span className="text-xs font-medium text-neutral-400">SQ FT</span>
+                    <span className="text-[11px] font-mono text-neutral-500 tracking-widest">SF</span>
                   </div>
                 </div>
-
-                {/* Slider */}
-                <input
-                  type="range"
-                  min={300}
-                  max={12000}
-                  step={50}
-                  value={areaSqFt}
+                <input type="range" min={300} max={12000} step={50} value={areaSqFt}
                   onChange={(e) => setAreaSqFt(Number(e.target.value))}
-                  className="w-full h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                  className="w-full h-1.5 bg-neutral-800 rounded-full appearance-none cursor-pointer accent-amber-500"
                 />
-
-                {/* Quick Presets */}
-                <div className="flex items-center space-x-2 mt-3 overflow-x-auto pb-1 text-xs">
-                  <span className="text-neutral-500 shrink-0">Quick presets:</span>
+                <div className="flex items-center space-x-2 mt-3 overflow-x-auto pb-1">
+                  <span className="text-[10px] font-mono text-neutral-600 shrink-0 tracking-widest">PRESETS</span>
                   {quickAreaPresets.map((preset) => (
-                    <button
-                      key={preset}
-                      type="button"
-                      onClick={() => setAreaSqFt(preset)}
-                      className={`px-2.5 py-1 rounded-md border font-mono transition-all shrink-0 ${
+                    <button key={preset} type="button" onClick={() => setAreaSqFt(preset)}
+                      className={`px-2.5 py-1 rounded border font-mono text-[11px] transition-all shrink-0 ${
                         areaSqFt === preset
-                          ? "bg-amber-500/20 border-amber-500/60 text-amber-400 font-semibold"
-                          : "bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-neutral-200 hover:border-neutral-700"
-                      }`}
-                    >
-                      {preset.toLocaleString()} sq ft
+                          ? "bg-amber-500/10 border-amber-500/50 text-amber-400"
+                          : "bg-neutral-950 border-neutral-800 text-neutral-500 hover:text-neutral-300 hover:border-neutral-700"
+                      }`}>
+                      {preset.toLocaleString()}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Jurisdiction & Project Name */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 pt-6 border-t border-neutral-800/80">
+              {/* Jurisdiction + Project Name */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 pt-6 border-t border-neutral-800">
                 <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1.5">
-                    Target Municipal Building Code / Jurisdiction
+                  <label className="block text-[11px] font-mono text-neutral-400 mb-2 tracking-widest uppercase">
+                    Target Jurisdiction
                   </label>
-                  <select
-                    value={jurisdictionId}
-                    onChange={(e) => setJurisdictionId(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-neutral-950 border border-neutral-700 text-xs text-neutral-200 focus:outline-none focus:border-amber-500"
-                  >
+                  <select value={jurisdictionId} onChange={(e) => setJurisdictionId(e.target.value)}
+                    className="w-full px-3 py-2 rounded bg-neutral-950 border border-neutral-700 text-xs text-neutral-200 focus:outline-none focus:border-amber-500/60">
                     {JURISDICTIONS.map((j) => (
-                      <option key={j.id} value={j.id}>
-                        {j.name}
-                      </option>
+                      <option key={j.id} value={j.id}>{j.name}</option>
                     ))}
                   </select>
                 </div>
-
                 <div>
-                  <label className="block text-xs font-semibold text-neutral-300 mb-1.5">
-                    Project Reference Name (Optional)
+                  <label className="block text-[11px] font-mono text-neutral-400 mb-2 tracking-widest uppercase">
+                    Project Reference
                   </label>
-                  <input
-                    type="text"
-                    value={projectTitle}
+                  <input type="text" value={projectTitle}
                     onChange={(e) => setProjectTitle(e.target.value)}
-                    placeholder="e.g. Modern Hillside Villa, Oak Street ADU"
-                    className="w-full px-3 py-2 rounded-lg bg-neutral-950 border border-neutral-700 text-xs text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-amber-500"
+                    placeholder="e.g. Hillside Villa — Phase 1"
+                    className="w-full px-3 py-2 rounded bg-neutral-950 border border-neutral-700 text-xs text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-amber-500/60"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Step 2: Scope of Work / Services Selection */}
-            <div className="p-6 rounded-2xl bg-neutral-900/90 border border-neutral-800 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
+            {/* Step 2: Scope of Work */}
+            <div className="p-6 rounded-xl bg-neutral-900/70 border border-neutral-800">
+              <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center space-x-3">
-                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">
-                    2
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-neutral-100">
-                      Select Required Services & Deliverables
-                    </h3>
-                    <p className="text-xs text-neutral-400">
-                      Choose all remote services needed. Bundle 3+ for combined production efficiency.
-                    </p>
-                  </div>
+                  <span className="w-6 h-6 rounded bg-neutral-800 text-neutral-400 flex items-center justify-center font-mono text-[11px]">02</span>
+                  <h3 className="text-base font-semibold text-neutral-100">Scope of Work & Deliverables</h3>
                 </div>
-                <span className="text-xs text-amber-400 font-medium">
-                  {selectedServiceIds.length} Selected
-                </span>
+                <span className="text-[11px] font-mono text-amber-400">{selectedServiceIds.length} selected</span>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {SERVICE_OPTIONS.map((service) => {
                   const isChecked = selectedServiceIds.includes(service.id);
                   return (
-                    <div
-                      key={service.id}
-                      onClick={() => handleToggleService(service.id)}
-                      className={`p-4 rounded-xl border cursor-pointer transition-all ${
+                    <div key={service.id} onClick={() => handleToggleService(service.id)}
+                      className={`p-4 rounded-lg border cursor-pointer transition-all ${
                         isChecked
-                          ? "bg-amber-500/10 border-amber-500/60 ring-1 ring-amber-500/20"
-                          : "bg-neutral-950/60 border-neutral-800/80 hover:border-neutral-700 hover:bg-neutral-950"
-                      }`}
-                    >
-                      <div className="flex items-start justify-between gap-3 flex-wrap sm:flex-nowrap">
-                        <div className="flex items-start space-x-3 min-w-0 flex-1">
-                          <div
-                            className={`w-5 h-5 rounded mt-0.5 flex items-center justify-center border transition-all shrink-0 ${
-                              isChecked
-                                ? "bg-amber-500 border-amber-500 text-neutral-950"
-                                : "border-neutral-700 bg-neutral-900"
-                            }`}
-                          >
-                            {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                          </div>
-                          <div className="min-w-0">
-                            <div className="flex items-center flex-wrap gap-x-2 gap-y-1">
-                              <span className="font-semibold text-sm text-neutral-100">
-                                {service.name}
+                          ? "bg-neutral-800 border-amber-500/50 ring-1 ring-amber-500/10"
+                          : "bg-neutral-950/50 border-neutral-800 hover:border-neutral-700"
+                      }`}>
+                      <div className="flex items-start gap-4">
+                        <div className={`w-4 h-4 rounded border mt-0.5 flex items-center justify-center shrink-0 transition-all ${
+                          isChecked ? "bg-amber-500 border-amber-500" : "border-neutral-700 bg-neutral-900"
+                        }`}>
+                          {isChecked && <Check className="w-2.5 h-2.5 text-neutral-950 stroke-[3]" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center flex-wrap gap-x-2 gap-y-1">
+                            <span className="font-medium text-sm text-neutral-100">{service.name}</span>
+                            {service.popular && (
+                              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25">
+                                Standard Delivery
                               </span>
-                              {service.popular && (
-                                <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-400 border border-amber-500/30">
-                                  Standard Delivery
-                                </span>
-                              )}
-                            </div>
-                            <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
-                              {service.description}
-                            </p>
-                            {/* Software badges */}
-                            <div className="flex items-center flex-wrap gap-2 mt-2">
-                              <span className="text-[11px] text-neutral-500">Tech:</span>
-                              {service.softwareUsed.map((sw) => (
-                                <span
-                                  key={sw}
-                                  className="text-[10px] px-2 py-0.5 rounded bg-neutral-800 text-neutral-300 font-mono"
-                                >
-                                  {sw}
-                                </span>
-                              ))}
-                            </div>
+                            )}
+                          </div>
+                          <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed">{service.description}</p>
+                          <div className="flex items-center flex-wrap gap-x-1.5 gap-y-1 mt-2">
+                            <span className="text-[10px] font-mono text-neutral-600 tracking-widest">TECH</span>
+                            {service.softwareUsed.map((sw) => (
+                              <span key={sw} className="text-[10px] px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-400 font-mono">{sw}</span>
+                            ))}
                           </div>
                         </div>
-
-                        <div className="text-right shrink-0">
-                          {SERVICE_RATE_PER_SQFT[service.id] && (
-                            <div className="mb-1.5">
-                              <div className="text-sm font-mono font-extrabold text-amber-400">
-                                ${SERVICE_RATE_PER_SQFT[service.id].offeredPerSqFt.toFixed(2)}/sq ft
-                              </div>
-                              <div className="text-[10px] font-mono text-neutral-500 line-through">
-                                ${SERVICE_RATE_PER_SQFT[service.id].marketPerSqFt.toFixed(2)}/sq ft
-                              </div>
-                            </div>
-                          )}
-                          <span className="text-xs font-mono font-semibold text-neutral-300">
-                            ~{service.standardTurnaroundDays}d turnaround
-                          </span>
-                        </div>
+                        <span className="text-[11px] font-mono text-neutral-500 shrink-0">
+                          ~{service.standardTurnaroundDays}d
+                        </span>
                       </div>
                     </div>
                   );
                 })}
               </div>
 
-              <div className="mt-4 flex items-start space-x-2 px-3.5 py-2.5 rounded-xl bg-neutral-950/60 border border-neutral-800">
-                <Info className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                <p className="text-[11px] text-neutral-400 leading-relaxed">
-                  Rates shown are industry-standard reference pricing offered at a significant
-                  discount — they're fixed, not editable, and aren't simply additive across
-                  multiple services (the live estimate below already accounts for the overlap
-                  between bundled deliverables). {specialist.name.split(" ")[0]} alone has final
-                  say on actual rates for a given project.
+              <div className="mt-4 flex items-start space-x-2.5 px-4 py-3 rounded-lg bg-neutral-950/50 border border-neutral-800">
+                <Info className="w-3.5 h-3.5 text-neutral-500 shrink-0 mt-0.5" />
+                <p className="text-[11px] text-neutral-500 leading-relaxed">
+                  Services are not simply additive — bundled deliverables share model setup overhead.
+                  The scope summary reflects combined production rather than stacked individual estimates.
                 </p>
               </div>
             </div>
 
-            {/* Step 3: Current Stage & Timeline Speed */}
-            <div className="p-6 rounded-2xl bg-neutral-900/90 border border-neutral-800 shadow-sm">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">
-                  3
-                </div>
+            {/* Step 3: BIM Phase & Complexity */}
+            <div className="p-6 rounded-xl bg-neutral-900/70 border border-neutral-800">
+              <div className="flex items-center space-x-3 mb-5">
+                <span className="w-6 h-6 rounded bg-neutral-800 text-neutral-400 flex items-center justify-center font-mono text-[11px]">03</span>
                 <div>
-                  <h3 className="text-lg font-semibold text-neutral-100">
-                    Project Stage & Production Speed
-                  </h3>
-                  <p className="text-xs text-neutral-400">
-                    What materials do you have ready, and how urgently do you need this submitted?
-                  </p>
+                  <h3 className="text-base font-semibold text-neutral-100">BIM Phase & Complexity Parameters</h3>
+                  <p className="text-[11px] text-neutral-500 mt-0.5">Current design phase and program complexity drive resource allocation.</p>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                {/* Stage options */}
+              <div className="space-y-5">
+                {/* BIM Phase (LOD) */}
                 <div>
-                  <label className="text-xs font-semibold text-neutral-300 block mb-2">
-                    Current Project Stage / Input Material
+                  <label className="block text-[11px] font-mono text-neutral-400 mb-3 tracking-widest uppercase">
+                    Current BIM Phase
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {PROJECT_STAGES.map((stage) => {
-                      const isSelected = currentStageId === stage.id;
+                    {BIM_PHASES.map((phase) => {
+                      const isSelected = bimPhaseId === phase.id;
                       return (
-                        <button
-                          key={stage.id}
-                          type="button"
-                          onClick={() => setCurrentStageId(stage.id)}
-                          className={`p-3 rounded-lg border text-left transition-all ${
+                        <button key={phase.id} type="button" onClick={() => setBimPhaseId(phase.id)}
+                          className={`p-3.5 rounded-lg border text-left transition-all ${
                             isSelected
-                              ? "bg-amber-500/10 border-amber-500/80 text-neutral-100 ring-1 ring-amber-500/30"
-                              : "bg-neutral-950/60 border-neutral-800/80 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-950"
-                          }`}
-                        >
-                          <div className="font-semibold text-xs text-neutral-200">
-                            {stage.name}
+                              ? "bg-neutral-800 border-amber-500/60 ring-1 ring-amber-500/15"
+                              : "bg-neutral-950/50 border-neutral-800 hover:border-neutral-700"
+                          }`}>
+                          <div className="flex items-center justify-between mb-1">
+                            <span className={`text-[10px] font-mono tracking-widest ${isSelected ? "text-amber-400" : "text-neutral-600"}`}>
+                              {phase.lodLabel}
+                            </span>
+                            {isSelected && <Check className="w-3 h-3 text-amber-400" />}
                           </div>
-                          <div className="text-[11px] text-neutral-400 mt-0.5 line-clamp-1">
-                            {stage.desc}
-                          </div>
+                          <div className="font-medium text-xs text-neutral-200">{phase.name}</div>
+                          <div className="text-[10px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">{phase.desc}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Complexity Multiplier */}
+                <div>
+                  <label className="block text-[11px] font-mono text-neutral-400 mb-3 tracking-widest uppercase">
+                    Program Complexity
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {COMPLEXITY_TIERS.map((tier) => {
+                      const isSelected = complexityId === tier.id;
+                      return (
+                        <button key={tier.id} type="button" onClick={() => setComplexityId(tier.id)}
+                          className={`p-3.5 rounded-lg border text-left transition-all ${
+                            isSelected
+                              ? "bg-neutral-800 border-amber-500/60 ring-1 ring-amber-500/15"
+                              : "bg-neutral-950/50 border-neutral-800 hover:border-neutral-700"
+                          }`}>
+                          <div className="font-medium text-xs text-neutral-200 mb-1">{tier.label}</div>
+                          <p className="text-[10px] text-neutral-500 leading-relaxed line-clamp-2">{tier.desc}</p>
                         </button>
                       );
                     })}
@@ -476,33 +401,23 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
 
                 {/* Timeline Speed */}
                 <div>
-                  <label className="text-xs font-semibold text-neutral-300 block mb-2">
-                    Target Completion Urgency
+                  <label className="block text-[11px] font-mono text-neutral-400 mb-3 tracking-widest uppercase">
+                    Delivery Schedule
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <div className="grid grid-cols-3 gap-2">
                     {TIMELINE_OPTIONS.map((time) => {
                       const isSelected = timelineId === time.id;
                       return (
-                        <button
-                          key={time.id}
-                          type="button"
-                          onClick={() => setTimelineId(time.id)}
-                          className={`p-3 rounded-lg border text-left transition-all ${
+                        <button key={time.id} type="button" onClick={() => setTimelineId(time.id)}
+                          className={`p-3.5 rounded-lg border text-left transition-all ${
                             isSelected
-                              ? "bg-amber-500/10 border-amber-500/80 text-neutral-100 ring-1 ring-amber-500/30"
-                              : "bg-neutral-950/60 border-neutral-800/80 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-950"
-                          }`}
-                        >
-                          <div className="font-semibold text-xs text-neutral-200">
-                            {time.name}
-                          </div>
-                          <span
-                            className={`inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded font-mono ${
-                              isSelected
-                                ? "bg-amber-500/30 text-amber-300"
-                                : "bg-neutral-800 text-neutral-400"
-                            }`}
-                          >
+                              ? "bg-neutral-800 border-amber-500/60 ring-1 ring-amber-500/15"
+                              : "bg-neutral-950/50 border-neutral-800 hover:border-neutral-700"
+                          }`}>
+                          <div className="font-medium text-xs text-neutral-200">{time.name}</div>
+                          <span className={`inline-block mt-1 text-[10px] font-mono px-1.5 py-0.5 rounded ${
+                            isSelected ? "bg-amber-500/20 text-amber-400" : "bg-neutral-800 text-neutral-500"
+                          }`}>
                             {time.badge}
                           </span>
                         </button>
@@ -515,153 +430,176 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
 
           </div>
 
-          {/* Sticky Scope & Feasibility Summary Dock (4 cols) */}
-          <div className="lg:col-span-4 lg:sticky lg:top-20 space-y-5">
-            <div className="p-6 rounded-2xl bg-gradient-to-b from-neutral-900 to-neutral-950 border border-amber-500/30 shadow-xl relative overflow-hidden">
-              {/* Highlight accent */}
-              <div className="absolute top-0 right-0 w-36 h-36 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
+          {/* Sticky Results Panel (4 cols) */}
+          <div className="lg:col-span-4 lg:sticky lg:top-20 space-y-4">
+            <div className="p-6 rounded-xl bg-neutral-900 border border-neutral-800 shadow-2xl">
 
+              {/* Panel Header */}
               <div className="flex items-center justify-between pb-4 border-b border-neutral-800">
-                <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 flex items-center space-x-1.5">
-                  <Layers className="w-4 h-4" />
-                  <span>Scope Calculation</span>
+                <span className="text-[11px] font-mono text-neutral-400 tracking-widest uppercase flex items-center space-x-1.5">
+                  <Layers className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Scope Output</span>
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-neutral-800 text-neutral-300 border border-neutral-700">
-                  LIVE ESTIMATE
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-neutral-700 text-neutral-400">
+                  {selectedPhaseLabel}
                 </span>
               </div>
 
-              {/* Fee Range */}
-              <div className="mt-5">
-                <span className="text-xs text-neutral-400 font-medium block">
-                  Estimated Remote Production Fee
-                </span>
-                <div className="mt-1 flex items-baseline space-x-2">
-                  <span className="text-3xl font-extrabold text-neutral-100 font-mono tracking-tight">
-                    ${calculation.estimatedFeeMin.toLocaleString()}
-                  </span>
-                  <span className="text-neutral-400 font-mono">-</span>
-                  <span className="text-3xl font-extrabold text-amber-400 font-mono tracking-tight">
-                    ${calculation.estimatedFeeMax.toLocaleString()}
-                  </span>
-                </div>
-                <p className="text-[11px] text-neutral-500 mt-1">
-                  Fixed-price turnkey delivery • Zero overtime charges
-                </p>
-              </div>
-
-              {/* Key Deliverable Metrics */}
-              <div className="grid grid-cols-2 gap-3 mt-6 pt-5 border-t border-neutral-800">
-                <div className="p-3 rounded-xl bg-neutral-950/80 border border-neutral-800/80">
-                  <div className="flex items-center space-x-1.5 text-neutral-400 text-xs">
-                    <Clock className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Turnaround</span>
+              {/* Timeline + Sheets — always visible */}
+              <div className="grid grid-cols-2 gap-3 mt-5">
+                <div className="p-3.5 rounded-lg bg-neutral-950 border border-neutral-800">
+                  <div className="flex items-center space-x-1.5 text-neutral-500 text-[11px] mb-1">
+                    <Clock className="w-3 h-3 text-amber-400" />
+                    <span>Timeline</span>
                   </div>
-                  <div className="mt-1 text-lg font-bold font-mono text-neutral-100">
-                    ~{calculation.estimatedTurnaroundDays} Days
+                  <div className="text-xl font-bold font-mono text-neutral-100">
+                    ~{calculation.estimatedTurnaroundDays}d
                   </div>
-                  <span className="text-[10px] text-neutral-500">Milestone phased</span>
+                  <span className="text-[10px] font-mono text-neutral-600">Milestone phased</span>
                 </div>
-
-                <div className="p-3 rounded-xl bg-neutral-950/80 border border-neutral-800/80">
-                  <div className="flex items-center space-x-1.5 text-neutral-400 text-xs">
-                    <FileText className="w-3.5 h-3.5 text-amber-400" />
+                <div className="p-3.5 rounded-lg bg-neutral-950 border border-neutral-800">
+                  <div className="flex items-center space-x-1.5 text-neutral-500 text-[11px] mb-1">
+                    <FileText className="w-3 h-3 text-amber-400" />
                     <span>Drawing Set</span>
                   </div>
-                  <div className="mt-1 text-lg font-bold font-mono text-neutral-100">
-                    {calculation.recommendedSheetsCount} Sheets
+                  <div className="text-xl font-bold font-mono text-neutral-100">
+                    {calculation.recommendedSheetsCount}
                   </div>
-                  <span className="text-[10px] text-neutral-500">A-001 through A-601</span>
+                  <span className="text-[10px] font-mono text-neutral-600">Sheets · G / A / M series</span>
                 </div>
               </div>
 
-              {/* In-House Cost Comparison & Savings — only framed as a discount when it honestly is
-                  one; very large/complex/rushed scopes can legitimately land at or above a cheaper
-                  market's in-house benchmark, and the UI should never claim a savings that isn't real */}
-              <div className="mt-5 p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                <div className="flex items-center space-x-2">
-                  <TrendingUp className="w-4 h-4 text-amber-400" />
-                  <span className="text-xs font-bold text-amber-300">
-                    {calculation.hasSavings ? "Client Value vs In-House Drafter" : "Cost Comparison"}
+              {/* Complexity tier badge */}
+              <div className="mt-4 px-3.5 py-2.5 rounded-lg bg-neutral-950 border border-neutral-800">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase">Complexity</span>
+                  <span className={`text-[11px] font-mono font-semibold ${
+                    complexityId === "landmark" ? "text-amber-400" :
+                    complexityId === "complex" ? "text-amber-300/80" :
+                    "text-neutral-400"
+                  }`}>
+                    {COMPLEXITY_TIERS.find((c) => c.id === complexityId)?.label}
+                    {complexityId !== "standard" && ` ×${COMPLEXITY_TIERS.find((c) => c.id === complexityId)?.multiplier}`}
                   </span>
                 </div>
-                <div className="mt-2 text-xs text-neutral-300 space-y-1">
-                  <div className="flex justify-between">
-                    <span className="text-neutral-400">
-                      Typical in-house cost ({JURISDICTIONS.find((j) => j.id === jurisdictionId)?.name.split(" (")[0] || "US"}):
-                    </span>
-                    <span className={`font-mono ${calculation.hasSavings ? "line-through text-neutral-500" : "text-neutral-300"}`}>
-                      ${calculation.inHouseCostEstimate.toLocaleString()}
-                    </span>
-                  </div>
-                  {calculation.hasSavings ? (
-                    <div className="flex justify-between font-semibold">
-                      <span className="text-amber-200">Your Estimated Savings:</span>
-                      <span className="font-mono text-amber-400">
-                        ~${calculation.clientSavingsAmount.toLocaleString()} ({calculation.savingsPercentage}%)
-                      </span>
-                    </div>
-                  ) : (
-                    <p className="text-[11px] text-neutral-400 pt-1 leading-relaxed">
-                      For this scope, service mix, and timeline, this fee runs close to typical
-                      in-house rates in this market — the value here is guaranteed turnaround and
-                      zero long-term overhead, not a straight discount. A standard timeline or a
-                      smaller service bundle usually costs less.
-                    </p>
-                  )}
-                </div>
               </div>
 
-              {/* Full Drawing Sheet Index — click any sheet to remove it from the priced set */}
+              {/* Fee Gate */}
               <div className="mt-5">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-neutral-300">
-                    Sheet Index ({calculation.recommendedSheetsCount} of {calculation.recommendedSheets.length} Selected):
-                  </span>
-                  {excludedSheetNumbers.length > 0 && (
+                {!feeUnlocked ? (
+                  <div className="p-4 rounded-lg border border-neutral-800 bg-neutral-950/60 text-center">
+                    <Lock className="w-5 h-5 text-neutral-600 mx-auto mb-2" />
+                    <p className="text-[11px] text-neutral-500 leading-relaxed mb-3">
+                      Fee estimate is available upon consultation request — scope parameters are sent directly to {specialist.name.split(" ")[0]}.
+                    </p>
                     <button
                       type="button"
-                      onClick={() => setExcludedSheetNumbers([])}
-                      className="text-[10px] text-amber-400 hover:text-amber-300 font-mono underline underline-offset-2 cursor-pointer"
+                      onClick={() => setFeeUnlocked(true)}
+                      className="w-full py-2.5 px-4 rounded-lg border border-amber-500/40 text-amber-400 text-xs font-medium hover:bg-amber-500/10 hover:border-amber-500/70 transition-all cursor-pointer flex items-center justify-center space-x-2"
                     >
-                      Reset all
+                      <span>Request Consultation</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <span className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase block mb-2">
+                      Indicative Fee Range
+                    </span>
+                    <div className="flex items-baseline space-x-2 mb-1">
+                      <span className="text-2xl font-bold font-mono text-neutral-100">
+                        ${calculation.estimatedFeeMin.toLocaleString()}
+                      </span>
+                      <span className="text-neutral-500 font-mono">–</span>
+                      <span className="text-2xl font-bold font-mono text-amber-400">
+                        ${calculation.estimatedFeeMax.toLocaleString()}
+                      </span>
+                    </div>
+                    <p className="text-[10px] font-mono text-neutral-600 mb-4">
+                      Fixed-price turnkey delivery · Confirmed at brief sign-off
+                    </p>
+
+                    {/* Cost context */}
+                    <div className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 mb-4">
+                      <div className="flex items-center space-x-1.5 mb-2">
+                        <TrendingUp className="w-3.5 h-3.5 text-neutral-500" />
+                        <span className="text-[10px] font-mono text-neutral-500 tracking-widest uppercase">Market Comparison</span>
+                      </div>
+                      <div className="text-[11px] text-neutral-400 space-y-1.5">
+                        <div className="flex justify-between">
+                          <span>Onshore equivalent</span>
+                          <span className={`font-mono ${calculation.hasSavings ? "line-through text-neutral-600" : "text-neutral-400"}`}>
+                            ${calculation.inHouseCostEstimate.toLocaleString()}
+                          </span>
+                        </div>
+                        {calculation.hasSavings && (
+                          <div className="flex justify-between font-semibold">
+                            <span className="text-amber-300/80">Client advantage</span>
+                            <span className="font-mono text-amber-400">
+                              ~${calculation.clientSavingsAmount.toLocaleString()} ({calculation.savingsPercentage}%)
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Contact CTAs */}
+                    <div className="grid grid-cols-2 gap-2.5">
+                      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"
+                        className="py-3 px-3 rounded-lg bg-emerald-900/50 hover:bg-emerald-900/80 border border-emerald-700/40 text-emerald-400 font-medium text-xs transition-all flex items-center justify-center space-x-1.5">
+                        <MessageSquare className="w-3.5 h-3.5" />
+                        <span>WhatsApp</span>
+                      </a>
+                      <a href={mailtoUrl}
+                        className="py-3 px-3 rounded-lg bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 text-neutral-200 font-medium text-xs transition-all flex items-center justify-center space-x-1.5">
+                        <Mail className="w-3.5 h-3.5 text-amber-400" />
+                        <span>Email</span>
+                      </a>
+                    </div>
+
+                    <div className="mt-3 text-center text-[10px] text-neutral-600 font-mono">
+                      Sends scope parameters · No forms · No obligation
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Sheet Index */}
+              <div className="mt-5 pt-5 border-t border-neutral-800">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-mono text-neutral-400 tracking-widest uppercase">
+                    Sheet Index ({calculation.recommendedSheetsCount} active)
+                  </span>
+                  {excludedSheetNumbers.length > 0 && (
+                    <button type="button" onClick={() => setExcludedSheetNumbers([])}
+                      className="text-[10px] text-amber-400 hover:text-amber-300 font-mono cursor-pointer">
+                      Reset
                     </button>
                   )}
                 </div>
-                <p className="text-[10px] text-neutral-500 mb-2">
-                  Don't need a sheet? Click it to remove it — the price updates instantly.
-                </p>
-                <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1 text-xs">
+                <p className="text-[10px] text-neutral-600 font-mono mb-2">Click a sheet to remove it from scope.</p>
+                <div className="space-y-1 max-h-52 overflow-y-auto pr-0.5 text-xs">
                   {calculation.recommendedSheets.map((sheet) => {
                     const isExcluded = excludedSheetNumbers.includes(sheet.sheetNumber);
                     return (
-                      <div
-                        key={sheet.sheetNumber}
-                        onClick={() => handleToggleSheet(sheet.sheetNumber)}
-                        className={`flex items-center justify-between text-[11px] py-1 px-2 rounded cursor-pointer transition-all ${
-                          isExcluded
-                            ? "bg-neutral-950/30 opacity-50"
-                            : "bg-neutral-950/60 hover:bg-neutral-900"
-                        }`}
-                      >
+                      <div key={sheet.sheetNumber} onClick={() => handleToggleSheet(sheet.sheetNumber)}
+                        className={`flex items-center justify-between text-[10px] py-1 px-2 rounded cursor-pointer transition-all ${
+                          isExcluded ? "opacity-35" : "hover:bg-neutral-800/50"
+                        }`}>
                         <div className="flex items-center space-x-1.5 min-w-0">
-                          <div
-                            className={`w-3.5 h-3.5 rounded-sm flex items-center justify-center border shrink-0 ${
-                              isExcluded
-                                ? "border-neutral-700 bg-neutral-900"
-                                : "bg-amber-500 border-amber-500 text-neutral-950"
-                            }`}
-                          >
-                            {!isExcluded && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                          <div className={`w-3 h-3 rounded-sm flex items-center justify-center border shrink-0 ${
+                            isExcluded ? "border-neutral-800 bg-transparent" : "bg-amber-500/80 border-amber-500"
+                          }`}>
+                            {!isExcluded && <Check className="w-2 h-2 text-neutral-950 stroke-[4]" />}
                           </div>
-                          <span className={`font-mono font-semibold shrink-0 ${isExcluded ? "text-neutral-500" : "text-amber-400"}`}>
+                          <span className={`font-mono shrink-0 ${isExcluded ? "text-neutral-600" : "text-amber-400"}`}>
                             {sheet.sheetNumber}
                           </span>
-                          <span className={`truncate ${isExcluded ? "text-neutral-500 line-through" : "text-neutral-300"}`}>
+                          <span className={`truncate ${isExcluded ? "text-neutral-600 line-through" : "text-neutral-400"}`}>
                             {sheet.sheetTitle}
                           </span>
                         </div>
-                        <span className="text-[10px] text-neutral-500 ml-1 shrink-0 font-mono">
+                        <span className="text-[9px] font-mono text-neutral-600 ml-1 shrink-0">
                           {sheet.bimLOD || "LOD 300"}
                         </span>
                       </div>
@@ -670,49 +608,20 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({
                 </div>
               </div>
 
-              {/* Direct Contact CTAs — no form, no gate; everything above is already visible */}
-              <div className="mt-6 grid grid-cols-2 gap-2.5">
-                <a
-                  id="whatsapp-estimate-cta-btn"
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="py-3.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-sm shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>WhatsApp</span>
-                </a>
-                <a
-                  id="email-estimate-cta-btn"
-                  href={mailtoUrl}
-                  className="py-3.5 px-3 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-100 font-bold text-sm border border-neutral-700 transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
-                >
-                  <Mail className="w-4 h-4 text-amber-400" />
-                  <span>Email</span>
-                </a>
-              </div>
-
-              <div className="mt-3 flex items-center justify-center space-x-2 text-[11px] text-neutral-400">
-                <Check className="w-3.5 h-3.5 text-amber-400" />
-                <span>Sends this exact scope directly to {specialist.name.split(" ")[0]} • No forms</span>
-              </div>
-
               <EstimateDisclaimer specialistFirstName={specialist.name.split(" ")[0]} className="mt-4" />
             </div>
 
-            {/* Quick Guarantees Card */}
-            <div className="p-4 rounded-xl bg-neutral-900/60 border border-neutral-800 text-xs text-neutral-400 space-y-2">
-              <div className="flex items-center space-x-2 text-neutral-300 font-semibold">
-                <ShieldAlert className="w-4 h-4 text-amber-400" />
-                <span>Specialist Delivery Guarantee</span>
+            {/* Delivery Assurance */}
+            <div className="p-4 rounded-xl bg-neutral-900/60 border border-neutral-800 text-xs text-neutral-500 space-y-2">
+              <div className="flex items-center space-x-2 text-neutral-300 font-medium">
+                <ShieldCheck className="w-4 h-4 text-amber-400" />
+                <span>Delivery Standards</span>
               </div>
-              <p className="leading-relaxed text-[11px]">
-                • 100% Native Files: Full access to clean BIM families & AutoCAD (.DWG) layers.
-                <br />
-                • Fast Redlines: 24 to 48-hour turnarounds on city plan-check corrections.
-                <br />
-                • NDA Protected: Strict intellectual property and confidentiality assurance.
-              </p>
+              <ul className="text-[11px] leading-relaxed space-y-1">
+                <li>Native BIM families & clean AutoCAD layer structure (AIA NCS)</li>
+                <li>24–48h construction administration response window</li>
+                <li>NDA-protected · IP assigned on final payment</li>
+              </ul>
             </div>
           </div>
 

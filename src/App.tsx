@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import {
   Compass,
-  Sparkles,
   ArrowRight,
   MessageSquare,
   Mail,
   Linkedin,
-  TrendingDown,
   UserCheck,
   Image as ImageIcon,
   Layers
@@ -106,131 +104,109 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="max-w-3xl">
 
-              {/* Badges Bar: Service scope */}
-              <div className="flex flex-wrap items-center gap-2.5 mb-5">
-                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
-                  <Compass className="w-3.5 h-3.5" />
-                  <span>Remote Architectural Visualization • BIM LOD 200–350 • CAD Permitting</span>
-                </div>
-                <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-amber-500 text-neutral-950 text-xs font-extrabold shadow-md shadow-amber-500/20">
-                  Design Engineering &amp; Pre-Construction
-                </div>
+              {/* Discipline Tags */}
+              <div className="flex flex-wrap items-center gap-2 mb-8">
+                <span className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase">Disciplines</span>
+                {["Virtual Design & Construction", "Parametric Modeling", "BIM LOD 100–400", "Computational Analysis"].map((tag) => (
+                  <span key={tag} className="px-2.5 py-1 rounded border border-neutral-800 text-neutral-400 text-[11px] font-mono tracking-wide">
+                    {tag}
+                  </span>
+                ))}
               </div>
 
-              {/* Quick jump to each pricing track — bold, high-contrast buttons, not competing
-                  with the main CTA in size but clearly readable and tappable */}
-              <div className="flex flex-wrap items-center gap-2.5 mb-6">
-                <span className="text-xs font-semibold text-neutral-400 mr-0.5">Explore:</span>
-                <button
-                  type="button"
-                  onClick={() => scrollToSection("consultancy")}
-                  className="px-4 py-2 rounded-lg border-2 border-neutral-600 bg-neutral-800 text-neutral-100 text-sm font-bold hover:bg-amber-500 hover:text-neutral-950 hover:border-amber-500 transition-all shadow-sm cursor-pointer flex items-center gap-1.5"
-                >
-                  <UserCheck className="w-4 h-4" />
+              {/* Quick track navigation */}
+              <div className="flex flex-wrap items-center gap-2.5 mb-8">
+                <span className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase mr-1">Tracks</span>
+                <button type="button" onClick={() => scrollToSection("consultancy")}
+                  className="px-3 py-1.5 rounded border border-neutral-800 bg-transparent text-neutral-400 text-xs hover:text-neutral-100 hover:border-neutral-600 transition-all cursor-pointer flex items-center gap-1.5">
+                  <UserCheck className="w-3.5 h-3.5" />
                   Consultancy
                 </button>
-                <button
-                  type="button"
-                  onClick={() => scrollToSection("visualization")}
-                  className="px-4 py-2 rounded-lg border-2 border-neutral-600 bg-neutral-800 text-neutral-100 text-sm font-bold hover:bg-amber-500 hover:text-neutral-950 hover:border-amber-500 transition-all shadow-sm cursor-pointer flex items-center gap-1.5"
-                >
-                  <ImageIcon className="w-4 h-4" />
+                <button type="button" onClick={() => scrollToSection("visualization")}
+                  className="px-3 py-1.5 rounded border border-neutral-800 bg-transparent text-neutral-400 text-xs hover:text-neutral-100 hover:border-neutral-600 transition-all cursor-pointer flex items-center gap-1.5">
+                  <ImageIcon className="w-3.5 h-3.5" />
                   Visualization
                 </button>
-                <button
-                  type="button"
-                  onClick={() => scrollToSection("bim-cad")}
-                  className="px-4 py-2 rounded-lg border-2 border-neutral-600 bg-neutral-800 text-neutral-100 text-sm font-bold hover:bg-amber-500 hover:text-neutral-950 hover:border-amber-500 transition-all shadow-sm cursor-pointer flex items-center gap-1.5"
-                >
-                  <Layers className="w-4 h-4" />
-                  BIM/CAD
+                <button type="button" onClick={() => scrollToSection("bim-cad")}
+                  className="px-3 py-1.5 rounded border border-neutral-800 bg-transparent text-neutral-400 text-xs hover:text-neutral-100 hover:border-neutral-600 transition-all cursor-pointer flex items-center gap-1.5">
+                  <Layers className="w-3.5 h-3.5" />
+                  BIM / VDC
                 </button>
               </div>
 
-              {/* Display Headline targeting long-tail search queries */}
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-neutral-100 tracking-tight leading-[1.12]">
-                Remote Architectural Visualization, BIM Services & Permit Sets.{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500">
+              {/* Editorial Headline */}
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-100 tracking-tight leading-[1.08]">
+                Computational Design,{" "}
+                <br className="hidden sm:block" />
+                Virtual Design & Construction.{" "}
+                <span className="text-amber-400">
                   Delivered Globally.
                 </span>
               </h1>
 
-              {/* The Hook — pulled out of the body copy so it can't be missed */}
-              <div className="mt-5 inline-flex flex-wrap items-center gap-x-2.5 gap-y-1 px-4 py-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 backdrop-blur-sm">
-                <TrendingDown className="w-4 h-4 text-amber-400 shrink-0" />
-                <span className="text-lg sm:text-xl font-extrabold text-amber-400">Save 60-70%</span>
-                <span className="text-sm text-neutral-100">vs in-house drafter payroll</span>
-                <span className="hidden sm:inline text-neutral-500">•</span>
-                <span className="text-sm font-bold text-emerald-400">24-48h redline turnaround</span>
-              </div>
-
               {/* Sub-copy */}
-              <p className="mt-4 text-base sm:text-lg text-neutral-300 leading-relaxed max-w-2xl">
-                Partner with an NCA-trained senior architect for code-compliant
-                remote architectural BIM services, 3D BIM modeling (LOD 200–350), and
-                millimeter-precise permit drawing sets (IBC/IRC/Title 24).
+              <p className="mt-6 text-base sm:text-lg text-neutral-400 leading-relaxed max-w-2xl font-light">
+                NCA-trained Principal Architect delivering code-compliant BIM production,
+                parametric modeling (LOD 100–400), and full-scope construction documentation
+                sets across IBC / IRC / CBC jurisdictions — remotely, from concept to closeout.
               </p>
 
-              {/* Action Buttons */}
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              {/* Action row — minimal, editorial */}
+              <div className="mt-10 flex flex-wrap items-center gap-4">
                 <button
                   id="hero-estimator-cta-btn"
                   onClick={scrollToEstimator}
-                  className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold text-sm shadow-xl shadow-amber-500/20 transition-all flex items-center space-x-2 group cursor-pointer"
+                  className="group flex items-center space-x-2 text-sm font-medium text-amber-400 border border-amber-500/40 px-5 py-3 rounded hover:bg-amber-500/10 hover:border-amber-500/70 transition-all cursor-pointer"
                 >
-                  <Sparkles className="w-4 h-4 text-neutral-950" />
-                  <span>Estimate Project Scope & Fees</span>
+                  <span>Scope Planner</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 <a
                   href={`https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-                    `Hi ${specialist.name}, I'm looking for a remote architecture and drafting specialist.`
+                    `Hi ${specialist.name}, I'd like to discuss a project.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-3.5 rounded-xl bg-emerald-700/80 hover:bg-emerald-600/90 text-white font-semibold text-sm border border-emerald-500/40 flex items-center space-x-2 transition-all cursor-pointer shadow-md shadow-emerald-900/20"
+                  className="flex items-center space-x-2 px-5 py-3 rounded border border-neutral-700 text-neutral-300 text-sm hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer"
                 >
-                  <MessageSquare className="w-4 h-4 fill-white/20" />
-                  <span>WhatsApp: {specialist.phone || "+92 322 4316477"}</span>
+                  <MessageSquare className="w-4 h-4 text-emerald-400" />
+                  <span>WhatsApp</span>
                 </a>
 
-                <a
-                  href={`mailto:${specialist.email}`}
-                  className="px-4 py-3.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 text-sm font-mono border border-neutral-800 flex items-center space-x-2 transition-all cursor-pointer"
-                >
-                  <Mail className="w-4 h-4 text-amber-400" />
-                  <span>Email Direct</span>
+                <a href={`mailto:${specialist.email}`}
+                  className="flex items-center space-x-2 px-5 py-3 rounded border border-neutral-700 text-neutral-300 text-sm hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer">
+                  <Mail className="w-4 h-4 text-amber-400/70" />
+                  <span>Email</span>
                 </a>
 
                 <a
                   href={specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-3.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 text-sm font-mono border border-neutral-800 flex items-center space-x-2 transition-all cursor-pointer"
-                >
-                  <Linkedin className="w-4 h-4 text-sky-400" />
+                  className="flex items-center space-x-2 px-5 py-3 rounded border border-neutral-700 text-neutral-300 text-sm hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer">
+                  <Linkedin className="w-4 h-4 text-sky-400/70" />
                   <span>LinkedIn</span>
                 </a>
               </div>
 
-              {/* Fast Trust Indicators */}
-              <div className="mt-10 pt-8 border-t border-neutral-800/80 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
+              {/* Credential Strip */}
+              <div className="mt-12 pt-8 border-t border-neutral-800/60 grid grid-cols-2 sm:grid-cols-4 gap-6 text-xs font-mono">
                 <div>
-                  <span className="text-amber-400 font-bold block text-sm">AIA & NCS</span>
-                  <span className="text-neutral-400 text-[11px]">CAD Layering Standards</span>
+                  <span className="text-amber-400 font-semibold block text-sm">AIA · NCS</span>
+                  <span className="text-neutral-500 text-[11px] tracking-wide">Layering Standards</span>
                 </div>
                 <div>
-                  <span className="text-neutral-100 font-bold block text-sm">LOD 200 - 350</span>
-                  <span className="text-neutral-400 text-[11px]">3D BIM Modeling</span>
+                  <span className="text-neutral-200 font-semibold block text-sm">LOD 100–400</span>
+                  <span className="text-neutral-500 text-[11px] tracking-wide">BIM Federated Models</span>
                 </div>
                 <div>
-                  <span className="text-amber-400 font-bold block text-sm">24-48h</span>
-                  <span className="text-neutral-400 text-[11px]">Redline Turnaround</span>
+                  <span className="text-amber-400 font-semibold block text-sm">24–48h</span>
+                  <span className="text-neutral-500 text-[11px] tracking-wide">Construction Administration</span>
                 </div>
                 <div>
-                  <span className="text-emerald-400 font-bold block text-sm">100% Native</span>
-                  <span className="text-neutral-400 text-[11px]">IFC, DWG & Arch D PDF</span>
+                  <span className="text-emerald-400 font-semibold block text-sm">Native Delivery</span>
+                  <span className="text-neutral-500 text-[11px] tracking-wide">IFC · DWG · Arch D PDF</span>
                 </div>
               </div>
 
@@ -373,9 +349,9 @@ export default function App() {
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-neutral-400">
               <a href="#estimator" className="hover:text-amber-400 transition-colors">Scope Estimator</a>
               <a href="#consultancy" className="hover:text-amber-400 transition-colors">Pricing</a>
-              <a href="#deliverables" className="hover:text-amber-400 transition-colors">Drawing Sets & PDFs</a>
+              <a href="#deliverables" className="hover:text-amber-400 transition-colors">Construction Documentation</a>
               <a href="#workflows" className="hover:text-amber-400 transition-colors">Delivery Process</a>
-              <a href="#specialist" className="hover:text-amber-400 transition-colors">About Specialist</a>
+              <a href="#specialist" className="hover:text-amber-400 transition-colors">Principal Architect</a>
               <button
                 onClick={() => setIsSpecialistEditorOpen(true)}
                 className="hover:text-amber-400 transition-colors cursor-pointer flex items-center space-x-1"

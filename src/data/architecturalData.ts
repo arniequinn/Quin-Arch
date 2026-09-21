@@ -24,14 +24,14 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
     upwork: "https://www.upwork.com/freelancers/~017cb25c6f0d1d2375?mp_source=share"
   },
   availableFor: [
-    "Full-Service Remote Architectural CAD Drafting",
-    "Municipal Permit Drawing Sets (IBC, IRC, Title 24, FBC)",
-    "3D BIM Modeling (LOD 200 - 350)",
-    "Parametric & Algorithmic Design (Rhino + Grasshopper)",
-    "MEP & Structural Clash Detection (Navisworks)",
-    "Millwork / Casework Fabrication Shop Drawings",
+    "Virtual Design & Construction (VDC) — Full Remote Production",
+    "Construction Documentation Packages (IBC, IRC, Title 24, FBC)",
+    "BIM Federated Models (LOD 100–400)",
+    "Parametric & Computational Design (Rhino + Grasshopper)",
+    "MEP & Structural Clash Detection (Navisworks Manage)",
+    "Millwork / Casework Fabrication Documentation",
     "Photorealistic Architectural Visualization (V-Ray / Lumion / Twinmotion)",
-    "Dedicated White-Label CAD/BIM Retainers for Architecture & Engineering Firms"
+    "Dedicated White-Label BIM/VDC Retainers for Architecture & Engineering Firms"
   ],
   softwareProficiencies: [
     "3D BIM Modeling Software (LOD 200-350)",
@@ -142,50 +142,50 @@ export const PROJECT_TYPES: ProjectTypeOption[] = [
 export const SERVICE_OPTIONS: ServiceOption[] = [
   {
     id: "permit_drawings",
-    name: "2D Permit Drawing Sets (CAD / BIM)",
-    shortName: "Permit Drawings",
-    category: "Drafting",
-    description: "Complete municipal permit submission package: Site plan, dimensioned floor plans, exterior elevations, building sections, window/door schedules, and life safety notes.",
+    name: "Construction Documentation Package",
+    shortName: "Construction Documentation",
+    category: "Virtual Design & Construction",
+    description: "Complete municipal submittal package: site plan, dimensioned floor plans, exterior elevations, building sections, window/door schedules, and life-safety compliance notes.",
     standardTurnaroundDays: 7,
     softwareUsed: ["AutoCAD 2024", "3D BIM Software", "Bluebeam Revu"],
     popular: true
   },
   {
     id: "bim_modeling",
-    name: "3D BIM Modeling (LOD 200 - 350)",
-    shortName: "3D BIM Modeling",
-    category: "BIM",
-    description: "Intelligent building information modeling with parametric families, wall assemblies, material takeoff schedules, and clash-ready geometry.",
+    name: "BIM Federated Model (LOD 100–400)",
+    shortName: "BIM Federated Model",
+    category: "Virtual Design & Construction",
+    description: "Intelligent building information model with parametric families, wall assemblies, material takeoff schedules, and clash-ready geometry for federated coordination.",
     standardTurnaroundDays: 8,
     softwareUsed: ["3D BIM Software", "Navisworks", "BIM 360", "IFC"],
     popular: true
   },
   {
     id: "construction_docs",
-    name: "Construction Documentation & Detail Sets",
-    shortName: "CD Sets & Details",
-    category: "Documentation",
-    description: "Heavy-duty working drawings for general contractors: 1/2\" to 3\" scale architectural details, wall waterproofing assemblies, foundation details, and structural callouts.",
+    name: "Architectural Detail & Working Drawings",
+    shortName: "Detail & Working Drawings",
+    category: "Virtual Design & Construction",
+    description: "High-LOD working drawings for contractor procurement: 1/2\"–3\" scale architectural details, envelope assemblies, foundation sections, and structural callouts.",
     standardTurnaroundDays: 7,
     softwareUsed: ["AutoCAD", "3D BIM Software", "AIA CAD Standards"],
     popular: true
   },
   {
     id: "millwork_shop_drawings",
-    name: "Millwork & Casework Fabrication Drawings",
-    shortName: "Millwork & Shop Drawings",
-    category: "Documentation",
-    description: "Millimeter-accurate shop drawings for custom cabinetry fabricators, staircases, reception desks, vanity units, and joinery details with hardware specs.",
+    name: "Millwork & Fabrication Documentation",
+    shortName: "Millwork Documentation",
+    category: "Virtual Design & Construction",
+    description: "Millimeter-accurate fabrication documentation for custom joinery, staircases, reception counters, vanity units, and bespoke cabinetry with hardware specifications.",
     standardTurnaroundDays: 5,
     softwareUsed: ["AutoCAD", "Cabinet Vision", "3D BIM Software"],
     popular: false
   },
   {
     id: "mep_structural_coordination",
-    name: "Structural & MEP Coordination Overlay",
-    shortName: "MEP/Structural Coordination",
-    category: "Coordination",
-    description: "Overlaying structural steel/timber and MEP ducts/plumbing runs to detect conflicts before breaking ground, saving tens of thousands in field change orders.",
+    name: "Multi-Discipline Coordination (MDC)",
+    shortName: "Multi-Discipline Coordination",
+    category: "Virtual Design & Construction",
+    description: "Federated clash detection overlaying structural steel/timber and MEP routing — resolving conflicts before site mobilization and eliminating field change orders.",
     standardTurnaroundDays: 5,
     softwareUsed: ["Navisworks Manage", "3D BIM Software", "AutoCAD MEP"],
     popular: false
