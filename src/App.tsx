@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Compass,
   ArrowRight,
   MessageSquare,
   Mail,
-  Linkedin,
-  UserCheck,
-  Image as ImageIcon,
-  Layers
+  Linkedin
 } from "lucide-react";
 import { Navbar } from "./components/Navbar";
 import { HeroBackgroundVideo } from "./components/HeroBackgroundVideo";
 import { ScopeEstimator } from "./components/ScopeEstimator";
 import { LODGuide } from "./components/LODGuide";
 import { CombinedPricingSection } from "./components/CombinedPricingSection";
-import { ImageSlideshowBand } from "./components/ImageSlideshowBand";
+import { ProjectGallery } from "./components/ProjectGallery";
 import { DeliverablesGallery } from "./components/DeliverablesGallery";
 import { WorkflowsSection } from "./components/WorkflowsSection";
 import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
@@ -48,8 +45,6 @@ export default function App() {
     return DEFAULT_SPECIALIST_PROFILE;
   });
 
-  const [isOwnerEditingUnlocked, setIsOwnerEditingUnlocked] = useState(() => isOwnerAuthorized());
-
   const [isSpecialistEditorOpen, setIsSpecialistEditorOpen] = useState(false);
 
   // Update specialist profile (restricted to the owner's passkey-unlocked browser session)
@@ -60,8 +55,20 @@ export default function App() {
     }
     setSpecialist(updated);
     localStorage.setItem("archscope_specialist_profile_v4", JSON.stringify(updated));
-    setIsOwnerEditingUnlocked(true);
   };
+
+  // Owner-only entry point for the profile editor — deliberately absent from all public chrome
+  // (nav, footer, profile card); the editor itself still gates saves behind the passkey.
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "e") {
+        e.preventDefault();
+        setIsSpecialistEditorOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   // Smooth scroll to estimator
   const scrollToEstimator = () => {
@@ -85,8 +92,6 @@ export default function App() {
       {/* Navigation */}
       <Navbar
         specialist={specialist}
-        isOwner={isOwnerEditingUnlocked}
-        onOpenSpecialistEditor={() => setIsSpecialistEditorOpen(true)}
         onScrollToEstimator={scrollToEstimator}
       />
 
@@ -104,38 +109,13 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="max-w-3xl">
 
-              {/* Discipline Tags */}
-              <div className="flex flex-wrap items-center gap-2 mb-8">
-                <span className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase">Disciplines</span>
-                {["Virtual Design & Construction", "Parametric Modeling", "BIM LOD 100–400", "Computational Analysis"].map((tag) => (
-                  <span key={tag} className="px-2.5 py-1 rounded border border-neutral-800 text-neutral-400 text-[11px] font-mono tracking-wide">
-                    {tag}
-                  </span>
-                ))}
+              {/* Disciplines — a plain line, not a row of bordered chips competing with the headline */}
+              <div className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase mb-8">
+                Virtual Design & Construction · Parametric Modeling · BIM LOD 100–400 · Computational Analysis
               </div>
 
-              {/* Quick track navigation */}
-              <div className="flex flex-wrap items-center gap-2.5 mb-8">
-                <span className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase mr-1">Tracks</span>
-                <button type="button" onClick={() => scrollToSection("consultancy")}
-                  className="px-3 py-1.5 rounded border border-neutral-800 bg-transparent text-neutral-400 text-xs hover:text-neutral-100 hover:border-neutral-600 transition-all cursor-pointer flex items-center gap-1.5">
-                  <UserCheck className="w-3.5 h-3.5" />
-                  Consultancy
-                </button>
-                <button type="button" onClick={() => scrollToSection("visualization")}
-                  className="px-3 py-1.5 rounded border border-neutral-800 bg-transparent text-neutral-400 text-xs hover:text-neutral-100 hover:border-neutral-600 transition-all cursor-pointer flex items-center gap-1.5">
-                  <ImageIcon className="w-3.5 h-3.5" />
-                  Visualization
-                </button>
-                <button type="button" onClick={() => scrollToSection("bim-cad")}
-                  className="px-3 py-1.5 rounded border border-neutral-800 bg-transparent text-neutral-400 text-xs hover:text-neutral-100 hover:border-neutral-600 transition-all cursor-pointer flex items-center gap-1.5">
-                  <Layers className="w-3.5 h-3.5" />
-                  BIM / VDC
-                </button>
-              </div>
-
-              {/* Editorial Headline */}
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-100 tracking-tight leading-[1.08]">
+              {/* Editorial Headline — the dominant element on first paint */}
+              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-neutral-100 tracking-tight leading-[1.05]">
                 Computational Design,{" "}
                 <br className="hidden sm:block" />
                 Virtual Design & Construction.{" "}
@@ -151,41 +131,50 @@ export default function App() {
                 sets across IBC / IRC / CBC jurisdictions — remotely, from concept to closeout.
               </p>
 
-              {/* Action row — minimal, editorial */}
+              {/* Action row — one primary action, one secondary channel */}
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 <button
                   id="hero-estimator-cta-btn"
                   onClick={scrollToEstimator}
-                  className="group flex items-center space-x-2 text-sm font-medium text-amber-400 border border-amber-500/40 px-5 py-3 rounded hover:bg-amber-500/10 hover:border-amber-500/70 transition-all cursor-pointer"
+                  className="group flex items-center space-x-2 text-sm font-bold text-neutral-950 bg-amber-400 hover:bg-amber-300 px-6 py-3.5 rounded transition-all cursor-pointer shadow-md shadow-amber-500/20"
                 >
-                  <span>Scope Planner</span>
+                  <span>Start a Project</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
 
+                <button
+                  type="button"
+                  onClick={() => scrollToSection("gallery")}
+                  className="flex items-center space-x-2 px-6 py-3.5 rounded border border-neutral-700 text-neutral-300 text-sm hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer"
+                >
+                  <span>View Selected Work</span>
+                </button>
+              </div>
+
+              {/* Direct contact — present, but de-emphasized relative to the primary action */}
+              <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-neutral-500">
                 <a
                   href={`https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
                     `Hi ${specialist.name}, I'd like to discuss a project.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 px-5 py-3 rounded border border-neutral-700 text-neutral-300 text-sm hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer"
+                  className="flex items-center space-x-1.5 hover:text-neutral-200 transition-colors cursor-pointer"
                 >
-                  <MessageSquare className="w-4 h-4 text-emerald-400" />
+                  <MessageSquare className="w-3.5 h-3.5" />
                   <span>WhatsApp</span>
                 </a>
-
                 <a href={`mailto:${specialist.email}`}
-                  className="flex items-center space-x-2 px-5 py-3 rounded border border-neutral-700 text-neutral-300 text-sm hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer">
-                  <Mail className="w-4 h-4 text-amber-400/70" />
+                  className="flex items-center space-x-1.5 hover:text-neutral-200 transition-colors cursor-pointer">
+                  <Mail className="w-3.5 h-3.5" />
                   <span>Email</span>
                 </a>
-
                 <a
                   href={specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 px-5 py-3 rounded border border-neutral-700 text-neutral-300 text-sm hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer">
-                  <Linkedin className="w-4 h-4 text-sky-400/70" />
+                  className="flex items-center space-x-1.5 hover:text-neutral-200 transition-colors cursor-pointer">
+                  <Linkedin className="w-3.5 h-3.5" />
                   <span>LinkedIn</span>
                 </a>
               </div>
@@ -217,9 +206,7 @@ export default function App() {
         {/* 1. Specialist Identity & Direct Booking */}
         <SpecialistProfileCard
           specialist={specialist}
-          onOpenEditor={() => setIsSpecialistEditorOpen(true)}
           onScrollToEstimator={scrollToEstimator}
-          isOwner={isOwnerEditingUnlocked}
         />
 
         {/* 2. Value Proposition: Remote Delivery Advantage & Engagement Models */}
@@ -231,22 +218,23 @@ export default function App() {
         {/* 4. Architect Consultant + Visualization, side by side */}
         <CombinedPricingSection specialist={specialist} />
 
-        {/* Breathing-space divider: finished-render slideshow, following Visualization */}
-        <ImageSlideshowBand images={VISUALIZATION_SHOWCASE_IMAGES} imagesPerCard={1} title="Interior Visualization" />
-
-        {/* Breathing-space divider: exterior renders & facade studies, distinct from interiors above */}
-        <ImageSlideshowBand images={EXTERIOR_SHOWCASE_IMAGES} imagesPerCard={1} title="Exterior Visualization" />
+        {/* One navigable gallery covering interior renders, exterior renders, and BIM/CAD
+            production screenshots — category tabs switch the set instead of stacking three
+            separate auto-cycling full-viewport bands down the page. */}
+        <ProjectGallery
+          groups={[
+            { label: "Interior Visualization", images: VISUALIZATION_SHOWCASE_IMAGES },
+            { label: "Exterior Visualization", images: EXTERIOR_SHOWCASE_IMAGES },
+            { label: "BIM / CAD Workflow", images: BIMCAD_WORKFLOW_IMAGES },
+          ]}
+        />
 
         {/* 5. BIM/CAD Technician — the Scope Estimator, plain section */}
         <div id="bim-cad" className="scroll-mt-16">
           <ScopeEstimator specialist={specialist} />
         </div>
 
-        {/* Breathing-space divider: real BIM/CAD production screenshots, following BIM/CAD —
-            paired two-up since these screenshots are wide */}
-        <ImageSlideshowBand images={BIMCAD_WORKFLOW_IMAGES} imagesPerCard={2} title="BIM / CAD Workflow" />
-
-        {/* 6. Educational: What LOD means and what's actually included — after the BIM slideshow */}
+        {/* 6. Educational: What LOD means and what's actually included */}
         <LODGuide />
 
       </main>
@@ -355,16 +343,6 @@ export default function App() {
               <a href="#deliverables" className="hover:text-amber-400 transition-colors">Construction Documentation</a>
               <a href="#workflows" className="hover:text-amber-400 transition-colors">Delivery Process</a>
               <a href="#specialist" className="hover:text-amber-400 transition-colors">Principal Architect</a>
-              <button
-                onClick={() => setIsSpecialistEditorOpen(true)}
-                className="hover:text-amber-400 transition-colors cursor-pointer flex items-center space-x-1"
-                title={isOwnerEditingUnlocked ? "Edit profile settings (Owner)" : "Specialist Profile & Credentials (Protected)"}
-              >
-                <span>Profile & Links Settings</span>
-                {!isOwnerEditingUnlocked && (
-                  <span className="text-[10px] text-neutral-500 font-mono">(Protected)</span>
-                )}
-              </button>
             </div>
 
             <div>

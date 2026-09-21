@@ -42,7 +42,7 @@ export const DeliverablesGallery: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
+          <div className="inline-flex items-center space-x-2 text-amber-400/90 text-[11px] font-mono font-semibold uppercase tracking-widest mb-3">
             <Layers className="w-3.5 h-3.5" />
             <span>Demonstrated Technical Craftsmanship</span>
           </div>

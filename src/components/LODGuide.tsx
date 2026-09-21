@@ -45,7 +45,7 @@ export const LODGuide: React.FC = () => {
     <section id="lod-guide" className="py-16 bg-neutral-950 border-t border-neutral-900 relative">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
+          <div className="inline-flex items-center space-x-2 text-amber-400/90 text-[11px] font-mono font-semibold uppercase tracking-widest mb-3">
             <Info className="w-3.5 h-3.5" />
             <span>Understanding BIM Deliverables</span>
           </div>

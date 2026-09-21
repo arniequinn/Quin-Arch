@@ -15,7 +15,7 @@ export const CombinedPricingSection: React.FC<CombinedPricingSectionProps> = ({ 
     <section className="relative bg-neutral-950 border-t border-neutral-900 py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-4">
+          <div className="inline-flex items-center space-x-2 text-amber-400/90 text-[11px] font-mono font-semibold uppercase tracking-widest mb-4">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Two More Service Tracks, Flat Worldwide Rates</span>
           </div>

@@ -1,18 +1,14 @@
 import React from "react";
-import { Compass, MessageSquare, UserCheck, Lock, Linkedin } from "lucide-react";
+import { Compass, MessageSquare, Linkedin } from "lucide-react";
 import { SpecialistProfile } from "../types";
 
 interface NavbarProps {
   specialist: SpecialistProfile;
-  isOwner: boolean;
-  onOpenSpecialistEditor: () => void;
   onScrollToEstimator: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   specialist,
-  isOwner,
-  onOpenSpecialistEditor,
   onScrollToEstimator,
 }) => {
   const scrollToTop = () => {
@@ -97,25 +93,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="hidden xl:inline">LinkedIn</span>
             </a>
           )}
-
-          <button
-            id="edit-profile-button"
-            onClick={onOpenSpecialistEditor}
-            className={`px-2.5 py-1.5 rounded-md text-xs border flex items-center space-x-1.5 transition-all cursor-pointer ${
-              isOwner
-                ? "bg-neutral-900 hover:bg-neutral-800 text-emerald-400 border-emerald-800"
-                : "bg-neutral-900 hover:bg-neutral-800 text-neutral-500 hover:text-neutral-300 border-neutral-800"
-            }`}
-          >
-            {isOwner ? (
-              <>
-                <UserCheck className="w-3.5 h-3.5" />
-                <span className="hidden md:inline">Owner</span>
-              </>
-            ) : (
-              <Lock className="w-3.5 h-3.5" />
-            )}
-          </button>
 
           {/* Minimal Scope Planner CTA */}
           <button
