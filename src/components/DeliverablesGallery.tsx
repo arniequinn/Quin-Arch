@@ -102,7 +102,7 @@ export const DeliverablesGallery: React.FC = () => {
               style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
             >
               <img
-                src={assetUrl("/portfolio/bimcad-workflow/09-diagrid-pattern-script.jpg")}
+                src={assetUrl("/portfolio/bimcad-workflow/06-facade-paneling-script.jpg")}
                 alt="Rhino and Grasshopper parametric facade-pattern script"
                 className="absolute inset-0 w-full h-full object-cover"
               />
