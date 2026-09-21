@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Single entry because this is currently a one-page app — every section (Deliverables,
-  Pricing, Scope Estimator, etc.) lives at this one URL as an anchor, not a separate
-  indexable page. If dedicated routes are added later (e.g. /services, /visualization),
-  add a <url> entry for each here.
--->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!--
+    Single entry because this is currently a one-page app — every section (Deliverables,
+    Pricing, Scope Estimator, etc.) lives at this one URL as an anchor, not a separate
+    indexable page. If dedicated routes are added later (e.g. /services, /visualization),
+    add a <url> entry for each here.
+  -->
   <url>
     <loc>https://arniequinn.github.io/Quin-Arch/</loc>
     <lastmod>2026-09-21</lastmod>
