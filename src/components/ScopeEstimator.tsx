@@ -35,6 +35,10 @@ const BIM_PHASES = [
   { id: "redlines_revisions",  lodLabel: "LOD 400+", name: "Construction Administration", desc: "Plan-check response, RFI support, and as-built reconciliation." },
 ] as const;
 
+// Sheets that stay in scope by default — everything else (RCP, roof plan, envelope/foundation
+// details, millwork, schedules, MEP coordination) starts unchecked and is opt-in.
+const CORE_SHEET_NUMBERS = ["G-001", "C-101", "A-101", "A-201", "A-202", "A-301"];
+
 // Complexity multipliers applied on top of calculator output
 const COMPLEXITY_TIERS = [
   { id: "standard",  label: "Standard",  multiplier: 1.0,  desc: "Orthogonal geometry, conventional program, low site constraints." },
@@ -55,8 +59,21 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ specialist }) =>
   const [complexityId, setComplexityId] = useState<string>("standard");
   const [timelineId, setTimelineId] = useState<string>("standard");
   const [projectTitle, setProjectTitle] = useState<string>("");
-  const [excludedSheetNumbers, setExcludedSheetNumbers] = useState<string[]>([]);
+  const [excludedSheetNumbers, setExcludedSheetNumbers] = useState<string[]>(() => {
+    const defaultScope = calculateScope({
+      projectTypeId: "residential_single",
+      selectedServiceIds: ["permit_drawings", "bim_modeling", "construction_docs"],
+      areaSqFt: 2800,
+      jurisdictionId: "us_irc_ibc",
+      currentStageId: "schematic",
+      timelineId: "standard",
+    });
+    return defaultScope.recommendedSheets
+      .map((sheet) => sheet.sheetNumber)
+      .filter((sheetNumber) => !CORE_SHEET_NUMBERS.includes(sheetNumber));
+  });
   const [feeUnlocked, setFeeUnlocked] = useState<boolean>(false);
+  const [sheetIndexRevealed, setSheetIndexRevealed] = useState<boolean>(false);
 
   const currentProjectType = useMemo(() =>
     PROJECT_TYPES.find((p) => p.id === projectTypeId) || PROJECT_TYPES[0],
@@ -87,6 +104,14 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ specialist }) =>
   const handleToggleSheet = (sheetNumber: string) => {
     setExcludedSheetNumbers((prev) =>
       prev.includes(sheetNumber) ? prev.filter((n) => n !== sheetNumber) : [...prev, sheetNumber]
+    );
+  };
+
+  const handleResetSheets = () => {
+    setExcludedSheetNumbers(
+      calculation.recommendedSheets
+        .map((sheet) => sheet.sheetNumber)
+        .filter((sheetNumber) => !CORE_SHEET_NUMBERS.includes(sheetNumber))
     );
   };
 
@@ -570,42 +595,62 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ specialist }) =>
                   <span className="text-[11px] font-mono text-neutral-400 tracking-widest uppercase">
                     Sheet Index ({calculation.recommendedSheetsCount} active)
                   </span>
-                  {excludedSheetNumbers.length > 0 && (
-                    <button type="button" onClick={() => setExcludedSheetNumbers([])}
+                  {sheetIndexRevealed && (
+                    <button type="button" onClick={handleResetSheets}
                       className="text-[10px] text-amber-400 hover:text-amber-300 font-mono cursor-pointer">
                       Reset
                     </button>
                   )}
                 </div>
-                <p className="text-[10px] text-neutral-600 font-mono mb-2">Click a sheet to remove it from scope.</p>
-                <div className="space-y-1 max-h-52 overflow-y-auto pr-0.5 text-xs">
-                  {calculation.recommendedSheets.map((sheet) => {
-                    const isExcluded = excludedSheetNumbers.includes(sheet.sheetNumber);
-                    return (
-                      <div key={sheet.sheetNumber} onClick={() => handleToggleSheet(sheet.sheetNumber)}
-                        className={`flex items-center justify-between text-[10px] py-1 px-2 rounded cursor-pointer transition-all ${
-                          isExcluded ? "opacity-35" : "hover:bg-neutral-800/50"
-                        }`}>
-                        <div className="flex items-center space-x-1.5 min-w-0">
-                          <div className={`w-3 h-3 rounded-sm flex items-center justify-center border shrink-0 ${
-                            isExcluded ? "border-neutral-800 bg-transparent" : "bg-amber-500/80 border-amber-500"
-                          }`}>
-                            {!isExcluded && <Check className="w-2 h-2 text-neutral-950 stroke-[4]" />}
+
+                {!sheetIndexRevealed ? (
+                  <div className="p-4 rounded-lg border border-neutral-800 bg-neutral-950/60 text-center">
+                    <Lock className="w-5 h-5 text-neutral-600 mx-auto mb-2" />
+                    <p className="text-[11px] text-neutral-500 leading-relaxed mb-3">
+                      Default set covers cover sheet, site plan, floor plans, elevations & sections — everything else is opt-in.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setSheetIndexRevealed(true)}
+                      className="w-full py-2.5 px-4 rounded-lg border border-neutral-700 text-neutral-300 text-xs font-medium hover:bg-neutral-800 hover:border-neutral-600 transition-all cursor-pointer flex items-center justify-center space-x-2"
+                    >
+                      <span>Select Deliverables & Detail Level</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-[10px] text-neutral-600 font-mono mb-2">Click to add or remove a sheet from scope.</p>
+                    <div className="space-y-1 max-h-52 overflow-y-auto pr-0.5 text-xs">
+                      {calculation.recommendedSheets.map((sheet) => {
+                        const isExcluded = excludedSheetNumbers.includes(sheet.sheetNumber);
+                        return (
+                          <div key={sheet.sheetNumber} onClick={() => handleToggleSheet(sheet.sheetNumber)}
+                            className={`flex items-center justify-between text-[10px] py-1 px-2 rounded cursor-pointer transition-all ${
+                              isExcluded ? "opacity-35" : "hover:bg-neutral-800/50"
+                            }`}>
+                            <div className="flex items-center space-x-1.5 min-w-0">
+                              <div className={`w-3 h-3 rounded-sm flex items-center justify-center border shrink-0 ${
+                                isExcluded ? "border-neutral-800 bg-transparent" : "bg-amber-500/80 border-amber-500"
+                              }`}>
+                                {!isExcluded && <Check className="w-2 h-2 text-neutral-950 stroke-[4]" />}
+                              </div>
+                              <span className={`font-mono shrink-0 ${isExcluded ? "text-neutral-600" : "text-amber-400"}`}>
+                                {sheet.sheetNumber}
+                              </span>
+                              <span className={`truncate ${isExcluded ? "text-neutral-600 line-through" : "text-neutral-400"}`}>
+                                {sheet.sheetTitle}
+                              </span>
+                            </div>
+                            <span className="text-[9px] font-mono text-neutral-600 ml-1 shrink-0">
+                              {sheet.bimLOD || "LOD 300"}
+                            </span>
                           </div>
-                          <span className={`font-mono shrink-0 ${isExcluded ? "text-neutral-600" : "text-amber-400"}`}>
-                            {sheet.sheetNumber}
-                          </span>
-                          <span className={`truncate ${isExcluded ? "text-neutral-600 line-through" : "text-neutral-400"}`}>
-                            {sheet.sheetTitle}
-                          </span>
-                        </div>
-                        <span className="text-[9px] font-mono text-neutral-600 ml-1 shrink-0">
-                          {sheet.bimLOD || "LOD 300"}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
               </div>
 
               <EstimateDisclaimer specialistFirstName={specialist.name.split(" ")[0]} className="mt-4" />

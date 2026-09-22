@@ -187,20 +187,32 @@ directly contradicts the newer pages sitting right next to it:
 7. **A minimal nurture step** for anyone who submits their email via the LOD guide — even a
    single well-written follow-up — so the list being built isn't just sitting unused.
 
+**Confirmed (2026-09-22):** `VITE_WEB3FORMS_ACCESS_KEY` was added as a GitHub Actions repo secret
+and the live production form is confirmed working end-to-end (real Web3Forms capture, not the
+mailto fallback). Phase 1 item 5 is fully closed out.
+
 ### Phase 2 — Distribute what's already built
 
 8. **LinkedIn cadence.** Turn the four real case studies already built into individual posts
    (one specific problem solved per post, not a portfolio dump). The credentials are real and
    citable — this is genuinely passive once a monthly rhythm exists, since it's repurposing
-   content, not creating new content each time.
+   content, not creating new content each time. **Drafted (2026-09-22)**: all 4 posts written,
+   ready to publish on a 1–2 week cadence — see `documentation/phase2-linkedin-posts.md`.
+   **Pinned/on hold (2026-09-22)** — posts are ready whenever the user wants to pick this back up,
+   not abandoned.
 9. **YouTube.** The profile already links a channel. Short before/after render reveals or a
    60-second "what LOD 350 actually looks like" clip, built from assets already in the
    portfolio, are exactly what a visualization buyer searches for — and YouTube is its own
-   search engine, independent of Google/SEO work already done.
+   search engine, independent of Google/SEO work already done. **Drafted (2026-09-22)**: 3 short
+   scripts written, using only existing portfolio assets (no new renders needed) — see
+   `documentation/phase2-youtube-shorts.md`. Actual filming/editing/upload not done — outside
+   what can be executed in this environment.
 10. **One guest-content pitch.** Several real AEC industry blogs surfaced in competitor
     research (Cad Crowd's own blog, United-BIM, BIM Heroes) publish outsourcing-focused
     content. A single well-placed guest article linking back to a service page is a durable
-    backlink and a referral source for a one-time effort.
+    backlink and a referral source for a one-time effort. **Sent (2026-09-22)**: pitch emailed
+    to BIM Heroes (`info@bimheroes.com`) — see `documentation/phase2-guest-pitch.md` for the
+    text. Awaiting a reply; if accepted, next step is drafting the ~900–1200 word article.
 
 ### Phase 3 — Community trust-building (slow-compounding, ongoing)
 
@@ -208,14 +220,26 @@ directly contradicts the newer pages sitting right next to it:
     Autodesk community forums) and commit to a light, honest cadence — answering real
     technical questions with real expertise and a profile link, never a pitch. This reaches
     Tier D buyers (people about to hire an architect) before they ever search commercially, and
-    costs nothing but time.
+    costs nothing but time. **Researched (2026-09-22)**: final shortlist is r/architecture,
+    r/Revit, r/AutoCAD, r/BIM, and r/rhino — see `documentation/phase3-community-list.md` for
+    the reasoning and cadence rules. This phase is inherently ongoing/manual (answering real
+    questions as they appear), so there's no further one-time setup step — it starts whenever
+    time is spent actually answering questions on an account.
 
 ### Phase 4 — Directory / backlink building
 
 12. Research (don't assume) which AEC-specific professional directories are worth a listing —
     deliberately *not* more gig marketplaces, which would undo Phase 0's work. This needs a
     dedicated research pass before acting, since directory quality varies enormously and a bad
-    one can hurt more than help.
+    one can hurt more than help. **Researched (2026-09-22)**: recommended target is a
+    **GoodFirms** company profile (`goodfirms.co/engineering/3d-modeling-cad` — real B2B
+    review-driven directory, not a gig marketplace, with comparable BIM/CAD outsourcing
+    companies already listed); Clutch.co as a second option once GoodFirms has a review or two.
+    One candidate (AEC Listing) was checked and rejected — domain doesn't resolve. AIA's
+    directory doesn't apply (US-licensed-architect gated). See
+    `documentation/phase4-directory-research.md`. **Not yet created** — a GoodFirms profile
+    needs an account signup (email verification, business details) that has to be done by the
+    user directly.
 
 ### Phase 5 — Measure and adjust
 
