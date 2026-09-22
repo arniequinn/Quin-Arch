@@ -320,15 +320,26 @@ export const VISUALIZATION_SHOWCASE_IMAGES: TrackImage[] = [
   { src: assetUrl("/portfolio/visualization-showcase/02-dark-living-room.jpg"), aspect: "wide" },
   { src: assetUrl("/portfolio/visualization-showcase/03-bright-loft.jpg"), aspect: "wide" },
   { src: assetUrl("/portfolio/visualization-showcase/04-restaurant-interior.jpg"), aspect: "wide" },
-  { src: assetUrl("/portfolio/visualization-showcase/05-classical-dining.jpg"), aspect: "wide" }
+  { src: assetUrl("/portfolio/visualization-showcase/05-classical-dining.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/06-teen-bedroom.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/07-lobby-lounge.webp"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/08-spiral-stair-library.webp"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/09-black-wall-living-room.webp"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/10-sunken-fire-pit-lounge.webp"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/11-bathroom-tub.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/visualization-showcase/12-bathroom-shower.jpg"), aspect: "wide" }
 ];
 
 // Finished exterior renders and facade studies — a distinct slideshow band from the interior
 // showcase above, surfacing massing/facade work that isn't shown anywhere else on the site.
+// Deliberately excludes barn-residence-vray.jpg — that render is reserved as the standalone
+// hero image for the PracticeNote section further down the homepage, so it isn't duplicated.
 export const EXTERIOR_SHOWCASE_IMAGES: TrackImage[] = [
-  { src: assetUrl("/portfolio/barn-residence-vray.jpg"), aspect: "wide" },
   { src: assetUrl("/portfolio/bimcad-workflow/11-facade-closeup-render.webp"), aspect: "wide" },
-  { src: assetUrl("/portfolio/bimcad-workflow/12-cube-facade-render.webp"), aspect: "wide" }
+  { src: assetUrl("/portfolio/bimcad-workflow/12-cube-facade-render.webp"), aspect: "wide" },
+  { src: assetUrl("/portfolio/exterior-showcase/01-office-building.webp"), aspect: "wide" },
+  { src: assetUrl("/portfolio/exterior-showcase/02-gable-house.webp"), aspect: "wide" },
+  { src: assetUrl("/portfolio/exterior-showcase/03-apartment-facade.webp"), aspect: "wide" }
 ];
 
 export const LOD_LEVELS = [

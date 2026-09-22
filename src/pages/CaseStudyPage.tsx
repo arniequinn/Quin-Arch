@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Download, ExternalLink, FileCheck2, Mail, MessageSquare, ShieldCheck, Star } from "lucide-react";
+import { ArrowRight, Download, ExternalLink, FileCheck2, Mail, MessageSquare } from "lucide-react";
 import { PortfolioItem, SpecialistProfile } from "../types";
 
 interface CaseStudyPageProps {
@@ -46,12 +46,6 @@ export const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ sample, specialist
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative w-full h-64 sm:h-96 rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950">
           <img src={sample.imageUrl} alt={sample.title} className="w-full h-full object-cover" />
-          {sample.isRealClientWork && (
-            <span className="absolute top-4 left-4 px-2.5 py-1 rounded-md bg-emerald-950/80 backdrop-blur-md border border-emerald-500/40 text-[11px] font-mono text-emerald-400 font-semibold flex items-center space-x-1.5">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Verified Client Work</span>
-            </span>
-          )}
         </div>
       </div>
 
@@ -79,17 +73,11 @@ export const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ sample, specialist
             </div>
 
             {sample.clientReview && (
-              <div className="p-5 rounded-xl bg-neutral-900 border border-neutral-800">
-                <div className="flex items-center space-x-1.5 text-amber-400 mb-2">
-                  <Star className="w-4 h-4 fill-amber-400" />
-                  <span className="text-xs font-bold text-neutral-300 uppercase tracking-wide">
-                    Client Review
-                  </span>
-                </div>
-                <p className="text-sm text-neutral-200 italic leading-relaxed">
+              <blockquote className="border-l-2 border-amber-500/60 pl-5 py-1">
+                <p className="font-display text-xl sm:text-2xl text-neutral-200 leading-snug">
                   "{sample.clientReview.quote}"
                 </p>
-              </div>
+              </blockquote>
             )}
 
             <div className="flex flex-wrap gap-2 pt-2">

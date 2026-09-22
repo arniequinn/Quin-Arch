@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Image as ImageIcon, Layers, UserCheck } from "lucide-react";
+import { ArrowRight, CheckCircle2, Image as ImageIcon, Layers, UserCheck } from "lucide-react";
 
 interface ServiceCard {
   icon: React.ElementType;
@@ -9,8 +9,45 @@ interface ServiceCard {
   cta: string;
 }
 
+interface EngagementModel {
+  title: string;
+  bestFor: string;
+  description: string;
+  features: string[];
+  cta: string;
+  featured?: boolean;
+}
+
 export const ServicesHubPage: React.FC = () => {
   const base = import.meta.env.BASE_URL;
+
+  const engagementModels: EngagementModel[] = [
+    {
+      title: "Per-Project / Turnkey Fixed Price",
+      bestFor: "Developers & Builders",
+      description: "A single guaranteed fixed fee for the entire drawing set from schematic draft to final permit approval.",
+      features: [
+        "Fixed milestone-based pricing",
+        "Includes 2 rounds of plan-check revisions",
+        "Full native BIM, .DWG & Vector PDFs",
+        "Guaranteed completion date",
+      ],
+      cta: "Calculate Project Fee",
+    },
+    {
+      title: "Dedicated Monthly Remote Partner",
+      bestFor: "Architectural Studios & Engineering Firms",
+      description: "White-label drafting and BIM extension of your in-house team. Offload production backlog without hiring lag.",
+      features: [
+        "Dedicated weekly drafting bandwidth (20-40 hrs/wk)",
+        "Use your studio's custom BIM templates & families",
+        "Direct Slack / Teams communication",
+        "Priority 24-hour turnaround queue",
+      ],
+      cta: "Inquire for Retainer",
+      featured: true,
+    },
+  ];
 
   const services: ServiceCard[] = [
     {
@@ -94,6 +131,72 @@ export const ServicesHubPage: React.FC = () => {
               </a>
             );
           })}
+        </div>
+      </section>
+
+      {/* Engagement models: fixed-price vs. dedicated retainer */}
+      <section className="py-16 border-t border-neutral-900">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <span className="text-[11px] font-mono text-amber-400/90 tracking-widest uppercase">
+              How You Engage
+            </span>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-neutral-100 tracking-tight mt-2">
+              Fixed Price or Dedicated Retainer
+            </h2>
+            <p className="mt-3 text-sm text-neutral-400 leading-relaxed max-w-xl mx-auto">
+              Choose the delivery model that aligns with your project schedule and office
+              workload — both apply across BIM/CAD, visualization, and consultancy.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {engagementModels.map((model) => (
+              <div
+                key={model.title}
+                className={`p-6 sm:p-8 rounded-2xl border flex flex-col justify-between transition-all ${
+                  model.featured
+                    ? "bg-neutral-900 border-amber-500/60 ring-1 ring-amber-500/20"
+                    : "bg-neutral-900/60 border-neutral-800 hover:border-neutral-700"
+                }`}
+              >
+                <div>
+                  <span className="text-[11px] font-mono text-amber-400 font-semibold uppercase">
+                    {model.bestFor}
+                  </span>
+                  <h3 className="text-xl font-bold text-neutral-100 mt-1">
+                    {model.title}
+                  </h3>
+                  <p className="text-xs text-neutral-400 mt-2 leading-relaxed">
+                    {model.description}
+                  </p>
+
+                  <div className="mt-6 pt-5 border-t border-neutral-800/80 space-y-2.5">
+                    {model.features.map((feat) => (
+                      <div key={feat} className="flex items-center space-x-2 text-xs text-neutral-300">
+                        <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-4">
+                  <a
+                    href={`${base}#estimator`}
+                    className={`w-full py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition-all cursor-pointer ${
+                      model.featured
+                        ? "bg-amber-500 hover:bg-amber-400 text-neutral-950"
+                        : "bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-neutral-700"
+                    }`}
+                  >
+                    <span>{model.cta}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -16,6 +16,9 @@ import { DeliverablesGallery } from "./components/DeliverablesGallery";
 import { WorkflowsSection } from "./components/WorkflowsSection";
 import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
 import { SpecialistDataModal } from "./components/SpecialistDataModal";
+import { PracticeNote } from "./components/PracticeNote";
+import { Reveal } from "./components/Reveal";
+import { ScrollFilmstrip } from "./components/filmstrip/ScrollFilmstrip";
 import { BIMCAD_WORKFLOW_IMAGES, VISUALIZATION_SHOWCASE_IMAGES, EXTERIOR_SHOWCASE_IMAGES } from "./data/architecturalData";
 import { SpecialistProfile } from "./types";
 import { isOwnerAuthorized } from "./services/ownerAuth";
@@ -187,45 +190,80 @@ export default function App() {
         </section>
 
         {/* 1. Specialist Identity & Direct Booking */}
-        <SpecialistProfileCard
-          specialist={specialist}
-          onScrollToEstimator={scrollToEstimator}
-        />
+        <Reveal>
+          <SpecialistProfileCard
+            specialist={specialist}
+            onScrollToEstimator={scrollToEstimator}
+          />
+        </Reveal>
 
-        {/* 2. Value Proposition: Remote Delivery Advantage & Engagement Models */}
-        <WorkflowsSection onScrollToEstimator={scrollToEstimator} />
+        {/* Auto-scrolling filmstrip: interior renders, drifting right — full-bleed, purely
+            ambient/decorative; the real navigable gallery lives further down the page. */}
+        <Reveal>
+          <section className="relative bg-neutral-950 border-t border-neutral-900 py-3 sm:py-4">
+            <ScrollFilmstrip images={VISUALIZATION_SHOWCASE_IMAGES} direction="right" />
+          </section>
+        </Reveal>
+
+        {/* 2. Value Proposition: Remote Delivery Advantage */}
+        <Reveal>
+          <WorkflowsSection />
+        </Reveal>
+
+        {/* Auto-scrolling filmstrip: exterior renders, drifting left. */}
+        <Reveal>
+          <section className="relative bg-neutral-950 border-t border-neutral-900 py-3 sm:py-4">
+            <ScrollFilmstrip images={EXTERIOR_SHOWCASE_IMAGES} direction="left" />
+          </section>
+        </Reveal>
 
         {/* 3. Concrete Proof: Technical Deliverables Gallery */}
-        <DeliverablesGallery />
+        <Reveal>
+          <DeliverablesGallery />
+        </Reveal>
 
         {/* Navigable gallery of finished renders — replaces the old before/after script/render
             slider with the full interior + exterior visualization sets. */}
-        <ProjectGallery
-          id="gallery"
-          groups={[
-            { label: "Interior Visualization", images: VISUALIZATION_SHOWCASE_IMAGES },
-            { label: "Exterior Visualization", images: EXTERIOR_SHOWCASE_IMAGES },
-          ]}
-        />
+        <Reveal>
+          <ProjectGallery
+            id="gallery"
+            groups={[
+              { label: "Interior Visualization", images: VISUALIZATION_SHOWCASE_IMAGES },
+              { label: "Exterior Visualization", images: EXTERIOR_SHOWCASE_IMAGES },
+            ]}
+          />
+        </Reveal>
+
+        {/* Signature full-bleed, asymmetric moment — a quiet transition from "see the work"
+            to "here's how engagement works." */}
+        <PracticeNote />
 
         {/* 4. Architect Consultant + Visualization, side by side */}
-        <CombinedPricingSection specialist={specialist} />
+        <Reveal>
+          <CombinedPricingSection specialist={specialist} />
+        </Reveal>
 
         {/* 5. BIM/CAD Technician — the Scope Estimator, plain section */}
         <div id="bim-cad" className="scroll-mt-16">
-          <ScopeEstimator specialist={specialist} />
+          <Reveal>
+            <ScopeEstimator specialist={specialist} />
+          </Reveal>
         </div>
 
         {/* Real BIM/CAD production screenshots, immediately before the LOD breakdown they
             substantiate. */}
-        <ProjectGallery
-          groups={[
-            { label: "BIM / CAD Workflow", images: BIMCAD_WORKFLOW_IMAGES },
-          ]}
-        />
+        <Reveal>
+          <ProjectGallery
+            groups={[
+              { label: "BIM / CAD Workflow", images: BIMCAD_WORKFLOW_IMAGES },
+            ]}
+          />
+        </Reveal>
 
         {/* 6. Educational: What LOD means and what's actually included */}
-        <LODGuide />
+        <Reveal>
+          <LODGuide />
+        </Reveal>
 
       </main>
 

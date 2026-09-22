@@ -6,8 +6,6 @@ import {
   FileDown,
   Mail,
   MessageSquare,
-  ShieldCheck,
-  Star,
 } from "lucide-react";
 import { ProjectGallery } from "../components/ProjectGallery";
 import { EstimateDisclaimer } from "../components/EstimateDisclaimer";
@@ -262,24 +260,12 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = ({ specialist
               >
                 <div className="relative h-44 overflow-hidden bg-neutral-950">
                   <img src={sample.imageUrl} alt={sample.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                  {sample.isRealClientWork && (
-                    <span className="absolute top-3 left-3 px-2 py-0.5 rounded-md bg-emerald-950/80 backdrop-blur-md border border-emerald-500/40 text-[10px] font-mono text-emerald-400 font-semibold flex items-center space-x-1">
-                      <ShieldCheck className="w-3 h-3" />
-                      <span>Verified Work</span>
-                    </span>
-                  )}
                 </div>
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className="text-sm font-bold text-neutral-100 group-hover:text-amber-400 transition-colors">{sample.title}</h3>
                     <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">{sample.sheetDetails}</p>
                   </div>
-                  {sample.clientReview && (
-                    <div className="mt-3 p-2.5 rounded-lg bg-neutral-950/60 border border-neutral-800 text-[11px] text-neutral-300 flex items-start space-x-2">
-                      <Star className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5 fill-amber-400" />
-                      <p className="italic">"{sample.clientReview.quote}"</p>
-                    </div>
-                  )}
                 </div>
               </a>
             ))}

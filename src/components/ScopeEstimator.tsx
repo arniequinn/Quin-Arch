@@ -544,27 +544,17 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ specialist }) =>
                       Fixed-price turnkey delivery · Confirmed at brief sign-off
                     </p>
 
-                    {/* Cost context */}
+                    {/* Market context — a reference point, not a savings pitch */}
                     <div className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 mb-4">
                       <div className="flex items-center space-x-1.5 mb-2">
                         <TrendingUp className="w-3.5 h-3.5 text-neutral-500" />
                         <span className="text-[10px] font-mono text-neutral-500 tracking-widest uppercase">Market Comparison</span>
                       </div>
-                      <div className="text-[11px] text-neutral-400 space-y-1.5">
-                        <div className="flex justify-between">
-                          <span>Onshore equivalent</span>
-                          <span className={`font-mono ${calculation.hasSavings ? "line-through text-neutral-600" : "text-neutral-400"}`}>
-                            ${calculation.inHouseCostEstimate.toLocaleString()}
-                          </span>
-                        </div>
-                        {calculation.hasSavings && (
-                          <div className="flex justify-between font-semibold">
-                            <span className="text-amber-300/80">Client advantage</span>
-                            <span className="font-mono text-amber-400">
-                              ~${calculation.clientSavingsAmount.toLocaleString()} ({calculation.savingsPercentage}%)
-                            </span>
-                          </div>
-                        )}
+                      <div className="flex justify-between text-[11px] text-neutral-400">
+                        <span>Typical onshore equivalent</span>
+                        <span className="font-mono text-neutral-400">
+                          ${calculation.inHouseCostEstimate.toLocaleString()}
+                        </span>
                       </div>
                     </div>
 
