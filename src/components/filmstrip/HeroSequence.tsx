@@ -318,7 +318,8 @@ export const HeroSequence: React.FC<HeroSequenceProps> = ({
       <div ref={stageRef} className="sticky overflow-hidden bg-neutral-950" style={{ top: NAV_H, height: S }}>
         {/* Hero: exits up through the top of the stage */}
         <motion.div className="absolute inset-x-0 top-0 z-0" style={{ y: heroY, pointerEvents: heroPointer }}>
-          <div ref={heroRef} className="flex flex-col" style={{ minHeight: S }}>
+          {/* Bottom padding keeps the hero's last content clear of the ribbons resting at the bottom edge */}
+          <div ref={heroRef} className="flex flex-col" style={{ minHeight: S, paddingBottom: pairH(R) + 16 }}>
             {hero}
           </div>
         </motion.div>

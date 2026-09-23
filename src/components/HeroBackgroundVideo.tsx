@@ -25,11 +25,13 @@ export const HeroBackgroundVideo: React.FC = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none [container-type:size]" aria-hidden="true">
       <iframe
         src={EMBED_SRC}
         title="Background rendering animation"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] min-w-[177.78vh] h-[56.25vw] min-h-[100vh]"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        // Cover the container at any aspect ratio (a tall phone hero needs a video wider than 100vw)
+        style={{ width: "max(100cqw, 177.78cqh)", height: "max(100cqh, 56.25cqw)" }}
         frameBorder="0"
         allow="autoplay; encrypted-media"
       />
