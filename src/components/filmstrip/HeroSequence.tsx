@@ -318,8 +318,8 @@ export const HeroSequence: React.FC<HeroSequenceProps> = ({
       <div ref={stageRef} className="sticky overflow-hidden bg-neutral-950" style={{ top: NAV_H, height: S }}>
         {/* Hero: exits up through the top of the stage */}
         <motion.div className="absolute inset-x-0 top-0 z-0" style={{ y: heroY, pointerEvents: heroPointer }}>
-          {/* Bottom padding keeps the hero's last content clear of the ribbons resting at the bottom edge */}
-          <div ref={heroRef} className="flex flex-col" style={{ minHeight: S, paddingBottom: pairH(R) + 16 }}>
+          {/* --ribbon-clear: how far the hero section keeps its content above the ribbons resting at the bottom edge (the video still runs beneath them) */}
+          <div ref={heroRef} className="flex flex-col" style={{ minHeight: S, ["--ribbon-clear" as string]: `${pairH(R) + 16}px` }}>
             {hero}
           </div>
         </motion.div>

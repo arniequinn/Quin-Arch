@@ -52,8 +52,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Compass className="w-4 h-4 stroke-[1.5]" />
             </div>
           )}
-          <div className="min-w-0">
-            <span className="font-display font-semibold text-[13px] sm:text-sm leading-tight text-neutral-100 tracking-tight sm:whitespace-nowrap">
+          <div className="min-w-0 leading-[1.1]">
+            <span className="block font-display font-semibold text-[13px] sm:text-sm text-neutral-100 tracking-tight sm:whitespace-nowrap">
               {specialist.brandName || specialist.name}
             </span>
           </div>
