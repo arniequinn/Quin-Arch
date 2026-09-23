@@ -10,15 +10,11 @@ import { Footer } from "./components/Footer";
 import { HeroBackgroundVideo } from "./components/HeroBackgroundVideo";
 import { ScopeEstimator } from "./components/ScopeEstimator";
 import { LODGuide } from "./components/LODGuide";
-import { CombinedPricingSection } from "./components/CombinedPricingSection";
-import { ProjectGallery } from "./components/ProjectGallery";
-import { DeliverablesGallery } from "./components/DeliverablesGallery";
-import { WorkflowsSection } from "./components/WorkflowsSection";
 import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
 import { SpecialistDataModal } from "./components/SpecialistDataModal";
-import { PracticeNote } from "./components/PracticeNote";
 import { Reveal } from "./components/Reveal";
 import { HeroSequence } from "./components/filmstrip/HeroSequence";
+import { ChapterCard } from "./components/ChapterCard";
 import { BIMCAD_WORKFLOW_IMAGES, VISUALIZATION_SHOWCASE_IMAGES, EXTERIOR_SHOWCASE_IMAGES } from "./data/architecturalData";
 import { SpecialistProfile } from "./types";
 import { isOwnerAuthorized } from "./services/ownerAuth";
@@ -64,6 +60,8 @@ export default function App() {
       }
     }
   }, []);
+
+  const base = import.meta.env.BASE_URL;
 
   // Smooth scroll to estimator
   const scrollToEstimator = () => {
@@ -194,45 +192,67 @@ export default function App() {
               </div>
             </section>
           }
-          renderCard={(compact) => (
-            <SpecialistProfileCard
-              specialist={specialist}
-              onScrollToEstimator={scrollToEstimator}
-              compact={compact}
-            />
-          )}
+          galleryHref={`${import.meta.env.BASE_URL}projects/`}
+          chapters={[
+            (compact) => (
+              <SpecialistProfileCard
+                specialist={specialist}
+                onScrollToEstimator={scrollToEstimator}
+                compact={compact}
+              />
+            ),
+            (compact) => (
+              <ChapterCard
+                compact={compact}
+                eyebrow="Why work with us"
+                title="Principal-level architecture, delivered remotely."
+                description="One accountable architect for homeowners planning a build — and senior production capacity for firms and contractors who have more work than hands."
+                points={[
+                  "A direct line to the principal architect",
+                  "24 to 48-hour redline revisions",
+                  "Native BIM / CAD delivery in your standards",
+                ]}
+                cta={{ label: "Why work with us", href: `${base}why-work-with-us/` }}
+                secondary={{ label: "The thinking behind the work", href: `${base}design-philosophy/` }}
+              />
+            ),
+            (compact) => (
+              <ChapterCard
+                compact={compact}
+                eyebrow="BIM & construction documentation"
+                title="High-precision deliverables, permit-ready."
+                description="Code-compliant permit sets and BIM models from LOD 100 to 400, delivered in the formats and layering standards your office already uses."
+                thumbs={BIMCAD_WORKFLOW_IMAGES.slice(0, 3).map((i) => i.src)}
+                cta={{ label: "See BIM / CAD services", href: `${base}services/bim-cad-drafting/` }}
+                secondary={{ label: "Project library", href: `${base}projects/#deliverables` }}
+              />
+            ),
+            (compact) => (
+              <ChapterCard
+                compact={compact}
+                eyebrow="Architect consultant"
+                title="A second set of expert eyes."
+                description="Design coordination, code-compliance review, and computational or parametric consulting for studios and contractors — billed hourly at one flat worldwide rate."
+                cta={{ label: "Explore consultancy", href: `${base}services/consultancy/` }}
+              />
+            ),
+            (compact) => (
+              <ChapterCard
+                compact={compact}
+                eyebrow="Photorealistic visualization"
+                title="See it before it is built."
+                description="Photorealistic interior and exterior renders in V-Ray, Lumion and Twinmotion 4K — built from an existing model, CAD drawings, or sketches."
+                thumbs={[
+                  VISUALIZATION_SHOWCASE_IMAGES[4]?.src,
+                  EXTERIOR_SHOWCASE_IMAGES[3]?.src,
+                  VISUALIZATION_SHOWCASE_IMAGES[7]?.src,
+                ].filter(Boolean) as string[]}
+                cta={{ label: "Explore visualization", href: `${base}services/visualization/` }}
+                secondary={{ label: "Project library", href: `${base}projects/#gallery` }}
+              />
+            ),
+          ]}
         />
-
-        {/* 2. Value Proposition: Remote Delivery Advantage */}
-        <Reveal>
-          <WorkflowsSection />
-        </Reveal>
-
-        {/* 3. Concrete Proof: Technical Deliverables Gallery */}
-        <Reveal>
-          <DeliverablesGallery />
-        </Reveal>
-
-        {/* Navigable gallery of finished renders — replaces the old before/after script/render
-            slider with the full interior + exterior visualization sets. */}
-        <Reveal>
-          <ProjectGallery
-            id="gallery"
-            groups={[
-              { label: "Interior Visualization", images: VISUALIZATION_SHOWCASE_IMAGES },
-              { label: "Exterior Visualization", images: EXTERIOR_SHOWCASE_IMAGES },
-            ]}
-          />
-        </Reveal>
-
-        {/* Signature full-bleed, asymmetric moment — a quiet transition from "see the work"
-            to "here's how engagement works." */}
-        <PracticeNote />
-
-        {/* 4. Architect Consultant + Visualization, side by side */}
-        <Reveal>
-          <CombinedPricingSection specialist={specialist} />
-        </Reveal>
 
         {/* 5. BIM/CAD Technician — the Scope Estimator, plain section */}
         <div id="bim-cad" className="scroll-mt-16">
@@ -240,16 +260,6 @@ export default function App() {
             <ScopeEstimator specialist={specialist} />
           </Reveal>
         </div>
-
-        {/* Real BIM/CAD production screenshots, immediately before the LOD breakdown they
-            substantiate. */}
-        <Reveal>
-          <ProjectGallery
-            groups={[
-              { label: "BIM / CAD Workflow", images: BIMCAD_WORKFLOW_IMAGES },
-            ]}
-          />
-        </Reveal>
 
         {/* 6. Educational: What LOD means and what's actually included */}
         <Reveal>

@@ -6,6 +6,7 @@ import {
   easeInOut,
   transform,
   useMotionValue,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useTransform,
@@ -16,56 +17,130 @@ import { TrackImage } from "../../types";
 
 interface HeroSequenceProps {
   hero: React.ReactNode;
-  /** Rendered in the void between the two ribbons. `compact` is true when the void is too small
-   *  (phone / short viewport) for the full two-column card. */
-  renderCard: (compact: boolean) => React.ReactNode;
+  /** Cards that pop into the void between the two ribbons, in order. The first one appears
+   *  between the interior and exterior takeovers; the rest follow one at a time afterwards.
+   *  `compact` is true when the void is too small for the full-size layout. */
+  chapters: Array<(compact: boolean) => React.ReactNode>;
   interiorImages: TrackImage[];
   exteriorImages: TrackImage[];
+  /** Link shown over both takeovers (the gallery preview). */
+  galleryHref?: string;
+  /** Anchor the persistent "skip" link jumps to. */
+  skipHref?: string;
 }
 
 // Sticky navbar height (Navbar.tsx `h-16`). The stage sits directly below it.
 const NAV_H = 64;
-// Scroll length of the choreography, in stage-heights.
-const SCROLL_STAGES = 6;
 // Gap between the two ribbons — deliberately a sliver of void.
 const RIBBON_GAP = 8;
 const SPEED_PX = 36;
 
-// Timeline (q = 0..1 across the choreography). See documentation/scroll-filmstrip-concept §9/§11.
-const Q = {
-  travelEnd: 0.16, //   stage 1: ribbons rise to the hero's old position, hero exits up
-  expandEnd: 0.32, //   stage 2: interior fills the stage (exterior sliver stays)
-  shrinkStart: 0.36, // stage 3: interior recedes...
-  shrinkEnd: 0.5,
-  cardIn: [0.44, 0.54] as const, // ...and the card pops in
-  cardOut: [0.66, 0.76] as const, // stage 4: card pops out...
-  exteriorStart: 0.76, //  ...then the exterior fills the stage (once)
-  exteriorEnd: 0.9,
+// How much of the full-stage track height each band uses when fully open (1 = fills the stage).
+// Renders are only so many pixels tall, so a smaller value keeps them crisper at the cost of
+// some void around the band. ?intScale= / ?extScale= override these for side-by-side previews.
+const paramScale = (name: string, fallback: number) => {
+  if (typeof window === "undefined") return fallback;
+  const v = parseFloat(new URLSearchParams(window.location.search).get(name) ?? "");
+  return v > 0.3 && v <= 1 ? v : fallback;
+};
+const INTERIOR_SCALE = paramScale("intScale", 1);
+const EXTERIOR_SCALE = paramScale("extScale", 1);
+
+// Timeline, in units of one stage height of scroll (u = 0 at the first scroll, see
+// documentation/scroll-filmstrip-concept §9/§11/§14).
+const U = {
+  travelEnd: 0.96, //   stage 1: ribbons rise to the hero's old position, hero exits up
+  expandEnd: 1.92, //   stage 2: interior fills the stage (exterior sliver stays)
+  shrinkStart: 2.5, //  stage 3: interior recedes...
+  shrinkEnd: 3.3,
+  profile: [2.9, 3.5, 4.3, 4.9] as const, // ...and the profile card pops in, holds, pops out
+  exteriorStart: 4.9, // stage 4: exterior fills the stage (once)
+  exteriorEnd: 5.8,
+  recedeStart: 6.4, //  stage 5: exterior recedes back to a thin ribbon
+  recedeEnd: 6.9,
+  chaptersStart: 6.9, // chapters 2…N, one after another
+  chapterLen: 1.6,
+  popLen: 0.45,
+  tail: 0.3,
 };
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
-// Both ribbons share ONE fixed track height: the largest window either band ever opens to
-// (the stage minus the other band's sliver). Masks resize over it; images never do.
+// Both ribbons share the stage: each band's fixed track is the largest window it ever opens to.
 function measure(): { stageH: number; width: number } {
   return { stageH: Math.max(320, window.innerHeight - NAV_H), width: window.innerWidth };
 }
 
+interface CardLayerProps {
+  u: MotionValue<number>;
+  /** [in start, in end, out start, out end] in scroll units. */
+  win: readonly [number, number, number, number];
+  top: number;
+  bottom: number;
+  voidH: number;
+  compactNow: boolean;
+  render: (compact: boolean) => React.ReactNode;
+}
+
+// One card in the void. The pop is a single function of progress p (0 → 1): played forward on
+// entry and backward on exit, so the exit is exactly the entrance reversed. Back-out easing gives
+// a small overshoot. While invisible the card is `inert` so keyboard users can't tab into it.
+const CardLayer: React.FC<CardLayerProps> = ({ u, win, top, bottom, voidH, compactNow, render }) => {
+  const innerRef = useRef<HTMLDivElement>(null);
+  const [cardH, setCardH] = useState(0);
+  const [active, setActive] = useState(false);
+
+  useLayoutEffect(() => {
+    const el = innerRef.current;
+    if (!el) return;
+    const read = () => setCardH(el.offsetHeight);
+    read();
+    const ro = new ResizeObserver(read);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [compactNow]);
+
+  const p = useTransform(u, (v: number) =>
+    Math.min(clamp01((v - win[0]) / (win[1] - win[0])), clamp01((win[3] - v) / (win[3] - win[2])))
+  );
+  const opacity = useTransform(p, (v) => clamp01(v * 1.8));
+  const scale = useTransform(p, (v) => 0.88 + 0.12 * backOut(v));
+  const y = useTransform(p, (v) => 36 * (1 - backOut(v)));
+  const pointer = useTransform(opacity, (o) => (o > 0.7 ? "auto" : "none"));
+  useMotionValueEvent(opacity, "change", (o) => setActive(o > 0.7));
+
+  // Last-resort guarantee: if the card is still taller than the void, scale it down to fit.
+  const fit = cardH > voidH ? Math.max(0.45, voidH / cardH) : 1;
+
+  return (
+    <motion.div
+      className="absolute inset-x-0 z-[5] flex items-center justify-center overflow-hidden"
+      style={{ top, bottom, opacity, scale, y, pointerEvents: pointer }}
+      inert={!active}
+      aria-hidden={!active}
+    >
+      <div ref={innerRef} className="w-full" style={{ transform: `scale(${fit})`, transformOrigin: "center" }}>
+        {render(compactNow)}
+      </div>
+    </motion.div>
+  );
+};
+
 export const HeroSequence: React.FC<HeroSequenceProps> = ({
   hero,
-  renderCard,
+  chapters,
   interiorImages,
   exteriorImages,
+  galleryHref,
+  skipHref = "#estimator",
 }) => {
   const reduceMotion = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
 
   const [dims, setDims] = useState(() => (typeof window === "undefined" ? { stageH: 800, width: 1280 } : measure()));
   const [heroH, setHeroH] = useState(0);
-  const [cardH, setCardH] = useState(0);
 
   // Ignore small height-only changes (mobile URL bar showing/hiding) so the stage doesn't jitter.
   useEffect(() => {
@@ -89,90 +164,106 @@ export const HeroSequence: React.FC<HeroSequenceProps> = ({
     return () => ro.disconnect();
   }, [reduceMotion]);
 
-  useLayoutEffect(() => {
-    const el = cardRef.current;
-    if (!el) return;
-    const read = () => setCardH(el.offsetHeight);
-    read();
-    const ro = new ResizeObserver(read);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [reduceMotion, dims.width]);
-
   const S = dims.stageH;
   const R = Math.round(Math.min(64, Math.max(40, S * 0.06))); // thin ribbon height
-  const T = S - R - RIBBON_GAP; // fixed image-track height = max window either band opens to
+  const T = S - R - RIBBON_GAP; // largest window either band could open to
+  const Ti = Math.round(T * INTERIOR_SCALE); // fixed image-track heights, per band
+  const Te = Math.round(T * EXTERIOR_SCALE);
   // Extra native scroll the hero needs first when it's taller than the stage (phones).
   const E = Math.max(0, heroH - S);
-  const wrapperH = E + (SCROLL_STAGES + 1) * S;
+
+  const extraChapters = Math.max(0, chapters.length - 1);
+  const U_TOTAL = U.chaptersStart + extraChapters * U.chapterLen + U.tail;
+  const wrapperH = E + (U_TOTAL + 1) * S;
 
   const sMV = useMotionValue(S);
   const rMV = useMotionValue(R);
+  const tiMV = useMotionValue(Ti);
+  const teMV = useMotionValue(Te);
   const eMV = useMotionValue(E);
   useEffect(() => {
     sMV.set(S);
     rMV.set(R);
+    tiMV.set(Ti);
+    teMV.set(Te);
     eMV.set(E);
-  }, [S, R, E, sMV, rMV, eMV]);
+  }, [S, R, E, Ti, Te, sMV, rMV, eMV, tiMV, teMV]);
 
   const { scrollYProgress } = useScroll({ target: wrapperRef, offset: [`start ${NAV_H}px`, "end end"] });
 
-  // Pre-phase scroll consumed by a tall hero, and the choreography progress q after it.
+  // Pre-phase scroll consumed by a tall hero, and the choreography progress u after it.
   const sPre = useTransform([scrollYProgress, sMV, eMV] as MotionValue<number>[], ([p, s, e]: number[]) =>
-    Math.min(e, Math.max(0, p * (e + SCROLL_STAGES * s)))
+    Math.min(e, Math.max(0, p * (e + U_TOTAL * s)))
   );
-  const q = useTransform([scrollYProgress, sMV, eMV] as MotionValue<number>[], ([p, s, e]: number[]) =>
-    clamp01((p * (e + SCROLL_STAGES * s) - e) / (SCROLL_STAGES * s))
+  const u = useTransform([scrollYProgress, sMV, eMV] as MotionValue<number>[], ([p, s, e]: number[]) =>
+    Math.min(U_TOTAL, Math.max(0, (p * (e + U_TOTAL * s) - e) / s))
   );
 
   const ease = { ease: easeInOut };
-  const geo = (fn: (q: number, s: number, r: number) => number) =>
-    useTransform([q, sMV, rMV] as MotionValue<number>[], ([qq, s, r]: number[]) => fn(qq, s, r));
+  const geo = (fn: (uu: number, s: number, r: number, ti: number, te: number) => number) =>
+    useTransform(
+      [u, sMV, rMV, tiMV, teMV] as MotionValue<number>[],
+      ([uu, s, r, ti, te]: number[]) => fn(uu, s, r, ti, te)
+    );
 
   const pairH = (r: number) => 2 * r + RIBBON_GAP;
   const pairCenterTop = (s: number, r: number) => 0.4 * s - pairH(r) / 2;
 
   // Hero: consumed by native scroll first (sPre), then carried off the top during stage 1.
-  const heroY = useTransform([sPre, q, sMV] as MotionValue<number>[], ([pre, qq, s]: number[]) =>
-    -pre - s * transform(qq, [0, Q.travelEnd], [0, 1], ease)
+  const heroY = useTransform([sPre, u, sMV] as MotionValue<number>[], ([pre, uu, s]: number[]) =>
+    -pre - s * transform(uu, [0, U.travelEnd], [0, 1], ease)
   );
-  const heroPointer = useTransform(q, (v) => (v < 0.05 ? "auto" : "none"));
+  const heroPointer = useTransform(u, (v) => (v < 0.05 ? "auto" : "none"));
 
-  // Interior (top ribbon)
-  const intTop = geo((qq, s, r) =>
-    transform(qq, [0, Q.travelEnd, Q.expandEnd, 1], [s - pairH(r), pairCenterTop(s, r), 0, 0], ease)
-  );
-  const intH = geo((qq, s, r) =>
+  // Interior (top ribbon). Fully open, the band is centred in the space above the exterior sliver.
+  const intOpenTop = (s: number, r: number, ti: number) => (s - r - RIBBON_GAP - ti) / 2;
+  const intTop = geo((uu, s, r, ti) =>
     transform(
-      qq,
-      [0, Q.travelEnd, Q.expandEnd, Q.shrinkStart, Q.shrinkEnd, 1],
-      [r, r, s - r - RIBBON_GAP, s - r - RIBBON_GAP, r, r],
+      uu,
+      [0, U.travelEnd, U.expandEnd, U.shrinkStart, U.shrinkEnd, U_TOTAL],
+      [s - pairH(r), pairCenterTop(s, r), intOpenTop(s, r, ti), intOpenTop(s, r, ti), 0, 0],
       ease
     )
   );
-  // Exterior (bottom ribbon) — height only changes once, in stage 4.
-  const extTop = geo((qq, s, r) =>
+  const intH = geo((uu, _s, r, ti) =>
+    transform(uu, [0, U.travelEnd, U.expandEnd, U.shrinkStart, U.shrinkEnd, U_TOTAL], [r, r, ti, ti, r, r], ease)
+  );
+
+  // Exterior (bottom ribbon) — opens once (stage 4), then recedes to a thin ribbon for the chapters.
+  const extOpenTop = (s: number, r: number, te: number) => r + RIBBON_GAP + (s - r - RIBBON_GAP - te) / 2;
+  const extTop = geo((uu, s, r, _ti, te) =>
     transform(
-      qq,
-      [0, Q.travelEnd, Q.expandEnd, Q.exteriorStart, Q.exteriorEnd],
-      [s - pairH(r) + r + RIBBON_GAP, pairCenterTop(s, r) + r + RIBBON_GAP, s - r, s - r, r + RIBBON_GAP],
+      uu,
+      [0, U.travelEnd, U.expandEnd, U.exteriorStart, U.exteriorEnd, U.recedeStart, U.recedeEnd, U_TOTAL],
+      [
+        s - pairH(r) + r + RIBBON_GAP,
+        pairCenterTop(s, r) + r + RIBBON_GAP,
+        s - r,
+        s - r,
+        extOpenTop(s, r, te),
+        extOpenTop(s, r, te),
+        s - r,
+        s - r,
+      ],
       ease
     )
   );
-  const extH = geo((qq, s, r) =>
-    transform(qq, [0, Q.exteriorStart, Q.exteriorEnd], [r, r, s - r - RIBBON_GAP], ease)
+  const extH = geo((uu, _s, r, _ti, te) =>
+    transform(
+      uu,
+      [0, U.exteriorStart, U.exteriorEnd, U.recedeStart, U.recedeEnd, U_TOTAL],
+      [r, r, te, te, r, r],
+      ease
+    )
   );
 
-  // Card "pop": one function of progress p (0 → 1), played forward on entry and backward on exit
-  // so the exit is exactly the entrance reversed. Back-out easing gives a small overshoot.
-  const popP = (qq: number) =>
-    qq < (Q.cardIn[1] + Q.cardOut[0]) / 2
-      ? clamp01((qq - Q.cardIn[0]) / (Q.cardIn[1] - Q.cardIn[0]))
-      : clamp01((Q.cardOut[1] - qq) / (Q.cardOut[1] - Q.cardOut[0]));
-  const cardOpacity = useTransform(q, (qq) => clamp01(popP(qq) * 1.8));
-  const cardScale = useTransform(q, (qq) => 0.88 + 0.12 * backOut(popP(qq)));
-  const cardY = useTransform(q, (qq) => 36 * (1 - backOut(popP(qq))));
-  const cardPointer = useTransform(cardOpacity, (o) => (o > 0.7 ? "auto" : "none"));
+  // Gallery-preview link: visible while a band is fully open.
+  const interiorLinkOpacity = useTransform(u, [U.travelEnd + 0.6, U.expandEnd, U.shrinkStart, U.shrinkStart + 0.2], [0, 1, 1, 0]);
+  const exteriorLinkOpacity = useTransform(u, [U.exteriorEnd - 0.2, U.exteriorEnd, U.recedeStart, U.recedeStart + 0.2], [0, 1, 1, 0]);
+  const interiorLinkPointer = useTransform(interiorLinkOpacity, (o) => (o > 0.5 ? "auto" : "none"));
+  const exteriorLinkPointer = useTransform(exteriorLinkOpacity, (o) => (o > 0.5 ? "auto" : "none"));
+  const skipOpacity = useTransform(u, [0.4, 0.9, U_TOTAL - 0.3, U_TOTAL], [0, 1, 1, 0]);
+  const skipPointer = useTransform(skipOpacity, (o) => (o > 0.5 ? "auto" : "none"));
 
   // Cursor / finger steers whichever band is currently expanded (left half ↔ right half).
   const interiorDir = useMotionValue(1);
@@ -183,9 +274,9 @@ export const HeroSequence: React.FC<HeroSequenceProps> = ({
     const setFromX = (clientX: number) => {
       const rect = el.getBoundingClientRect();
       const dir = clientX < rect.left + rect.width / 2 ? -1 : 1;
-      const qq = q.get();
-      if (qq > Q.travelEnd && qq < Q.shrinkEnd) interiorDir.set(dir);
-      else if (qq > Q.exteriorStart) exteriorDir.set(dir);
+      const uu = u.get();
+      if (uu > U.travelEnd && uu < U.shrinkEnd) interiorDir.set(dir);
+      else if (uu > U.exteriorStart && uu < U.recedeEnd) exteriorDir.set(dir);
     };
     const onPointer = (e: PointerEvent) => setFromX(e.clientX);
     const onTouch = (e: TouchEvent) => e.touches[0] && setFromX(e.touches[0].clientX);
@@ -195,12 +286,9 @@ export const HeroSequence: React.FC<HeroSequenceProps> = ({
       el.removeEventListener("pointermove", onPointer);
       el.removeEventListener("touchmove", onTouch);
     };
-  }, [q, interiorDir, exteriorDir, reduceMotion]);
+  }, [u, interiorDir, exteriorDir, reduceMotion]);
 
-  // Last-resort guarantee: if the card is still taller than the void (very short viewports),
-  // scale it down to fit rather than clip it.
   const voidH = S - 2 * (R + RIBBON_GAP) - 12;
-  const fitScale = cardH > voidH ? Math.max(0.45, voidH / cardH) : 1;
   const compact = dims.width < 1024 || S - 2 * R - 2 * RIBBON_GAP < 560;
 
   // Accessibility fallback only: no scroll choreography, just the pieces in a plain stack.
@@ -211,7 +299,9 @@ export const HeroSequence: React.FC<HeroSequenceProps> = ({
         <section className="relative bg-neutral-950 border-t border-neutral-900 py-3 sm:py-4">
           <ScrollFilmstrip images={interiorImages} direction="right" />
         </section>
-        {renderCard(false)}
+        {chapters.map((render, i) => (
+          <React.Fragment key={i}>{render(false)}</React.Fragment>
+        ))}
         <section className="relative bg-neutral-950 border-t border-neutral-900 py-3 sm:py-4">
           <ScrollFilmstrip images={exteriorImages} direction="left" />
         </section>
@@ -219,39 +309,38 @@ export const HeroSequence: React.FC<HeroSequenceProps> = ({
     );
   }
 
+  const windowFor = (i: number): readonly [number, number, number, number] => {
+    if (i === 0) return U.profile;
+    const a = U.chaptersStart + (i - 1) * U.chapterLen;
+    return [a, a + U.popLen, a + U.chapterLen - U.popLen, a + U.chapterLen];
+  };
+
+  const linkClass =
+    "absolute left-1/2 -translate-x-1/2 z-20 px-4 py-2 rounded-full bg-neutral-950/80 backdrop-blur-sm border border-neutral-700 text-xs text-neutral-100 hover:border-amber-400 hover:text-amber-300 transition-colors whitespace-nowrap";
+
   return (
     <div ref={wrapperRef} className="relative" style={{ height: wrapperH }}>
-      <div
-        ref={stageRef}
-        className="sticky overflow-hidden bg-neutral-950"
-        style={{ top: NAV_H, height: S }}
-      >
+      <div ref={stageRef} className="sticky overflow-hidden bg-neutral-950" style={{ top: NAV_H, height: S }}>
         {/* Hero: exits up through the top of the stage */}
-        <motion.div
-          className="absolute inset-x-0 top-0 z-0"
-          style={{ y: heroY, pointerEvents: heroPointer }}
-        >
+        <motion.div className="absolute inset-x-0 top-0 z-0" style={{ y: heroY, pointerEvents: heroPointer }}>
           <div ref={heroRef} className="flex flex-col" style={{ minHeight: S }}>
             {hero}
           </div>
         </motion.div>
 
-        {/* The void between the ribbons — the card pops into it */}
-        <motion.div
-          className="absolute inset-x-0 z-[5] flex items-center justify-center overflow-hidden"
-          style={{
-            top: R + RIBBON_GAP,
-            bottom: R + RIBBON_GAP,
-            opacity: cardOpacity,
-            scale: cardScale,
-            y: cardY,
-            pointerEvents: cardPointer,
-          }}
-        >
-          <div ref={cardRef} className="w-full" style={{ transform: `scale(${fitScale})`, transformOrigin: "center" }}>
-            {renderCard(compact)}
-          </div>
-        </motion.div>
+        {/* The void between the ribbons — cards pop into it, one at a time */}
+        {chapters.map((render, i) => (
+          <CardLayer
+            key={i}
+            u={u}
+            win={windowFor(i)}
+            top={R + RIBBON_GAP}
+            bottom={R + RIBBON_GAP}
+            voidH={voidH}
+            compactNow={compact}
+            render={render}
+          />
+        ))}
 
         <FilmstripMask
           images={interiorImages}
@@ -263,7 +352,7 @@ export const HeroSequence: React.FC<HeroSequenceProps> = ({
           angledEdge="bottom"
           align="center"
           className="absolute inset-x-0 z-10"
-          trackHeight={T}
+          trackHeight={Ti}
         />
         <FilmstripMask
           images={exteriorImages}
@@ -275,8 +364,35 @@ export const HeroSequence: React.FC<HeroSequenceProps> = ({
           angledEdge="top"
           align="center"
           className="absolute inset-x-0 z-10"
-          trackHeight={T}
+          trackHeight={Te}
         />
+
+        {galleryHref && (
+          <>
+            <motion.a
+              href={galleryHref}
+              className={linkClass}
+              style={{ opacity: interiorLinkOpacity, pointerEvents: interiorLinkPointer, bottom: R + RIBBON_GAP + 20 }}
+            >
+              View the full project library →
+            </motion.a>
+            <motion.a
+              href={galleryHref}
+              className={linkClass}
+              style={{ opacity: exteriorLinkOpacity, pointerEvents: exteriorLinkPointer, bottom: 20 }}
+            >
+              View the full project library →
+            </motion.a>
+          </>
+        )}
+
+        <motion.a
+          href={skipHref}
+          className="absolute right-4 z-20 text-[11px] font-mono text-neutral-400 hover:text-amber-300 transition-colors"
+          style={{ opacity: skipOpacity, pointerEvents: skipPointer, top: R + RIBBON_GAP + 10 }}
+        >
+          Skip to Scope Estimator ↓
+        </motion.a>
       </div>
     </div>
   );

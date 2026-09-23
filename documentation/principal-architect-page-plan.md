@@ -66,3 +66,7 @@ Only the free-hand drawings need new work (extracting them from the portfolio PD
 - [x] Motivation letters — not linked anywhere on the site, PDF or otherwise; used only as source material for this plan
 - [x] Free-hand drawings — included, but hidden by default / click-to-view, not inline in the main proof section
 - [x] Parametric furniture — 3 pieces is the full current set; section is sized for 3, not built expecting more
+
+## Status
+
+Built 2026-09-23: `design-philosophy/index.html`, `src/pages/DesignPhilosophyPage.tsx`, `src/entries/design-philosophy-main.tsx` (registered in `vite.config.ts` and `public/sitemap.xml`, linked from the footer and the homepage specialist card). Captions are drafted from image filenames, so review them for accuracy.

@@ -74,13 +74,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             Scope Planner
           </a>
-          <a href={homeAnchor("#deliverables")} className="hover:text-neutral-100 transition-colors tracking-wide">
+          <a href={`${import.meta.env.BASE_URL}projects/#deliverables`} className="hover:text-neutral-100 transition-colors tracking-wide">
             Construction Documentation
           </a>
-          <a href={homeAnchor("#workflows")} className="hover:text-neutral-100 transition-colors tracking-wide">
-            Delivery Process
+          <a href={`${import.meta.env.BASE_URL}why-work-with-us/`} className="hover:text-neutral-100 transition-colors tracking-wide">
+            Why Work With Us
           </a>
-          <a href={homeAnchor("#specialist")} className="hover:text-neutral-100 transition-colors tracking-wide">
+          <a href={`${import.meta.env.BASE_URL}design-philosophy/`} className="hover:text-neutral-100 transition-colors tracking-wide">
             Principal Architect
           </a>
         </nav>
@@ -164,21 +164,21 @@ export const Navbar: React.FC<NavbarProps> = ({
             Scope Planner
           </a>
           <a
-            href={homeAnchor("#deliverables")}
+            href={`${import.meta.env.BASE_URL}projects/#deliverables`}
             onClick={() => setIsMobileMenuOpen(false)}
             className="py-2.5 hover:text-amber-400 transition-colors"
           >
             Construction Documentation
           </a>
           <a
-            href={homeAnchor("#workflows")}
+            href={`${import.meta.env.BASE_URL}why-work-with-us/`}
             onClick={() => setIsMobileMenuOpen(false)}
             className="py-2.5 hover:text-amber-400 transition-colors"
           >
-            Delivery Process
+            Why Work With Us
           </a>
           <a
-            href={homeAnchor("#specialist")}
+            href={`${import.meta.env.BASE_URL}design-philosophy/`}
             onClick={() => setIsMobileMenuOpen(false)}
             className="py-2.5 hover:text-amber-400 transition-colors"
           >

@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowRight, CheckCircle2, Mail, MessageSquare } from "lucide-react";
 import { ProjectGallery } from "../components/ProjectGallery";
 import { EstimateDisclaimer } from "../components/EstimateDisclaimer";
+import { VisualizationPricing } from "../components/VisualizationPricing";
 import { VISUALIZATION_SHOWCASE_IMAGES, EXTERIOR_SHOWCASE_IMAGES } from "../data/architecturalData";
 import { SpecialistProfile } from "../types";
 
@@ -95,7 +96,7 @@ export const VisualizationServicePage: React.FC<VisualizationServicePageProps> =
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
           <a
-            href={`${import.meta.env.BASE_URL}#visualization`}
+            href="#rate-estimator"
             className="flex items-center space-x-2 px-6 py-3.5 rounded border border-neutral-700 text-neutral-300 text-sm hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer"
           >
             <span>Open Interactive Rate Estimator</span>
@@ -176,12 +177,19 @@ export const VisualizationServicePage: React.FC<VisualizationServicePageProps> =
           <p className="text-xs text-neutral-500 mt-4">
             Same rate for every client, anywhere in the world. For an exact figure based on your
             project's area, use the{" "}
-            <a href={`${import.meta.env.BASE_URL}#visualization`} className="text-amber-400 hover:text-amber-300 transition-colors">
+            <a href="#rate-estimator" className="text-amber-400 hover:text-amber-300 transition-colors">
               interactive estimator
             </a>{" "}
-            on the homepage.
+            below.
           </p>
           <EstimateDisclaimer specialistFirstName={specialist.name.split(" ")[0]} className="mt-5" />
+        </div>
+      </section>
+
+      {/* Interactive rate estimator (moved here from the homepage) */}
+      <section id="rate-estimator" className="py-16 bg-neutral-900/50 border-t border-neutral-900 scroll-mt-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <VisualizationPricing specialist={specialist} />
         </div>
       </section>
 

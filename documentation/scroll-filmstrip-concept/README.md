@@ -529,3 +529,144 @@ pushed or deployed). Remaining follow-ups: build the `/design-philosophy` page (
 `documentation/principal-architect-page-plan.md`) so the card's button stops being a dead link,
 tune scroll pacing if desired, and decide whether to delete the now-unused `ChapterFrame.tsx` and
 `FinaleSequence.tsx`.
+
+### Follow-up done (2026-09-23)
+
+`/design-philosophy/` now exists (see `documentation/principal-architect-page-plan.md`), so the card button is live. The card also gained a socials icon row (LinkedIn, Instagram, YouTube) in both full and compact modes.
+
+## 14. Plan — the whole homepage as one chapter sequence (2026-09-23, planning only)
+
+**Status: plan only, no code written. Awaiting the user's answers to §14.7 before building.**
+
+### 14.1 The intent
+The profile card's treatment (pops into the void between the two thin ribbons, then pops out) becomes
+the way the **entire rest of the homepage is presented**, up to (but not including) the LOD details
+section and the footer. Each remaining section stops being a full-width scroll section and becomes a
+**chapter card**: a short preview or description plus a **button to its dedicated page**. The
+homepage becomes a guided, scroll-linked tour; the depth lives on the dedicated pages.
+
+This also closes two long-open items from §10: the "projects library in its own dedicated page"
+(original idea, last line) and the "second open/close cycle for the why-architecture-studios
+section" (now a chapter card, not a repeat of the same band pair).
+
+### 14.2 Before → after
+
+| Today (homepage section) | After (chapter card) | Button goes to |
+| --- | --- | --- |
+| Specialist profile card | Chapter 1, unchanged (built) | `/design-philosophy/` |
+| Why Architecture Studios Outsource (`WorkflowsSection`) | Chapter card: headline + the 4 pillars as one-line points | New page: `/delivery-process/` (holds the full section) |
+| High-Precision BIM Deliverables (`DeliverablesGallery`) | Chapter card: headline + 2–3 preview thumbnails | `/services/bim-cad-drafting/` (already exists; also `/case-studies/`) |
+| Interior / exterior galleries (`ProjectGallery` ×2, `PracticeNote` slider) | The interior and exterior full-screen takeovers **are** the gallery preview; add a "View the full project library →" button on them | New page: `/projects/` (holds both galleries and the before/after slider) |
+| Consultancy pricing (`CombinedPricingSection`, left half) | Chapter card: 2–3 line description | `/services/consultancy/` |
+| Visualization / interior design pricing (right half) | Chapter card: 2–3 line description + one render | `/services/visualization/` |
+| Scope Estimator | See open question Q1 | — |
+| BIM/CAD workflow screenshots gallery | Folds into the BIM deliverables chapter / `/projects/` | `/projects/` |
+| LOD guide section | **Unchanged**, stays a normal section | — |
+| Footer | **Unchanged** | — |
+
+### 14.3 Chapter card spec
+One reusable `ChapterCard` so every chapter feels like the profile card:
+- Eyebrow (mono, small caps), headline (display serif), 1–2 sentence description, up to 3 short
+  points **or** up to 3 preview thumbnails (not both), one primary button (amber) and at most one
+  quiet text link.
+- Sits directly on the void (no box-in-box, no badges, per the design-audit rules).
+- Fixed content budget so it always fits the void between the ribbons at 1440×900; compact mode and
+  the scale-to-fit fallback already built into `HeroSequence` handle phones and short viewports.
+- Same pop animation as the profile card, entering and exiting.
+
+### 14.4 Proposed sequence (extends §9/§11 — stages 0–4 stay exactly as built)
+0. Landing → 1. ribbons travel, hero exits → 2. interior takeover (gallery preview 1) →
+3. interior recedes, profile card pops in → 4. card out, exterior takeover (gallery preview 2) →
+**5. exterior recedes back to the thin pair** → **6…N. chapter cards pop in and out one at a time**
+in the void, in this order: Why studios outsource → BIM deliverables → Consultancy →
+Interior design (visualization) → hand-off to the next normal section.
+
+Each chapter gets a fixed slice of scroll (about 1.2 stage-heights). The ribbons keep drifting
+between chapters so the void never feels dead. Optional later polish: shift the ribbon positions
+slightly per chapter so the rhythm isn't identical each time.
+
+### 14.5 New / changed pages
+- **New `/projects/`** — `DeliverablesGallery`, both `ProjectGallery` groups, `PracticeNote` slider,
+  BIM/CAD workflow screenshots. Independently crawlable static page like the others (own
+  `<title>`, meta, schema, sitemap entry, `vite.config.ts` input).
+- **New `/delivery-process/`** — the full `WorkflowsSection` content.
+- **Existing service pages** already carry the detail; they must **absorb the pricing** now removed
+  from the homepage. `ConsultancyPricing` and `VisualizationPricing` move onto
+  `/services/consultancy/` and `/services/visualization/` (BIM/CAD page keeps the estimator link).
+- Retarget every inbound anchor that points at homepage sections that no longer exist:
+  `#deliverables`, `#workflows`, `#consultancy`, `#visualization`, `#gallery`, `#specialist`
+  (Navbar ×2, Footer, `BimCadServicePage`, `ConsultancyServicePage`, `VisualizationServicePage`).
+  `#estimator` must keep working (hero CTA, nav "Scope Planner", every service page CTA).
+
+### 14.6 Technical plan
+- Generalize `HeroSequence` from "one card" to `chapters: ReactNode[]`; compute each card's
+  in/hold/out window from its index; total scroll length = fixed stages + N × chapter slice. All the
+  existing motion-value plumbing (stage height `S`, ribbon height `R`, fixed track `T`, `q`) is
+  reused unchanged.
+- **Accessibility (new requirement):** inactive cards are in the DOM (good for SEO) but must be
+  `inert`/`aria-hidden` and not tabbable while invisible, otherwise keyboard users tab into
+  invisible buttons. Only the active card is interactive.
+- **Skip affordance:** with about 5 extra chapters the sequence is long. Add a persistent "Skip to
+  Scope Estimator" link inside the stage so nobody is trapped scrolling.
+- **Reduced motion:** fallback stacks the hero, the ribbons as static strips, and all chapter cards
+  as ordinary sections (already the pattern for the profile card).
+- **SEO trade-off to accept knowingly:** the homepage loses several full sections of on-page text;
+  the removed content gains its own indexable pages, and each card's short description stays in the
+  DOM. The homepage becomes the tour, the new pages carry the keyword depth.
+- Files unused after this and safe to delete: `ChapterFrame.tsx`, `FinaleSequence.tsx`.
+
+### 14.7 Open questions for the user (with my recommendation)
+- **Q1. Scope Estimator.** It is an interactive tool (~670 lines) and cannot live in a small card,
+  and the hero CTA / nav / service pages all link to `#estimator`. *Recommend:* keep it as a normal
+  full-width section directly after the chapter sequence (the sequence's hand-off), then the BIM
+  workflow gallery moves to `/projects/`, then LOD guide, then footer. Alternative: give it its own
+  `/scope-estimator/` page and make it a chapter card (bigger change: re-point every CTA).
+- **Q2. "Why architecture studios" destination.** Recommend a new `/delivery-process/` page; the
+  alternative is pointing that card at `/services/` and dropping the standalone page.
+- **Q3. Gallery.** Recommend the two existing takeovers act as the gallery preview (no separate
+  gallery card), with a "View the full project library →" button shown during them.
+- **Q4. Chapter order.** Proposed: studios → BIM deliverables → consultancy → interior design.
+  Change if the user wants interior design earlier.
+- **Q5. Practice Note slider** (CAD wireframe vs render). Recommend it moves to `/projects/`.
+
+### 14.8 Build order
+1. Build `/projects/` and `/delivery-process/` and move pricing onto the service pages (pure
+   additions/moves; the homepage still works throughout).
+2. Retarget the anchors that will break.
+3. Build `ChapterCard` and generalize `HeroSequence` to N chapters (with `inert` handling and skip link).
+4. Swap the homepage sections for the chapter list; verify each chapter at 1440×900, 768 and 375.
+5. Delete the dead components, update this doc, commit.
+
+## 15. §14 implemented (2026-09-23, seventh pass) — decisions and status
+
+**User decisions on §14.7:** Q1 keep the Scope Estimator as a normal section (not its own page);
+Q2 the "why architecture studios" card becomes a "Why work with us" button to its own page with
+separate cases for individual homeowners and for firms; Q4 order confirmed, but the last card is
+named **"Photorealistic visualization"** (covers interior and exterior), not "interior design";
+Q5 the before/after slider moves to `/projects/`. Q3 (gallery scale) is open, see below.
+
+**Built (uncommitted):**
+- `HeroSequence` now takes `chapters[]` and a single scroll clock `u` (units of one stage height).
+  Timeline constants are in `U`. New stage 5: the exterior recedes back to a thin ribbon, then the
+  cards pop in one at a time. Inactive cards are `inert`. A "Skip to Scope Estimator" link and a
+  "View the full project library →" link over both takeovers were added.
+- `ChapterCard` (new) — eyebrow, headline, description, optional points or up to 3 thumbnails,
+  one primary button, one quiet link. Thumbnails hide in compact mode.
+- Homepage is now: hero sequence (5 chapters) → Scope Estimator → LOD guide → footer.
+- New pages: `/projects/` (deliverables, both galleries, before/after slider, BIM workflow) and
+  `/why-work-with-us/` (homeowner case written fresh, firm case reuses `WorkflowsSection`). Both
+  registered in `vite.config.ts` and `public/sitemap.xml`.
+- `ConsultancyPricing` and `VisualizationPricing` moved onto their service pages
+  (`#rate-estimator`); the homepage anchors that pointed at them were retargeted. Navbar and
+  footer links now point at the new pages. `CombinedPricingSection` is unused.
+
+**Open — Q3, gallery image scale.** Native heights: exterior 669, 674, 898, 1413, 1782, 1822 px;
+interior mostly 800–1500 px but `06-teen-bedroom` is only 576 px. At full stage height the small
+ones are upscaled (about 1.15x at 1440x900, more on taller screens). `HeroSequence` has
+`INTERIOR_SCALE` / `EXTERIOR_SCALE` (1 = fill the stage) and preview overrides `?intScale=0.75`
+and `?extScale=0.72` on the homepage URL. The user is choosing between: leave at 1, lower only the
+exterior (recommended, about 0.72), lower both, or replace the low-res source images. Remove the
+URL-param override once decided.
+
+**Not yet verified:** the sequence's hand-off into the estimator at the very end, the 768px
+width, reduced-motion fallback with 5 chapters, and copy accuracy on the new pages.

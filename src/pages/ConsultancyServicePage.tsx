@@ -7,6 +7,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { EstimateDisclaimer } from "../components/EstimateDisclaimer";
+import { ConsultancyPricing } from "../components/ConsultancyPricing";
 import { MARKET_BENCHMARK_RATES, OFFERED_RATES, TARGET_MARKETS } from "../data/architecturalData";
 import { SpecialistProfile } from "../types";
 
@@ -100,7 +101,7 @@ export const ConsultancyServicePage: React.FC<ConsultancyServicePageProps> = ({ 
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
           <a
-            href={`${import.meta.env.BASE_URL}#consultancy`}
+            href="#rate-estimator"
             className="flex items-center space-x-2 px-6 py-3.5 rounded border border-neutral-700 text-neutral-300 text-sm hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer"
           >
             <span>Open Interactive Rate Estimator</span>
@@ -196,6 +197,13 @@ export const ConsultancyServicePage: React.FC<ConsultancyServicePageProps> = ({ 
           </div>
 
           <EstimateDisclaimer specialistFirstName={specialist.name.split(" ")[0]} className="mt-6" />
+        </div>
+      </section>
+
+      {/* Interactive rate estimator (moved here from the homepage) */}
+      <section id="rate-estimator" className="py-16 bg-neutral-900/50 border-t border-neutral-900 scroll-mt-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ConsultancyPricing specialist={specialist} />
         </div>
       </section>
 

@@ -40,6 +40,12 @@ export const Footer: React.FC<FooterProps> = ({ specialist, isHomePage = true })
           {/* Social and freelance links in footer */}
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-neutral-400">
             <a
+              href={`${import.meta.env.BASE_URL}design-philosophy/`}
+              className="hover:text-amber-400 transition-colors"
+            >
+              Design Philosophy
+            </a>
+            <a
               href={specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/"}
               target="_blank"
               rel="noopener noreferrer"
@@ -115,10 +121,10 @@ export const Footer: React.FC<FooterProps> = ({ specialist, isHomePage = true })
             <a href={`${import.meta.env.BASE_URL}services/`} className="hover:text-amber-400 transition-colors">Services</a>
             <a href={`${import.meta.env.BASE_URL}case-studies/`} className="hover:text-amber-400 transition-colors">Case Studies</a>
             <a href={homeAnchor("#estimator")} className="hover:text-amber-400 transition-colors">Scope Estimator</a>
-            <a href={homeAnchor("#consultancy")} className="hover:text-amber-400 transition-colors">Pricing</a>
-            <a href={homeAnchor("#deliverables")} className="hover:text-amber-400 transition-colors">Construction Documentation</a>
-            <a href={homeAnchor("#workflows")} className="hover:text-amber-400 transition-colors">Delivery Process</a>
-            <a href={homeAnchor("#specialist")} className="hover:text-amber-400 transition-colors">Principal Architect</a>
+            <a href={`${import.meta.env.BASE_URL}services/`} className="hover:text-amber-400 transition-colors">Services &amp; Pricing</a>
+            <a href={`${import.meta.env.BASE_URL}projects/#deliverables`} className="hover:text-amber-400 transition-colors">Construction Documentation</a>
+            <a href={`${import.meta.env.BASE_URL}why-work-with-us/`} className="hover:text-amber-400 transition-colors">Why Work With Us</a>
+            <a href={`${import.meta.env.BASE_URL}design-philosophy/`} className="hover:text-amber-400 transition-colors">Principal Architect</a>
           </div>
 
           <div>

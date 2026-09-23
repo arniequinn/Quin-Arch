@@ -6,6 +6,9 @@ import {
   MessageSquare,
   GraduationCap,
   FileText,
+  Linkedin,
+  Instagram,
+  Youtube,
 } from "lucide-react";
 import { SpecialistProfile } from "../types";
 import { assetUrl } from "../utils/assetPath";
@@ -88,6 +91,29 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
               </div>
             </div>
 
+            {/* Socials — icon links, present in both the full and compact card */}
+            <div className="flex items-center gap-2 pt-1">
+              {[
+                { label: "LinkedIn", href: specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/", Icon: Linkedin },
+                { label: "Instagram", href: specialist.socials?.instagram, Icon: Instagram },
+                { label: "YouTube", href: specialist.socials?.youtube, Icon: Youtube },
+              ]
+                .filter((s) => s.href)
+                .map(({ label, href, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    title={label}
+                    className="w-9 h-9 rounded-full border border-neutral-700 text-neutral-400 hover:text-neutral-100 hover:border-neutral-500 flex items-center justify-center transition-all"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                ))}
+            </div>
+
             {/* Direct Connect Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
@@ -110,7 +136,6 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
               </a>
 
               {compact ? (
-                // TODO: /design-philosophy is not built yet (see documentation/principal-architect-page-plan.md).
                 <a
                   href={`${import.meta.env.BASE_URL}design-philosophy/`}
                   className="px-5 py-3 rounded bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs sm:text-sm transition-all cursor-pointer"
@@ -162,6 +187,12 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
               >
                 <FileText className="w-3.5 h-3.5 text-amber-400" />
                 <span>Download CV</span>
+              </a>
+              <a
+                href={`${import.meta.env.BASE_URL}design-philosophy/`}
+                className="mt-3 flex items-center space-x-1.5 text-xs text-amber-400 hover:text-amber-300 transition-all"
+              >
+                <span>Read the thinking behind the work →</span>
               </a>
             </div>
           </div>

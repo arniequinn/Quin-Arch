@@ -272,7 +272,7 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = ({ specialist
           </div>
           <div className="mt-8 text-center">
             <a
-              href={`${import.meta.env.BASE_URL}#deliverables`}
+              href={`${import.meta.env.BASE_URL}projects/#deliverables`}
               className="inline-flex items-center space-x-1.5 text-xs font-semibold text-amber-400 hover:text-amber-300 transition-colors"
             >
               <FileCheck2 className="w-3.5 h-3.5" />
