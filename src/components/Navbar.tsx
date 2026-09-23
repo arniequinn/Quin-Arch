@@ -36,11 +36,11 @@ export const Navbar: React.FC<NavbarProps> = ({
         <button
           type="button"
           onClick={scrollToTop}
-          className="flex items-center space-x-3 min-w-0 bg-transparent border-0 p-0 m-0 cursor-pointer text-left"
+          className="flex items-center space-x-2.5 sm:space-x-3 min-w-0 bg-transparent border-0 p-0 m-0 cursor-pointer text-left"
           aria-label="Go to homepage"
         >
           {specialist.logoUrl ? (
-            <div className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 p-1 flex items-center justify-center shrink-0">
+            <div className="w-11 h-11 rounded-lg bg-neutral-900 border border-neutral-800 p-1 flex items-center justify-center shrink-0">
               <img
                 src={specialist.logoUrl}
                 alt={specialist.brandName || specialist.name}
@@ -48,12 +48,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               />
             </div>
           ) : (
-            <div className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-amber-400 shrink-0">
+            <div className="w-11 h-11 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-amber-400 shrink-0">
               <Compass className="w-4 h-4 stroke-[1.5]" />
             </div>
           )}
           <div className="min-w-0">
-            <span className="font-display font-semibold text-sm text-neutral-100 tracking-tight whitespace-nowrap">
+            <span className="font-display font-semibold text-[13px] sm:text-sm leading-tight text-neutral-100 tracking-tight sm:whitespace-nowrap">
               {specialist.brandName || specialist.name}
             </span>
           </div>
@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
+        <div className="flex items-center space-x-1.5 sm:space-x-3 shrink-0">
           {specialist.whatsapp && (
             <a
               href={`https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
@@ -117,7 +117,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             id="scope-planner-nav-btn"
             onClick={onScrollToEstimator}
-            className="px-4 py-1.5 rounded-md border border-amber-500/40 text-amber-400 text-xs font-medium hover:bg-amber-500/10 hover:border-amber-500/70 transition-all cursor-pointer tracking-wide"
+            className="px-3 sm:px-4 py-1.5 rounded-md border border-amber-500/40 text-amber-400 text-xs font-medium whitespace-nowrap hover:bg-amber-500/10 hover:border-amber-500/70 transition-all cursor-pointer tracking-wide"
           >
             Scope Planner
           </button>
