@@ -335,8 +335,9 @@ export const VISUALIZATION_SHOWCASE_IMAGES: TrackImage[] = [
 // Deliberately excludes barn-residence-vray.jpg — that render is reserved as the standalone
 // hero image for the PracticeNote section further down the homepage, so it isn't duplicated.
 export const EXTERIOR_SHOWCASE_IMAGES: TrackImage[] = [
-  { src: assetUrl("/portfolio/bimcad-workflow/11-facade-closeup-render.webp"), aspect: "wide" },
-  { src: assetUrl("/portfolio/bimcad-workflow/12-cube-facade-render.webp"), aspect: "wide" },
+  { src: assetUrl("/portfolio/exterior-showcase/10-tower-render.jpg"), aspect: "wide" },
+  { src: assetUrl("/portfolio/exterior-showcase/11-facade-closeup-render.webp"), aspect: "wide" },
+  { src: assetUrl("/portfolio/exterior-showcase/12-cube-facade-render.webp"), aspect: "wide" },
   { src: assetUrl("/portfolio/exterior-showcase/01-office-building.webp"), aspect: "wide" },
   { src: assetUrl("/portfolio/exterior-showcase/02-gable-house.webp"), aspect: "wide" },
   { src: assetUrl("/portfolio/exterior-showcase/03-apartment-facade.webp"), aspect: "wide" }

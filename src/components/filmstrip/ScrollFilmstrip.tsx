@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, MotionValue, useReducedMotion } from "motion/react";
 import { TrackImage } from "../../types";
 import { useMarquee } from "./useMarquee";
 
@@ -11,9 +11,19 @@ interface ScrollFilmstripProps {
   direction: "left" | "right";
   speedPx?: number;
   heightClassName?: string;
+  /** Fixed pixel track height — overrides `heightClassName` when the caller has measured the
+   *  exact size the strip must render at (e.g. a full-stage takeover). */
+  trackHeight?: number;
   /** Gutter between images — applied both within and across duplicated copies so the seam
    *  gets the same spacing as every other image-to-image gap. */
   gapClassName?: string;
+  /** External pause (e.g. a caller that knows the strip is currently zero-height/off-screen),
+   *  ORed with the internal prefers-reduced-motion pause. */
+  paused?: boolean;
+  /** Supersedes the `direction` prop's fixed sign with a live value (e.g. driven by cursor
+   *  position) — same speed magnitude, continuously steerable direction. Reuses useMarquee's
+   *  existing MotionValue support with no change to the animation loop itself. */
+  directionOverride?: MotionValue<number>;
 }
 
 // A continuously-scrolling, seamlessly-looping strip of images — purely decorative texture,
@@ -24,19 +34,29 @@ export const ScrollFilmstrip: React.FC<ScrollFilmstripProps> = ({
   direction,
   speedPx = 28,
   heightClassName = "h-[320px] sm:h-[440px]",
+  trackHeight,
   gapClassName = "gap-x-4 sm:gap-x-6",
+  paused = false,
+  directionOverride,
 }) => {
   const reduceMotion = useReducedMotion();
   const sign = direction === "right" ? 1 : -1;
-  const { x, trackRef } = useMarquee({ speedPx, direction: sign, paused: !!reduceMotion });
+  const { x, trackRef } = useMarquee({
+    speedPx,
+    direction: directionOverride ?? sign,
+    paused: paused || !!reduceMotion,
+  });
 
   const copyIndices = useMemo(() => Array.from({ length: COPIES }, (_, i) => i), []);
 
   if (!images.length) return null;
 
+  const sizeClass = trackHeight ? "" : heightClassName;
+  const sizeStyle = trackHeight ? { height: trackHeight } : undefined;
+
   if (reduceMotion) {
     return (
-      <div className={`relative w-full overflow-hidden ${heightClassName}`} aria-hidden="true">
+      <div className={`relative w-full overflow-hidden ${sizeClass}`} style={sizeStyle} aria-hidden="true">
         <div className={`flex h-full w-max ${gapClassName}`}>
           {images.map((img, i) => (
             <img key={i} src={img.src} alt="" className="h-full w-auto object-cover shrink-0" />
@@ -47,7 +67,7 @@ export const ScrollFilmstrip: React.FC<ScrollFilmstripProps> = ({
   }
 
   return (
-    <div className={`relative w-full overflow-hidden ${heightClassName}`} aria-hidden="true">
+    <div className={`relative w-full overflow-hidden ${sizeClass}`} style={sizeStyle} aria-hidden="true">
       <motion.div className={`flex h-full w-max ${gapClassName}`} style={{ x }}>
         {copyIndices.map((copyIdx) => (
           <div

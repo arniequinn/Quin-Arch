@@ -13,18 +13,22 @@ import { assetUrl } from "../utils/assetPath";
 interface SpecialistProfileCardProps {
   specialist: SpecialistProfile;
   onScrollToEstimator: () => void;
+  /** Fits a small void (phone / short viewport): drops the capabilities column and section
+   *  padding, trims the bio, and swaps the long CTA for a link to the philosophy page. */
+  compact?: boolean;
 }
 
 export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
   specialist,
   onScrollToEstimator,
+  compact = false,
 }) => {
   const whatsappUrl = `https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
     `Hi ${specialist.name}, I found your architectural portfolio via ArchScope and would like to discuss a project.`
   )}`;
 
   return (
-    <section id="specialist" className="py-16 sm:py-24 bg-neutral-950 border-t border-neutral-900 relative">
+    <section id="specialist" className={`${compact ? "py-4" : "py-16 sm:py-24 border-t border-neutral-900"} bg-neutral-950 relative`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
 
@@ -64,7 +68,7 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
               </div>
             </div>
 
-            <p className="text-sm text-neutral-300 leading-relaxed max-w-xl">
+            <p className={`text-sm text-neutral-300 leading-relaxed max-w-xl ${compact ? "line-clamp-3" : ""}`}>
               {specialist.bio}
             </p>
 
@@ -105,16 +109,27 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
                 <span>Email</span>
               </a>
 
+              {compact ? (
+                // TODO: /design-philosophy is not built yet (see documentation/principal-architect-page-plan.md).
+                <a
+                  href={`${import.meta.env.BASE_URL}design-philosophy/`}
+                  className="px-5 py-3 rounded bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs sm:text-sm transition-all cursor-pointer"
+                >
+                  <span>Design philosophy →</span>
+                </a>
+              ) : (
               <button
                 onClick={onScrollToEstimator}
                 className="px-5 py-3 rounded bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs sm:text-sm transition-all cursor-pointer"
               >
                 <span>Launch Scope Estimator</span>
               </button>
+              )}
             </div>
           </div>
 
           {/* Right: Technical capabilities — plain lists, no nested card */}
+          {!compact && (
           <div className="lg:col-span-5 lg:pl-8 lg:border-l lg:border-neutral-900 space-y-6">
             <div>
               <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400 font-mono flex items-center space-x-2">
@@ -150,6 +165,7 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
               </a>
             </div>
           </div>
+          )}
 
         </div>
       </div>
