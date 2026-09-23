@@ -35,3 +35,13 @@ If you rename the repository, update `BASE_PATH` in `vite.config.ts` and the URL
 ## Editing the specialist profile
 
 Click **Specialist Profile** in the nav bar or footer and enter the owner passkey to unlock editing. Saved changes are stored in `localStorage` in that browser only — they are not shared across visitors or devices (there's no backend to sync them). To change the passkeys, edit `src/services/ownerAuth.ts`.
+
+> **Deploys go through GitHub Actions only.** Pushing to `main` builds and publishes the site. The
+> `npm run deploy` script (gh-pages branch) is not needed and is not what the live site serves.
+
+## SEO plumbing
+
+`vite-seo-plugin.ts` runs on every HTML entry at build time: it adds Google Analytics if a page lacks
+it, places an `<h1>` plus the meta description and site links inside `<div id="root">` so crawlers see
+text before JavaScript runs, and generates `sitemap.xml` with the build date. When you add a page,
+add it to `build.rollupOptions.input` in `vite.config.ts` **and** to `PAGES` in `vite-seo-plugin.ts`.

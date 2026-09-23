@@ -266,3 +266,17 @@ this plan. Phases 1–2 are the next concrete builds (lead magnet is the single 
 one, since it's the only thing on this list that converts anonymous traffic into a contactable
 lead). Phases 3–4 are ongoing habits more than one-time builds, and can start in parallel
 once 0–2 are in motion. Phase 5 is a standing monthly practice, not a one-time task.
+
+---
+
+## 7. Status update (2026-09-23, SEO pass)
+
+- Homeowner segment (Phase 0 item 4): now covered by `/why-work-with-us/`.
+- GA4 was only on the homepage; now injected on all 14 pages by `vite-seo-plugin.ts`, so the
+  Phase 5 monthly review has real data.
+- Every page now ships crawlable text (h1, description, links) before JavaScript runs; sitemap is
+  generated at build time with the real date. Homepage title, description and structured data were
+  rewritten around the practice name (Quintessential Architecture, Arslan Qaiser).
+- Still open: resubmit the sitemap in Search Console and request indexing (user action); GoodFirms
+  profile; publish the LinkedIn posts; film the Shorts; follow up the BIM Heroes pitch around 10/6.
+- Parked: custom domain (not affordable yet); revisit later, since it changes every canonical URL.
