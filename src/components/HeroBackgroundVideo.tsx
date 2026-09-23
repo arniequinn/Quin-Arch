@@ -5,6 +5,13 @@ const FEATURED_VIDEO_ID = "Gbf1Qq946ds";
 // the embed mounts, even with controls stripped from the URL. A flat cover held for longer than
 // that flash ever lasts is far more reliable than trying to time it against player events —
 // there's no autoplay-state or cross-origin postMessage quirk left to chase.
+// Some shots in the source video are 4:3 pictures baked into the 16:9 frame (black bars left and
+// right), which showed up as dead negative space on wide screens. Size the 16:9 iframe so its
+// central 4:3 region covers the container — the bars fall outside the crop, and the picture
+// always fills the hero at any screen shape. The small overscan hides edge rounding.
+const FRAME_ASPECT = 16 / 9;
+const SAFE_ASPECT = 4 / 3;
+const OVERSCAN = 1.02;
 const COVER_MS = 2800;
 const FADE_MS = 800;
 
@@ -31,7 +38,10 @@ export const HeroBackgroundVideo: React.FC = () => {
         title="Background rendering animation"
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         // Cover the container at any aspect ratio (a tall phone hero needs a video wider than 100vw)
-        style={{ width: "max(100cqw, 177.78cqh)", height: "max(100cqh, 56.25cqw)" }}
+        style={{
+          height: `max(${OVERSCAN * 100}cqh, ${(OVERSCAN / SAFE_ASPECT) * 100}cqw)`,
+          width: `calc(max(${OVERSCAN * 100}cqh, ${(OVERSCAN / SAFE_ASPECT) * 100}cqw) * ${FRAME_ASPECT})`,
+        }}
         frameBorder="0"
         allow="autoplay; encrypted-media"
       />
