@@ -36,15 +36,10 @@ const RIBBON_GAP = 8;
 const SPEED_PX = 36;
 
 // How much of the full-stage track height each band uses when fully open (1 = fills the stage).
-// Renders are only so many pixels tall, so a smaller value keeps them crisper at the cost of
-// some void around the band. ?intScale= / ?extScale= override these for side-by-side previews.
-const paramScale = (name: string, fallback: number) => {
-  if (typeof window === "undefined") return fallback;
-  const v = parseFloat(new URLSearchParams(window.location.search).get(name) ?? "");
-  return v > 0.3 && v <= 1 ? v : fallback;
-};
-const INTERIOR_SCALE = paramScale("intScale", 1);
-const EXTERIOR_SCALE = paramScale("extScale", 1);
+// The exterior renders are lower-resolution than the interior ones, so that band stays smaller
+// (leaving some void around it) to keep them from being upscaled into softness.
+const INTERIOR_SCALE = 1;
+const EXTERIOR_SCALE = 0.75;
 
 // Timeline, in units of one stage height of scroll (u = 0 at the first scroll, see
 // documentation/scroll-filmstrip-concept §9/§11/§14).
