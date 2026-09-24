@@ -41,7 +41,19 @@ Click **Specialist Profile** in the nav bar or footer and enter the owner passke
 
 ## SEO plumbing
 
-`vite-seo-plugin.ts` runs on every HTML entry at build time: it adds Google Analytics if a page lacks
-it, places an `<h1>` plus the meta description and site links inside `<div id="root">` so crawlers see
-text before JavaScript runs, and generates `sitemap.xml` with the build date. When you add a page,
-add it to `build.rollupOptions.input` in `vite.config.ts` **and** to `PAGES` in `vite-seo-plugin.ts`.
+`vite-seo-plugin.ts` runs on every HTML entry during `npm run build`:
+
+- **Prerendering.** After the client build, each page's React tree is rendered to HTML in Node and
+  written into its `<div id="root">`, so search engines, AI crawlers and link previews get the full
+  page without running JavaScript. In the browser, `src/entries/mountPage.tsx` hydrates that markup.
+  Server and browser render the same tree, so anything that depends on the browser (window size,
+  `matchMedia`, `localStorage`) must be read in an effect or through `useSyncExternalStore`, not
+  during the first render. Otherwise React reports a hydration mismatch in the console.
+- **Google Analytics** is injected into any page that lacks it. `src/services/analytics.ts` sends
+  `contact_click` (WhatsApp/email/phone), `generate_lead` (LOD guide sign-up) and `save_guide_pdf`.
+- **`sitemap.xml`** lists every page except `404.html`, dated by the last git commit that touched the
+  page's source (the deploy workflow checks out full history for this).
+
+To add a page: create its HTML file and an entry in `src/entries/` that exports
+`render = mountPage(...)` (copy an existing one), then add the HTML file to
+`build.rollupOptions.input` in `vite.config.ts`. It's prerendered and added to the sitemap from there.

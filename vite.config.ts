@@ -11,16 +11,16 @@ const BASE_PATH = '/';
 export default defineConfig(() => {
   return {
     base: BASE_PATH,
-    plugins: [react(), tailwindcss(), seoPlugin(BASE_PATH)],
+    plugins: [react(), tailwindcss(), seoPlugin()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
       },
     },
     build: {
-      // Multi-page build: the homepage plus real, independently-crawlable static pages for
-      // /services/ and each service pillar (each with its own <title>/meta/schema baked into
-      // its own HTML at build time — no client-side router or prerendering step needed).
+      // Multi-page build: the homepage plus real, independently-crawlable static pages, each with
+      // its own <title>/meta/schema in its own HTML. No client-side router: vite-seo-plugin.ts
+      // prerenders every page listed here into its HTML and adds it to sitemap.xml.
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, 'index.html'),
@@ -37,6 +37,7 @@ export default defineConfig(() => {
           designPhilosophy: path.resolve(__dirname, 'design-philosophy/index.html'),
           projects: path.resolve(__dirname, 'projects/index.html'),
           whyWorkWithUs: path.resolve(__dirname, 'why-work-with-us/index.html'),
+          notFound: path.resolve(__dirname, '404.html'),
         },
       },
     },

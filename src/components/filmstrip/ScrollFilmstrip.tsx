@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
-import { motion, MotionValue, useReducedMotion } from "motion/react";
+import { motion, MotionValue } from "motion/react";
 import { TrackImage } from "../../types";
 import { useMarquee } from "./useMarquee";
+import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 const COPIES = 4;
 
@@ -39,7 +40,7 @@ export const ScrollFilmstrip: React.FC<ScrollFilmstripProps> = ({
   paused = false,
   directionOverride,
 }) => {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const sign = direction === "right" ? 1 : -1;
   const { x, trackRef } = useMarquee({
     speedPx,

@@ -127,7 +127,8 @@ export const Footer: React.FC<FooterProps> = ({ specialist, isHomePage = true })
             <a href={`${import.meta.env.BASE_URL}design-philosophy/`} className="hover:text-amber-400 transition-colors">Principal Architect</a>
           </div>
 
-          <div>
+          {/* The year is baked in at build time; the browser's may differ right after New Year. */}
+          <div suppressHydrationWarning>
             © {new Date().getFullYear()} {specialist.brandName || "Quintessential Architecture"}. All drawings & BIM deliverables code-compliant.
           </div>
         </div>

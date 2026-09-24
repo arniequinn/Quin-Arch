@@ -52,13 +52,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <!-- Rich Structured Data for Search Engine Rich Snippets & Knowledge Graph -->
+    <!-- Structured data: the site, the practice, and its principal architect as one linked entity
+         graph. Other pages refer back to these by @id. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": ["ProfessionalService", "ArchitecturalService"],
+          "@type": "WebSite",
+          "@id": "https://quinarch.design/#website",
+          "url": "https://quinarch.design/",
+          "name": "Quintessential Architecture",
+          "alternateName": ["Quin-Arch", "QuinArch"],
+          "inLanguage": "en",
+          "publisher": { "@id": "https://quinarch.design/#business" }
+        },
+        {
+          "@type": "ProfessionalService",
           "@id": "https://quinarch.design/#business",
           "name": "Quintessential Architecture",
           "alternateName": ["Quin-Arch", "Quintessential Architecture — Arslan Qaiser"],
@@ -66,21 +76,21 @@
           "logo": "https://quinarch.design/portfolio/quin-arch-logo.png",
           "image": "https://quinarch.design/portfolio/barn-residence-vray.jpg",
           "description": "Quintessential Architecture is the practice of principal architect Arslan Qaiser — code-compliant BIM production (LOD 100–400), parametric and computational design, construction documentation and photorealistic architectural visualization for architecture firms, contractors and homeowners worldwide, delivered remotely.",
-          "founder": {
-            "@type": "Person",
-            "name": "Arslan Qaiser",
-            "alternateName": "Arnie Quinn",
-            "jobTitle": "Principal Architect & BIM Technologist",
-            "alumniOf": "National College of Arts (NCA)",
-            "award": "Distinction in Design - NCA",
-            "sameAs": [
-              "https://www.upwork.com/freelancers/~017cb25c6f0d1d2375",
-              "https://www.cadcrowd.com/profile/36968-quintessential-architecture",
-              "https://www.instagram.com/quin_arch"
-            ]
-          },
-          "telephone": "+923224316477",
+          "founder": { "@id": "https://quinarch.design/#arslan-qaiser" },
           "email": "arslan.qaiser1991@gmail.com",
+          "telephone": "+923224316477",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Lahore",
+            "addressRegion": "Punjab",
+            "addressCountry": "PK"
+          },
+          "areaServed": [
+            { "@type": "Country", "name": "United States" },
+            { "@type": "Country", "name": "United Kingdom" },
+            { "@type": "Country", "name": "Canada" },
+            { "@type": "Country", "name": "Australia" }
+          ],
           "priceRange": "$$",
           "knowsAbout": [
             "Remote Architectural BIM Services",
@@ -94,87 +104,72 @@
             "Rhino & Grasshopper Parametric Modeling",
             "Ladybug Environmental & Solar Simulation"
           ],
+          "sameAs": [
+            "https://www.instagram.com/quin_arch",
+            "https://www.cadcrowd.com/profile/36968-quintessential-architecture"
+          ],
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
-            "name": "Remote Architectural Services Catalog",
+            "name": "Architectural services",
             "itemListElement": [
               {
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "Remote Architectural BIM Services (LOD 200-350)",
-                  "description": "Comprehensive 3D BIM architectural modeling, family creation, parametric coordination, and clash detection."
+                  "@id": "https://quinarch.design/services/bim-cad-drafting/#service",
+                  "name": "BIM / CAD Drafting & Construction Documentation",
+                  "description": "Code-compliant permit sets and BIM models from LOD 100 to 400, delivered in the formats and layering standards your office already uses.",
+                  "url": "https://quinarch.design/services/bim-cad-drafting/"
                 }
               },
               {
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "Municipal Permit Drawing Sets",
-                  "description": "Full municipal submittal drawing packages including site plans, floor plans, elevations, sections, and code compliance schedules."
+                  "@id": "https://quinarch.design/services/visualization/#service",
+                  "name": "Architectural Visualization & Rendering",
+                  "description": "Photorealistic interior and exterior renders in V-Ray, Lumion and Twinmotion 4K — built from an existing model, CAD drawings, or sketches.",
+                  "url": "https://quinarch.design/services/visualization/"
                 }
               },
               {
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "Construction Documentation & Redline Drafting",
-                  "description": "Millimeter-accurate architectural CAD detailing adhering strictly to National CAD Standards (NCS) and AIA layer conventions."
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Parametric Design & Solar Analysis",
-                  "description": "Rhino Grasshopper algorithmic design, facade optimization, and Ladybug solar insulation simulation."
+                  "@id": "https://quinarch.design/services/consultancy/#service",
+                  "name": "Architect Consultant",
+                  "description": "Design coordination, code-compliance review, and computational or parametric consulting for studios and contractors — billed hourly at one flat worldwide rate.",
+                  "url": "https://quinarch.design/services/consultancy/"
                 }
               }
             ]
           }
         },
         {
-          "@type": "WebApplication",
-          "@id": "https://quinarch.design/#app",
-          "name": "ArchScope - Remote Architectural BIM & Scope Estimator",
-          "url": "https://quinarch.design/",
-          "applicationCategory": "DesignApplication",
-          "operatingSystem": "Web Browser",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock"
-          }
-        },
-        {
-          "@type": "FAQPage",
-          "@id": "https://quinarch.design/#faq",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "What are remote architectural BIM services?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Remote architectural BIM services provide architects, engineers, and general contractors with digital 3D BIM modeling (LOD 200 through LOD 350), clash coordination, and construction documentation executed offsite with 24-48h turnaround times."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How does ArchScope calculate architectural scope and permit fees?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "ArchScope analyzes building square footage, project type (residential, commercial, or industrial), delivery tier (2D CAD permit set vs. 3D BIM model), and required code schedules to instantly compute recommended sheet counts, milestones, and estimated costs."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Are remote architectural drawing sets compliant with building codes?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes, drawings are developed in accordance with International Building Code (IBC), International Residential Code (IRC), California Title 24, and National CAD Standards (NCS) for seamless municipal plan-check review."
-              }
-            }
+          "@type": "Person",
+          "@id": "https://quinarch.design/#arslan-qaiser",
+          "name": "Arslan Qaiser",
+          "alternateName": "Arnie Quinn",
+          "jobTitle": "Principal Architect & BIM Technologist",
+          "url": "https://quinarch.design/design-philosophy/",
+          "image": "https://quinarch.design/portfolio/arslan-profile.png",
+          "worksFor": { "@id": "https://quinarch.design/#business" },
+          "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "National College of Arts",
+            "sameAs": "https://en.wikipedia.org/wiki/National_College_of_Arts"
+          },
+          "hasCredential": {
+            "@type": "EducationalOccupationalCredential",
+            "credentialCategory": "degree",
+            "name": "Bachelor of Architecture (B.Arch), Distinction in Design — National College of Arts"
+          },
+          "award": "Distinction in Design — National College of Arts",
+          "sameAs": [
+            "https://www.linkedin.com/in/arslan-qaiser-947976188/",
+            "https://www.youtube.com/@arslanqaiser6980",
+            "https://www.upwork.com/freelancers/~017cb25c6f0d1d2375",
+            "https://www.freelancer.com/u/arslanqaiser1991"
           ]
         }
       ]

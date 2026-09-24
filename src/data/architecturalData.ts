@@ -12,7 +12,9 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
   location: "Lahore, Pakistan (Delivering to USA, UK, Canada, Australia & International)",
   education: "Bachelor of Architecture (B.Arch, Distinction in Design) — National College of Arts (NCA)",
   logoUrl: assetUrl("/portfolio/quin-arch-logo.png"),
-  avatarUrl: assetUrl("/portfolio/arslan-profile.png"),
+  // 240px WebP (~7 KB): the avatar never renders above 80 CSS px. The full-size
+  // arslan-profile.png stays in /portfolio for the Person structured data's `image`.
+  avatarUrl: assetUrl("/portfolio/arslan-profile.webp"),
   socials: {
     linkedin: "https://www.linkedin.com/in/arslan-qaiser-947976188/",
     instagram: "https://instagram.com/quin_arch",

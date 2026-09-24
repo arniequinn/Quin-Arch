@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CheckCircle2, Loader2, Mail, Send } from "lucide-react";
+import { trackEvent } from "../services/analytics";
 
 interface EmailCaptureFormProps {
   /** What the visitor is signing up to receive, e.g. "the LOD cheat sheet". */
@@ -52,6 +53,7 @@ export const EmailCaptureForm: React.FC<EmailCaptureFormProps> = ({
       const data = await res.json();
       if (data.success) {
         setStatus("done");
+        trackEvent("generate_lead", { lead_source: source });
         onSuccess?.();
       } else {
         setStatus("error");

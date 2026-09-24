@@ -18,11 +18,16 @@ import { ChapterCard } from "./components/ChapterCard";
 import { BIMCAD_WORKFLOW_IMAGES, VISUALIZATION_SHOWCASE_IMAGES, EXTERIOR_SHOWCASE_IMAGES } from "./data/architecturalData";
 import { SpecialistProfile } from "./types";
 import { isOwnerAuthorized } from "./services/ownerAuth";
-import { loadSpecialistProfile, SPECIALIST_PROFILE_STORAGE_KEY } from "./services/specialistProfile";
+import { SPECIALIST_PROFILE_STORAGE_KEY } from "./services/specialistProfile";
 
-export default function App() {
+interface AppProps {
+  /** Resolved by mountPage: the default profile, or the owner's locally saved edit. */
+  initialSpecialist: SpecialistProfile;
+}
+
+export default function App({ initialSpecialist }: AppProps) {
   // Specialist Profile state (persisted locally in this browser only)
-  const [specialist, setSpecialist] = useState<SpecialistProfile>(loadSpecialistProfile);
+  const [specialist, setSpecialist] = useState<SpecialistProfile>(initialSpecialist);
 
   const [isSpecialistEditorOpen, setIsSpecialistEditorOpen] = useState(false);
 
@@ -49,16 +54,16 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // The browser's native scroll-to-#hash-on-load fires before this SPA has mounted anything
-  // into #root, so a fresh navigation here from another page (e.g. a service page's "Scope
-  // Estimator" link) lands at the top instead of the anchor. Retry once mounted.
+  // The browser's native scroll-to-#hash-on-load lands on the prerendered layout, but
+  // HeroSequence re-measures its stage for the real viewport as the page hydrates, which moves
+  // everything below it (e.g. #estimator, the target of every "Scope Planner" link on other
+  // pages). Re-scroll on the next frame, once that re-measured layout has been committed.
   useEffect(() => {
-    if (window.location.hash) {
-      const el = document.getElementById(window.location.hash.slice(1));
-      if (el) {
-        el.scrollIntoView({ behavior: "auto" });
-      }
-    }
+    if (!window.location.hash) return;
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ behavior: "auto" });
+    });
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   const base = import.meta.env.BASE_URL;

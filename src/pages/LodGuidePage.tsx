@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowRight, CheckCircle2, MessageSquare, Printer, XCircle } from "lucide-react";
 import { EmailCaptureForm } from "../components/EmailCaptureForm";
 import { LOD_LEVELS } from "../data/architecturalData";
+import { trackEvent } from "../services/analytics";
 import { SpecialistProfile } from "../types";
 
 interface LodGuidePageProps {
@@ -55,7 +56,10 @@ export const LodGuidePage: React.FC<LodGuidePageProps> = ({ specialist }) => {
             />
             <button
               type="button"
-              onClick={() => window.print()}
+              onClick={() => {
+                trackEvent("save_guide_pdf", { guide: "lod" });
+                window.print();
+              }}
               className="flex items-center justify-center space-x-2 px-5 py-2.5 rounded-lg border border-neutral-700 text-neutral-300 text-sm font-semibold hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer shrink-0"
             >
               <Printer className="w-4 h-4" />

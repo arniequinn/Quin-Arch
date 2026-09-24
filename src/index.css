@@ -31,6 +31,15 @@ h1, h2, h3 {
   text-wrap: balance;
 }
 
+/* Reveal (components/Reveal.tsx) fades sections in on scroll; with reduced motion requested,
+   show them in their final state straight away. !important beats motion's inline styles. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Print output (used by the LOD guide's "Save as PDF" button, which just calls window.print()):
    strip the sticky chrome and dark theme so the browser's native print-to-PDF produces a plain,
    readable page instead of white text on a background most printers/PDF exports won't render. */

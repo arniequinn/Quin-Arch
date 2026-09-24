@@ -1,9 +1,9 @@
 import { PageShell } from "../components/PageShell";
-import { LodGuidePage } from "../pages/LodGuidePage";
+import { NotFoundPage } from "../pages/NotFoundPage";
 import { mountPage } from "./mountPage";
 
 export const render = mountPage((specialist) => (
   <PageShell specialist={specialist}>
-    <LodGuidePage specialist={specialist} />
+    <NotFoundPage />
   </PageShell>
 ));

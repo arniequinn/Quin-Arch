@@ -7,12 +7,12 @@ import {
   transform,
   useMotionValue,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
   useTransform,
 } from "motion/react";
 import { FilmstripMask } from "./FilmstripMask";
 import { ScrollFilmstrip } from "./ScrollFilmstrip";
+import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 import { TrackImage } from "../../types";
 
 interface HeroSequenceProps {
@@ -65,6 +65,11 @@ const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 function measure(): { stageH: number; width: number } {
   return { stageH: Math.max(320, window.innerHeight - NAV_H), width: window.innerWidth };
 }
+
+// The prerendered HTML can't know the visitor's viewport, so the first render — on the server
+// and the hydrating render in the browser — uses this stand-in; the real size is measured in a
+// layout effect, before the browser paints the hydrated page.
+const DEFAULT_DIMS = { stageH: 800, width: 1280 };
 
 interface CardLayerProps {
   u: MotionValue<number>;
@@ -129,13 +134,17 @@ export const HeroSequence: React.FC<HeroSequenceProps> = ({
   galleryHref,
   skipHref = "#estimator",
 }) => {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  const [dims, setDims] = useState(() => (typeof window === "undefined" ? { stageH: 800, width: 1280 } : measure()));
+  const [dims, setDims] = useState(DEFAULT_DIMS);
   const [heroH, setHeroH] = useState(0);
+
+  useLayoutEffect(() => {
+    setDims(measure());
+  }, []);
 
   // Ignore small height-only changes (mobile URL bar showing/hiding) so the stage doesn't jitter.
   useEffect(() => {

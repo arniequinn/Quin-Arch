@@ -24,27 +24,34 @@ const EMBED_SRC =
 // controls/branding/related-video params are trimmed as far as YouTube's embed API allows —
 // a small YouTube watermark may still appear per their attribution requirements.
 export const HeroBackgroundVideo: React.FC = () => {
+  // The embed is only mounted in the browser, not written into the prerendered HTML, so the
+  // YouTube player doesn't compete with the page's own scripts while it loads — it sits under
+  // the cover for the first COVER_MS anyway.
+  const [mounted, setMounted] = useState(false);
   const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const id = window.setTimeout(() => setRevealed(true), COVER_MS);
     return () => window.clearTimeout(id);
   }, []);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none [container-type:size]" aria-hidden="true">
-      <iframe
-        src={EMBED_SRC}
-        title="Background rendering animation"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        // Cover the container at any aspect ratio (a tall phone hero needs a video wider than 100vw)
-        style={{
-          height: `max(${OVERSCAN * 100}cqh, ${(OVERSCAN / SAFE_ASPECT) * 100}cqw)`,
-          width: `calc(max(${OVERSCAN * 100}cqh, ${(OVERSCAN / SAFE_ASPECT) * 100}cqw) * ${FRAME_ASPECT})`,
-        }}
-        frameBorder="0"
-        allow="autoplay; encrypted-media"
-      />
+      {mounted && (
+        <iframe
+          src={EMBED_SRC}
+          title="Background rendering animation"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          // Cover the container at any aspect ratio (a tall phone hero needs a video wider than 100vw)
+          style={{
+            height: `max(${OVERSCAN * 100}cqh, ${(OVERSCAN / SAFE_ASPECT) * 100}cqw)`,
+            width: `calc(max(${OVERSCAN * 100}cqh, ${(OVERSCAN / SAFE_ASPECT) * 100}cqw) * ${FRAME_ASPECT})`,
+          }}
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+        />
+      )}
       {/* Solid cover hides YouTube's own loading/branding flash — held for a fixed duration
           rather than tied to a player event, since that flash isn't reliably observable from
           the parent page across a cross-origin embed. */}

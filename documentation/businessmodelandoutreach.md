@@ -279,4 +279,65 @@ once 0–2 are in motion. Phase 5 is a standing monthly practice, not a one-time
   rewritten around the practice name (Quintessential Architecture, Arslan Qaiser).
 - Still open: resubmit the sitemap in Search Console and request indexing (user action); GoodFirms
   profile; publish the LinkedIn posts; film the Shorts; follow up the BIM Heroes pitch around 10/6.
-- Parked: custom domain (not affordable yet); revisit later, since it changes every canonical URL.
+- ~~Parked: custom domain~~ **Done (2026-09-24):** bought `quinarch.design` (GoDaddy), DNS pointed at
+  GitHub Pages (4 A records + `www` CNAME), `public/CNAME` added, site now served from the root path
+  (`vite.config.ts` base `/`). Every canonical/OG/JSON-LD/robots/sitemap URL and the docs now use
+  `https://quinarch.design/`. The old `arniequinn.github.io/Quin-Arch/` URLs are superseded.
+- **Search Console (2026-09-24):** new Domain property `quinarch.design` verified via DNS TXT; sitemap
+  submitted and processed (14 pages); homepage crawled by Googlebot, indexing requested. The old
+  `arniequinn.github.io` property is obsolete and can be ignored.
+
+### Open items (as of 2026-09-24)
+
+1. Tick **Enforce HTTPS** in GitHub Settings → Pages (once available).
+2. Update website links to `https://quinarch.design` on Upwork, CADCrowd, Instagram (`quin_arch`),
+   Fiverr, Freelancer.com, and the Google Analytics property URL.
+3. Create the GoodFirms profile (Phase 4) — user action; list the new domain.
+4. Publish the LinkedIn posts (Phase 2) — drafted in `phase2-linkedin-posts.md`.
+5. Film the YouTube Shorts (Phase 2) — scripts in `phase2-youtube-shorts.md`.
+6. Follow up the BIM Heroes guest pitch around 10/6.
+7. Start the light Reddit/community cadence (Phase 3) and wire up the LOD-guide nurture email (Phase 1 item 7).
+8. Phase 5: first monthly GA4 / Search Console review once traffic exists.
+
+---
+
+## 8. Status update (2026-09-24, SEO pass 2: prerendering, structured data, measurement)
+
+- **Every page is now prerendered.** The build renders each page's full React content into its
+  HTML, and the browser hydrates it. Before this, crawlers that don't run JavaScript saw only an h1,
+  the meta description and nav links. That includes AI crawlers, link previews and, often, Bing
+  (whose index Copilot and DuckDuckGo draw on). The homepage's HTML went from ~12 KB of placeholder to
+  ~100 KB of real content. Hydration was verified clean on all 15 pages, and on the homepage with
+  reduced motion on (the only page whose layout changes for it).
+- **Structured data is one connected graph.** The homepage now declares the site (`WebSite`, which
+  Google uses for the site name shown in results), the practice (`ProfessionalService`, Lahore
+  address, US/UK/Canada/Australia as area served), and Arslan Qaiser (`Person`: NCA credential,
+  LinkedIn/YouTube/Upwork/Freelancer profiles). Service pages, case studies and the LOD guide refer
+  to them by `@id`. `/design-philosophy/` is marked up as his `ProfilePage`. Removed: an invalid
+  schema type (`ArchitecturalService`), homepage FAQ markup for questions that aren't on the page
+  (against Google's guidelines), and an `ArchScope` app node that fails Google's validator.
+- **Titles:** the Principal Architect page now leads with "Arslan Qaiser, Principal Architect".
+  "Why Work With Us", "Project Library" and "Case Studies" now carry what a searcher would type.
+- **Phase 5 measurement:** GA4 now receives `contact_click` (method: whatsapp/email/phone, plus
+  where on the page), `generate_lead` (LOD guide email sign-up) and `save_guide_pdf`.
+- **Sitemap dates are real:** each page's `<lastmod>` is its last git commit, not the build date.
+  Google ignores lastmod on sites where it's always "today".
+- Also: a branded 404 page (noindex); the avatar shrank from 1.5 MB to 7 KB.
+
+### New open items (user actions)
+
+9. **GA4:** Admin → Events → mark `contact_click` and `generate_lead` as key events. Admin → Custom
+   definitions → add event-scoped dimensions `method`, `link_location` and `lead_source`. Events
+   appear once the change is deployed and someone clicks.
+10. **After deploy:** run the homepage, `/design-philosophy/` and one case study through Google's
+    Rich Results Test. In Search Console, URL Inspection → "Request indexing" for the homepage and
+    the four retitled pages.
+11. **Bing Webmaster Tools:** add the site by importing it from Search Console (one click). Bing's
+    index is used by Copilot and DuckDuckGo, and it can now read the full pages.
+12. **Case-study images:** 3 of the 4 case studies ("Authentic Client Work Sample") show Unsplash
+    stock photos as their hero and share image. Replace them with a real sheet or render from each
+    project (the drawing-set PDFs are in `public/portfolio/docs/`).
+13. `public/portfolio/motivation-letters/` (three university motivation letters) and
+    `public/portfolio/docs/AQ CV Minimal.pdf` are deployed publicly. The CV is linked from the
+    profile card; the letters aren't linked anywhere but are reachable by URL. Remove them if that
+    wasn't intended.
