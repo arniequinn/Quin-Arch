@@ -18,7 +18,7 @@ Thanks for grabbing the LOD reference guide — hope it's useful for scoping you
 
 If you're currently weighing an outsourced BIM/CAD partner or just want a second opinion on what
 LOD tier a project actually needs, happy to take a quick look — no charge, no obligation. Just
-reply here or use the estimator on the site: https://arniequinn.github.io/Quin-Arch/
+reply here or use the estimator on the site: https://quinarch.design/
 
 Best,
 Arslan Qaiser

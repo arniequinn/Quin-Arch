@@ -39,7 +39,7 @@ Hi BIM Heroes team,
 
 I'm Arslan Qaiser, a Principal Architect and BIM/computational specialist who's spent the last
 several years delivering full LOD 100–400 BIM production and CD sets for firms in the US, UK,
-Canada, and Australia (portfolio: https://arniequinn.github.io/Quin-Arch/).
+Canada, and Australia (portfolio: https://quinarch.design/).
 
 I'd like to pitch a guest article for BIM Heroes: **"What 'LOD 350' Actually Means When You're
 Hiring Outsourced BIM Help — And Why Most Scope Disputes Start Here."**

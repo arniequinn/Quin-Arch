@@ -4,9 +4,9 @@ import path from 'path';
 import {defineConfig} from 'vite';
 import {seoPlugin} from './vite-seo-plugin';
 
-// GitHub Pages serves project sites from https://<user>.github.io/<repo>/,
-// so the built asset URLs need to be prefixed with the repo name.
-const BASE_PATH = '/Quin-Arch/';
+// The site is served from the custom domain https://quinarch.design (GitHub Pages),
+// i.e. from the root path, so no repo-name prefix is needed.
+const BASE_PATH = '/';
 
 export default defineConfig(() => {
   return {

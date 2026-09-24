@@ -28,7 +28,7 @@ One-time setup on GitHub:
 1. Go to the repo's **Settings → Pages**.
 2. Under **Build and deployment → Source**, select **GitHub Actions**.
 3. Push to `main` (or run the workflow manually from the **Actions** tab).
-4. The site will be published at `https://arniequinn.github.io/Quin-Arch/`.
+4. The site will be published at `https://quinarch.design/`.
 
 If you rename the repository, update `BASE_PATH` in `vite.config.ts` and the URLs in `index.html` to match.
 

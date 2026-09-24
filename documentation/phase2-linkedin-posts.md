@@ -11,7 +11,7 @@ Voice notes (per the [wedge positioning decision](../.claude — see memory `bus
 - Each post ends with a soft link to the case study page, not a hard sales pitch.
 - 2–3 hashtags max — enough for discovery, not marketplace-spam.
 
-Live case study URLs (base `https://arniequinn.github.io/Quin-Arch/`):
+Live case study URLs (base `https://quinarch.design/`):
 - `case-studies/texas-coastal-beach-house/`
 - `case-studies/slamburger-restaurant/`
 - `case-studies/cran-residence/`

@@ -7,7 +7,7 @@ import type { Plugin } from 'vite';
 //     createRoot replaces it as soon as the app mounts.
 //  3. sitemap.xml is generated with today's date as lastmod instead of hand-typed dates.
 
-const SITE = 'https://arniequinn.github.io/Quin-Arch';
+const SITE = 'https://quinarch.design';
 const GA_ID = 'G-9LJJ2SLHF0';
 
 // Keep in sync with the `build.rollupOptions.input` list in vite.config.ts.
