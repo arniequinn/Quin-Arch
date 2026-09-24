@@ -4,6 +4,6 @@ import { mountPage } from "./mountPage";
 
 export const render = mountPage((specialist) => (
   <PageShell specialist={specialist}>
-    <ServicesHubPage />
+    <ServicesHubPage specialist={specialist} />
   </PageShell>
 ));

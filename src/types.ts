@@ -14,43 +14,37 @@ export interface ProjectTypeOption {
   category: "Residential" | "Commercial" | "Specialized";
   defaultSqFt: number;
   baseComplexity: number; // multiplier
-  baseSheets: number;
   description: string;
-  badge: string;
-  image: string;
 }
 
+export type ServiceId =
+  | "permit_drawings"
+  | "bim_modeling"
+  | "construction_docs"
+  | "millwork_shop_drawings"
+  | "mep_structural_coordination";
+
 export interface ServiceOption {
-  id: string;
+  id: ServiceId;
   name: string;
   shortName: string;
-  category: "Virtual Design & Construction";
   description: string;
   standardTurnaroundDays: number;
   softwareUsed: string[];
-  popular?: boolean;
 }
 
-export interface DrawingSheet {
-  sheetNumber: string;
-  sheetTitle: string;
-  description: string;
-  bimLOD?: string;
-}
-
-// Reference per-sq-ft rate for one service line item in the estimator — display-only, not an
-// editable input. offeredPerSqFt is derived from the same LOD-tier base pricing calculator.ts
-// uses; marketPerSqFt is the researched industry-standard rate it's discounted against.
-export interface ServiceRateInfo {
-  offeredPerSqFt: number;
-  marketPerSqFt: number;
-}
-
-// One image in a track's background collage. "wide" renders full-width in its own row;
-// "tall" images are slim enough to pair up two-across with another "tall" image.
+/** One image with what's needed to show it honestly: native size (so it's never upscaled), a
+ *  title and caption (for visitors and alt text), and what kind of image it is — renders may be
+ *  cropped to fill a frame, screenshots and drawings are always shown whole. */
 export interface TrackImage {
   src: string;
-  aspect: "wide" | "tall";
+  width: number;
+  height: number;
+  title: string;
+  caption: string;
+  kind: "render" | "screenshot" | "drawing";
+  /** Lighter copy (WebP, at most 1600 px wide) for the homepage ribbons and small previews. */
+  lightSrc?: string;
 }
 
 export interface TargetMarket {
@@ -63,16 +57,12 @@ export interface TargetMarket {
 // visitors what they'd typically pay locally/onshore. The rates actually offered live in
 // OFFERED_RATES (architecturalData.ts) and stay flat regardless of the visitor's market.
 export interface MarketBenchmarkRates {
-  // Freelance/outsourced BIM-CAD technician market rate — used to benchmark our flat
-  // technician offering (OFFERED_RATES.technicianHourlyEquivalent) against.
+  // Freelance/outsourced BIM-CAD technician market rate.
   technicianHourly: number;
   // Fully-loaded in-house/onshore drafter payroll cost (salary + overhead, no dedicated
-  // production pipeline) — used for the "vs in-house drafter" comparison in the estimator.
-  // Meaningfully higher than technicianHourly, which is a freelance market rate, not payroll.
+  // production pipeline) — used for the "in-house cost" comparison in the BIM estimator.
   inHousePayrollHourly: number;
   consultantHourly: number;
-  exteriorRenderPerSqFt: number;
-  interiorRenderPerSqFt: number;
 }
 
 export interface SpecialistSocials {
@@ -107,6 +97,25 @@ export interface SpecialistProfile {
   avatarUrl?: string;
 }
 
+/** Structured project facts (point 17). Only facts the owner has supplied, or that the drawings
+ *  themselves state, are filled in — nothing is estimated, and an unknown fact is left out. */
+export interface ProjectFacts {
+  location?: string;
+  areaSqFt?: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  floors?: string;
+  year?: number;
+  designDuration?: string;
+  constructionStatus?: "Built" | "Under construction" | "Unbuilt";
+  constructionDuration?: string;
+  role?: string;
+  /** Number of sheets in the drawing set shown. */
+  sheets?: number;
+  drawings?: string;
+  clientType?: string;
+}
+
 export interface PortfolioItem {
   id: string;
   title: string;
@@ -114,10 +123,12 @@ export interface PortfolioItem {
   description: string;
   software: string[];
   sheetDetails: string;
-  imageUrl: string;
-  cadPreviewUrl?: string;
-  pdfUrl?: string;
-  isRealClientWork?: boolean;
+  /** Cover image for cards and the case-study hero. */
+  cover: TrackImage;
+  /** Sheets and renders from the project itself, for the floating window and case-study page. */
+  images: TrackImage[];
+  facts: ProjectFacts;
+  /** Further project-specific facts, e.g. foundation type or code basis. */
   specs: { label: string; value: string }[];
   tags: string[];
   clientReview?: {

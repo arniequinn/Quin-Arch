@@ -1,65 +1,113 @@
 import React from "react";
+import { FileText } from "lucide-react";
+import { Container } from "../components/Container";
+import { PageHeader, SectionHeader } from "../components/SectionHeader";
+import { Section } from "../components/PageSections";
 import { DeliverablesGallery } from "../components/DeliverablesGallery";
 import { ProjectGallery } from "../components/ProjectGallery";
-import { PracticeNote } from "../components/PracticeNote";
 import { Reveal } from "../components/Reveal";
+import { Button } from "../components/Button";
 import {
-  BIMCAD_WORKFLOW_IMAGES,
+  BIM_PRODUCTION_IMAGES,
+  COMPUTATIONAL_IMAGES,
   EXTERIOR_SHOWCASE_IMAGES,
   VISUALIZATION_SHOWCASE_IMAGES,
 } from "../data/architecturalData";
+import { ROUTES } from "../data/routes";
 import { SpecialistProfile } from "../types";
+import { assetUrl } from "../utils/assetPath";
 
 interface ProjectsPageProps {
   specialist: SpecialistProfile;
 }
 
-// The full project library — everything that used to fill the middle of the homepage, now in one
-// place that the homepage's chapter cards link to.
-export const ProjectsPage: React.FC<ProjectsPageProps> = () => {
-  const base = import.meta.env.BASE_URL;
+const SECTIONS = [
+  { id: "drawing-sets", label: "Drawing sets" },
+  { id: "visualization", label: "Visualization" },
+  { id: "bim-workflow", label: "BIM / CAD workflow" },
+];
 
-  return (
-    <main className="flex-1">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <nav className="flex items-center space-x-2 text-xs text-neutral-500 font-mono" aria-label="Breadcrumb">
-          <a href={base} className="hover:text-neutral-300 transition-colors">Home</a>
-          <span>/</span>
-          <span className="text-neutral-300">Project Library</span>
-        </nav>
-        <h1 className="font-display text-4xl sm:text-5xl font-bold text-neutral-100 tracking-tight leading-[1.08] mt-6">
-          Project Library
-        </h1>
-        <p className="mt-4 max-w-2xl text-base text-neutral-400 leading-relaxed font-light">
-          Permit sets and BIM production, alongside photorealistic interior and exterior
-          visualization — selected work, all in one place.
-        </p>
-      </div>
+// The project library (point 15): three clearly labelled sections with an index at the top.
+// The render-vs-wireframe practice note now lives on the Design Philosophy page.
+export const ProjectsPage: React.FC<ProjectsPageProps> = () => (
+  <main className="flex-1">
+    <PageHeader
+      breadcrumbs={[{ label: "Home", href: ROUTES.home }, { label: "Project Library" }]}
+      eyebrow="Selected work"
+      title="Project Library"
+      intro="Permit sets and BIM production, photorealistic visualization, and the scripts and models behind them — selected work, in one place."
+    >
+      <nav aria-label="On this page" className="flex flex-wrap justify-center gap-3">
+        {SECTIONS.map((s) => (
+          <Button key={s.id} href={`#${s.id}`} variant="secondary" size="sm">
+            {s.label}
+          </Button>
+        ))}
+      </nav>
+    </PageHeader>
 
-      <div id="deliverables" className="scroll-mt-16 mt-10">
-        <Reveal>
+    <Section id="drawing-sets">
+      {/* Earlier links pointed at #deliverables; keep them landing here. */}
+      <span id="deliverables" className="block scroll-mt-24" aria-hidden="true" />
+      <Container>
+        <SectionHeader
+          eyebrow="Drawing sets"
+          title="Permit sets and BIM production"
+          intro="Real client drawing sets — plans, elevations, sections, services layouts and renders. Open a project for its sheets and facts."
+        >
+          <Button
+            href={assetUrl("/portfolio/docs/Architecture Portfolio - Arslan Qaiser_compressed.pdf")}
+            variant="link"
+            size="sm"
+            icon={FileText}
+            arrow={false}
+            external
+          >
+            Download the full portfolio (PDF)
+          </Button>
+        </SectionHeader>
+        <Reveal className="mt-12">
           <DeliverablesGallery />
         </Reveal>
-      </div>
+      </Container>
+    </Section>
 
-      <div id="gallery" className="scroll-mt-16">
-        <Reveal>
+    <Section id="visualization" raised>
+      <span id="gallery" className="block scroll-mt-24" aria-hidden="true" />
+      <Container>
+        <SectionHeader
+          eyebrow="Visualization"
+          title="Interior and exterior renders"
+          intro="Finished renders, each shown whole."
+        />
+        <Reveal className="mt-12">
           <ProjectGallery
             groups={[
-              { label: "Interior Visualization", images: VISUALIZATION_SHOWCASE_IMAGES },
-              { label: "Exterior Visualization", images: EXTERIOR_SHOWCASE_IMAGES },
+              { label: "Interior", images: VISUALIZATION_SHOWCASE_IMAGES },
+              { label: "Exterior", images: EXTERIOR_SHOWCASE_IMAGES },
             ]}
           />
         </Reveal>
-      </div>
+      </Container>
+    </Section>
 
-      <PracticeNote />
-
-      <div id="bim-workflow" className="scroll-mt-16">
-        <Reveal>
-          <ProjectGallery groups={[{ label: "BIM / CAD Workflow", images: BIMCAD_WORKFLOW_IMAGES }]} />
+    <Section id="bim-workflow">
+      <Container>
+        <SectionHeader
+          eyebrow="BIM / CAD workflow"
+          title="Inside the production files"
+          intro="Screens from real projects: model views, schedules and quantities, and the scripts and analyses behind the geometry."
+        />
+        <Reveal className="mt-12">
+          <ProjectGallery
+            autoplay={false}
+            groups={[
+              { label: "BIM production", images: BIM_PRODUCTION_IMAGES },
+              { label: "Computational design", images: COMPUTATIONAL_IMAGES },
+            ]}
+          />
         </Reveal>
-      </div>
-    </main>
-  );
-};
+      </Container>
+    </Section>
+  </main>
+);

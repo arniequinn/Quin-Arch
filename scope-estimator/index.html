@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Show the tab the URL asks for (?service=…) before first paint; the page clears this once
+         React has taken over. See the data-estimator-tab rules in src/index.css. -->
+    <script>
+      (function () {
+        try {
+          var s = new URLSearchParams(window.location.search).get("service");
+          if (s === "bim" || s === "visualization" || s === "consultancy") {
+            document.documentElement.setAttribute("data-estimator-tab", s);
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <title>Scope Estimator — BIM / CAD, Visualization &amp; Consultancy Fees | Quintessential Architecture</title>
+    <meta name="description" content="Estimate the scope, turnaround and an indicative fee for a BIM / CAD drawing set, architectural visualization or architect-consultant hours — then send it straight to principal architect Arslan Qaiser." />
+    <meta name="author" content="Arslan Qaiser, Quintessential Architecture" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://quinarch.design/scope-estimator/" />
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <link rel="icon" type="image/png" href="%BASE_URL%portfolio/quin-arch-logo.png" />
+    <link rel="apple-touch-icon" href="%BASE_URL%portfolio/quin-arch-logo.png" />
+
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Quintessential Architecture" />
+    <meta property="og:title" content="Scope Estimator — Quintessential Architecture" />
+    <meta property="og:description" content="Scope, turnaround and an indicative fee for BIM / CAD drawing sets, visualization or consultancy — in a few steps." />
+    <meta property="og:url" content="https://quinarch.design/scope-estimator/" />
+    <meta property="og:image" content="https://quinarch.design/portfolio/bimcad-workflow/09-diagrid-pattern-script.jpg" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="1041" />
+    <meta property="og:image:alt" content="Diagrid facade pattern script from a real production file by Quintessential Architecture" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@quin_arch" />
+    <meta name="twitter:title" content="Scope Estimator — Quintessential Architecture" />
+    <meta name="twitter:description" content="Scope, turnaround and an indicative fee for BIM / CAD drawing sets, visualization or consultancy — in a few steps." />
+    <meta name="twitter:image" content="https://quinarch.design/portfolio/bimcad-workflow/09-diagrid-pattern-script.jpg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://quinarch.design/scope-estimator/#webpage",
+          "url": "https://quinarch.design/scope-estimator/",
+          "name": "Scope Estimator",
+          "description": "Estimate the scope, turnaround and an indicative fee for BIM / CAD drawing sets, architectural visualization or architect-consultant hours.",
+          "isPartOf": { "@id": "https://quinarch.design/#website" },
+          "about": { "@id": "https://quinarch.design/#business" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://quinarch.design/" },
+            { "@type": "ListItem", "position": 2, "name": "Scope Estimator", "item": "https://quinarch.design/scope-estimator/" }
+          ]
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body class="bg-neutral-950 text-neutral-100 antialiased selection:bg-amber-500 selection:text-neutral-950 font-sans">
+    <div id="root"></div>
+    <script type="module" src="/src/entries/scope-estimator-main.tsx"></script>
+  </body>
+</html>

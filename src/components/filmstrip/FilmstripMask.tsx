@@ -1,5 +1,5 @@
 import React from "react";
-import { motion, MotionValue } from "motion/react";
+import { motion, MotionValue, useTransform } from "motion/react";
 import { ScrollFilmstrip } from "./ScrollFilmstrip";
 import { TrackImage } from "../../types";
 
@@ -9,72 +9,66 @@ import { TrackImage } from "../../types";
 // simpler and more predictable knob than an angle that gets steeper as the band shrinks.
 const ANGLE_OFFSET_PX = 18;
 
-function angledClipPath(edge: "top" | "bottom" | "both") {
-  const top = edge === "top" || edge === "both";
-  const bottom = edge === "bottom" || edge === "both";
-  const topLeft = top ? `${ANGLE_OFFSET_PX}px` : "0px";
-  const topRight = "0px";
-  const bottomRight = bottom ? `${ANGLE_OFFSET_PX}px` : "0px";
-  const bottomLeft = "0px";
-  return `polygon(0 ${topLeft}, 100% ${topRight}, 100% calc(100% - ${bottomRight}), 0 calc(100% - ${bottomLeft}))`;
-}
-
 interface FilmstripMaskProps {
   images: TrackImage[];
   direction: "left" | "right";
   directionOverride?: MotionValue<number>;
   speedPx?: number;
-  /** Mask window height — animate this, never the image track's own size. */
-  height: MotionValue<string> | MotionValue<number> | string | number;
-  /** Optional vertical position for callers that place the mask absolutely. */
-  top?: MotionValue<number> | number;
-  /** Which edge(s) of the mask get the angled plane cut. */
-  angledEdge?: "top" | "bottom" | "both" | "none";
-  /** Where the fixed-size image track sits within the (possibly taller/shorter) mask window. */
-  align?: "start" | "center" | "end";
+  /** Top edge of the visible window, in stage pixels. */
+  top: MotionValue<number>;
+  /** Height of the visible window, in stage pixels (never more than trackHeight). */
+  height: MotionValue<number>;
+  /** Fixed pixel height of the image track — the largest window this band ever opens to. */
+  trackHeight: number;
+  /** Which edge of the window gets the angled plane cut. */
+  angledEdge?: "top" | "bottom" | "none";
   paused?: boolean;
-  trackHeightClassName?: string;
-  /** Fixed pixel track height (takes precedence over the class). */
-  trackHeight?: number;
+  /** Promote to its own compositor layer (only while the sequence is on screen). */
+  willChange?: boolean;
   className?: string;
 }
 
-// The mask is the only thing that resizes. The image track inside (`ScrollFilmstrip`) always
-// renders at its own fixed height — this wrapper just clips a shorter or taller window over it,
-// like an iris, so images are never stretched or squashed as a chapter/finale sequence animates.
+// The band is a fixed-size image track that never resizes or re-lays-out while the sequence
+// plays (point 12 of documentation/final-polish-v2.0.md): it's moved with a transform and cut to
+// its current window with a clip-path, like an iris, so images are never stretched or squashed
+// and the browser can animate it without a layout pass on every scroll frame.
 export const FilmstripMask: React.FC<FilmstripMaskProps> = ({
   images,
   direction,
   directionOverride,
   speedPx,
-  height,
   top,
-  angledEdge = "none",
-  align = "center",
-  paused,
-  trackHeightClassName,
+  height,
   trackHeight,
+  angledEdge = "none",
+  paused,
+  willChange = false,
   className = "",
 }) => {
-  const alignClass = align === "start" ? "items-start" : align === "end" ? "items-end" : "items-center";
-  const clipPath = angledEdge === "none" ? undefined : angledClipPath(angledEdge as "top" | "bottom" | "both");
+  // The track stays centred on the window: its top sits half the unused height above it.
+  const y = useTransform([top, height] as MotionValue<number>[], ([t, h]: number[]) => t + h / 2 - trackHeight / 2);
+  const clipPath = useTransform(height, (h: number) => {
+    const a = Math.max(0, (trackHeight - h) / 2);
+    const b = trackHeight - a;
+    const cut = Math.min(ANGLE_OFFSET_PX, h);
+    if (angledEdge === "top") return `polygon(0 ${a + cut}px, 100% ${a}px, 100% ${b}px, 0 ${b}px)`;
+    if (angledEdge === "bottom") return `polygon(0 ${a}px, 100% ${a}px, 100% ${b - cut}px, 0 ${b}px)`;
+    return `polygon(0 ${a}px, 100% ${a}px, 100% ${b}px, 0 ${b}px)`;
+  });
 
   return (
     <motion.div
-      className={`${className.includes("absolute") ? "" : "relative"} overflow-hidden pointer-events-none ${className}`}
-      style={{ height, top, clipPath }}
+      className={`pointer-events-none absolute inset-x-0 top-0 overflow-hidden ${className}`}
+      style={{ height: trackHeight, y, clipPath, willChange: willChange ? "transform, clip-path" : "auto" }}
     >
-      <div className={`flex h-full w-full ${alignClass}`}>
-        <ScrollFilmstrip
-          images={images}
-          direction={direction}
-          directionOverride={directionOverride}
-          speedPx={speedPx}
-          paused={paused}
-          heightClassName={trackHeightClassName}
-          trackHeight={trackHeight}
-        />
-      </div>
+      <ScrollFilmstrip
+        images={images}
+        direction={direction}
+        directionOverride={directionOverride}
+        speedPx={speedPx}
+        paused={paused}
+        trackHeight={trackHeight}
+      />
     </motion.div>
   );
 };

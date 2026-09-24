@@ -1,93 +1,82 @@
 import React, { useState } from "react";
 import { MoveHorizontal } from "lucide-react";
 import { assetUrl } from "../utils/assetPath";
+import { Container } from "./Container";
+import { SectionHeader } from "./SectionHeader";
+import { Section } from "./PageSections";
 
-// One deliberate asymmetric, full-bleed moment — image runs to the viewport edge rather than
-// stopping at the standard max-w-7xl container, paired with an offset caption column. Used once,
-// as a signature transition between "see the work" and "here's how pricing/engagement works."
-//
-// The image itself is a draggable before/after comparison: a CAD wireframe elevation revealed
-// over the finished V-Ray render of the same building, from the same camera position. Both
-// source images were aligned (scaled + positioned) so architectural features — roofline, door,
-// window openings, the three cupolas — line up at the same screen position in both.
+// The practice note: a draggable before/after of the same barn residence — the CAD wireframe
+// elevation revealed over the finished V-Ray render, from the same camera position (both images
+// were aligned so the roofline, door, openings and cupolas line up). Moved here from the Project
+// Library (point 15), where the "logic and feeling" story belongs. Shown whole, at no more than
+// its own 1109 px width.
 export const PracticeNote: React.FC = () => {
   const [sliderPosition, setSliderPosition] = useState<number>(45);
 
   return (
-    <section className="relative bg-neutral-950 border-t border-neutral-900">
-      <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
-        <div className="lg:col-span-7 h-[46vh] lg:h-[600px] relative overflow-hidden select-none">
-          {/* Background: finished render, full-size, never clipped */}
-          <img
-            src={assetUrl("/portfolio/barn-residence-vray.jpg")}
-            alt="Finished V-Ray render of a barn-style residence"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-          />
+    <Section>
+      <Container>
+        <SectionHeader
+          eyebrow="Practice note"
+          title="Maintaining harmony between person, place, and space."
+          intro="It shows up in the work itself — proportion, light and material resolved together, not stitched on after the fact. It's also why every project gets the same rate and the same principal-level attention: judgment applied sheet by sheet, never queued behind whichever job pays more."
+        />
 
-          {/* Foreground: aligned CAD wireframe, revealed via clip-path up to the slider position */}
-          <div
-            className="absolute inset-0 overflow-hidden pointer-events-none"
-            style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
-          >
-            {/* Inverted to a dark "blueprint" treatment — white CAD background becomes
-                near-black, linework becomes light — so it reads with presence against the
-                site's dark theme instead of as a glaring white panel. */}
+        <figure className="mt-12">
+          <div className="relative mx-auto aspect-[1109/619] w-full max-w-[1109px] select-none overflow-hidden rounded-sm bg-neutral-900">
+            {/* Background: finished render, full-size, never clipped */}
             <img
-              src={assetUrl("/portfolio/barn-residence-wireframe.png")}
-              alt="CAD wireframe elevation of the same residence, aligned to the render"
-              className="absolute inset-0 w-full h-full object-cover invert sepia-[0.15] contrast-125 brightness-95"
+              src={assetUrl("/portfolio/barn-residence-vray.jpg")}
+              alt="Finished V-Ray render of a barn-style residence"
+              width={1109}
+              height={619}
+              loading="lazy"
+              className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            />
+
+            {/* Foreground: aligned CAD wireframe, revealed via clip-path up to the slider position.
+                Inverted to a dark "blueprint" treatment so it reads against the site's dark theme. */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}>
+              <img
+                src={assetUrl("/portfolio/barn-residence-wireframe.png")}
+                alt="CAD wireframe elevation of the same residence, aligned to the render"
+                width={1109}
+                height={619}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover invert sepia-[0.15] contrast-125 brightness-95"
+              />
+            </div>
+
+            <span className="pointer-events-none absolute left-4 top-4 rounded bg-neutral-950/70 px-2 py-1 text-label text-neutral-100">
+              Wireframe
+            </span>
+            <span className="pointer-events-none absolute right-4 top-4 rounded bg-neutral-950/70 px-2 py-1 text-label text-neutral-100">
+              Finished render
+            </span>
+
+            {/* Divider line & handle */}
+            <div className="pointer-events-none absolute inset-y-0 w-px bg-neutral-100 shadow-lg" style={{ left: `${sliderPosition}%` }}>
+              <div className="absolute top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-neutral-100 text-neutral-900 shadow-md">
+                <MoveHorizontal className="h-4 w-4" />
+              </div>
+            </div>
+
+            {/* Invisible range input for dragging */}
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={sliderPosition}
+              onChange={(e) => setSliderPosition(Number(e.target.value))}
+              className="absolute inset-0 z-10 h-full w-full cursor-ew-resize opacity-0"
+              aria-label="Drag to compare the CAD wireframe with the finished render"
             />
           </div>
-
-          <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/40 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-neutral-950/20 pointer-events-none" />
-
-          {/* Plain-text labels, not bordered badges */}
-          <div className="absolute top-4 left-4 text-[11px] font-mono text-neutral-200 bg-neutral-950/60 backdrop-blur-sm px-2 py-1 rounded pointer-events-none">
-            Wireframe
-          </div>
-          <div className="absolute top-4 right-4 text-[11px] font-mono text-neutral-200 bg-neutral-950/60 backdrop-blur-sm px-2 py-1 rounded pointer-events-none">
-            Finished Render
-          </div>
-
-          {/* Divider line & handle */}
-          <div
-            className="absolute inset-y-0 w-px bg-neutral-100 shadow-lg pointer-events-none"
-            style={{ left: `${sliderPosition}%` }}
-          >
-            <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-neutral-100 text-neutral-900 flex items-center justify-center shadow-md">
-              <MoveHorizontal className="w-4 h-4" />
-            </div>
-          </div>
-
-          {/* Invisible range input for dragging */}
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={sliderPosition}
-            onChange={(e) => setSliderPosition(Number(e.target.value))}
-            className="absolute inset-0 opacity-0 cursor-ew-resize w-full h-full z-10"
-            aria-label="Drag to compare the CAD wireframe with the finished render"
-          />
-        </div>
-
-        <div className="lg:col-span-5 flex items-center px-4 sm:px-6 lg:px-14 py-12 lg:py-0">
-          <div className="max-w-md">
-            <span className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase">
-              Practice Note
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-neutral-100 tracking-tight leading-[1.1] mt-3">
-              Maintaining harmony between person, place, and space.
-            </h2>
-            <p className="mt-5 text-sm text-neutral-400 leading-relaxed">
-              That shows up in the work itself — proportion, light, and material resolved
-              together, not stitched on after the fact. It's also why every project gets the
-              same flat worldwide rate and the same principal-level attention: judgment applied
-              sheet by sheet, never queued behind whichever job pays more.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+          <figcaption className="mt-4 text-center text-label text-neutral-500">
+            Drag across the image: the same residence as a CAD wireframe and as the finished render.
+          </figcaption>
+        </figure>
+      </Container>
+    </Section>
   );
 };

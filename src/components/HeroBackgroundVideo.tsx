@@ -30,10 +30,20 @@ export const HeroBackgroundVideo: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const [revealed, setRevealed] = useState(false);
 
+  // The player (about 1 MB of YouTube scripts) only starts once the page itself has finished
+  // loading, so it never competes with the fonts, scripts and first images for bandwidth.
   useEffect(() => {
-    setMounted(true);
-    const id = window.setTimeout(() => setRevealed(true), COVER_MS);
-    return () => window.clearTimeout(id);
+    let revealTimer = 0;
+    const start = () => {
+      setMounted(true);
+      revealTimer = window.setTimeout(() => setRevealed(true), COVER_MS);
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+    return () => {
+      window.removeEventListener("load", start);
+      window.clearTimeout(revealTimer);
+    };
   }, []);
 
   return (

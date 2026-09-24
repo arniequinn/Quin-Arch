@@ -1,42 +1,43 @@
-import { PROJECT_TYPES, SERVICE_OPTIONS, PROJECT_STAGES, JURISDICTION_TO_MARKET, MARKET_BENCHMARK_RATES } from "../data/architecturalData";
-import { DrawingSheet } from "../types";
+import { PROJECT_TYPES, SERVICE_OPTIONS, PROJECT_STAGES, JURISDICTION_TO_MARKET, MARKET_BENCHMARK_RATES, TIMELINE_OPTIONS } from "../data/architecturalData";
+import { CatalogueSheet, DeliverableSpec, TypicalLod, deliverablesFor, sheetsFor } from "../data/sheetCatalogue";
+import { ProjectCategory, ServiceId } from "../types";
+import { roundTo } from "./format";
 
 export interface ScopeCalculationInput {
-  projectTypeId: string;
-  selectedServiceIds: string[];
+  projectTypeId: ProjectCategory;
+  selectedServiceIds: ServiceId[];
   areaSqFt: number;
   jurisdictionId: string;
   currentStageId: string;
   timelineId: string;
-  projectTitle?: string;
-  customNotes?: string;
-  // Sheet numbers the visitor has manually removed from the recommended set.
-  // Pricing and the active sheet count exclude these; recommendedSheets still
-  // returns the full list so the UI can show them as unchecked/removable.
-  excludedSheetNumbers?: string[];
+  /** Program complexity tier (Standard ×1, Complex ×1.25, Landmark ×1.55). */
+  complexityMultiplier?: number;
+  /** The visitor's own switches on top of the default set, by sheet number. */
+  sheetOverrides?: Record<string, boolean>;
+}
+
+export interface ScopeSheet extends CatalogueSheet {
+  included: boolean;
 }
 
 export interface ScopeCalculationResult {
   estimatedFeeMin: number;
   estimatedFeeMax: number;
   estimatedTurnaroundDays: number;
-  recommendedSheetsCount: number;
-  inHouseCostEstimate: number; // cost of hiring local US/UK in-house architect/drafter for this scope
-  clientSavingsAmount: number;
-  savingsPercentage: number;
-  // False for very large/complex/rushed scopes where our flat worldwide rate can legitimately
-  // land above a cheaper market's in-house benchmark — the UI must not claim savings then.
-  hasSavings: boolean;
-  recommendedSheets: DrawingSheet[];
-  techStack: string[];
-  permitNotes: string[];
+  /** Every sheet that belongs to this project type and these services, switched on or off. */
+  sheets: ScopeSheet[];
+  includedSheetCount: number;
+  deliverables: DeliverableSpec[];
+  /** Typical in-house (onshore) cost of the same scope in the visitor's market. */
+  inHouseCostEstimate: number;
+  marketId: string;
 }
 
-// Base price per sheet at each LOD tier, calibrated against researched US remote/outsourced
+// Base price per sheet at each typical LOD, calibrated against researched US remote/outsourced
 // BIM & CAD drafting rates ($25-150/sheet outsourced; LOD 300 modeling ~$0.25-0.45/sqft; LOD 350
 // coordination sheets command a premium over LOD 300 for multi-trade interface work). Applied at
 // a reference project size — see areaFactor below for how it scales with actual building size.
-const LOD_BASE_PRICE: Record<string, number> = {
+const LOD_BASE_PRICE: Record<TypicalLod, number> = {
   "LOD 100": 175,
   "LOD 200": 260,
   "LOD 300": 340,
@@ -47,173 +48,78 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
+/** Faster schedules shorten the turnaround, never lengthen it past the standard one. */
+export function scheduledDays(standardDays: number, timelineId: string, floors = { expedited: 4, urgent: 3 }): number {
+  if (timelineId === "expedited") return Math.min(standardDays, Math.max(floors.expedited, Math.round(standardDays * 0.65)));
+  if (timelineId === "urgent") return Math.min(standardDays, Math.max(floors.urgent, Math.round(standardDays * 0.45)));
+  return standardDays;
+}
+
 export function calculateScope(input: ScopeCalculationInput): ScopeCalculationResult {
   const projectType = PROJECT_TYPES.find((p) => p.id === input.projectTypeId) || PROJECT_TYPES[0];
   const selectedServices = SERVICE_OPTIONS.filter((s) => input.selectedServiceIds.includes(s.id));
-
   const area = Math.max(200, input.areaSqFt || 2000);
-  const complexity = projectType.baseComplexity;
+  const complexity = projectType.baseComplexity * (input.complexityMultiplier ?? 1);
 
-  // ==========================================
-  // Build the actual drawing sheet set. This is the single source of truth —
-  // the price below is computed FROM this list, not a separate parallel estimate,
-  // so the fee always reflects exactly what's being selected.
-  // ==========================================
-  const sheets: DrawingSheet[] = [
-    { sheetNumber: "G-001", sheetTitle: "Cover Sheet, Project Directory & Code Data", description: "Zoning summary, building height, occupancy type, sheet index, vicinity map", bimLOD: "LOD 100" },
-    { sheetNumber: "G-002", sheetTitle: "Life Safety & Egress Plan", description: "Exit access travel distances, occupant loads, illuminated exit signs, fire extinguisher tags", bimLOD: "LOD 200" },
-    { sheetNumber: "C-101", sheetTitle: "Architectural Site Plan & Setbacks", description: "Property lines, setbacks, easement boundaries, parking layout, accessible route", bimLOD: "LOD 200" },
-  ];
+  // The drawing set is the single source of truth: the price below is computed from exactly the
+  // sheets that are switched on. The default set depends only on project type + services; the
+  // visitor's own switches are applied on top, so the same inputs always give the same defaults.
+  const overrides = input.sheetOverrides ?? {};
+  const sheets: ScopeSheet[] = sheetsFor(projectType.id, input.selectedServiceIds).map((sheet) => ({
+    ...sheet,
+    included: overrides[sheet.number] ?? sheet.defaultOn,
+  }));
+  const activeSheets = sheets.filter((s) => s.included);
+  const deliverables = deliverablesFor(input.selectedServiceIds);
 
-  if (input.projectTypeId.includes("renovation") || input.projectTypeId.includes("addition") || input.projectTypeId.includes("as_built")) {
-    sheets.push({ sheetNumber: "A-100", sheetTitle: "Existing Conditions & Demolition Plan", description: "Existing partitions to remain, walls to be demolished, salvage schedules", bimLOD: "LOD 200" });
-  }
-
-  sheets.push(
-    { sheetNumber: "A-101", sheetTitle: "Dimensioned Architectural Floor Plan", description: "Full interior partition layout, door/window callouts, room names, area calculations", bimLOD: "LOD 300" },
-    { sheetNumber: "A-102", sheetTitle: "Reflected Ceiling Plan (RCP) & Lighting", description: "Ceiling grid, heights, soffits, recessed downlights, decorative fixture locations", bimLOD: "LOD 300" },
-    { sheetNumber: "A-103", sheetTitle: "Roof Plan & Drainage Callouts", description: "Roof pitch, valley flashing, scuppers, gutters, roof access, equipment curbs", bimLOD: "LOD 300" },
-    { sheetNumber: "A-201", sheetTitle: "Exterior Building Elevations (North & South)", description: "Exterior cladding finishes, vertical datum lines, window head/sill heights", bimLOD: "LOD 300" },
-    { sheetNumber: "A-202", sheetTitle: "Exterior Building Elevations (East & West)", description: "Finished grades, chimney clearances, exterior lighting fixtures, material tags", bimLOD: "LOD 300" },
-    { sheetNumber: "A-301", sheetTitle: "Longitudinal & Transverse Building Sections", description: "Full-height vertical cuts, floor-to-floor heights, structural header callouts", bimLOD: "LOD 300" }
-  );
-
-  if (input.selectedServiceIds.includes("construction_docs") || input.selectedServiceIds.includes("permit_drawings")) {
-    sheets.push(
-      { sheetNumber: "A-401", sheetTitle: "Wall Assemblies & Envelope Details", description: "R-value thermal specs, rainscreen details, continuous insulation, vapor retarder", bimLOD: "LOD 350" },
-      { sheetNumber: "A-402", sheetTitle: "Foundation & Sill Plate Details", description: "Anchor bolt spacing, capillary break, perimeter insulation, crawlspace/slab tie-in", bimLOD: "LOD 350" },
-      { sheetNumber: "A-403", sheetTitle: "Stair, Guardrail & Handrail Sections", description: "Tread/riser geometry, 4\" sphere code clearance, baluster anchorage details", bimLOD: "LOD 350" }
-    );
-  }
-
-  if (input.selectedServiceIds.includes("millwork_shop_drawings") || input.projectTypeId.includes("interior") || input.projectTypeId.includes("hospitality")) {
-    sheets.push(
-      { sheetNumber: "A-501", sheetTitle: "Interior Kitchen & Cabinetry Elevations", description: "Millwork construction details, Blum hardware callouts, quartz countertop miters", bimLOD: "LOD 350" },
-      { sheetNumber: "A-502", sheetTitle: "Interior Bathroom & Custom Joinery Details", description: "Vanity fabrication, mirror backlighting, plumbing rough-in locations", bimLOD: "LOD 350" }
-    );
-  }
-
-  sheets.push({ sheetNumber: "A-601", sheetTitle: "Door, Window & Hardware Schedules", description: "Manufacturer sizes, U-factors, SHGC solar heat gain, tempered glazing, egress marks", bimLOD: "LOD 300" });
-
-  if (input.selectedServiceIds.includes("mep_structural_coordination") || input.selectedServiceIds.includes("bim_modeling")) {
-    sheets.push({ sheetNumber: "M-101", sheetTitle: "MEP & Structural Coordination Sheet", description: "Clash-detected composite overlay showing HVAC trunk lines, plumbing stacks & steel beams", bimLOD: "LOD 350" });
-  }
-
-  // The visitor may have manually unchecked specific sheets from the recommended set — those
-  // are excluded from pricing and counts, but stay in `sheets` (returned below) so the UI can
-  // still render and re-offer them.
-  const excluded = new Set(input.excludedSheetNumbers || []);
-  const activeSheets = excluded.size > 0 ? sheets.filter((s) => !excluded.has(s.sheetNumber)) : sheets;
-
-  // ==========================================
-  // Price: sum each active sheet's LOD-tier base rate, scaled by project-type complexity and a
-  // sublinear area factor (a 6,500 sq ft floor plan takes more time than an 850 sq ft one,
-  // but nowhere near 7.6x more — most of the added area is repetitive).
-  // ==========================================
+  // Price: each active sheet's LOD-tier base rate (plus non-sheet deliverables priced as sheets),
+  // scaled by complexity and a sublinear area factor — a 6,500 sq ft floor plan takes more time
+  // than an 850 sq ft one, but nowhere near 7.6x more; most of the added area is repetitive.
   const areaFactor = clamp(Math.sqrt(area / projectType.defaultSqFt), 0.5, 2.4);
-
-  const sheetsSubtotal = activeSheets.reduce((sum, sheet) => {
-    const baseRate = LOD_BASE_PRICE[sheet.bimLOD || "LOD 300"] ?? LOD_BASE_PRICE["LOD 300"];
-    return sum + baseRate * complexity * areaFactor;
-  }, 0);
+  const units =
+    activeSheets.reduce((sum, sheet) => sum + LOD_BASE_PRICE[sheet.typicalLod], 0) +
+    deliverables.reduce((sum, d) => sum + LOD_BASE_PRICE[d.priceAs.lod] * d.priceAs.sheets, 0);
+  const production = units * complexity * areaFactor;
 
   // Larger drawing sets amortize model setup/coordination overhead better per sheet.
   let volumeDiscount = 1;
-  if (activeSheets.length >= 20) volumeDiscount = 0.90;
+  if (activeSheets.length >= 20) volumeDiscount = 0.9;
   else if (activeSheets.length >= 16) volumeDiscount = 0.95;
 
-  // Project stage: how much of the LOD-350 production work is actually still ahead. Grounded in
-  // industry fee-distribution research (Schematic Design is only ~15% of total effort; Design
-  // Development + Construction Documents — the phases that turn a schematic into full
-  // documentation — make up 50-75%), so only "redlines/corrections" (fixing an existing set
-  // rather than producing one) gets a real discount.
-  const stage = PROJECT_STAGES.find((s) => s.id === input.currentStageId);
-  const stageMultiplier = stage?.priceMultiplier ?? 1.0;
-
-  const discountedSubtotal = sheetsSubtotal * volumeDiscount * stageMultiplier;
+  // Project stage: how much of the production work is actually still ahead. Grounded in industry
+  // fee-distribution research (Schematic Design is only ~15% of total effort; Design Development +
+  // Construction Documents make up 50-75%), so only construction administration — correcting an
+  // existing set rather than producing one — gets a real discount.
+  const stageMultiplier = PROJECT_STAGES.find((s) => s.id === input.currentStageId)?.priceMultiplier ?? 1;
+  const timelineMultiplier = TIMELINE_OPTIONS.find((t) => t.id === input.timelineId)?.multiplier ?? 1;
+  const subtotal = production * volumeDiscount * stageMultiplier * timelineMultiplier;
 
   // Turnaround: driven by whichever selected service has the longest standard delivery time.
   let totalDays = 4;
   selectedServices.forEach((service) => {
     totalDays = Math.max(totalDays, service.standardTurnaroundDays + Math.round(area / 3000));
   });
+  // Plan-check corrections are explicitly a rapid, bounded task, not a full production run.
+  if (input.currentStageId === "redlines_revisions") totalDays = Math.min(totalDays, 2);
+  totalDays = scheduledDays(totalDays, input.timelineId);
 
-  // Redline/plan-check corrections are explicitly a rapid, bounded task, not a full production run.
-  if (input.currentStageId === "redlines_revisions") {
-    totalDays = Math.min(totalDays, 2);
-  }
-
-  // Timeline urgency multiplier
-  let timelineMultiplier = 1.0;
-  if (input.timelineId === "expedited") {
-    timelineMultiplier = 1.25;
-    totalDays = Math.max(4, Math.round(totalDays * 0.65));
-  } else if (input.timelineId === "urgent") {
-    timelineMultiplier = 1.5;
-    totalDays = Math.max(3, Math.round(totalDays * 0.45));
-  }
-
-  const finalMin = Math.round(discountedSubtotal * 0.90 * timelineMultiplier);
-  const finalMax = Math.round(discountedSubtotal * 1.18 * timelineMultiplier);
-
-  // In-house comparison: an in-house drafter juggling multiple projects (meetings,
-  // context-switching, no dedicated production pipeline) typically runs ~8 hours/sheet for a
-  // permit+BIM package this involved. Billed at the researched onshore BIM/CAD technician rate
-  // for the visitor's own market (see MARKET_BENCHMARK_RATES) — so a US visitor sees a US
-  // benchmark, a UK visitor a UK benchmark, etc. — rather than one generic figure.
-  // Scaled by the same project-stage factor so a redline-only job is compared against an
-  // in-house redline-only effort, not a full from-scratch set. Also scaled by the same rush
-  // premium we apply to ourselves — an in-house team pays real overtime/expediting costs too,
-  // so it would be inconsistent (and lets our own rush premium make us look artificially worse)
-  // to hold the in-house side flat while our price climbs for urgent timelines.
+  // In-house comparison: an in-house drafter juggling multiple projects typically runs ~8
+  // hours/sheet for a set this involved, billed at the researched onshore payroll rate for the
+  // visitor's own market, with the same stage, rush and complexity factors applied — an in-house
+  // team pays real overtime for rush work too.
   const marketId = JURISDICTION_TO_MARKET[input.jurisdictionId] || "us";
-  const marketPayrollHourly = MARKET_BENCHMARK_RATES[marketId]?.inHousePayrollHourly ?? MARKET_BENCHMARK_RATES.us.inHousePayrollHourly;
-  const estimatedHours = Math.round((activeSheets.length * 8 + area / 300) * stageMultiplier);
-  const inHouseCostEstimate = Math.round(estimatedHours * marketPayrollHourly * timelineMultiplier);
-  const clientMidpoint = Math.round((finalMin + finalMax) / 2);
-
-  // Never claim savings that aren't real: for very large, complex, and/or rushed scopes, our
-  // flat worldwide rate can legitimately land above a cheaper local market's in-house benchmark.
-  // hasSavings drives the UI — when false, the comparison is shown plainly instead of dressed up
-  // as a discount. Also require the rounded percentage to be at least 1% — a technically-positive
-  // but sub-1%-rounding difference would otherwise display as a silly-looking "Save $12 (0%)".
-  const rawSavings = inHouseCostEstimate - clientMidpoint;
-  const rawSavingsPercentage = rawSavings > 0 ? Math.round((rawSavings / inHouseCostEstimate) * 100) : 0;
-  const hasSavings = rawSavings > 0 && rawSavingsPercentage >= 1;
-  const clientSavingsAmount = hasSavings ? rawSavings : 0;
-  const savingsPercentage = hasSavings ? Math.min(78, rawSavingsPercentage) : 0;
-
-  // Collect tech stack
-  const techSet = new Set<string>();
-  techSet.add("3D BIM Model (Native File)");
-  techSet.add("AutoCAD Architectural (.DWG)");
-  techSet.add("Print-Ready Vector PDF (Arch D 24x36)");
-  techSet.add("IFC 3D Digital Model");
-
-  if (input.selectedServiceIds.includes("mep_structural_coordination")) {
-    techSet.add("Navisworks Manage Clash Report (.NWC)");
-  }
-
-  // Permit notes based on jurisdiction
-  const permitNotes = [
-    "Strict compliance with 2024 International Building Code (IBC) / International Residential Code (IRC)",
-    "Life safety emergency egress window opening minimum net clear area: 5.7 sq ft (5.0 sq ft at grade)",
-    "Continuous building thermal envelope & air barrier continuity verified per Energy Code",
-    "Fire-resistance ratings for exterior walls located within 5 feet of property lines (1-Hour rated assembly)",
-    "Complete coordinated title block ready for Architect of Record (AOR) or Professional Engineer (PE) stamp",
-  ];
+  const payrollHourly = (MARKET_BENCHMARK_RATES[marketId] ?? MARKET_BENCHMARK_RATES.us).inHousePayrollHourly;
+  const estimatedHours = (activeSheets.length * 8 + area / 300) * stageMultiplier;
+  const inHouseCostEstimate = estimatedHours * payrollHourly * timelineMultiplier * (input.complexityMultiplier ?? 1);
 
   return {
-    estimatedFeeMin: finalMin,
-    estimatedFeeMax: finalMax,
+    estimatedFeeMin: roundTo(subtotal * 0.9, 10),
+    estimatedFeeMax: roundTo(subtotal * 1.18, 10),
     estimatedTurnaroundDays: totalDays,
-    recommendedSheetsCount: activeSheets.length,
-    inHouseCostEstimate,
-    clientSavingsAmount,
-    savingsPercentage,
-    hasSavings,
-    recommendedSheets: sheets,
-    techStack: Array.from(techSet),
-    permitNotes,
+    sheets,
+    includedSheetCount: activeSheets.length,
+    deliverables,
+    inHouseCostEstimate: roundTo(inHouseCostEstimate, 50),
+    marketId,
   };
 }

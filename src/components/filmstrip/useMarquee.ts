@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MotionValue, useAnimationFrame, useMotionValue } from "motion/react";
 
 interface UseMarqueeOptions {
@@ -11,18 +11,20 @@ interface UseMarqueeOptions {
 }
 
 // Drives a looping horizontal `x` offset via rAF rather than a CSS keyframe animation, so a
-// future caller can feed `direction` a live, continuously-changing MotionValue (e.g. from
-// cursor position) without any change to this update loop — only the input changes.
+// caller can feed `direction` a live, continuously-changing MotionValue (e.g. from cursor
+// position) without any change to this update loop — only the input changes.
 export function useMarquee({ speedPx = 28, direction, paused = false }: UseMarqueeOptions) {
   const trackRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const widthRef = useRef(0);
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
     const measure = () => {
       widthRef.current = el.scrollWidth;
+      setWidth(el.scrollWidth);
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -32,15 +34,14 @@ export function useMarquee({ speedPx = 28, direction, paused = false }: UseMarqu
 
   useAnimationFrame((_, delta) => {
     if (paused) return;
-    const width = widthRef.current;
-    if (!width) return;
+    const w = widthRef.current;
+    if (!w) return;
     const dir = typeof direction === "number" ? direction : direction.get();
     const raw = x.get() + dir * speedPx * (delta / 1000);
     // Keep x within (-width, 0] — the track is tiled with period `width`, so any value
     // congruent mod width looks identical, making the wrap invisible either direction.
-    const wrapped = (((raw % width) + width) % width) - width;
-    x.set(wrapped);
+    x.set((((raw % w) + w) % w) - w);
   });
 
-  return { x, trackRef };
+  return { x, trackRef, width };
 }

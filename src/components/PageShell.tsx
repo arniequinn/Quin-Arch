@@ -8,16 +8,11 @@ interface PageShellProps {
   children: React.ReactNode;
 }
 
-// Navbar + page + Footer for every standalone page. The homepage (App.tsx) renders its own, since
-// its nav scrolls in place rather than linking back to the homepage.
+// Navbar + page + Footer, the same on every page including the homepage.
 export const PageShell: React.FC<PageShellProps> = ({ specialist, children }) => (
-  <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans selection:bg-amber-500 selection:text-neutral-950 flex flex-col justify-between">
-    <Navbar
-      specialist={specialist}
-      isHomePage={false}
-      onScrollToEstimator={() => { window.location.href = `${import.meta.env.BASE_URL}#estimator`; }}
-    />
+  <div className="flex min-h-screen flex-col justify-between bg-neutral-950 font-sans text-neutral-100 selection:bg-amber-500 selection:text-neutral-950">
+    <Navbar specialist={specialist} />
     {children}
-    <Footer specialist={specialist} isHomePage={false} />
+    <Footer specialist={specialist} />
   </div>
 );

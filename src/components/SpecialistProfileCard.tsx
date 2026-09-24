@@ -1,203 +1,122 @@
 import React from "react";
-import {
-  Compass,
-  Mail,
-  MapPin,
-  MessageSquare,
-  GraduationCap,
-  FileText,
-  Linkedin,
-  Instagram,
-  Youtube,
-} from "lucide-react";
+import { FileText, GraduationCap, Instagram, Linkedin, Mail, MapPin, MessageSquare, Youtube } from "lucide-react";
 import { SpecialistProfile } from "../types";
 import { assetUrl } from "../utils/assetPath";
+import { ROUTES } from "../data/routes";
+import { mailtoHref, whatsappHref } from "../services/contact";
+import { Button } from "./Button";
 
 interface SpecialistProfileCardProps {
   specialist: SpecialistProfile;
-  onScrollToEstimator: () => void;
-  /** Fits a small void (phone / short viewport): drops the capabilities column and section
-   *  padding, trims the bio, and swaps the long CTA for a link to the philosophy page. */
+  /** Fits a small void (phone / short viewport): trims the bio and the secondary links. */
   compact?: boolean;
 }
 
-export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({
-  specialist,
-  onScrollToEstimator,
-  compact = false,
-}) => {
-  const whatsappUrl = `https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-    `Hi ${specialist.name}, I found your architectural portfolio via ArchScope and would like to discuss a project.`
-  )}`;
+// The principal, introduced in the first chapter of the homepage sequence — centered like every
+// other chapter (R6), sitting directly on the page background.
+export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({ specialist, compact = false }) => {
+  const socials = [
+    { label: "LinkedIn", href: specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/", Icon: Linkedin },
+    { label: "Instagram", href: specialist.socials?.instagram, Icon: Instagram },
+    { label: "YouTube", href: specialist.socials?.youtube, Icon: Youtube },
+  ].filter((s): s is { label: string; href: string; Icon: typeof Linkedin } => Boolean(s.href));
 
   return (
-    <section id="specialist" className={`${compact ? "py-4" : "py-16 sm:py-24 border-t border-neutral-900"} bg-neutral-950 relative`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+    <section id="specialist" className={`relative bg-neutral-950 ${compact ? "py-2" : "py-6"}`}>
+      <div className="mx-auto w-full max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+        {specialist.avatarUrl && (
+          <img
+            src={specialist.avatarUrl}
+            alt={specialist.name}
+            className={`mx-auto rounded object-cover bg-neutral-900 ${compact ? "h-16 w-16" : "h-20 w-20"}`}
+          />
+        )}
+        <p className="eyebrow mt-4 text-amber-400">Principal Architect</p>
+        <h2 className={`mt-2 font-display font-semibold tracking-tight text-neutral-100 ${compact ? "text-[1.75rem]" : "heading-2"}`}>
+          {specialist.name}
+        </h2>
+        <p className="mt-1 text-small text-neutral-300">{specialist.title}</p>
 
-          {/* Left: Principal identity — sits directly on the page background, no card */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="flex items-start gap-4">
-              {specialist.avatarUrl && (
-                <img
-                  src={specialist.avatarUrl}
-                  alt={specialist.name}
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover shadow-lg bg-neutral-900 shrink-0"
-                />
-              )}
-
-              <div>
-                <span className="text-[11px] font-mono text-neutral-500 tracking-widest uppercase">
-                  Principal Architect
-                </span>
-                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-neutral-100 tracking-tight mt-1">
-                  {specialist.name}
-                </h2>
-                <p className="text-sm text-amber-400 font-medium mt-0.5">
-                  {specialist.title}
-                </p>
-
-                {specialist.education && (
-                  <div className="flex items-center space-x-1.5 text-xs text-neutral-300 mt-1.5 font-medium">
-                    <GraduationCap className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span>{specialist.education}</span>
-                  </div>
-                )}
-
-                <div className="flex items-center space-x-1.5 text-xs text-neutral-400 mt-1">
-                  <MapPin className="w-3.5 h-3.5 text-neutral-500 shrink-0" />
-                  <span>{specialist.location}</span>
-                </div>
-              </div>
-            </div>
-
-            <p className={`text-sm text-neutral-300 leading-relaxed max-w-xl ${compact ? "line-clamp-3" : ""}`}>
-              {specialist.bio}
-            </p>
-
-            {/* Stats — plain text, no bordered tiles */}
-            <div className="flex items-center gap-8 pt-1">
-              <div>
-                <span className="text-2xl font-extrabold font-mono text-neutral-100 block">
-                  {specialist.yearsExperience}+
-                </span>
-                <span className="text-[11px] text-neutral-500">Years Remote Exp.</span>
-              </div>
-              <div>
-                <span className="text-2xl font-extrabold font-mono text-amber-400 block">
-                  {specialist.completedProjectsCount}+
-                </span>
-                <span className="text-[11px] text-neutral-500">Projects Delivered</span>
-              </div>
-            </div>
-
-            {/* Socials — icon links, present in both the full and compact card */}
-            <div className="flex items-center gap-2 pt-1">
-              {[
-                { label: "LinkedIn", href: specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/", Icon: Linkedin },
-                { label: "Instagram", href: specialist.socials?.instagram, Icon: Instagram },
-                { label: "YouTube", href: specialist.socials?.youtube, Icon: Youtube },
-              ]
-                .filter((s) => s.href)
-                .map(({ label, href, Icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    title={label}
-                    className="w-9 h-9 rounded-full border border-neutral-700 text-neutral-400 hover:text-neutral-100 hover:border-neutral-500 flex items-center justify-center transition-all"
-                  >
-                    <Icon className="w-4 h-4" />
-                  </a>
-                ))}
-            </div>
-
-            {/* Direct Connect Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-5 py-3 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm flex items-center space-x-2 transition-all cursor-pointer"
-                title="Direct WhatsApp with Arslan Qaiser"
-              >
-                <MessageSquare className="w-4 h-4" />
-                <span>WhatsApp</span>
-              </a>
-
-              <a
-                href={`mailto:${specialist.email}`}
-                className="px-5 py-3 rounded border border-neutral-700 text-neutral-300 font-semibold text-xs sm:text-sm flex items-center space-x-2 hover:text-neutral-100 hover:border-neutral-500 transition-all cursor-pointer"
-              >
-                <Mail className="w-4 h-4" />
-                <span>Email</span>
-              </a>
-
-              {compact ? (
-                <a
-                  href={`${import.meta.env.BASE_URL}design-philosophy/`}
-                  className="px-5 py-3 rounded bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs sm:text-sm transition-all cursor-pointer"
-                >
-                  <span>Design philosophy →</span>
-                </a>
-              ) : (
-              <button
-                onClick={onScrollToEstimator}
-                className="px-5 py-3 rounded bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs sm:text-sm transition-all cursor-pointer"
-              >
-                <span>Launch Scope Estimator</span>
-              </button>
-              )}
-            </div>
-          </div>
-
-          {/* Right: Technical capabilities — plain lists, no nested card */}
-          {!compact && (
-          <div className="lg:col-span-5 lg:pl-8 lg:border-l lg:border-neutral-900 space-y-6">
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400 font-mono flex items-center space-x-2">
-                <Compass className="w-4 h-4" />
-                <span>Technical Software & BIM Stack</span>
-              </h3>
-              <p className="mt-3 text-xs text-neutral-300 font-mono leading-relaxed">
-                {specialist.softwareProficiencies.join(" · ")}
-              </p>
-            </div>
-
-            <div className="pt-4 border-t border-neutral-900">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-400 font-mono mb-2">
-                Specialized Digital Workflows
-              </h3>
-              <ul className="space-y-1.5 text-xs text-neutral-400">
-                <li>Submission in client-native titleblocks, layers & pen weights</li>
-                <li>Cloud BIM worksharing (BIM 360 / ACC)</li>
-                <li>Parametric optimization (Grasshopper & Python scripts)</li>
-                <li>Environmental solar radiation and wind rose microclimate analysis</li>
-              </ul>
-            </div>
-
-            <div className="pt-4 border-t border-neutral-900">
-              <a
-                href={assetUrl("/portfolio/docs/AQ CV Minimal.pdf")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center space-x-1.5 text-xs text-neutral-400 hover:text-neutral-100 transition-all"
-              >
-                <FileText className="w-3.5 h-3.5 text-amber-400" />
-                <span>Download CV</span>
-              </a>
-              <a
-                href={`${import.meta.env.BASE_URL}design-philosophy/`}
-                className="mt-3 flex items-center space-x-1.5 text-xs text-amber-400 hover:text-amber-300 transition-all"
-              >
-                <span>Read the thinking behind the work →</span>
-              </a>
-            </div>
-          </div>
+        <div className="mt-3 flex flex-col items-center gap-1.5 text-label text-neutral-400 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-5">
+          {specialist.education && (
+            <span className="inline-flex items-start gap-1.5">
+              <GraduationCap className="mt-px h-4 w-4 shrink-0 text-neutral-500" aria-hidden="true" />
+              {specialist.education}
+            </span>
           )}
+          {!compact && (
+            <span className="inline-flex items-start gap-1.5">
+              <MapPin className="mt-px h-4 w-4 shrink-0 text-neutral-500" aria-hidden="true" />
+              {specialist.location}
+            </span>
+          )}
+        </div>
 
+        <p className={`mx-auto mt-5 max-w-2xl text-neutral-300 ${compact ? "text-small line-clamp-3" : "text-body"}`}>
+          {specialist.bio}
+        </p>
+
+        <div className={`flex items-center justify-center gap-10 ${compact ? "mt-4" : "mt-6"}`}>
+          <div>
+            <span className="block font-mono text-h3 text-neutral-100">{specialist.yearsExperience}+</span>
+            <span className="text-label text-neutral-400">years in practice</span>
+          </div>
+          <div>
+            <span className="block font-mono text-h3 text-neutral-100">{specialist.completedProjectsCount}+</span>
+            <span className="text-label text-neutral-400">projects delivered</span>
+          </div>
+        </div>
+
+        <div className={`flex flex-wrap items-center justify-center gap-3 ${compact ? "mt-4" : "mt-7"}`}>
+          <Button href={ROUTES.scopeEstimator} size={compact ? "sm" : "md"}>
+            Start a Project
+          </Button>
+          <Button
+            variant="secondary"
+            size={compact ? "sm" : "md"}
+            icon={MessageSquare}
+            href={whatsappHref(specialist, `Hi ${specialist.name.split(" ")[0]}, I found your portfolio and would like to discuss a project.`)}
+            external
+          >
+            WhatsApp
+          </Button>
+          {!compact && (
+            <Button variant="secondary" icon={Mail} href={mailtoHref(specialist.email)}>
+              Email
+            </Button>
+          )}
+        </div>
+
+        <div className={`flex flex-wrap items-center justify-center gap-x-6 gap-y-2 ${compact ? "mt-3" : "mt-6"}`}>
+          <Button href={ROUTES.designPhilosophy} variant="link" size="sm">
+            Design Philosophy
+          </Button>
+          {!compact && (
+            <a
+              href={assetUrl("/portfolio/docs/AQ CV Minimal.pdf")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-label font-semibold text-neutral-300 transition-colors hover:text-neutral-100"
+            >
+              <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+              Download CV
+            </a>
+          )}
+          <span className="flex items-center gap-1">
+            {socials.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                title={label}
+                className="flex h-9 w-9 items-center justify-center rounded text-neutral-400 transition-colors hover:text-neutral-100"
+              >
+                <Icon className="h-4 w-4" />
+              </a>
+            ))}
+          </span>
         </div>
       </div>
     </section>

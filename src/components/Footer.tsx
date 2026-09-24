@@ -1,138 +1,127 @@
 import React from "react";
 import { Compass } from "lucide-react";
 import { SpecialistProfile } from "../types";
+import { ROUTES } from "../data/routes";
+import { mailtoHref, whatsappHref } from "../services/contact";
+import { Container } from "./Container";
 
 interface FooterProps {
   specialist: SpecialistProfile;
-  /** False when rendered on a page other than the homepage — internal nav links then
-   * point back to the homepage's anchors instead of same-page hashes. */
-  isHomePage?: boolean;
 }
 
-export const Footer: React.FC<FooterProps> = ({ specialist, isHomePage = true }) => {
-  const homeAnchor = (hash: string) =>
-    isHomePage ? hash : `${import.meta.env.BASE_URL}${hash}`;
+type FooterLink = { label: string; href: string; external?: boolean };
+
+// A grid footer (point 9): brand, site, contact and platform columns, and a bottom bar on the same
+// column edges. Every page is listed exactly once (point 22). Phones get one centered column.
+export const Footer: React.FC<FooterProps> = ({ specialist }) => {
+  const brand = specialist.brandName || specialist.name;
+  const s = specialist.socials;
+
+  const site = [
+    { label: "Services", href: ROUTES.services },
+    { label: "Project Library", href: ROUTES.projects },
+    { label: "Case Studies", href: ROUTES.caseStudies },
+    { label: "Scope Estimator", href: ROUTES.scopeEstimator },
+    { label: "LOD Guide", href: ROUTES.lodGuide },
+    { label: "Design Philosophy", href: ROUTES.designPhilosophy },
+    { label: "Why Work With Us", href: ROUTES.whyWorkWithUs },
+  ];
+
+  const contact = (
+    [
+      { label: specialist.email, href: mailtoHref(specialist.email) },
+      specialist.whatsapp
+        ? { label: "WhatsApp", href: whatsappHref(specialist, `Hi ${specialist.name.split(" ")[0]}, I'd like to discuss a project.`), external: true }
+        : null,
+      { label: "LinkedIn", href: s?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/", external: true },
+      s?.instagram ? { label: "Instagram", href: s.instagram, external: true } : null,
+      s?.youtube ? { label: "YouTube", href: s.youtube, external: true } : null,
+    ] as Array<FooterLink | null>
+  ).filter((l): l is FooterLink => l !== null);
+
+  const platforms = (
+    [
+      s?.upwork ? { label: "Upwork", href: s.upwork } : null,
+      s?.fiverr ? { label: "Fiverr", href: s.fiverr } : null,
+      s?.freelancer ? { label: "Freelancer", href: s.freelancer } : null,
+      s?.cadcrowd ? { label: "Cad Crowd", href: s.cadcrowd } : null,
+    ] as Array<FooterLink | null>
+  ).filter((l): l is FooterLink => l !== null);
+
+  const linkClass = "text-sm text-neutral-300 transition-colors hover:text-amber-400";
+  const headingClass = "eyebrow text-neutral-500";
 
   return (
-    <footer className="border-t border-neutral-900 bg-neutral-950 py-12 text-xs text-neutral-500">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center space-x-3">
-            {specialist.logoUrl ? (
-              <img
-                src={specialist.logoUrl}
-                alt={specialist.brandName || specialist.name}
-                className="w-9 h-9 object-contain rounded-lg bg-neutral-900 p-1 border border-neutral-800"
-              />
-            ) : (
-              <Compass className="w-5 h-5 text-amber-500" />
-            )}
-            <div>
-              <span className="font-bold text-neutral-200 text-sm block">
-                {specialist.brandName || specialist.name}
-              </span>
-              <span className="text-neutral-400 text-xs">
-                {specialist.name} • {specialist.title}
-              </span>
-            </div>
+    <footer id="site-footer" className="border-t border-neutral-900 bg-neutral-950">
+      <Container className="py-16">
+        <div className="grid grid-cols-1 gap-12 text-center md:grid-cols-12 md:gap-8 md:text-left">
+          <div className="md:col-span-4">
+            <a href={ROUTES.home} className="inline-flex items-center gap-3">
+              {specialist.logoUrl ? (
+                <img src={specialist.logoUrl} alt="" className="h-10 w-10 rounded border border-neutral-800 bg-neutral-900 object-contain p-1" />
+              ) : (
+                <Compass className="h-5 w-5 text-amber-400" />
+              )}
+              <span className="font-display text-h3 font-semibold leading-tight text-neutral-100">{brand}</span>
+            </a>
+            <p className="mx-auto mt-4 max-w-xs text-label text-neutral-400 md:mx-0">
+              The practice of principal architect {specialist.name} — BIM production, construction documentation and
+              visualization, delivered remotely.
+            </p>
           </div>
 
-          {/* Social and freelance links in footer */}
-          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-neutral-400">
-            <a
-              href={`${import.meta.env.BASE_URL}design-philosophy/`}
-              className="hover:text-amber-400 transition-colors"
-            >
-              Design Philosophy
-            </a>
-            <a
-              href={specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-sky-400 text-sky-400/90 font-semibold transition-colors flex items-center space-x-1"
-            >
-              <span>LinkedIn</span>
-            </a>
-            {specialist.socials?.instagram && (
-              <a
-                href={specialist.socials.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-amber-400 transition-colors"
-              >
-                Instagram ({specialist.socials.instagramHandle || "@quin_arch"})
-              </a>
-            )}
-            {specialist.socials?.youtube && (
-              <a
-                href={specialist.socials.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-red-400 transition-colors"
-              >
-                YouTube
-              </a>
-            )}
-            {specialist.socials?.upwork && (
-              <a
-                href={specialist.socials.upwork}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-emerald-400 transition-colors"
-              >
-                Upwork
-              </a>
-            )}
-            {specialist.socials?.fiverr && (
-              <a
-                href={specialist.socials.fiverr}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-emerald-400 transition-colors"
-              >
-                Fiverr
-              </a>
-            )}
-            {specialist.socials?.freelancer && (
-              <a
-                href={specialist.socials.freelancer}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-blue-400 transition-colors"
-              >
-                Freelancer
-              </a>
-            )}
-            {specialist.socials?.cadcrowd && (
-              <a
-                href={specialist.socials.cadcrowd}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-sky-400 transition-colors"
-              >
-                Cad Crowd
-              </a>
-            )}
+          <nav aria-label="Site" className="md:col-span-3">
+            <p className={headingClass}>Site</p>
+            <ul className="mt-4 space-y-2.5">
+              {site.map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} className={linkClass}>
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="md:col-span-3">
+            <p className={headingClass}>Contact</p>
+            <ul className="mt-4 space-y-2.5">
+              {contact.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className={`${linkClass} break-words`}
+                    {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="md:col-span-2">
+            <p className={headingClass}>Also on</p>
+            <ul className="mt-4 space-y-2.5">
+              {platforms.map((l) => (
+                <li key={l.label}>
+                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-sm text-neutral-400 transition-colors hover:text-neutral-200">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-neutral-900">
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-neutral-400">
-            <a href={`${import.meta.env.BASE_URL}services/`} className="hover:text-amber-400 transition-colors">Services</a>
-            <a href={`${import.meta.env.BASE_URL}case-studies/`} className="hover:text-amber-400 transition-colors">Case Studies</a>
-            <a href={homeAnchor("#estimator")} className="hover:text-amber-400 transition-colors">Scope Estimator</a>
-            <a href={`${import.meta.env.BASE_URL}services/`} className="hover:text-amber-400 transition-colors">Services &amp; Pricing</a>
-            <a href={`${import.meta.env.BASE_URL}projects/#deliverables`} className="hover:text-amber-400 transition-colors">Construction Documentation</a>
-            <a href={`${import.meta.env.BASE_URL}why-work-with-us/`} className="hover:text-amber-400 transition-colors">Why Work With Us</a>
-            <a href={`${import.meta.env.BASE_URL}design-philosophy/`} className="hover:text-amber-400 transition-colors">Principal Architect</a>
-          </div>
-
+        <div className="mt-14 grid grid-cols-1 gap-2 border-t border-neutral-900 pt-6 text-center text-label text-neutral-500 md:grid-cols-12 md:gap-8 md:text-left">
           {/* The year is baked in at build time; the browser's may differ right after New Year. */}
-          <div suppressHydrationWarning>
-            © {new Date().getFullYear()} {specialist.brandName || "Quintessential Architecture"}. All drawings & BIM deliverables code-compliant.
-          </div>
+          <p className="md:col-span-10" suppressHydrationWarning>
+            © {new Date().getFullYear()} {brand}
+          </p>
+          <p className="md:col-span-2">Lahore · working worldwide</p>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 };

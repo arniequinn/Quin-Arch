@@ -34,6 +34,7 @@ export default defineConfig(() => {
           caseStudyCranResidence: path.resolve(__dirname, 'case-studies/cran-residence/index.html'),
           caseStudyUrbanFlats: path.resolve(__dirname, 'case-studies/urban-multi-family-flats/index.html'),
           guideLod: path.resolve(__dirname, 'guides/lod-guide/index.html'),
+          scopeEstimator: path.resolve(__dirname, 'scope-estimator/index.html'),
           designPhilosophy: path.resolve(__dirname, 'design-philosophy/index.html'),
           projects: path.resolve(__dirname, 'projects/index.html'),
           whyWorkWithUs: path.resolve(__dirname, 'why-work-with-us/index.html'),

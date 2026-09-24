@@ -1,211 +1,129 @@
 import React, { useState } from "react";
-import { Compass, MessageSquare, Linkedin, Menu, X } from "lucide-react";
+import { Compass, Linkedin, Menu, MessageSquare, X } from "lucide-react";
 import { SpecialistProfile } from "../types";
+import { ROUTES } from "../data/routes";
+import { whatsappHref } from "../services/contact";
+import { Button } from "./Button";
 
 interface NavbarProps {
   specialist: SpecialistProfile;
-  onScrollToEstimator: () => void;
-  /** False when rendered on a page other than the homepage — internal nav links then
-   * point back to the homepage's anchors instead of same-page hashes. */
-  isHomePage?: boolean;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({
-  specialist,
-  onScrollToEstimator,
-  isHomePage = true,
-}) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+// Five destinations, each listed once (point 1 of documentation/final-polish-v2.0.md). "Start a
+// Project" is the one primary action; the full row only appears from the `nav` breakpoint
+// (index.css), where it fits with room to spare — below that, the menu button takes over.
+export const NAV_LINKS = [
+  { label: "Services", href: ROUTES.services },
+  { label: "Project Library", href: ROUTES.projects },
+  { label: "Case Studies", href: ROUTES.caseStudies },
+  { label: "Why Work With Us", href: ROUTES.whyWorkWithUs },
+  { label: "Design Philosophy", href: ROUTES.designPhilosophy },
+];
 
-  const homeAnchor = (hash: string) =>
-    isHomePage ? hash : `${import.meta.env.BASE_URL}${hash}`;
-
-  const scrollToTop = () => {
-    if (isHomePage) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      window.location.href = import.meta.env.BASE_URL;
-    }
-  };
+export const Navbar: React.FC<NavbarProps> = ({ specialist }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const brand = specialist.brandName || specialist.name;
+  const linkedin = specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/";
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-neutral-800/60 bg-neutral-950/95 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div className="mx-auto flex h-16 max-w-[100rem] items-center justify-between gap-6 px-4 sm:px-6 lg:px-10">
+        {/* Brand — a real link home, never compressed: it wraps onto two lines before it would
+            ever run under the navigation. */}
+        <a href={ROUTES.home} className="flex shrink-0 items-center gap-3" aria-label={`${brand} — home`}>
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded border border-neutral-800 bg-neutral-900 p-1">
+            {specialist.logoUrl ? (
+              <img src={specialist.logoUrl} alt="" className="h-full w-full object-contain" />
+            ) : (
+              <Compass className="h-4 w-4 text-amber-400" />
+            )}
+          </span>
+          <span className="max-w-[9.5rem] font-display text-[1.125rem] font-semibold leading-[1.05] tracking-tight text-neutral-100 sm:max-w-none sm:text-[1.25rem] nav:text-h3">
+            {brand}
+          </span>
+        </a>
 
-        {/* Brand */}
-        <button
-          type="button"
-          onClick={scrollToTop}
-          className="flex items-center space-x-2.5 sm:space-x-3 min-w-0 bg-transparent border-0 p-0 m-0 cursor-pointer text-left"
-          aria-label="Go to homepage"
-        >
-          {specialist.logoUrl ? (
-            <div className="w-11 h-11 rounded-lg bg-neutral-900 border border-neutral-800 p-1 flex items-center justify-center shrink-0">
-              <img
-                src={specialist.logoUrl}
-                alt={specialist.brandName || specialist.name}
-                className="w-full h-full object-contain"
-              />
-            </div>
-          ) : (
-            <div className="w-11 h-11 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-amber-400 shrink-0">
-              <Compass className="w-4 h-4 stroke-[1.5]" />
-            </div>
-          )}
-          <div className="min-w-0 leading-[1.1]">
-            <span className="block font-display font-semibold text-[13px] sm:text-sm text-neutral-100 tracking-tight sm:whitespace-nowrap">
-              {specialist.brandName || specialist.name}
-            </span>
-          </div>
-        </button>
-
-        {/* Navigation */}
-        <nav className="hidden xl:flex items-center space-x-7 text-xs font-medium text-neutral-400 shrink-0">
-          <a href={`${import.meta.env.BASE_URL}services/`} className="hover:text-neutral-100 transition-colors tracking-wide">
-            Services
-          </a>
-          <a href={`${import.meta.env.BASE_URL}case-studies/`} className="hover:text-neutral-100 transition-colors tracking-wide">
-            Case Studies
-          </a>
-          <a
-            href={homeAnchor("#estimator")}
-            onClick={isHomePage ? (e) => { e.preventDefault(); onScrollToEstimator(); } : undefined}
-            className="hover:text-neutral-100 transition-colors tracking-wide"
-          >
-            Scope Planner
-          </a>
-          <a href={`${import.meta.env.BASE_URL}projects/#deliverables`} className="hover:text-neutral-100 transition-colors tracking-wide">
-            Construction Documentation
-          </a>
-          <a href={`${import.meta.env.BASE_URL}why-work-with-us/`} className="hover:text-neutral-100 transition-colors tracking-wide">
-            Why Work With Us
-          </a>
-          <a href={`${import.meta.env.BASE_URL}design-philosophy/`} className="hover:text-neutral-100 transition-colors tracking-wide">
-            Principal Architect
-          </a>
+        <nav aria-label="Main" className="hidden items-center gap-8 nav:flex">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="whitespace-nowrap text-small text-neutral-300 transition-colors hover:text-neutral-100"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
 
-        {/* Actions */}
-        <div className="flex items-center space-x-1.5 sm:space-x-3 shrink-0">
-          {specialist.whatsapp && (
-            <a
-              href={`https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-                "Hi Arslan, I found your architectural portfolio and would like to discuss a project."
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden 2xl:flex items-center space-x-1.5 px-3 py-1.5 rounded-md border border-neutral-700 text-neutral-400 text-xs hover:text-neutral-100 hover:border-neutral-500 transition-all"
-            >
-              <MessageSquare className="w-3.5 h-3.5" />
-              <span>WhatsApp</span>
-            </a>
-          )}
-
-          {(specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/") && (
-            <a
-              href={specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-md border border-neutral-700 text-neutral-400 text-xs hover:text-neutral-100 hover:border-neutral-500 transition-all"
-            >
-              <Linkedin className="w-3.5 h-3.5" />
-              <span className="hidden xl:inline">LinkedIn</span>
-            </a>
-          )}
-
-          {/* Minimal Scope Planner CTA */}
-          <button
-            id="scope-planner-nav-btn"
-            onClick={onScrollToEstimator}
-            className="px-3 sm:px-4 py-1.5 rounded-md border border-amber-500/40 text-amber-400 text-xs font-medium whitespace-nowrap hover:bg-amber-500/10 hover:border-amber-500/70 transition-all cursor-pointer tracking-wide"
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <a
+            href={linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            title="LinkedIn"
+            className="hidden h-10 w-10 items-center justify-center rounded text-neutral-400 transition-colors hover:text-neutral-100 md:flex"
           >
-            Scope Planner
-          </button>
-
-          {/* Mobile/tablet nav toggle — the full <nav> above is xl-only, so this is the only
-              way to reach Services, Case Studies, etc. below that breakpoint. */}
+            <Linkedin className="h-[1.125rem] w-[1.125rem]" />
+          </a>
+          {/* On phones the button lives in the menu panel instead, so the brand keeps its room. */}
+          <span className="hidden sm:block">
+            <Button href={ROUTES.scopeEstimator} size="sm">
+              Start a Project
+            </Button>
+          </span>
           <button
             type="button"
-            onClick={() => setIsMobileMenuOpen((open) => !open)}
-            aria-expanded={isMobileMenuOpen}
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            className="xl:hidden p-2 -mr-1 rounded-md text-neutral-400 hover:text-neutral-100 hover:bg-neutral-900 transition-colors cursor-pointer"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-expanded={isMenuOpen}
+            aria-controls="site-menu"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            className="-mr-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded text-neutral-300 transition-colors hover:bg-neutral-900 hover:text-neutral-100 nav:hidden"
           >
-            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile/tablet nav panel */}
-      {isMobileMenuOpen && (
-        <nav className="xl:hidden border-t border-neutral-800/60 bg-neutral-950/98 backdrop-blur-md px-4 sm:px-6 py-4 flex flex-col space-y-1 text-sm font-medium text-neutral-300">
-          <a
-            href={`${import.meta.env.BASE_URL}services/`}
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="py-2.5 hover:text-amber-400 transition-colors"
-          >
-            Services
-          </a>
-          <a
-            href={`${import.meta.env.BASE_URL}case-studies/`}
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="py-2.5 hover:text-amber-400 transition-colors"
-          >
-            Case Studies
-          </a>
-          <a
-            href={homeAnchor("#estimator")}
-            onClick={(e) => {
-              setIsMobileMenuOpen(false);
-              if (isHomePage) { e.preventDefault(); onScrollToEstimator(); }
-            }}
-            className="py-2.5 hover:text-amber-400 transition-colors"
-          >
-            Scope Planner
-          </a>
-          <a
-            href={`${import.meta.env.BASE_URL}projects/#deliverables`}
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="py-2.5 hover:text-amber-400 transition-colors"
-          >
-            Construction Documentation
-          </a>
-          <a
-            href={`${import.meta.env.BASE_URL}why-work-with-us/`}
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="py-2.5 hover:text-amber-400 transition-colors"
-          >
-            Why Work With Us
-          </a>
-          <a
-            href={`${import.meta.env.BASE_URL}design-philosophy/`}
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="py-2.5 hover:text-amber-400 transition-colors"
-          >
-            Principal Architect
-          </a>
-          {specialist.whatsapp && (
-            <a
-              href={`https://wa.me/${specialist.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-                "Hi Arslan, I found your architectural portfolio and would like to discuss a project."
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2.5 border-t border-neutral-800/60 mt-1 pt-3.5 flex items-center space-x-2 hover:text-emerald-400 transition-colors"
-            >
-              <MessageSquare className="w-4 h-4" />
-              <span>WhatsApp</span>
+      {isMenuOpen && (
+        <nav
+          id="site-menu"
+          aria-label="Main"
+          className="border-t border-neutral-800/60 bg-neutral-950 px-4 pb-6 pt-2 sm:px-6 nav:hidden"
+        >
+          <ul className="divide-y divide-neutral-900">
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block py-3.5 text-body text-neutral-200 transition-colors hover:text-amber-400"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <Button href={ROUTES.scopeEstimator} fullWidth className="mt-4">
+            Start a Project
+          </Button>
+          <div className="mt-4 flex items-center justify-center gap-6 text-small text-neutral-400">
+            {specialist.whatsapp && (
+              <a
+                href={whatsappHref(specialist, `Hi ${specialist.name.split(" ")[0]}, I found your portfolio and would like to discuss a project.`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 hover:text-neutral-100"
+              >
+                <MessageSquare className="h-4 w-4" />
+                WhatsApp
+              </a>
+            )}
+            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-neutral-100">
+              <Linkedin className="h-4 w-4" />
+              LinkedIn
             </a>
-          )}
-          <a
-            href={specialist.socials?.linkedin || "https://www.linkedin.com/in/arslan-qaiser-947976188/"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="py-2.5 flex items-center space-x-2 hover:text-sky-400 transition-colors"
-          >
-            <Linkedin className="w-4 h-4" />
-            <span>LinkedIn</span>
-          </a>
+          </div>
         </nav>
       )}
     </header>

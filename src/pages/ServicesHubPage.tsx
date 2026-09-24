@@ -1,225 +1,146 @@
 import React from "react";
-import { ArrowRight, CheckCircle2, Image as ImageIcon, Layers, UserCheck } from "lucide-react";
+import { Mail, MessageSquare } from "lucide-react";
+import { Container } from "../components/Container";
+import { PageHeader, SectionHeader } from "../components/SectionHeader";
+import { ItemList, Section } from "../components/PageSections";
+import { Button } from "../components/Button";
+import { ROUTES } from "../data/routes";
+import { mailtoHref, whatsappHref } from "../services/contact";
+import { SpecialistProfile } from "../types";
+import { assetUrl } from "../utils/assetPath";
 
-interface ServiceCard {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  href: string;
-  cta: string;
+interface ServicesHubPageProps {
+  specialist: SpecialistProfile;
 }
 
-interface EngagementModel {
-  title: string;
-  bestFor: string;
-  description: string;
-  features: string[];
-  cta: string;
-  featured?: boolean;
-}
+const SERVICES = [
+  {
+    title: "BIM / CAD Drafting & Construction Documentation",
+    description:
+      "BIM models to LOD 350 (LOD 400 by request), parametric coordination, and full municipal permit sets across IBC / IRC / CBC jurisdictions.",
+    href: ROUTES.bimCad,
+    image: "sheets-beach-house-first-level-plan.webp",
+    drawing: true,
+  },
+  {
+    title: "Architectural Visualization",
+    description:
+      "Photorealistic interior, exterior and aerial renders in V-Ray, Lumion and Twinmotion — built from an existing model, CAD drawings or sketches.",
+    href: ROUTES.visualization,
+    image: "visualization-showcase-05-classical-dining.webp",
+    drawing: false,
+  },
+  {
+    title: "Architect Consultant",
+    description:
+      "Design coordination, code-compliance review, and computational or parametric consulting for studios and contractors who need a second set of expert eyes.",
+    href: ROUTES.consultancy,
+    image: "bimcad-workflow-07-solar-wind-analysis.webp",
+    drawing: false,
+  },
+];
 
-export const ServicesHubPage: React.FC = () => {
-  const base = import.meta.env.BASE_URL;
+export const ServicesHubPage: React.FC<ServicesHubPageProps> = ({ specialist }) => (
+  <main className="flex-1">
+    <PageHeader
+      breadcrumbs={[{ label: "Home", href: ROUTES.home }, { label: "Services" }]}
+      eyebrow="Services"
+      title="Three Ways to Work Together"
+      intro="Remote BIM/CAD production, architectural visualization and architect-consultant advice — each billed separately, each at one rate worldwide, each delivered by a principal architect rather than a production queue."
+    />
 
-  const engagementModels: EngagementModel[] = [
-    {
-      title: "Per-Project / Turnkey Fixed Price",
-      bestFor: "Developers & Builders",
-      description: "A single guaranteed fixed fee for the entire drawing set from schematic draft to final permit approval.",
-      features: [
-        "Fixed milestone-based pricing",
-        "Includes 2 rounds of plan-check revisions",
-        "Full native BIM, .DWG & Vector PDFs",
-        "Guaranteed completion date",
-      ],
-      cta: "Calculate Project Fee",
-    },
-    {
-      title: "Dedicated Monthly Remote Partner",
-      bestFor: "Architectural Studios & Engineering Firms",
-      description: "White-label drafting and BIM extension of your in-house team. Offload production backlog without hiring lag.",
-      features: [
-        "Dedicated weekly drafting bandwidth (20-40 hrs/wk)",
-        "Use your studio's custom BIM templates & families",
-        "Direct Slack / Teams communication",
-        "Priority 24-hour turnaround queue",
-      ],
-      cta: "Inquire for Retainer",
-      featured: true,
-    },
-  ];
-
-  const services: ServiceCard[] = [
-    {
-      icon: Layers,
-      title: "BIM / CAD Drafting & Construction Documentation",
-      description:
-        "3D BIM modeling (LOD 100–400), parametric coordination, and full municipal permit drawing sets across IBC / IRC / CBC jurisdictions.",
-      href: `${base}services/bim-cad-drafting/`,
-      cta: "View Service Details",
-    },
-    {
-      icon: ImageIcon,
-      title: "Architectural Visualization",
-      description:
-        "Photorealistic interior and exterior renders in V-Ray, Lumion, and Twinmotion 4K — built from an existing model, CAD drawings, or sketches.",
-      href: `${base}services/visualization/`,
-      cta: "View Service Details",
-    },
-    {
-      icon: UserCheck,
-      title: "Architect Consultant",
-      description:
-        "Design coordination, code-compliance review, and computational/parametric consulting for studios and contractors who need a second set of expert eyes.",
-      href: `${base}services/consultancy/`,
-      cta: "View Service Details",
-    },
-  ];
-
-  return (
-    <main className="flex-1">
-      {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <nav className="flex items-center space-x-2 text-xs text-neutral-500 font-mono" aria-label="Breadcrumb">
-          <a href={base} className="hover:text-neutral-300 transition-colors">Home</a>
-          <span>/</span>
-          <span className="text-neutral-300">Services</span>
-        </nav>
+    <Container className="pb-20">
+      <h2 className="sr-only">The three services</h2>
+      <div className="grid grid-cols-1 gap-x-10 gap-y-14 md:grid-cols-3">
+        {SERVICES.map((service) => (
+          <a key={service.href} href={service.href} className="group flex flex-col text-center">
+            <div className={`aspect-[4/3] overflow-hidden rounded-sm ${service.drawing ? "bg-white p-3" : "bg-neutral-900"}`}>
+              <img
+                src={assetUrl(`/portfolio/thumbs/${service.image}`)}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className={`h-full w-full transition-transform duration-500 group-hover:scale-[1.02] ${service.drawing ? "object-contain" : "object-cover"}`}
+              />
+            </div>
+            <h3 className="heading-3 mt-6 text-neutral-100 transition-colors group-hover:text-amber-300">{service.title}</h3>
+            <p className="mt-3 flex-1 text-small text-neutral-400">{service.description}</p>
+            <span className="mt-5 text-small font-semibold text-amber-400 group-hover:text-amber-300">View the service →</span>
+          </a>
+        ))}
       </div>
+    </Container>
 
-      {/* Hero */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-14">
-        <span className="text-[11px] font-mono text-amber-400/90 tracking-widest uppercase">
-          Services
-        </span>
-        <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-100 tracking-tight leading-[1.08] mt-3">
-          Three Ways to Work Together
-        </h1>
-        <p className="mt-6 text-base sm:text-lg text-neutral-400 leading-relaxed max-w-2xl font-light">
-          Remote BIM/CAD production, architectural visualization, and architect-consultant
-          coordination — each billed separately, each at a flat worldwide rate, each delivered by
-          a principal architect rather than a production queue.
-        </p>
-      </section>
-
-      {/* Service cards */}
-      <section className="pb-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {services.map((service) => {
-            const Icon = service.icon;
-            return (
-              <a
-                key={service.title}
-                href={service.href}
-                className="group p-6 rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-neutral-700 transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-4">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h2 className="text-base font-bold text-neutral-100">
-                    {service.title}
-                  </h2>
-                  <p className="text-xs text-neutral-400 mt-2 leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
-                <div className="mt-6 flex items-center space-x-1.5 text-xs font-semibold text-amber-400 group-hover:text-amber-300 transition-colors">
-                  <span>{service.cta}</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </a>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Engagement models: fixed-price vs. dedicated retainer */}
-      <section className="py-16 border-t border-neutral-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <span className="text-[11px] font-mono text-amber-400/90 tracking-widest uppercase">
-              How You Engage
-            </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-neutral-100 tracking-tight mt-2">
-              Fixed Price or Dedicated Retainer
-            </h2>
-            <p className="mt-3 text-sm text-neutral-400 leading-relaxed max-w-xl mx-auto">
-              Choose the delivery model that aligns with your project schedule and office
-              workload — both apply across BIM/CAD, visualization, and consultancy.
+    <Section raised>
+      <Container>
+        <SectionHeader
+          eyebrow="How you engage"
+          title="Fixed price or dedicated retainer"
+          intro="Choose the model that fits your schedule and your office's workload — both apply across BIM/CAD, visualization and consultancy."
+        />
+        <div className="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-12 md:grid-cols-2">
+          <div className="flex flex-col border-t border-neutral-700 pt-6">
+            <p className="eyebrow text-neutral-500">For developers & builders</p>
+            <h3 className="heading-3 mt-2 text-neutral-100">Per project, fixed price</h3>
+            <p className="mt-3 text-small text-neutral-400">
+              One fixed fee for the whole drawing set, from the schematic draft to the final permit approval.
             </p>
+            <ItemList
+              className="mt-6 flex-1" size="small"
+              items={[
+                "Milestone-based payments",
+                "Two rounds of plan-check revisions included",
+                "Native BIM, DWG and vector PDF",
+                "An agreed completion date",
+              ]}
+            />
+            <div className="mt-8">
+              <Button href={ROUTES.scopeEstimator}>Start a Project</Button>
+            </div>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {engagementModels.map((model) => (
-              <div
-                key={model.title}
-                className={`p-6 sm:p-8 rounded-2xl border flex flex-col justify-between transition-all ${
-                  model.featured
-                    ? "bg-neutral-900 border-amber-500/60 ring-1 ring-amber-500/20"
-                    : "bg-neutral-900/60 border-neutral-800 hover:border-neutral-700"
-                }`}
+          <div className="flex flex-col border-t border-neutral-700 pt-6">
+            <p className="eyebrow text-neutral-500">For architecture & engineering firms</p>
+            <h3 className="heading-3 mt-2 text-neutral-100">Dedicated monthly partner</h3>
+            <p className="mt-3 text-small text-neutral-400">
+              White-label drafting and BIM as an extension of your team — clear the production backlog without the
+              hiring lag.
+            </p>
+            <ItemList
+              className="mt-6 flex-1" size="small"
+              items={[
+                "Dedicated weekly capacity (20–40 hours a week)",
+                "Your studio's own templates and families",
+                "Direct Slack or Teams communication",
+                "A priority 24-hour turnaround queue",
+              ]}
+            />
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button
+                variant="secondary"
+                icon={MessageSquare}
+                href={whatsappHref(specialist, `Hi ${specialist.name.split(" ")[0]}, I'd like to discuss a monthly retainer for my firm.`)}
+                external
               >
-                <div>
-                  <span className="text-[11px] font-mono text-amber-400 font-semibold uppercase">
-                    {model.bestFor}
-                  </span>
-                  <h3 className="text-xl font-bold text-neutral-100 mt-1">
-                    {model.title}
-                  </h3>
-                  <p className="text-xs text-neutral-400 mt-2 leading-relaxed">
-                    {model.description}
-                  </p>
-
-                  <div className="mt-6 pt-5 border-t border-neutral-800/80 space-y-2.5">
-                    {model.features.map((feat) => (
-                      <div key={feat} className="flex items-center space-x-2 text-xs text-neutral-300">
-                        <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
-                        <span>{feat}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-4">
-                  <a
-                    href={`${base}#estimator`}
-                    className={`w-full py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition-all cursor-pointer ${
-                      model.featured
-                        ? "bg-amber-500 hover:bg-amber-400 text-neutral-950"
-                        : "bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-neutral-700"
-                    }`}
-                  >
-                    <span>{model.cta}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              </div>
-            ))}
+                WhatsApp
+              </Button>
+              <Button variant="secondary" icon={Mail} href={mailtoHref(specialist.email, "Retainer inquiry")}>
+                Email
+              </Button>
+            </div>
           </div>
         </div>
-      </section>
+      </Container>
+    </Section>
 
-      {/* CTA */}
-      <section className="py-16 border-t border-neutral-900">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-neutral-100 tracking-tight">
-            Not Sure Which Track Fits Your Project?
-          </h2>
-          <p className="mt-3 text-sm text-neutral-400">
-            The Scope Estimator walks through your project type and area, then recommends a track.
-          </p>
-          <div className="mt-8">
-            <a
-              href={`${base}#estimator`}
-              className="inline-flex items-center space-x-2 text-sm font-bold text-neutral-950 bg-amber-400 hover:bg-amber-300 px-6 py-3.5 rounded transition-all cursor-pointer shadow-md shadow-amber-500/20"
-            >
-              <span>Open Scope Estimator</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
-};
+    <Section>
+      <Container>
+        <SectionHeader
+          title="Not sure which service fits?"
+          intro="The estimator covers all three — pick a tab, describe the project, and send the scope straight over."
+        >
+          <Button href={ROUTES.scopeEstimator}>Start a Project</Button>
+        </SectionHeader>
+      </Container>
+    </Section>
+  </main>
+);
