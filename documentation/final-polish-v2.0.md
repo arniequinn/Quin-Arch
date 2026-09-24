@@ -4,23 +4,23 @@
 22:31–23:23), plus the six changes the owner asked for directly on 2026-09-24. Each item was
 checked against the live site and the code.
 
-**Status:** Built in the working tree on 2026-09-24 (not committed or deployed). See
-[§0](#0-build-status-2026-09-24) for what was built, how it was verified, and what still needs the
-owner before it goes live.
+**Status:** Built on 2026-09-24 and deployed to `quinarch.design` on 2026-09-25 (commits `fbb8c9e`
+SEO pass, `818b83e` v2.0). See [§0](#0-build-status-2026-09-24) for what was built, how it was
+verified, and what still needs the owner.
 
 **What "v2.0" means:**
 - The site moved from `arniequinn.github.io/Quin-Arch` to its own domain, `quinarch.design`,
   on 2026-09-24.
 - v2.0 is the pass that makes it feel finished there: everything below, plus deploying the SEO
   pass (build-time prerendering, structured data, GA4 events).
-- The SEO pass already exists in the working tree but is not deployed yet.
+- The SEO pass was deployed together with v2.0 (commit `fbb8c9e`).
 
 **How this was verified:**
 - **Live site:** `https://quinarch.design` at commit `d1668f5`, 2026-09-24.
 - **Browser:** the built-in browser, at emulated viewports of 360×780, 1280×800 and 1440×900.
 - **Measurements:** made by script in the page (element positions, font census, frame timing),
   not by eye.
-- **Line references:** point at the current working tree, which includes the uncommitted SEO pass.
+- **Line references:** point at the code as built, which includes the SEO pass.
 
 **Format:** every item has four parts:
 - **What it says.** The request or review point, quoted. For review points 1–22 the heading
@@ -35,8 +35,9 @@ Points that repeat an owner request (4 and 6) point to that request instead of r
 
 ## 0. Build status (2026-09-24)
 
-Every item in §3–§5 is built in the working tree, on top of the uncommitted SEO pass. Nothing is
-committed or deployed.
+Every item in §3–§5 is built and live on `quinarch.design` since 2026-09-25: the SEO pass as commit
+`fbb8c9e`, v2.0 as `818b83e`. Items that need the owner are either shown as they stand or, for the
+"Not included" lists, hidden in production until signed off.
 
 ### What the owner still has to decide or supply
 
@@ -58,6 +59,9 @@ committed or deployed.
   the exact text.
 - **BIM chapter images:** `portfolio/drawings/` turned out to hold free-hand figure drawings, not
   sheets, so the BIM card uses sheets rendered from the project PDFs instead.
+- **"Why work with us" chapter images (owner, 2026-09-25):** the inverted barn wireframe is replaced
+  by the barndominium interior render, taken at full resolution from `docs/Barndominium.pdf`
+  (sheet A.01.3). The wireframe stays in the Design Philosophy before/after slider.
 - **Workflow images (point 13):** `01`, `02` and `05` are split into single panes, with the AI chat
   panel left out of `02`. `05` is split from `screenshots/6.JPG`, a sharper original. `1.JPG` and
   `5.JPG` were put to use as panes, and the five originals were removed. `06-teen-bedroom.jpg` stays in
