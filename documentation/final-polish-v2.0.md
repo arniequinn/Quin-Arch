@@ -62,6 +62,8 @@ Every item in §3–§5 is built and live on `quinarch.design` since 2026-09-25:
 - **"Why work with us" chapter images (owner, 2026-09-25):** the inverted barn wireframe is replaced
   by the barndominium interior render, taken at full resolution from `docs/Barndominium.pdf`
   (sheet A.01.3). The wireframe stays in the Design Philosophy before/after slider.
+- **Free-hand drawings (owner, 2026-09-25):** the "View the free-hand drawings" reveal on Design
+  Philosophy is removed, and `public/portfolio/drawings/` is no longer published. Don't re-add either.
 - **Workflow images (point 13):** `01`, `02` and `05` are split into single panes, with the AI chat
   panel left out of `02`. `05` is split from `screenshots/6.JPG`, a sharper original. `1.JPG` and
   `5.JPG` were put to use as panes, and the five originals were removed. `06-teen-bedroom.jpg` stays in

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import React from "react";
 import { Container } from "../components/Container";
 import { SectionHeader } from "../components/SectionHeader";
 import { Section } from "../components/PageSections";
@@ -33,8 +32,6 @@ const MEET_IMAGES = {
   sofa: { file: "parametric-furniture/2.png", width: 2530, height: 1536, caption: "Ribbed seating — structure and comfort resolved as one form." },
 };
 
-const DRAWINGS = [1, 2, 3, 4, 5, 6].map((n) => `drawings/${n}.jpg`);
-
 // Images are shown whole, at their own proportions.
 const Figure: React.FC<{ file: string; width: number; height: number; caption: string; className?: string }> = ({
   file,
@@ -58,8 +55,6 @@ const Figure: React.FC<{ file: string; width: number; height: number; caption: s
 );
 
 export const DesignPhilosophyPage: React.FC<DesignPhilosophyPageProps> = ({ specialist }) => {
-  const [showDrawings, setShowDrawings] = useState(false);
-
   return (
     <main className="flex-1">
       {/* 1. The one-line statement, alone */}
@@ -129,37 +124,7 @@ export const DesignPhilosophyPage: React.FC<DesignPhilosophyPageProps> = ({ spec
       {/* 4. The practice note: render and wireframe of one building */}
       <PracticeNote />
 
-      {/* 5. Free-hand drawings — hidden by default */}
-      <Section tight>
-        <Container>
-          <div className="flex justify-center">
-            <button
-              type="button"
-              onClick={() => setShowDrawings((v) => !v)}
-              aria-expanded={showDrawings}
-              className="flex cursor-pointer items-center gap-2 text-small text-neutral-300 transition-colors hover:text-neutral-100"
-            >
-              <span>{showDrawings ? "Hide" : "View"} the free-hand drawings behind the parametric work</span>
-              <ChevronDown className={`h-4 w-4 transition-transform ${showDrawings ? "rotate-180" : ""}`} />
-            </button>
-          </div>
-          {showDrawings && (
-            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {DRAWINGS.map((file) => (
-                <img
-                  key={file}
-                  src={assetUrl(`/portfolio/${file}`)}
-                  alt="Free-hand figure drawing"
-                  loading="lazy"
-                  className="aspect-[4/3] w-full rounded-sm bg-neutral-900 object-cover"
-                />
-              ))}
-            </div>
-          )}
-        </Container>
-      </Section>
-
-      {/* 6. The paragraph — after the proof */}
+      {/* 5. The paragraph — after the proof */}
       <Section>
         <Container width="text">
           <Reveal>

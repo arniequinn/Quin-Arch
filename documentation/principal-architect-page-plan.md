@@ -45,7 +45,7 @@ The motivation letters are argumentative and personal — right for a grad-schoo
     - **Data & logic side** — BIM schedules, environmental/wind analysis, Grasshopper scripting screenshots (already in `bimcad-workflow/`). Caption: what problem the data solved.
     - **Intuition & emotion side** — 1–2 finished interior renders. Caption: what the space needed to *feel* like.
 4. **Where they meet** — the parametric furniture pieces (`parametric-furniture/`, including the wood-slat wall panel) as the literal proof object: a form driven by a script, but the result is sculptural, tactile, emotional. This is the single strongest visual argument on the page — it's the philosophy made physical, at a small enough scale to look at in one glance instead of reading a paragraph about a building.
-5. **Free-hand drawings (hidden by default)** — a "click to view" reveal or a separate link, not inline on the main page. Keeps the page fast to skim while still letting an interested client see the hand-drawing skill behind the parametric work.
+5. ~~**Free-hand drawings (hidden by default)**~~ — **removed from the site on 2026-09-25 at the owner's request. Don't re-add them in any form.**
 6. **The one paragraph** — placed after the proof, not before it, so a reader who wants the full argument gets it once they've already seen it demonstrated.
 
 ## Visual evidence already on hand
@@ -55,7 +55,7 @@ The motivation letters are argumentative and personal — right for a grad-schoo
 | Wood-slat parametric wall panel | `parametric-furniture/1.webp` | Logic (script-driven wave form) producing an emotional, tactile object — the clearest single image for this page |
 | 2 more parametric furniture pieces | `parametric-furniture/0.png`, `2.png` | Same argument, more examples |
 | Window schedules, structural calc, wind/solar analysis, Grasshopper scripts | `bimcad-workflow/` | Data & logic side |
-| Free-hand figure drawings | Portfolio PDF p.3–5 (not yet extracted as standalone image files) | Hidden/click-to-view section, not inline — worth pulling these out of the PDF as individual images if this page gets built |
+| Free-hand figure drawings | Portfolio PDF p.3–5 | Not used: removed on 2026-09-25 at the owner's request |
 | Finished interior/exterior renders | `visualization-showcase/`, `exterior-showcase/` | Where logic and feeling resolve into a finished space |
 
 Only the free-hand drawings need new work (extracting them from the portfolio PDF as standalone files). The parametric furniture set is 3 pieces total for now — that's all the work in that vein so far, so the "where they meet" section is sized to 3 images, not designed to expect more.
@@ -64,7 +64,7 @@ Only the free-hand drawings need new work (extracting them from the portfolio PD
 
 - [x] Route — `/design-philosophy`
 - [x] Motivation letters — not linked anywhere on the site, PDF or otherwise; used only as source material for this plan
-- [x] Free-hand drawings — included, but hidden by default / click-to-view, not inline in the main proof section
+- [x] Free-hand drawings — removed from the site on 2026-09-25 at the owner's request (the reveal button and the images). Don't re-add them in any form.
 - [x] Parametric furniture — 3 pieces is the full current set; section is sized for 3, not built expecting more
 
 ## Status
