@@ -1,5 +1,5 @@
 import React from "react";
-import { Eye, FileCheck2, MessageSquare, Ruler, UserCheck } from "lucide-react";
+import { Eye, FileCheck2, Ruler, UserCheck } from "lucide-react";
 import { Container } from "../components/Container";
 import { PageHeader, SectionHeader } from "../components/SectionHeader";
 import { FeatureGrid } from "../components/FeatureGrid";
@@ -7,8 +7,10 @@ import { Section } from "../components/PageSections";
 import { Reveal } from "../components/Reveal";
 import { Button } from "../components/Button";
 import { WorkflowsSection } from "../components/WorkflowsSection";
+import { GallerySection } from "../components/gallery/GallerySection";
+import { galleryImage } from "../data/galleryProjects";
 import { ROUTES } from "../data/routes";
-import { whatsappHref } from "../services/contact";
+import { TESTIMONIALS, testimonialCredit } from "../data/testimonials";
 import { SpecialistProfile } from "../types";
 
 interface WhyWorkWithUsPageProps {
@@ -36,6 +38,14 @@ const HOMEOWNER_POINTS = [
     title: "A clear scope before you commit",
     body: "The Scope Estimator shows what's included and what it costs before anything starts. One rate for every client, anywhere in the world.",
   },
+];
+
+// H1 (v3.0 §11): the homeowner case, shown — a furnished plan, the room it becomes, and a sheet
+// from a permit set.
+const HOMEOWNER_IMAGES = [
+  galleryImage("sheets/01-three-bed-apartment-furnished-plan.webp", "Furnished plan", { title: "Three-bed apartment — furnished plan" }),
+  galleryImage("visualization-showcase/singles/01-three-bed-apartment-living-room.webp", "The living room it becomes"),
+  galleryImage("sheets/beach-house-first-level-plan.webp", "Permit set — first-level plan", { title: "Texas beach house" }),
 ];
 
 // Point 11: every section header centered, both feature grids in the same container.
@@ -71,16 +81,8 @@ export const WhyWorkWithUsPage: React.FC<WhyWorkWithUsPageProps> = ({ specialist
         <div className="mt-14">
           <FeatureGrid features={HOMEOWNER_POINTS} />
         </div>
-        <div className="mt-14 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-          <Button href={ROUTES.scopeEstimator}>Start a Project</Button>
-          <Button
-            variant="secondary"
-            icon={MessageSquare}
-            href={whatsappHref(specialist, `Hi ${specialist.name.split(" ")[0]}, I'm planning a project and would like to talk it through.`)}
-            external
-          >
-            WhatsApp
-          </Button>
+        <GallerySection className="mt-14" items={HOMEOWNER_IMAGES} />
+        <div className="mt-14 flex justify-center">
           <Button href={ROUTES.designPhilosophy} variant="link">
             Design Philosophy
           </Button>
@@ -89,5 +91,21 @@ export const WhyWorkWithUsPage: React.FC<WhyWorkWithUsPageProps> = ({ specialist
     </Section>
 
     <WorkflowsSection />
+    {/* v3.0 §9: the page ends in clients' own words — text, never screenshots or star ratings. */}
+    <Section>
+      <Container>
+        <SectionHeader eyebrow="What clients say" title="In their words" />
+        <ul className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-3">
+          {[TESTIMONIALS.q2, TESTIMONIALS.q1, TESTIMONIALS.q3].map((t) => (
+            <li key={t.id}>
+              <figure className="border-l-2 border-amber-400/70 pl-5">
+                <blockquote className="font-display text-[1.25rem] leading-snug text-neutral-200">“{t.quote}”</blockquote>
+                <figcaption className="mt-4 text-label text-neutral-500">{testimonialCredit(t)}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </Section>
   </main>
 );

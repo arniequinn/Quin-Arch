@@ -1,11 +1,9 @@
 import React from "react";
 import { Container } from "../components/Container";
 import { SectionHeader } from "../components/SectionHeader";
-import { Section } from "../components/PageSections";
+import { Section, ServicesLink } from "../components/PageSections";
 import { PracticeNote } from "../components/PracticeNote";
 import { Reveal } from "../components/Reveal";
-import { Button } from "../components/Button";
-import { ROUTES } from "../data/routes";
 import { SpecialistProfile } from "../types";
 import { assetUrl } from "../utils/assetPath";
 
@@ -123,7 +121,6 @@ export const DesignPhilosophyPage: React.FC<DesignPhilosophyPageProps> = ({ spec
 
       {/* 4. The practice note: render and wireframe of one building */}
       <PracticeNote />
-
       {/* 5. The paragraph — after the proof */}
       <Section>
         <Container width="text">
@@ -134,12 +131,7 @@ export const DesignPhilosophyPage: React.FC<DesignPhilosophyPageProps> = ({ spec
               feel like somewhere a person wants to be. Quintessential architecture is what happens when both
               disciplines solve the same basic human problem together: shelter, light, comfort, calm.
             </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <Button href={ROUTES.scopeEstimator}>Start a Project</Button>
-              <Button href={ROUTES.services} variant="secondary">
-                View Services
-              </Button>
-            </div>
+            <ServicesLink className="mt-10" />
           </Reveal>
         </Container>
       </Section>

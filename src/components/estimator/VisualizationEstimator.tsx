@@ -190,7 +190,7 @@ export const VisualizationEstimator: React.FC<VisualizationEstimatorProps> = ({
       </div>
 
       <aside className="lg:col-span-5 xl:col-span-4">
-        <div className="lg:sticky lg:top-24">
+        <div className="lg:sticky lg:top-[var(--sticky-top,6rem)]">
           <ResultPanel
             service="visualization"
             specialist={specialist}

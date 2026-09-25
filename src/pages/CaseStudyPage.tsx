@@ -59,7 +59,7 @@ export const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ sample, specialist
           {sample.clientReview && (
             <blockquote className="mt-12 border-l-2 border-amber-400/70 pl-5">
               <p className="font-display text-[1.5rem] leading-snug text-neutral-200">“{sample.clientReview.quote}”</p>
-              <p className="mt-3 text-label text-neutral-500">Client review, via {sample.clientReview.platform}</p>
+              <p className="mt-3 text-label text-neutral-500">Client review</p>
             </blockquote>
           )}
         </Container>
@@ -80,19 +80,12 @@ export const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ sample, specialist
         </Section>
       )}
 
-      <ContactSection
-        specialist={specialist}
-        service="bim"
-        title="Have a similar project in mind?"
-        inquiry={`Hi ${specialist.name.split(" ")[0]}, I read the "${sample.title}" case study and would like to discuss a similar project.`}
-        emailSubject={`Re: ${sample.title} — similar project`}
-      />
-
-      <div className="flex justify-center pb-20">
+      <div className="flex justify-center pt-16">
         <Button href={ROUTES.caseStudies} variant="link">
           All case studies
         </Button>
       </div>
+      <ContactSection service="bim" title="Have a similar project in mind?" />
     </main>
   );
 };

@@ -180,15 +180,21 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
 
       {/* Dots on phones only, where there's no room to hover for the arrows. */}
       {images.length > 1 && (
-        <div className="mt-4 flex flex-wrap justify-center gap-1.5 sm:hidden">
+        <div className="mt-2 flex flex-wrap justify-center sm:hidden">
           {images.map((img, idx) => (
+            // Each dot sits in a 24 px tall, padded button so it's big enough to tap.
             <button
               key={img.src}
               type="button"
               onClick={() => goTo(idx)}
               aria-label={`Image ${idx + 1} of ${images.length}`}
-              className={`h-1.5 cursor-pointer rounded-full transition-all ${idx === activeIndex ? "w-6 bg-amber-400" : "w-1.5 bg-neutral-600"}`}
-            />
+              aria-current={idx === activeIndex ? "true" : undefined}
+              className="flex h-6 cursor-pointer items-center px-[5px]"
+            >
+              <span
+                className={`h-1.5 rounded-full transition-all ${idx === activeIndex ? "w-6 bg-amber-400" : "w-1.5 bg-neutral-600"}`}
+              />
+            </button>
           ))}
         </div>
       )}

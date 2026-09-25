@@ -25,6 +25,8 @@ interface FilmstripMaskProps {
   paused?: boolean;
   /** Promote to its own compositor layer (only while the sequence is on screen). */
   willChange?: boolean;
+  /** The strip's gutter between images (ScrollFilmstrip's default when left out). */
+  gapClassName?: string;
   className?: string;
 }
 
@@ -43,6 +45,7 @@ export const FilmstripMask: React.FC<FilmstripMaskProps> = ({
   angledEdge = "none",
   paused,
   willChange = false,
+  gapClassName,
   className = "",
 }) => {
   // The track stays centred on the window: its top sits half the unused height above it.
@@ -68,6 +71,7 @@ export const FilmstripMask: React.FC<FilmstripMaskProps> = ({
         speedPx={speedPx}
         paused={paused}
         trackHeight={trackHeight}
+        gapClassName={gapClassName}
       />
     </motion.div>
   );

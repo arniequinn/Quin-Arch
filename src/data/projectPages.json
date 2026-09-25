@@ -1,0 +1,100 @@
+[
+  {
+    "slug": "dark-living-room",
+    "title": "Dark Living Room",
+    "kind": "Interior visualization",
+    "summary": "A dark, warm living room — and each piece that furnishes it, shown on its own.",
+    "cover": "visualization-showcase/02-dark-living-room.jpg"
+  },
+  {
+    "slug": "bright-loft",
+    "title": "Bright Loft",
+    "kind": "Interior visualization",
+    "summary": "The same idea in daylight: a corner sofa, a wave chair and a dining set in an open loft.",
+    "cover": "visualization-showcase/03-bright-loft.jpg"
+  },
+  {
+    "slug": "classical-apartment",
+    "title": "Classical Apartment",
+    "kind": "Interior visualization",
+    "summary": "A whole apartment in a classical register — bedrooms, living, dining and study — and the nine pieces in it.",
+    "cover": "visualization-showcase/01-home-office.webp"
+  },
+  {
+    "slug": "grey-residence",
+    "title": "Grey Residence",
+    "kind": "Interior visualization",
+    "summary": "A grey neoclassical living and dining suite, close up: velvet, marble, bouclé and fireplace detailing.",
+    "cover": "visualization-showcase/s4-grey-neoclassical/08-living-room.webp"
+  },
+  {
+    "slug": "sand-living-room",
+    "title": "Sand Living Room",
+    "kind": "Interior visualization",
+    "summary": "A warm-neutral scheme, from the wide shot to the vignette.",
+    "cover": "visualization-showcase/sand-living-room/03-sand-living-room.webp"
+  },
+  {
+    "slug": "tyler-home",
+    "title": "Tyler Home",
+    "kind": "Interior visualization",
+    "summary": "A library with a spiral stair, a black feature wall and a sunken fire-pit lounge.",
+    "cover": "visualization-showcase/08-spiral-stair-library.webp"
+  },
+  {
+    "slug": "arched-living-room",
+    "title": "Arched Living Room",
+    "kind": "Interior visualization",
+    "summary": "One arched living room, seen from three angles.",
+    "cover": "visualization-showcase/arched-living-room/02-arched-living-room.webp"
+  },
+  {
+    "slug": "kids-room",
+    "title": "Kids Room",
+    "kind": "Interior design and drawings",
+    "summary": "Render, model and drafting together: the room as rendered, the whole layout at once, and the elevations drawn for the joiner.",
+    "cover": "sheets/02-kids-room-elevation-a.webp"
+  },
+  {
+    "slug": "master-bathroom",
+    "title": "Master Bathroom",
+    "kind": "Interior visualization",
+    "summary": "The whole layout at a glance, then the finished views.",
+    "cover": "visualization-showcase/master-bathroom/01-isometric-view.webp"
+  },
+  {
+    "slug": "apartment-interiors",
+    "title": "Apartment Interiors",
+    "kind": "Interior visualization",
+    "summary": "Built-in joinery, ceilings, TV walls and a dressing niche, across one apartment.",
+    "cover": "visualization-showcase/apartment-interiors/05-living-and-dining.webp"
+  },
+  {
+    "slug": "furniture",
+    "title": "Furniture & Virtual Staging",
+    "kind": "Furniture collection",
+    "summary": "A large library of industry-standard, manufacturer-specified furniture, placed into your design with a designer's eye.",
+    "cover": "furniture-showcase/1-chairs/03-wave-lounge-chair-burgundy-velvet.webp"
+  },
+  {
+    "slug": "serene-suites",
+    "title": "Serene Suites, Lahore",
+    "kind": "Built project",
+    "summary": "A built project, from plan to finished rooms: living, bedroom, kitchen and bathroom.",
+    "cover": "visualization-showcase/serene-suites/01-living-room.webp"
+  },
+  {
+    "slug": "vip-lounge-dubai",
+    "title": "VIP Lounge, Dubai",
+    "kind": "Space planning and interiors",
+    "summary": "Space planning to a brief — and the judgment call on occupancy.",
+    "cover": "visualization-showcase/vip-lounge-dubai/01-main-suite.webp"
+  },
+  {
+    "slug": "barndo-florida",
+    "title": "Barndo, Florida",
+    "kind": "Residential design and documentation",
+    "summary": "Environmental analysis driving the form, then the drawings a steel-frame fabricator builds from.",
+    "cover": "exterior-showcase/barndo-florida/01-exterior-at-dusk.webp"
+  }
+]

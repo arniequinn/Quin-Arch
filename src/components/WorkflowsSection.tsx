@@ -5,6 +5,8 @@ import { SectionHeader } from "./SectionHeader";
 import { FeatureGrid } from "./FeatureGrid";
 import { Section } from "./PageSections";
 import { Button } from "./Button";
+import { GallerySection } from "./gallery/GallerySection";
+import { galleryImage } from "../data/galleryProjects";
 import { ROUTES } from "../data/routes";
 
 const BENEFITS = [
@@ -30,6 +32,14 @@ const BENEFITS = [
   },
 ];
 
+// H1 (v3.0 §11): the firm's case, shown — a sheet from a production set, the model behind a
+// tower, and a section with its quantity takeoff.
+const PRODUCTION_IMAGES = [
+  galleryImage("sheets/slamburger-a01-floor-plans.webp", "Production set — floor plans", { title: "Slamburger restaurant" }),
+  galleryImage("bimcad-workflow/05a-structural-model.webp", "BIM model — structure of a residential tower", { title: "Structural model" }),
+  galleryImage("sheets/flats-section-quantities.webp", "Building section with its quantity takeoff", { title: "Urban flats" }),
+];
+
 // The case for firms and contractors, on the Why Work With Us page.
 export const WorkflowsSection: React.FC = () => (
   <Section id="firms" raised>
@@ -42,6 +52,7 @@ export const WorkflowsSection: React.FC = () => (
       <div className="mt-14">
         <FeatureGrid features={BENEFITS} />
       </div>
+      <GallerySection className="mt-14" items={PRODUCTION_IMAGES} />
       <div className="mt-14 flex justify-center">
         <Button href={ROUTES.services} variant="link">
           Fixed-price and retainer options

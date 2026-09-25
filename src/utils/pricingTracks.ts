@@ -17,17 +17,31 @@ function marketRates(targetMarketId: string) {
 }
 
 export interface ConsultingFeeResult {
+  /** Minutes charged after the unbilled orientation time. */
+  billedMinutes: number;
   offeredFee: number;
   marketFee: number;
   marketHourly: number;
 }
 
-export function calculateConsultingFee(hours: number, targetMarketId: string): ConsultingFeeResult {
-  const safeHours = Math.max(1, hours || 0);
+/** The first half hour of a consultation — reading the brief, getting oriented in the drawings —
+ *  isn't billed (v3.0 D8). The page says "30–45 minutes"; the estimate deducts 30, so it never
+ *  comes in under the final bill. */
+export const CONSULTING_UNBILLED_MINUTES = 30;
+export const CONSULTING_STEP_MINUTES = 15;
+export const CONSULTING_MIN_MINUTES = 30;
+export const CONSULTING_MAX_MINUTES = 300;
+
+// fee = max(0, minutes − 30) / 60 × $45. The market comparison bills the full duration, since
+// other consultants charge from the first minute. Kept in minutes and cents, so nothing rounds.
+export function calculateConsultingFee(minutes: number, targetMarketId: string): ConsultingFeeResult {
+  const safeMinutes = Math.max(0, minutes || 0);
+  const billedMinutes = Math.max(0, safeMinutes - CONSULTING_UNBILLED_MINUTES);
   const market = marketRates(targetMarketId);
   return {
-    offeredFee: Math.round(safeHours * OFFERED_RATES.consultantHourly),
-    marketFee: Math.round(safeHours * market.consultantHourly),
+    billedMinutes,
+    offeredFee: (billedMinutes / 60) * OFFERED_RATES.consultantHourly,
+    marketFee: (safeMinutes / 60) * market.consultantHourly,
     marketHourly: market.consultantHourly,
   };
 }

@@ -33,3 +33,6 @@ export const CASE_STUDY_SLUGS: Record<string, string> = {
 };
 
 export const caseStudyHref = (sampleId: string) => `${ROUTES.caseStudies}${CASE_STUDY_SLUGS[sampleId]}/`;
+
+/** A gallery project's own page (v3.0 §7), e.g. /projects/kids-room/. */
+export const projectHref = (slug: string) => `${ROUTES.projects}${slug}/`;

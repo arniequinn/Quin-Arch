@@ -44,7 +44,9 @@ const VARIANTS: Record<ButtonVariant, string> = {
   primary: "rounded bg-amber-400 text-neutral-950 hover:bg-amber-300",
   // A translucent dark fill, so the same button reads on the page, over video and over images.
   secondary: "rounded border border-neutral-600 bg-neutral-950/60 text-neutral-100 backdrop-blur-sm hover:border-neutral-300 hover:bg-neutral-900",
-  link: "text-amber-400 hover:text-amber-300",
+  // An invisible 12 px strip above and below the text makes the tap target ~44 px tall on
+  // phones without moving anything (v3.0 phase 9 phone check).
+  link: "relative text-amber-400 hover:text-amber-300 after:absolute after:inset-x-0 after:-inset-y-3",
 };
 
 const BOX_SIZES: Record<ButtonSize, string> = {

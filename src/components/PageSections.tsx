@@ -1,13 +1,11 @@
 import React from "react";
-import { Check, Mail, MessageSquare, Minus } from "lucide-react";
+import { Check, Minus } from "lucide-react";
 import { Container } from "./Container";
 import { SectionHeader } from "./SectionHeader";
 import { Button } from "./Button";
-import { SpecialistProfile } from "../types";
-import { EstimatorService, estimatorHref } from "../data/routes";
+import { EstimatorService, estimatorHref, ROUTES } from "../data/routes";
 import { EXCLUSIONS } from "../data/exclusions";
 import { showDraft } from "../data/ownerSignoff";
-import { mailtoHref, whatsappHref } from "../services/contact";
 
 // Building blocks shared by the service, library and editorial pages, so every page follows the
 // same rules (R6 of documentation/final-polish-v2.0.md): centered section headers, body text
@@ -91,25 +89,27 @@ export const NotIncludedSection: React.FC<{ service: EstimatorService; raised?: 
     </Section>
   ) : null;
 
-/** The closing call to action: start a project, or just get in touch. */
+/** The closing call to action on every page that sells something: one action (v3.0 points 10–11).
+ *  Email and WhatsApp live in the footer's contact band, directly below. */
 export const ContactSection: React.FC<{
-  specialist: SpecialistProfile;
   title: string;
   service?: EstimatorService;
-  inquiry: string;
-  emailSubject: string;
-}> = ({ specialist, title, service, inquiry, emailSubject }) => (
-  <Section>
+  raised?: boolean;
+}> = ({ title, service, raised }) => (
+  <Section raised={raised}>
     <Container>
-      <SectionHeader title={title}>
+      <SectionHeader eyebrow="Next step" title={title}>
         <Button href={estimatorHref(service)}>Start a Project</Button>
-        <Button variant="secondary" icon={MessageSquare} href={whatsappHref(specialist, inquiry)} external>
-          WhatsApp
-        </Button>
-        <Button variant="secondary" icon={Mail} href={mailtoHref(specialist.email, emailSubject)}>
-          Email
-        </Button>
       </SectionHeader>
     </Container>
   </Section>
+);
+
+/** The quiet ending of an editorial page (LOD guide, Design Philosophy, Why work with us). */
+export const ServicesLink: React.FC<{ className?: string }> = ({ className = "" }) => (
+  <div className={`flex justify-center ${className}`}>
+    <Button href={ROUTES.services} variant="link">
+      See the services
+    </Button>
+  </div>
 );

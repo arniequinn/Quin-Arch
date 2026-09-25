@@ -4,9 +4,13 @@ import { TrackImage } from "../types";
 
 export interface ChapterImage {
   src: string;
+  /** The thumbnail plus the full image, so the tile stays sharp on dense screens. */
+  srcSet?: string;
   alt: string;
   /** Line drawings are shown whole on white paper; renders and screenshots fill their tile. */
   kind?: TrackImage["kind"];
+  /** Every tile leads to its project (v3.0 point 4). */
+  href: string;
 }
 
 interface ChapterCardProps {
@@ -20,8 +24,9 @@ interface ChapterCardProps {
 }
 
 // One homepage chapter, shown in the void between the two filmstrip ribbons (point 5): the text
-// block centered, with a row of real images from that service beneath it — three or four on
-// desktop, two in compact mode (phones, short screens). No box, no badges: one button to the
+// block centered, with a row of real images from that service beneath it — three in a 1152 px row
+// on desktop (v3.0 point 4: about 373 × 280 each), two across the full width in compact mode
+// (phones, short screens). Each tile links to its project. No box, no badges: one button to the
 // chapter's own page, and an optional text link.
 export const ChapterCard: React.FC<ChapterCardProps> = ({
   eyebrow,
@@ -32,7 +37,7 @@ export const ChapterCard: React.FC<ChapterCardProps> = ({
   secondary,
   compact = false,
 }) => {
-  const shown = images.slice(0, compact ? 2 : 4);
+  const shown = images.slice(0, compact ? 2 : 3);
 
   return (
     <section className={`relative bg-neutral-950 ${compact ? "py-2" : "py-6"}`}>
@@ -51,26 +56,28 @@ export const ChapterCard: React.FC<ChapterCardProps> = ({
           </p>
         </div>
 
-        <div
-          className={`mx-auto grid gap-3 ${compact ? "mt-4 max-w-md grid-cols-2" : "mt-7 max-w-5xl grid-cols-2 sm:gap-4 lg:grid-cols-4"} ${
-            !compact && shown.length === 3 ? "lg:max-w-4xl lg:grid-cols-3" : ""
-          }`}
-        >
-          {shown.map((image, i) => (
-            <div
+        <div className={`mx-auto grid gap-3 ${compact ? "mt-4 w-full grid-cols-2" : "mt-7 max-w-6xl grid-cols-3 sm:gap-4"}`}>
+          {shown.map((image) => (
+            <a
               key={image.src}
-              className={`aspect-[4/3] overflow-hidden rounded-sm ${
+              href={image.href}
+              aria-label={image.alt}
+              className={`group block aspect-[4/3] overflow-hidden rounded-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 ${
                 image.kind === "drawing" ? "bg-white p-2" : "bg-neutral-900"
-              } ${!compact && shown.length === 4 && i >= 2 ? "hidden lg:block" : ""}`}
+              }`}
             >
               <img
                 src={image.src}
+                srcSet={image.srcSet}
+                sizes={compact ? "50vw" : "(min-width: 1200px) 373px, 33vw"}
                 alt={image.alt}
                 loading="lazy"
                 decoding="async"
-                className={`h-full w-full ${image.kind === "drawing" ? "object-contain" : "object-cover"}`}
+                className={`h-full w-full transition-transform duration-500 group-hover:scale-[1.03] ${
+                  image.kind === "drawing" ? "object-contain" : "object-cover"
+                }`}
               />
-            </div>
+            </a>
           ))}
         </div>
 

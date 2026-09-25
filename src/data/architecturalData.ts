@@ -318,25 +318,25 @@ export const BIM_PRODUCTION_IMAGES: TrackImage[] = [
   wf("01b-elevation.webp", 432, 398, "Front elevation", "BIM model — the same tower in elevation, generated from the model"),
   wf("01c-window-schedule.webp", 728, 330, "Window schedule", "BIM model — a model-driven schedule: sizes, sill and head heights, quantities and cost"),
   wf("05a-structural-model.webp", 800, 810, "Structural model", "BIM model — the tower's structural frame: columns, slabs and core"),
-  wf("05b-slab-outlines.webp", 560, 850, "Slab outlines", "Rhino — slab outlines taken from every level of the model"),
-  wf("05c-quantity-script.webp", 960, 710, "Quantity take-off", "Grasshopper — wall and slab areas calculated straight from the model"),
+  wf("05b-slab-outlines.webp", 560, 850, "Slab outlines", "3D model — slab outlines taken from every level of the model"),
+  wf("05c-quantity-script.webp", 960, 710, "Quantity take-off", "Visual script — wall and slab areas calculated straight from the model"),
   wf("10a-barndominium-plan.webp", 452, 766, "Barndominium floor plan", "BIM model — dimensioned ground-floor plan"),
-  wf("10b-model-property-link.webp", 960, 690, "Model data in Grasshopper", "Grasshopper — curtain-wall properties read live from the BIM model"),
+  wf("10b-model-property-link.webp", 960, 690, "Model data in the script", "Visual script — curtain-wall properties read live from the BIM model"),
 ];
 
 // Computational design: scripts, analysis and the geometry they drive.
 export const COMPUTATIONAL_IMAGES: TrackImage[] = [
-  wf("06-facade-paneling-script.jpg", 1920, 1042, "Façade paneling", "Rhino + Grasshopper — scripted panels on a curved tower"),
-  wf("09-diagrid-pattern-script.jpg", 1920, 1041, "Diagrid pattern", "Grasshopper — a façade pattern generated from rules"),
-  wf("11a-slat-wall-model.webp", 554, 820, "Slat wall model", "Rhino — a wave-form slat wall, generated fin by fin"),
-  wf("11b-slat-wall-script.webp", 510, 794, "Slat wall script", "Python — the depth function that shapes every fin"),
-  wf("02b-rhino-model.webp", 497, 542, "Twisted column", "Rhino — the form produced by the rolling-polygon script"),
-  wf("02a-python-script.webp", 456, 542, "Rolling-polygon script", "Python — rotating and translating a polygon step by step"),
-  wf("02c-grasshopper-definition.webp", 500, 542, "Grasshopper definition", "Grasshopper — the definition driving the twisted form"),
-  wf("07-solar-wind-analysis.jpg", 1920, 1041, "Solar and wind analysis", "Ladybug — sun paths, radiation, direct sun hours and wind roses for a site"),
-  wf("08-environmental-analysis.jpg", 1906, 1039, "Environmental analysis", "Ladybug — direct sun hours and a wind-speed profile around a building"),
-  wf("04-gis-site-terrain.jpg", 1914, 1040, "Site terrain from GIS", "Rhino + Grasshopper — terrain and context buildings built from GIS data"),
-  wf("03-nesting-optimization.jpg", 1920, 1038, "Nesting for fabrication", "Rhino + Grasshopper — parts nested onto sheets for cutting"),
+  wf("06-facade-paneling-script.jpg", 1920, 1042, "Façade paneling", "Parametric model — scripted panels on a curved tower"),
+  wf("09-diagrid-pattern-script.jpg", 1920, 1041, "Diagrid pattern", "Visual script — a façade pattern generated from rules"),
+  wf("11a-slat-wall-model.webp", 554, 820, "Slat wall model", "3D model — a wave-form slat wall, generated fin by fin"),
+  wf("11b-slat-wall-script.webp", 510, 794, "Slat wall script", "Script — the depth function that shapes every fin"),
+  wf("02b-twisted-column-model.webp", 497, 542, "Twisted column", "3D model — the form produced by the rolling-polygon script"),
+  wf("02a-rolling-polygon-script.webp", 456, 542, "Rolling-polygon script", "Script — rotating and translating a polygon step by step"),
+  wf("02c-visual-script.webp", 500, 542, "Visual script", "Visual script — the definition driving the twisted form"),
+  wf("07-solar-wind-analysis.jpg", 1920, 1041, "Solar and wind analysis", "Environmental analysis — sun paths, radiation, direct sun hours and wind roses for a site"),
+  wf("08-environmental-analysis.jpg", 1906, 1039, "Environmental analysis", "Environmental analysis — direct sun hours and a wind-speed profile around a building"),
+  wf("04-gis-site-terrain.jpg", 1914, 1040, "Site terrain from GIS", "Parametric model — terrain and context buildings built from GIS data"),
+  wf("03-nesting-optimization.jpg", 1920, 1038, "Nesting for fabrication", "Parametric model — parts nested onto sheets for cutting"),
 ];
 
 export const BIMCAD_WORKFLOW_IMAGES: TrackImage[] = [...BIM_PRODUCTION_IMAGES, ...COMPUTATIONAL_IMAGES];
@@ -352,23 +352,25 @@ const render = (folder: string, file: string, width: number, height: number, tit
     `/portfolio/ribbon/${prefix}${file.replace(/[.](jpe?g|webp)$/i, ".webp")}`,
   );
 
-// Finished interior renders. 06-teen-bedroom.jpg (1024 × 576) is left out: shown at gallery or
-// ribbon size it would be upscaled into softness — it can come back as a larger export.
+const inProject = (project: string, image: TrackImage): TrackImage => ({ ...image, project });
+
+// Finished interior renders, on the homepage ribbon. 06-teen-bedroom.jpg (1024 × 576) is left out
+// here — at ribbon size it would be upscaled — and shown as a tile on the Kids Room project page.
 export const VISUALIZATION_SHOWCASE_IMAGES: TrackImage[] = [
-  render("visualization-showcase", "01-home-office.jpg", 2000, 1500, "Home office", "Interior visualization", "int-"),
-  render("visualization-showcase", "02-dark-living-room.jpg", 1600, 1200, "Living room", "Interior visualization — a dark, warm palette", "int-"),
-  render("visualization-showcase", "03-bright-loft.jpg", 1920, 1080, "Loft", "Interior visualization — daylight study", "int-"),
-  render("visualization-showcase", "04-restaurant-interior.jpg", 2000, 2000, "Restaurant", "Interior visualization — hospitality", "int-"),
+  inProject("classical-apartment", render("visualization-showcase", "01-home-office.webp", 3200, 2400, "Classical apartment — study", "Interior visualization", "int-")),
+  inProject("dark-living-room", render("visualization-showcase", "02-dark-living-room.jpg", 1600, 1200, "Dark living room", "Interior visualization — a dark, warm palette", "int-")),
+  inProject("bright-loft", render("visualization-showcase", "03-bright-loft.jpg", 1920, 1080, "Bright loft", "Interior visualization — daylight study", "int-")),
+  render("visualization-showcase", "04-restaurant-interior.webp", 3840, 3454, "Restaurant — floral arches", "Interior visualization — hospitality", "int-"),
   render("visualization-showcase", "05-classical-dining.jpg", 1920, 1080, "Classical dining room", "Interior visualization", "int-"),
   render("visualization-showcase", "07-lobby-lounge.webp", 1200, 797, "Lobby lounge", "Interior visualization — hospitality", "int-"),
-  render("visualization-showcase", "08-spiral-stair-library.webp", 1111, 896, "Library with spiral stair", "Interior visualization", "int-"),
-  render("visualization-showcase", "09-black-wall-living-room.webp", 1109, 894, "Living room, black feature wall", "Interior visualization", "int-"),
-  render("visualization-showcase", "10-sunken-fire-pit-lounge.webp", 1103, 896, "Sunken fire-pit lounge", "Interior visualization", "int-"),
-  render("visualization-showcase", "11-bathroom-tub.jpg", 1600, 1200, "Bathroom", "Interior visualization — freestanding tub", "int-"),
-  render("visualization-showcase", "12-bathroom-shower.jpg", 1600, 1200, "Walk-in shower", "Interior visualization", "int-"),
+  inProject("tyler-home", render("visualization-showcase", "08-spiral-stair-library.webp", 1111, 896, "Tyler Home — library with spiral stair", "Interior visualization", "int-")),
+  inProject("tyler-home", render("visualization-showcase", "09-black-wall-living-room.webp", 1109, 894, "Tyler Home — black feature wall", "Interior visualization", "int-")),
+  inProject("tyler-home", render("visualization-showcase", "10-sunken-fire-pit-lounge.webp", 1103, 896, "Tyler Home — sunken fire-pit lounge", "Interior visualization", "int-")),
+  inProject("master-bathroom", render("visualization-showcase", "11-bathroom-tub.jpg", 1600, 1200, "Master bathroom — freestanding tub", "Interior visualization", "int-")),
+  inProject("master-bathroom", render("visualization-showcase", "12-bathroom-shower.jpg", 1600, 1200, "Master bathroom — walk-in shower", "Interior visualization", "int-")),
 ];
 
-// Finished exterior renders and façade studies. barn-residence-vray.jpg stays out of this set —
+// Finished exterior renders and façade studies. barn-residence-render.jpg stays out of this set —
 // it's the render in the Design Philosophy page's render-vs-wireframe comparison.
 export const EXTERIOR_SHOWCASE_IMAGES: TrackImage[] = [
   render("exterior-showcase", "10-tower-render.jpg", 752, 1413, "High-rise tower", "Exterior visualization", "ext-"),

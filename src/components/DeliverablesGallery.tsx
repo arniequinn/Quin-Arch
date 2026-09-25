@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { PORTFOLIO_SAMPLES } from "../data/architecturalData";
-import { estimatorHref } from "../data/routes";
 import { PortfolioItem } from "../types";
 import { useAreaUnit } from "../utils/useAreaUnit";
 import { Button } from "./Button";
@@ -171,7 +170,7 @@ const ProjectWindow: React.FC<{
               {item.clientReview && (
                 <blockquote className="mt-6 border-l-2 border-amber-400/70 pl-4">
                   <p className="font-display text-h3 leading-snug text-neutral-200">“{item.clientReview.quote}”</p>
-                  <p className="mt-2 text-label text-neutral-500">Client review, via {item.clientReview.platform}</p>
+                  <p className="mt-2 text-label text-neutral-500">Client review</p>
                 </blockquote>
               )}
             </div>
@@ -187,16 +186,10 @@ const ProjectWindow: React.FC<{
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-neutral-800 px-5 py-4 sm:px-8">
-          <p className="text-small text-neutral-400">Have a similar project in mind?</p>
-          <div className="flex gap-3">
-            <Button variant="secondary" size="sm" onClick={onClose}>
-              Close
-            </Button>
-            <Button size="sm" href={estimatorHref("bim")}>
-              Start a Project
-            </Button>
-          </div>
+        <div className="flex justify-end border-t border-neutral-800 px-5 py-4 sm:px-8">
+          <Button variant="secondary" size="sm" onClick={onClose}>
+            Close
+          </Button>
         </div>
       </div>
     </div>

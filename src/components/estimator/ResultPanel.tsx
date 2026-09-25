@@ -57,7 +57,7 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
   message,
 }) => {
   const name = firstName(specialist);
-  const text = `Hi ${name},\n\nHere's a ${SERVICE_NAMES[service]} scope from the estimator on quinarch.design:\n\n${message.lines
+  const text = `Hi ${name},\n\nHere's ${/^[AEIOU]/.test(SERVICE_NAMES[service]) ? "an" : "a"} ${SERVICE_NAMES[service]} scope from the estimator on quinarch.design:\n\n${message.lines
     .map((l) => `• ${l}`)
     .join("\n")}\n\nI'd like to discuss it.`;
   const exclusions = EXCLUSIONS[service].estimatorItems;

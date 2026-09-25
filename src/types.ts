@@ -42,9 +42,13 @@ export interface TrackImage {
   height: number;
   title: string;
   caption: string;
-  kind: "render" | "screenshot" | "drawing";
+  kind: "render" | "screenshot" | "drawing" | "model";
   /** Lighter copy (WebP, at most 1600 px wide) for the homepage ribbons and small previews. */
   lightSrc?: string;
+  /** Slug of the gallery project the image belongs to (src/data/galleryProjects.ts), if any. */
+  project?: string;
+  /** Where the published file was cut from its source, [x, y, w, h] in source pixels (v3.0 §6). */
+  crop?: [number, number, number, number];
 }
 
 export interface TargetMarket {

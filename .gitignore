@@ -6,3 +6,9 @@ coverage/
 *.log
 .env
 .env.local
+
+# Source material kept locally, never deployed or committed (v3.0 R1)
+source-material/
+
+# The v3.0 plan lists original source file names, so it stays local (the repo is public)
+documentation/v3.0-gallery-expansion.md

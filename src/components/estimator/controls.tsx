@@ -197,8 +197,10 @@ export const SliderInput: React.FC<{
   suffix?: string;
   presets?: number[];
   formatPreset?: (v: number) => string;
+  /** Shows the value as formatted text (e.g. "1 h 30 min") in place of the number field. */
+  formatValue?: (v: number) => string;
   aside?: React.ReactNode;
-}> = ({ id, label, hint, value, onChange, min, max, step, suffix, presets, formatPreset = formatNumber, aside }) => {
+}> = ({ id, label, hint, value, onChange, min, max, step, suffix, presets, formatPreset = formatNumber, formatValue, aside }) => {
   const autoId = useId();
   const inputId = id ?? autoId;
   // The number field keeps its own text while the visitor types, so clearing it to type a new
@@ -224,6 +226,14 @@ export const SliderInput: React.FC<{
         </div>
         <div className="flex items-center gap-3">
           {aside}
+          {formatValue ? (
+            <output
+              htmlFor={inputId}
+              className="min-w-24 rounded border border-neutral-700 bg-neutral-950 px-3 py-2 text-right font-mono text-small text-neutral-100"
+            >
+              {formatValue(clampValue(value))}
+            </output>
+          ) : (
           <div className="flex items-center gap-2">
             <input
               id={inputId}
@@ -243,11 +253,14 @@ export const SliderInput: React.FC<{
             />
             {suffix && <span className="w-7 text-label text-neutral-400">{suffix}</span>}
           </div>
+          )}
         </div>
       </div>
       <input
         type="range"
+        id={formatValue ? inputId : undefined}
         aria-label={label}
+        aria-valuetext={formatValue ? formatValue(clampValue(value)) : undefined}
         min={min}
         max={max}
         step={step}

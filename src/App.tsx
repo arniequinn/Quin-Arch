@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Mail, MessageSquare } from "lucide-react";
 import { PageShell } from "./components/PageShell";
-import { HeroBackgroundVideo } from "./components/HeroBackgroundVideo";
+import { HERO_VIDEOS, HeroVideo } from "./components/HeroVideo";
 import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
 import { SpecialistDataModal } from "./components/SpecialistDataModal";
-import { HeroSequence } from "./components/filmstrip/HeroSequence";
+import { RibbonSequence } from "./components/filmstrip/RibbonSequence";
 import { ChapterCard, ChapterImage } from "./components/ChapterCard";
 import { Button } from "./components/Button";
-import { VISUALIZATION_SHOWCASE_IMAGES, EXTERIOR_SHOWCASE_IMAGES } from "./data/architecturalData";
-import { ROUTES } from "./data/routes";
-import { SpecialistProfile } from "./types";
+import { BIM_PRODUCTION_IMAGES, COMPUTATIONAL_IMAGES } from "./data/architecturalData";
+import { FILMSTRIP_TEMPLATES } from "./data/filmstrips";
+import { galleryImage, projectBySlug, thumbOf } from "./data/galleryProjects";
+import { caseStudyHref, projectHref, ROUTES } from "./data/routes";
+import { SpecialistProfile, TrackImage } from "./types";
 import { isOwnerAuthorized } from "./services/ownerAuth";
 import { SPECIALIST_PROFILE_STORAGE_KEY } from "./services/specialistProfile";
-import { mailtoHref, whatsappHref } from "./services/contact";
 import { assetUrl } from "./utils/assetPath";
 
 interface AppProps {
@@ -20,32 +20,67 @@ interface AppProps {
   initialSpecialist: SpecialistProfile;
 }
 
-const thumb = (file: string) => assetUrl(`/portfolio/thumbs/${file}`);
+/** A chapter tile from a gallery image: its thumbnail, its full image for dense screens, its link. */
+function tile(img: TrackImage, href: string, alt = `${img.title} — ${img.caption}`): ChapterImage {
+  const t = thumbOf(img);
+  return {
+    src: t.src,
+    srcSet: t.width < img.width ? `${t.src} ${t.width}w, ${img.src} ${img.width}w` : undefined,
+    alt,
+    kind: img.kind,
+    href,
+  };
+}
 
-// Point 5: real pictures on every chapter, from the work each one is about.
+const cover = (slug: string) => {
+  const project = projectBySlug(slug)!;
+  return tile(project.cover, projectHref(slug), `${project.title} — ${project.cover.title}`);
+};
+const workflow = (file: string, href: string) =>
+  tile([...BIM_PRODUCTION_IMAGES, ...COMPUTATIONAL_IMAGES].find((img) => img.src.endsWith(`/${file}`))!, href);
+
+// v3.0 point 4: three larger tiles per chapter, all colour renders or black-on-white sheets, each
+// linking to its project. The Cran Residence model view is gone.
 const WHY_IMAGES: ChapterImage[] = [
-  { src: thumb("barn-residence-vray.webp"), alt: "Barn-style residence, finished render", kind: "render" },
-  { src: thumb("barndominium-interior.webp"), alt: "Barndominium living room and kitchen under the mezzanine, interior render", kind: "render" },
-  { src: thumb("cran-perspective.webp"), alt: "Cran Residence, perspective from the working model", kind: "drawing" },
-  { src: thumb("sheets-slamburger-render-counter.webp"), alt: "Slamburger restaurant, counter and seating render", kind: "render" },
+  {
+    src: assetUrl("/portfolio/thumbs/barn-residence-render.webp"),
+    srcSet: `${assetUrl("/portfolio/thumbs/barn-residence-render.webp")} 640w, ${assetUrl("/portfolio/barn-residence-render.jpg")} 1109w`,
+    alt: "Barn-style residence, finished render",
+    kind: "render",
+    href: ROUTES.designPhilosophy,
+  },
+  cover("dark-living-room"),
+  cover("classical-apartment"),
 ];
 const BIM_IMAGES: ChapterImage[] = [
-  { src: thumb("sheets-beach-house-first-level-plan.webp"), alt: "Texas beach house, first level plan", kind: "drawing" },
-  { src: thumb("sheets-beach-house-south-elevation.webp"), alt: "Texas beach house, south elevation", kind: "drawing" },
-  { src: thumb("sheets-flats-basement-plan-crop.webp"), alt: "Urban flats, basement plan on the structural grid", kind: "drawing" },
-  { src: thumb("sheets-cran-sections-crop.webp"), alt: "Cran Residence, building sections", kind: "drawing" },
+  tile(
+    galleryImage("sheets/13-coordinated-mep-overlay.webp", "Coordinated drawing set"),
+    ROUTES.bimCad,
+    "Plumbing, structure and electrical plans overlaid as one coordinated set"
+  ),
+  tile(
+    galleryImage("sheets/beach-house-first-level-plan.webp", "First-level plan", { title: "Texas beach house" }),
+    caseStudyHref("sample-beach-house"),
+    "Texas beach house, first-level plan"
+  ),
+  tile(
+    galleryImage("sheets/05-foster-home-australia-axonometrics.webp", "Axonometric views"),
+    `${ROUTES.projects}#drawing-sets`,
+    "Foster home, Australia — two axonometric views"
+  ),
 ];
 const CONSULTANT_IMAGES: ChapterImage[] = [
-  { src: thumb("bimcad-workflow-05a-structural-model.webp"), alt: "Structural model of a residential tower", kind: "screenshot" },
-  { src: thumb("bimcad-workflow-07-solar-wind-analysis.webp"), alt: "Solar and wind analysis for a site", kind: "screenshot" },
-  { src: thumb("bimcad-workflow-05c-quantity-script.webp"), alt: "Wall and slab quantities calculated from the model", kind: "screenshot" },
-  { src: thumb("bimcad-workflow-08-environmental-analysis.webp"), alt: "Sun-hours and wind analysis around a building", kind: "screenshot" },
+  workflow("05a-structural-model.webp", `${ROUTES.projects}#bim-workflow`),
+  workflow("07-solar-wind-analysis.jpg", `${ROUTES.projects}#bim-workflow`),
+  workflow("05c-quantity-script.webp", `${ROUTES.projects}#bim-workflow`),
 ];
 const VISUALIZATION_IMAGES: ChapterImage[] = [
-  { src: thumb("visualization-showcase-05-classical-dining.webp"), alt: "Classical dining room, interior render", kind: "render" },
-  { src: thumb("exterior-showcase-12-cube-facade-render.webp"), alt: "Cubic façade study, exterior render", kind: "render" },
-  { src: thumb("visualization-showcase-08-spiral-stair-library.webp"), alt: "Library with a spiral stair, interior render", kind: "render" },
-  { src: thumb("visualization-showcase-10-sunken-fire-pit-lounge.webp"), alt: "Sunken fire-pit lounge, interior render", kind: "render" },
+  tile(
+    galleryImage("visualization-showcase/singles/04-arched-lounge-red-velvet-chairs.webp", "Interior visualization"),
+    `${ROUTES.projects}#interior`
+  ),
+  cover("bright-loft"),
+  cover("master-bathroom"),
 ];
 
 export default function App({ initialSpecialist }: AppProps) {
@@ -76,20 +111,19 @@ export default function App({ initialSpecialist }: AppProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const first = specialist.name.split(" ")[0];
-
   return (
     <PageShell specialist={specialist}>
       {/* The homepage is pure narrative (R2): the hero, the ribbon sequence, then the footer. */}
       <main className="flex-1">
-        <HeroSequence
-          interiorImages={VISUALIZATION_SHOWCASE_IMAGES}
-          exteriorImages={EXTERIOR_SHOWCASE_IMAGES}
+        <RibbonSequence
+          preset="full"
+          top={FILMSTRIP_TEMPLATES.interior}
+          bottom={FILMSTRIP_TEMPLATES.exterior}
           galleryHref={ROUTES.projects}
           hero={
             <section className="relative flex flex-1 items-center overflow-hidden pt-6 pb-[var(--ribbon-clear)] sm:min-h-[640px] sm:pt-10 sm:pb-[calc(var(--ribbon-clear)+1rem)]">
-              {/* Background: looping rendering animation, muted, no controls */}
-              <HeroBackgroundVideo />
+              {/* Background: the apartment walkthrough, muted and looping */}
+              <HeroVideo {...HERO_VIDEOS.home} />
 
               {/* Subtle architectural coordinate grid overlay */}
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] opacity-[0.03] [background-size:20px_20px]" />
@@ -115,32 +149,12 @@ export default function App({ initialSpecialist }: AppProps) {
                     jurisdictions — remotely, from concept to closeout.
                   </p>
 
-                  {/* One primary action, one secondary, one text link (R2) */}
+                  {/* One primary action, one secondary (v3.0 point 16: no LOD link on the landing page) */}
                   <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 sm:mt-8">
                     <Button href={ROUTES.scopeEstimator}>Start a Project</Button>
                     <Button href={ROUTES.services} variant="secondary">
                       View Services
                     </Button>
-                    <Button href={ROUTES.lodGuide} variant="link" className="text-halo">
-                      LOD Guide
-                    </Button>
-                  </div>
-
-                  {/* Direct contact — present, but quieter than the actions above */}
-                  <div className="text-outlined mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-label sm:mt-6">
-                    <a
-                      href={whatsappHref(specialist, `Hi ${first}, I'd like to discuss a project.`)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 transition-colors hover:text-neutral-200"
-                    >
-                      <MessageSquare className="h-3.5 w-3.5" aria-hidden="true" />
-                      WhatsApp
-                    </a>
-                    <a href={mailtoHref(specialist.email)} className="flex items-center gap-1.5 transition-colors hover:text-neutral-200">
-                      <Mail className="h-3.5 w-3.5" aria-hidden="true" />
-                      Email
-                    </a>
                   </div>
 
                   {/* Credentials — only on screens tall enough to hold them without crowding */}
@@ -161,8 +175,9 @@ export default function App({ initialSpecialist }: AppProps) {
               </div>
             </section>
           }
+          // v3.0 point 1: "Why work with us" takes the slot between the two takeovers; the profile
+          // card comes last, so the principal's introduction leads straight into the footer.
           chapters={[
-            (compact) => <SpecialistProfileCard specialist={specialist} compact={compact} />,
             (compact) => (
               <ChapterCard
                 compact={compact}
@@ -206,6 +221,7 @@ export default function App({ initialSpecialist }: AppProps) {
                 secondary={{ label: "Project Library", href: `${ROUTES.projects}#visualization` }}
               />
             ),
+            (compact) => <SpecialistProfileCard specialist={specialist} compact={compact} />,
           ]}
         />
       </main>

@@ -3,6 +3,17 @@ import { motion, MotionValue } from "motion/react";
 import { TrackImage } from "../../types";
 import { useMarquee } from "./useMarquee";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
+import { useAfterLoad } from "./useAfterLoad";
+
+/** A uniformly random order (Fisher–Yates): every image is equally likely to come first. */
+function shuffled<T>(items: T[]): T[] {
+  const out = items.slice();
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
 
 interface ScrollFilmstripProps {
   images: TrackImage[];
@@ -21,6 +32,8 @@ interface ScrollFilmstripProps {
   /** Supersedes the `direction` prop's fixed sign with a live value (e.g. driven by cursor
    *  position) — same speed magnitude, continuously steerable direction. */
   directionOverride?: MotionValue<number>;
+  /** How many frames load eagerly: the first few when the strip opens the page, none further down. */
+  eagerFrames?: number;
 }
 
 // A continuously-scrolling, seamlessly-looping strip of images — purely decorative texture,
@@ -28,17 +41,28 @@ interface ScrollFilmstripProps {
 // Two copies of the set are enough for the loop to be seamless once one copy is wider than the
 // screen (a third is added only when it isn't); each image carries its native size, so the track
 // has its final width before a single image has loaded.
+// Every page load deals each strip into a fresh random order (owner, 2026-09-26), so no image is
+// always first and none is always buried at the end.
 export const ScrollFilmstrip: React.FC<ScrollFilmstripProps> = ({
   images,
   direction,
   speedPx = 28,
   heightClassName = "h-[320px] sm:h-[440px]",
   trackHeight,
-  gapClassName = "gap-x-4 sm:gap-x-6",
+  gapClassName: gapProp,
   paused = false,
   directionOverride,
+  eagerFrames = 3,
 }) => {
+  // Shuffled right after hydration rather than during render: the prerendered HTML has the
+  // listed order, and the browser has to match it before it can change. No frame has a picture
+  // yet at that point (they wait for the page's load event), so the reorder is never seen.
+  const [order, setOrder] = useState(images);
+  useEffect(() => setOrder(shuffled(images)), [images]);
+  const gapClassName = gapProp ?? "gap-x-4 sm:gap-x-6";
   const reduceMotion = usePrefersReducedMotion();
+  // No image is requested until the page has loaded; until then each frame keeps its size, empty.
+  const loaded = useAfterLoad();
   const sign = direction === "right" ? 1 : -1;
   const { x, trackRef, width } = useMarquee({
     speedPx,
@@ -55,7 +79,7 @@ export const ScrollFilmstrip: React.FC<ScrollFilmstripProps> = ({
   }, []);
   const copies = width > 0 && width < viewport ? Math.ceil(viewport / width) + 1 : 2;
 
-  if (!images.length) return null;
+  if (!order.length) return null;
 
   const sizeClass = trackHeight ? "" : heightClassName;
   const sizeStyle = trackHeight ? { height: trackHeight } : undefined;
@@ -64,7 +88,7 @@ export const ScrollFilmstrip: React.FC<ScrollFilmstripProps> = ({
   const renderImage = (img: TrackImage, key: React.Key, eager: boolean) => (
     <img
       key={key}
-      src={img.lightSrc ?? img.src}
+      src={loaded ? img.lightSrc ?? img.src : undefined}
       width={img.width}
       height={img.height}
       alt=""
@@ -74,12 +98,11 @@ export const ScrollFilmstrip: React.FC<ScrollFilmstripProps> = ({
       className="h-full w-auto shrink-0 object-cover"
     />
   );
-  const EAGER_FRAMES = 3;
 
   if (reduceMotion) {
     return (
       <div className={`relative w-full overflow-hidden ${sizeClass}`} style={sizeStyle} aria-hidden="true">
-        <div className={`flex h-full w-max ${gapClassName}`}>{images.map((img, i) => renderImage(img, i, i < EAGER_FRAMES))}</div>
+        <div className={`flex h-full w-max ${gapClassName}`}>{order.map((img, i) => renderImage(img, i, i < eagerFrames))}</div>
       </div>
     );
   }
@@ -89,7 +112,7 @@ export const ScrollFilmstrip: React.FC<ScrollFilmstripProps> = ({
       <motion.div className={`flex h-full w-max ${gapClassName}`} style={{ x }}>
         {Array.from({ length: copies }, (_, copyIdx) => (
           <div key={copyIdx} ref={copyIdx === 0 ? trackRef : undefined} className={`flex h-full shrink-0 ${gapClassName}`}>
-            {images.map((img, i) => renderImage(img, i, copyIdx === 0 && i < EAGER_FRAMES))}
+            {order.map((img, i) => renderImage(img, i, copyIdx === 0 && i < eagerFrames))}
           </div>
         ))}
       </motion.div>
