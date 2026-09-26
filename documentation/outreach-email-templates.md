@@ -16,7 +16,8 @@ Sheets. Delete the `EXAMPLE` row before you start.
   you can't write one, skip the firm.
 - **Include one link**, matching the work to their project type (see the segment table). Never
   send the homepage and three other links.
-- **Make one ask:** a small pilot or a 15-minute call, never both.
+- **Make one ask:** the free test sheet (firms and builders), a 20-minute capacity call, or a paid render pilot (developers) — never more than one.
+- **Tag every site link** with `?utm_source=outreach&utm_medium=email&utm_campaign=overflow` (change `utm_source` per channel, e.g. `linkedin`) so GA4 shows which emails lead to calls and test sheets.
 - **Voice:** senior, specific and calm. No "affordable", no percentages saved, no "I hope this
   email finds you well", and no platform names (Upwork, Fiverr).
 - **Legal basics:** use your real name and practice, give an honest subject line, and include
@@ -31,8 +32,8 @@ Sheets. Delete the `EXAMPLE` row before you start.
 
 ```
 Arslan Qaiser
-Principal Architect, Quintessential Architecture
-https://quinarch.design · WhatsApp +92 322 4316477
+PCATP-registered architect (A-07767), Quintessential Architecture
+https://quinarch.design · Book a call: https://cal.com/arniequinn/capacity-call · WhatsApp +92 322 4316477
 [Business postal address]
 
 Not relevant? Reply "no" and I won't email again.
@@ -54,15 +55,17 @@ Not relevant? Reply "no" and I won't email again.
 > [One real sentence: e.g. "Saw the Dune Road house on your site; the raised entry and deck
 > detailing is lovely work."]
 >
-> I'm an architect (B.Arch, NCA) who produces permit and construction drawing sets for small
-> firms in the US, UK and Australia when their own team is at capacity. You work with me
+> I'm a PCATP-registered architect who produces permit and construction drawing sets for small
+> firms in the US, UK and Australia when their own team is at capacity. Everything is drawn in
+> your template and layer standard, and I'm online 9 am – 3 pm Eastern, six days a week. You work with me
 > directly, with no account manager, and the sets come back ready for your stamp and review.
 >
 > Here's a recent [project type] set, with the sheets and the code strategy:
 > [segment link]
 >
-> If a project is stacking up, I'd suggest a fixed-price pilot first: one [pilot deliverable]
-> for [PILOT PRICE], so you can judge the work before committing to anything larger.
+> If a project is stacking up, the first test sheet is free: send one plan or elevation and
+> judge the work on your own project before committing to anything:
+> https://quinarch.design/test-sheet/?utm_source=outreach&utm_medium=email&utm_campaign=overflow
 >
 > Worth a look?
 >
@@ -83,8 +86,8 @@ Not relevant? Reply "no" and I won't email again.
 >
 > A comparable set I delivered: [segment link]
 >
-> If you have a build waiting on drawings, I can start with a fixed-price pilot: [pilot
-> deliverable] for [PILOT PRICE]. That way you see the quality before the full set.
+> If you have a build waiting on drawings, the first sheet is free, so you see the quality
+> before the full set: https://quinarch.design/test-sheet/?utm_source=outreach&utm_medium=email&utm_campaign=overflow
 >
 > Would that be useful?
 >

@@ -23,6 +23,14 @@ const CONTACT_METHODS: Array<[prefix: string, method: string]> = [
   ["tel:", "phone"],
 ];
 
+// v3.3 Phase 7: the three calls to action. Mark `cta_click` as a key event and register `cta` as a
+// custom dimension in GA4.
+const CTA_TARGETS: Array<[hrefPart: string, cta: string]> = [
+  ["cal.com/arniequinn/capacity-call", "capacity_call"],
+  ["/test-sheet/", "test_sheet"],
+  ["/scope-estimator/", "estimator"],
+];
+
 // Where on the page a link sits: the header/footer, else the nearest section anchor (e.g.
 // "estimator"), else the heading of the section it's in (e.g. "Have a Similar Project in Mind?").
 function linkLocation(link: Element): string {
@@ -44,6 +52,8 @@ export function trackContactClicks(): void {
       const link = e.target instanceof Element ? e.target.closest("a[href]") : null;
       if (!link) return;
       const href = link.getAttribute("href") ?? "";
+      const cta = CTA_TARGETS.find(([part]) => href.includes(part))?.[1];
+      if (cta) trackEvent("cta_click", { cta, link_location: linkLocation(link) });
       const method = CONTACT_METHODS.find(([prefix]) => href.startsWith(prefix))?.[1];
       if (!method) return;
       trackEvent("contact_click", { method, link_location: linkLocation(link) });

@@ -114,6 +114,8 @@ export const ContactSection: React.FC<{
             </Button>
           )}
         </div>
+        {/* v3.3 Phase 6: the trust line beside every closing CTA. */}
+        <p className="mt-4 text-label text-neutral-500">NDA-friendly · IP stays with you · Files in your platform</p>
       </SectionHeader>
     </Container>
   </Section>
