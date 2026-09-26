@@ -1,6 +1,16 @@
 # Crunch Time — v3.33
 
-**Date:** 2026-09-26 · **Status:** list for owner review. Nothing below has started.
+**Date:** 2026-09-26 · **Status:** the v3.33 plan. **v3.32 is live** (tag `v3.32`, commit `01bb53e`): D1 and D4 below.
+Everything else is open. v3.33 ships when the section C decisions come back (C6–C12). The Phase 3 assets (C1–C3) can follow
+as v3.34 if the files take longer.
+
+## Release history
+
+| Version | Date | What shipped |
+|---|---|---|
+| v3.3 | 2026-09-26 | Operation Overflow: B2B overflow positioning, capacity call, free test sheet, How We Work, `/for-homeowners/` (see `operationoverflow-v3.3.md`) |
+| v3.32 | 2026-09-26 | Online hours shown in the visitor's time zone (DST-proof); honeypot anti-spam field on the test-sheet and LOD-guide forms |
+| v3.33 | planned | Section C decisions (C6–C12) and D2, D3, D5, D6 — see "v3.33 scope" below |
 
 Everything still open across the planning docs, in one place. It's gathered from
 `operationoverflow-v3.3.md`, `v3.0-gallery-expansion.md`, `final-polish-v2.0.md`,
@@ -91,11 +101,29 @@ site better.
   schematic drawings), fixed image paths, and profile-text notes for GoodFirms and Clutch.
 - LinkedIn Cran post and the nurture-email signature brought in line with the new wording.
 - 11 unreferenced thumbnails deleted (v3.0 L6).
+- **v3.32:** D1 (local-time hours) and D4 (honeypot) built, verified and pushed.
 - The first front-end audit marked superseded; the follow-up audit given a status line.
+
+## v3.33 scope
+
+**Ships in v3.33 (once you answer):**
+- C6 "Not included" lists live · C7 visualization rates · C8 default sheet list · C9 LOD stance ·
+  C10 project facts · C11 in-house cost benchmark keep/remove · C12 BIM/CAD length.
+- D2 asymmetric layout module · D3 `CASE_STUDY_SLUGS` tidy-up · D5 tracker columns · D6 30-day review template.
+- C4 and C5 if the quotes or the Clutch/GoodFirms URL are in by then.
+
+**Next (v3.34, when the files arrive):** C1–C3 Phase 3 assets, sample-set download, homepage video swap and Lighthouse; C13
+phone-check fixes.
+
+**Release steps (same as v3.3):** build → prerender/sitemap check → 375 px and desktop check in the preview → owner review →
+commit → tag → push (GitHub Actions deploys).
+
+**Reminder, 2026-11-01 (US DST ends):** change the Cal.com "Capacity call" description from "9 am – 3 pm Eastern" to
+"8 am – 2 pm Eastern" (the site handles itself since v3.32).
 
 ## Suggested order
 
-1. **This week:** A1–A7 and B1–B7 (you). Claude does D1 and D4 at the same time.
-2. **As you go:** answer C6–C12, one line each is enough. Claude builds them in one batch as v3.33.
-3. **When the files are ready:** C1–C3 (Phase 3), then C13 on your phone.
+1. **This week:** A1–A7 and B1–B7 (you). ~~Claude does D1 and D4~~ done in v3.32.
+2. **As you go:** answer C6–C12 (one line each is enough) → Claude builds v3.33 in one batch with D2, D3, D5, D6.
+3. **When the files are ready:** C1–C3 (Phase 3) as v3.34, then C13 on your phone.
 4. **About 2026-10-26:** the 30-day review (D6), then decide on the H1, the offer and which firms to target.
