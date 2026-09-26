@@ -9,7 +9,7 @@ import { Button } from "./components/Button";
 import { BIM_PRODUCTION_IMAGES, COMPUTATIONAL_IMAGES } from "./data/architecturalData";
 import { FILMSTRIP_TEMPLATES } from "./data/filmstrips";
 import { galleryImage, projectBySlug, thumbOf } from "./data/galleryProjects";
-import { caseStudyHref, projectHref, ROUTES } from "./data/routes";
+import { BOOKING_URL, caseStudyHref, projectHref, ROUTES } from "./data/routes";
 import { SpecialistProfile, TrackImage } from "./types";
 import { isOwnerAuthorized } from "./services/ownerAuth";
 import { SPECIALIST_PROFILE_STORAGE_KEY } from "./services/specialistProfile";
@@ -137,7 +137,7 @@ export default function App({ initialSpecialist }: AppProps) {
 
                   {/* Editorial headline — the dominant element on first paint */}
                   <h1 className="font-display text-[clamp(1.75rem,min(9vw,4.6vh),3rem)] font-semibold leading-[1.05] tracking-tight text-neutral-100 sm:text-[clamp(2.75rem,min(7vw,8.5vh),6rem)]">
-                    Your overflow drafting team{" "}
+                    Your overflow design team{" "}
                     <br className="hidden sm:block" />
                     <span className="text-amber-400">— without the hire.</span>
                   </h1>
@@ -150,9 +150,11 @@ export default function App({ initialSpecialist }: AppProps) {
 
                   {/* One primary action, one secondary (v3.0 point 16: no LOD link on the landing page) */}
                   <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 sm:mt-8">
-                    <Button href={ROUTES.scopeEstimator}>Start a Project</Button>
-                    <Button href={ROUTES.services} variant="secondary">
-                      View Services
+                    <Button href={BOOKING_URL} external>
+                      Book a 20-min capacity call
+                    </Button>
+                    <Button href={ROUTES.testSheet} variant="secondary">
+                      Send a test sheet — first one free
                     </Button>
                   </div>
 

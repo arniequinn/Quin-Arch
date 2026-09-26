@@ -330,6 +330,14 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
                   drawings — {EXAMPLE.includedSheetCount} sheets — comes to about{" "}
                   <span className="font-mono text-neutral-200">{formatUsdRange(EXAMPLE.estimatedFeeMin, EXAMPLE.estimatedFeeMax)}</span>.
                 </p>
+                <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <Button href={`${ROUTES.scopeEstimator}?service=bim`} variant="link" size="sm">
+                    Price a single project
+                  </Button>
+                  <Button href={ROUTES.testSheet} variant="link" size="sm">
+                    Or send a test sheet — first one free
+                  </Button>
+                </div>
               </div>
               <div className="lg:col-span-6">
                 <Figure image={PRICING_IMAGE} displayWidth={620} />
@@ -346,7 +354,7 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
             </div>
           </Container>
         </Section>
-        <ContactSection service="bim" title="Ready to scope your drawing set?" raised />
+        <ContactSection service="bim" title="More work than hands this month?" raised />
       </RibbonSequence>
     </main>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Compass, Linkedin, Menu, MessageSquare, X } from "lucide-react";
 import { SpecialistProfile } from "../types";
-import { ROUTES } from "../data/routes";
+import { BOOKING_URL, ROUTES } from "../data/routes";
 import { whatsappHref } from "../services/contact";
 import { Button } from "./Button";
 
@@ -68,8 +68,8 @@ export const Navbar: React.FC<NavbarProps> = ({ specialist }) => {
           </a>
           {/* On phones the button lives in the menu panel instead, so the brand keeps its room. */}
           <span className="hidden sm:block">
-            <Button href={ROUTES.scopeEstimator} size="sm">
-              Start a Project
+            <Button href={BOOKING_URL} external size="sm">
+              Book a call
             </Button>
           </span>
           <button
@@ -104,8 +104,8 @@ export const Navbar: React.FC<NavbarProps> = ({ specialist }) => {
               </li>
             ))}
           </ul>
-          <Button href={ROUTES.scopeEstimator} fullWidth className="mt-4">
-            Start a Project
+          <Button href={BOOKING_URL} external fullWidth className="mt-4">
+            Book a 20-min capacity call
           </Button>
           <div className="mt-4 flex items-center justify-center gap-6 text-small text-neutral-400">
             {specialist.whatsapp && (

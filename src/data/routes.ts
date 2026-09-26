@@ -14,13 +14,18 @@ export const ROUTES = {
   designPhilosophy: `${base}design-philosophy/`,
   lodGuide: `${base}guides/lod-guide/`,
   scopeEstimator: `${base}scope-estimator/`,
+  testSheet: `${base}test-sheet/`,
 } as const;
+
+/** The site's primary action (v3.3 Phase 2a): a 20-minute capacity call on Cal.com, opened in a
+ *  new tab so no booking script loads on our pages. */
+export const BOOKING_URL = "https://cal.com/arniequinn/capacity-call";
 
 /** The three tabs of /scope-estimator/, chosen by its `?service=` query parameter. */
 export type EstimatorService = "bim" | "visualization" | "consultancy";
 export const ESTIMATOR_SERVICES: EstimatorService[] = ["bim", "visualization", "consultancy"];
 
-/** "Start a Project" always lands on the estimator; a service page can open its own tab. */
+/** "Price a single project" lands on the estimator; a service page can open its own tab. */
 export function estimatorHref(service?: EstimatorService): string {
   return service ? `${ROUTES.scopeEstimator}?service=${service}` : ROUTES.scopeEstimator;
 }

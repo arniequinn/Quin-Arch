@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Check, Compass, Copy, FileText, Instagram, Linkedin, Mail, MessageSquare, Youtube } from "lucide-react";
 import { SpecialistProfile } from "../types";
-import { projectHref, ROUTES } from "../data/routes";
+import { BOOKING_URL, projectHref, ROUTES } from "../data/routes";
 import { FOOTER_TESTIMONIALS } from "../data/testimonials";
 import { mailtoHref, whatsappHref } from "../services/contact";
 import { trackEvent } from "../services/analytics";
@@ -217,8 +217,13 @@ export const Footer: React.FC<FooterProps> = ({ specialist }) => {
                   <FileText className="h-3.5 w-3.5" aria-hidden="true" />
                   Download CV
                 </a>
-                <a href={ROUTES.scopeEstimator} className="text-label font-semibold text-amber-400 transition-colors hover:text-amber-300">
-                  Start a Project →
+                <a
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-label font-semibold text-amber-400 transition-colors hover:text-amber-300"
+                >
+                  Book a capacity call →
                 </a>
               </div>
             </div>

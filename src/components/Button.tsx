@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 // The site's one call-to-action component (point 10 of documentation/final-polish-v2.0.md):
 // three variants, two sizes, one corner radius. Every CTA on the site goes through it, so a
 // button can't drift into its own colour, radius or weight again.
-//  - primary:   solid brass — one per view, for "Start a Project" or the view's main action
+//  - primary:   solid brass — one per view, for "Book a capacity call" or the view's main action
 //  - secondary: neutral outline — everything else, including WhatsApp and Email (with an icon)
 //  - link:      text plus an arrow
 export type ButtonVariant = "primary" | "secondary" | "link";

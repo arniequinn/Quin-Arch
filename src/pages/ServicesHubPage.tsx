@@ -5,7 +5,7 @@ import { pageFilmstrips } from "../data/filmstrips";
 import { PageHeader, SectionHeader } from "../components/SectionHeader";
 import { ItemList, Section } from "../components/PageSections";
 import { Button } from "../components/Button";
-import { ROUTES } from "../data/routes";
+import { BOOKING_URL, ROUTES } from "../data/routes";
 import { SpecialistProfile } from "../types";
 import { assetUrl } from "../utils/assetPath";
 
@@ -139,9 +139,16 @@ export const ServicesHubPage: React.FC<ServicesHubPageProps> = ({ specialist }) 
         <Container>
           <SectionHeader
             title="Not sure which service fits?"
-            intro="The estimator covers all three — pick a tab, describe the project, and send the scope straight over."
+            intro="A 20-minute call is the fastest way to find out. For a one-off project, the estimator prices all three — pick a tab, describe the project, and send the scope straight over."
           >
-            <Button href={ROUTES.scopeEstimator}>Start a Project</Button>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Button href={BOOKING_URL} external>
+                Book a 20-min capacity call
+              </Button>
+              <Button href={ROUTES.scopeEstimator} variant="secondary">
+                Price a single project
+              </Button>
+            </div>
           </SectionHeader>
         </Container>
       </Section>

@@ -3,7 +3,7 @@ import { Check, Minus } from "lucide-react";
 import { Container } from "./Container";
 import { SectionHeader } from "./SectionHeader";
 import { Button } from "./Button";
-import { EstimatorService, estimatorHref, ROUTES } from "../data/routes";
+import { BOOKING_URL, EstimatorService, estimatorHref, ROUTES } from "../data/routes";
 import { EXCLUSIONS } from "../data/exclusions";
 import { showDraft } from "../data/ownerSignoff";
 
@@ -89,7 +89,8 @@ export const NotIncludedSection: React.FC<{ service: EstimatorService; raised?: 
     </Section>
   ) : null;
 
-/** The closing call to action on every page that sells something: one action (v3.0 points 10–11).
+/** The closing call to action on every page that sells something (v3.3 Phase 2): the capacity
+ *  call, plus the free test sheet — or, for visualization, pricing a single project.
  *  Email and WhatsApp live in the footer's contact band, directly below. */
 export const ContactSection: React.FC<{
   title: string;
@@ -99,7 +100,20 @@ export const ContactSection: React.FC<{
   <Section raised={raised}>
     <Container>
       <SectionHeader eyebrow="Next step" title={title}>
-        <Button href={estimatorHref(service)}>Start a Project</Button>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <Button href={BOOKING_URL} external>
+            Book a 20-min capacity call
+          </Button>
+          {service === "visualization" ? (
+            <Button href={estimatorHref(service)} variant="secondary">
+              Price a single project
+            </Button>
+          ) : (
+            <Button href={ROUTES.testSheet} variant="secondary">
+              Send a test sheet — first one free
+            </Button>
+          )}
+        </div>
       </SectionHeader>
     </Container>
   </Section>
