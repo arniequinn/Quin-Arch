@@ -8,6 +8,11 @@ tensions this surfaced and build durable, low-maintenance ("passive") inbound le
 **Status:** Analysis + plan only. No site code has been changed by this document. Phase 0
 below is ready to implement as a follow-up whenever wanted.
 
+> **Read §9 first (2026-09-26).** Sections 1–8 built the website and a *passive* lead plan
+> that needs 6–12 months to pay off. The owner has had no new client since 2022 and wants to
+> leave a day job, so §9 adds an *active* 90-day plan that goes to buyers directly. The passive
+> work continues alongside it at lower priority.
+
 ---
 
 ## 1. The business model as it actually exists today
@@ -213,6 +218,9 @@ mailto fallback). Phase 1 item 5 is fully closed out.
     backlink and a referral source for a one-time effort. **Sent (2026-09-22)**: pitch emailed
     to BIM Heroes (`info@bimheroes.com`) — see `documentation/phase2-guest-pitch.md` for the
     text. Awaiting a reply; if accepted, next step is drafting the ~900–1200 word article.
+    **Conflict (2026-09-26):** `phase2-guest-pitch.md` still says "draft only — nothing has been
+    sent", and its signature uses `faizanqaiser9@gmail.com` instead of the business address
+    `arslan.qaiser1991@gmail.com`. The owner needs to confirm whether it was sent.
 
 ### Phase 3 — Community trust-building (slow-compounding, ongoing)
 
@@ -237,9 +245,11 @@ mailto fallback). Phase 1 item 5 is fully closed out.
     companies already listed); Clutch.co as a second option once GoodFirms has a review or two.
     One candidate (AEC Listing) was checked and rejected — domain doesn't resolve. AIA's
     directory doesn't apply (US-licensed-architect gated). See
-    `documentation/phase4-directory-research.md`. **Not yet created** — a GoodFirms profile
-    needs an account signup (email verification, business details) that has to be done by the
-    user directly.
+    `documentation/phase4-directory-research.md`. **Update (2026-09-22, per that file):** both
+    profiles now exist. GoodFirms was PENDING approval at 62% complete, with its portfolio locked
+    until approval. Clutch was submitted and under review. Neither has a review yet, and a
+    listing with no reviews brings in almost no buyers. §9 step A gets those reviews from
+    existing clients.
 
 ### Phase 5 — Measure and adjust
 
@@ -255,6 +265,11 @@ mailto fallback). Phase 1 item 5 is fully closed out.
   already exist — but both platforms' terms generally restrict directing clients off-platform
   to avoid fees. This needs an actual read of the current Upwork and Fiverr ToS before any
   action, not a default yes. Not part of the active plan until that's done.
+  **Partly unparked (2026-09-26), see §9 step A.** Clients who came to the owner directly are
+  not affected, so the owner can ask them for referrals and reviews today. For clients first
+  met on a platform, read that platform's current terms first. Upwork's no-going-around rule
+  lasts a fixed period from first contact (24 months when last checked; confirm this), so
+  clients first met there in 2022 or earlier may be outside it.
 
 ---
 
@@ -340,4 +355,170 @@ once 0–2 are in motion. Phase 5 is a standing monthly practice, not a one-time
 13. `public/portfolio/motivation-letters/` (three university motivation letters) and
     `public/portfolio/docs/AQ CV Minimal.pdf` are deployed publicly. The CV is linked from the
     profile card; the letters aren't linked anywhere but are reachable by URL. Remove them if that
-    wasn't intended.
+    wasn't intended. **Done:** the letters are no longer in `public/` (checked 2026-09-26).
+
+---
+
+## 9. Reset (2026-09-26): an active 90-day plan for the first new client
+
+### 9.1 Where things actually stand
+
+- **The situation.** There has been no new client since 2022. All current work comes from
+  repeat clients who like the service. The owner works a day job and wants to leave it, so
+  time for this is limited: plan on **about 5–6 hours a week**.
+- **What's done:** the website, SEO, prerendering, structured data, GA4 events, Search
+  Console, the LOD guide, and draft posts, scripts and pitches.
+- **What hasn't happened.** Almost nothing has reached a buyer yet. The LinkedIn posts are on
+  hold, the Shorts haven't been filmed, Reddit hasn't started, the directory listings are
+  pending with no reviews, and the guest pitch status is unclear.
+- **Why the plan so far won't be enough on its own.** Every channel in §5 is *passive*: it
+  waits for a buyer to search and find the site. `quinarch.design` was registered on
+  2026-09-24. A new domain with no backlinks usually needs 6–12 months before it ranks for
+  commercial searches like "outsourced permit drawings", and Reddit and directory reviews are
+  slow too. Keep all of that running, but it won't produce a client in the next 90 days.
+- **The missing piece is going to buyers directly.** The buyer in §4 (a small architecture
+  firm or builder short on capacity) doesn't go looking for a Lahore practice. They hire
+  someone who is in front of them the week they are overloaded. For a one-person B2B service,
+  the fastest routes are **referrals from happy clients** and **short, personal emails to
+  firms that fit**.
+
+### 9.2 Channels, in order of how soon they can produce a client
+
+**A. Existing clients: referrals and reviews (week 1, highest return)**
+
+The repeat clients are the practice's strongest asset, and the plan has never used them.
+
+1. List every client from the last 5 years. For each, note how they first found you: direct,
+   Upwork, Fiverr, Freelancer or Cad Crowd. Platform clients are covered by the "Explicitly
+   parked" note in §5.
+2. Send each one a short, personal message asking for three things:
+   - **A review on Clutch.** Clutch sends the reference request itself, which unblocks the
+     listing. Ask for GoodFirms too once it is approved.
+   - **Permission to quote them** by name and firm on the site. This replaces anonymous or
+     platform-labelled quotes.
+   - **One introduction:** "Is there one other firm or builder you know who's stretched for
+     drafting or render capacity right now?"
+3. Ask each client once and thank them either way. A few reviews do more for every other
+   channel in this plan than any amount of new content.
+
+**B. Direct outreach to firms that fit (weeks 1–12, the main driver)**
+
+- **Who to contact:** architecture firms of 2–15 people and design-build or residential
+  builders in the US first (the largest market; UK, Canada and Australia second). Choose one
+  or two project types you have strong work for, such as coastal or elevated homes,
+  multi-family, restaurant fit-outs or custom homes. Emails built around a specific project
+  type get noticeably more replies than general ones.
+- **Where to find them:** Google Maps searches like "architect" or "custom home builder" in
+  mid-sized cities, local AIA chapter firm finders (public listings), local home builders'
+  association member directories, Houzz professional listings and LinkedIn search. Use only
+  the business email published on the firm's own website.
+- **Volume:** 5 new emails per working day (25 a week), plus one follow-up 5–7 days later to
+  anyone who hasn't replied. Never follow up more than once.
+- **What to offer:** a **small fixed-price pilot**, such as one permit sheet, one elevation
+  set or one interior render view. It lets a new firm test the work at low risk, which is what
+  trust needs. Present it as a trial of the working relationship, not as a discount; this
+  keeps the premium positioning from §3. The owner sets the price.
+- **Email shape:** under 120 words, one specific line about their firm or a recent project,
+  one relevant example link (the matching case study or project page), the pilot offer and a
+  one-line opt-out. Template to draft in `documentation/outreach-email-templates.md` (not yet
+  written).
+- **Send from a domain address:** `arslan@quinarch.design` (Zoho Mail's free plan or Google
+  Workspace) with SPF, DKIM and DMARC set up, not from Gmail. It reads as a practice rather
+  than a freelancer and is less likely to land in spam. Until it exists, use
+  `arslan.qaiser1991@gmail.com`.
+- **Legal basics, which all four markets share:** use your real name and business, give an
+  honest subject line, include an opt-out line and honour it, and only email business
+  addresses that firms publish, about work relevant to their business. Canada (CASL) is the
+  strictest of the four, so start with the US, UK and Australia.
+- **Tracking:** one spreadsheet with firm, city, email, date sent, follow-up date,
+  reply (Y/N), call (Y/N), pilot (Y/N) and notes.
+
+**C. Marketplaces as a short-term bridge (daily, 15 minutes)**
+
+§3 already says to keep Upwork, Fiverr, Freelancer and Cad Crowd running. For the next 90
+days, *use* them actively instead of only keeping them open. Send 2–3 carefully chosen
+proposals a day on well-matched permit-set, BIM or render jobs, where the existing reviews
+help. This doesn't change how the site presents the practice, and it brings in paid work and
+fresh reviews sooner than anything else. Also update the website link on every profile to
+`https://quinarch.design` (open item 2 in §7).
+
+**D. LinkedIn: publish the drafted posts and warm up the outreach list (weekly)**
+
+- Take the four posts in `phase2-linkedin-posts.md` off hold and publish one a week (they
+  cover weeks 1–4). After that, post about each new pilot or project.
+- Each week, send 10–15 connection requests to principals at firms on the outreach list, with
+  no pitch in the request. A firm that has seen your post is warmer when your email arrives.
+- **Fix first:** three case studies (Slamburger, Texas beach house, urban flats) still use
+  **Unsplash stock photos as their share image** (`og:image` / `twitter:image` and the JSON-LD
+  `image` in each `case-studies/*/index.html`). The LinkedIn posts link to these pages, so the
+  link preview would show someone else's photo. Replace them with real sheets or renders
+  (open item 12 in §8) before the first post goes out.
+
+**E. Keep running in the background (only when time allows)**
+
+Search Console and Bing, GoodFirms and Clutch, the guest pitch follow-up (around 2026-10-06),
+Reddit answers and the YouTube Shorts. These build over the long term. None of them should
+take time from A–C in the next 90 days.
+
+### 9.3 Weekly routine (about 5–6 hours)
+
+| When | Task | Time |
+| --- | --- | --- |
+| Mon | Add 25 firms to the outreach sheet | 45 min |
+| Mon–Fri | 5 new emails and any follow-ups due | 30 min/day |
+| Mon–Fri | 2–3 marketplace proposals | 15 min/day |
+| Wed | Publish the week's LinkedIn post and send 10–15 connection requests | 30 min |
+| Fri | Update the tracker and reply to anything outstanding | 20 min |
+
+Week 1 only: add the client referral and review messages (step A, about 2 hours) and set up
+the domain email.
+
+### 9.4 Targets and checkpoints
+
+Judge progress by conversations and pilots, not pageviews. These are rough, conservative
+estimates for personalised B2B outreach; real results will vary.
+
+| By | Outreach sent | Target | If it's missing |
+| --- | --- | --- | --- |
+| Day 30 (~2026-10-26) | ~100 emails | 3+ reviews live; 2+ replies of any kind | Under 1% replies: rewrite the email (shorter, more specific) and check it isn't landing in spam |
+| Day 60 (~2026-11-25) | ~200 emails | 2+ calls; 1 pilot quoted | Replies but no calls: change the offer. No replies: change the segment (e.g. architects to builders, or to developers buying renders) |
+| Day 90 (~2026-12-25) | ~300 emails | **1+ new paying client** | Review with the Phase 5 data: keep what worked, drop what didn't |
+
+Scale this up only once a pilot has turned into repeat work. A client who comes back is the
+proof that the offer works, and the current repeat clients show the delivery side already
+does.
+
+### 9.5 Open items, consolidated (replaces the lists in §7 and §8)
+
+Owner actions:
+
+1. **Step A:** list past clients and send the referral, review and quote requests.
+2. Set up `arslan@quinarch.design` with SPF, DKIM and DMARC.
+3. Build the first 25 rows of the outreach sheet and pick the 1–2 project types to lead with.
+4. Set the pilot price(s).
+5. Update the website link on Upwork, Cad Crowd, Instagram (`quin_arch`), Fiverr and
+   Freelancer.com.
+6. Confirm whether the BIM Heroes pitch was actually sent, and follow up around 2026-10-06.
+7. Check the GoodFirms and Clutch approval status, and paste in the GoodFirms portfolio once
+   it unlocks.
+8. GA4: mark `contact_click` and `generate_lead` as key events, and add the `method`,
+   `link_location` and `lead_source` dimensions (§8 item 9). Tick **Enforce HTTPS** in GitHub
+   Pages settings if it isn't already on.
+9. Bing Webmaster Tools import (§8 item 11) and the Rich Results Test (§8 item 10).
+
+Build tasks (Claude can do these on request):
+
+10. ~~Replace the Unsplash share images on the three case studies.~~ **Done (2026-09-26):**
+    each page now uses a real 1200×630 JPG in `public/portfolio/share/` (Slamburger dining
+    render, beach house south elevation, flats basement plan). Once deployed, run each URL
+    through LinkedIn's Post Inspector (linkedin.com/post-inspector) to refresh LinkedIn's
+    cached preview.
+11. ~~Draft the outreach templates.~~ **Done (2026-09-26):**
+    `documentation/outreach-email-templates.md` covers three first-email versions (firms,
+    builders, render buyers), a segment-to-link table, the follow-up, the client referral and
+    review ask, a LinkedIn note and a reply-handling table. It still needs the pilot price. The
+    signature with the postal address is in `documentation/private/email-signature.txt`.
+12. ~~Create an outreach tracker.~~ **Done (2026-09-26):** `documentation/private/`
+    contains `outreach-tracker.csv` and `client-asks-tracker.csv`. The folder is git-ignored
+    because it holds contacts and the repo is public.
+13. Fix the signature email in `phase2-guest-pitch.md`.

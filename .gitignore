@@ -12,3 +12,6 @@ source-material/
 
 # The v3.0 plan lists original source file names, so it stays local (the repo is public)
 documentation/v3.0-gallery-expansion.md
+
+# Outreach trackers hold client names and firm contacts, so they stay local (the repo is public)
+documentation/private/
