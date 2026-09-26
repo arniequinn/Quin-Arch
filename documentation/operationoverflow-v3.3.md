@@ -256,6 +256,36 @@ Owner supplies originals (D6). All assets are anonymized, carry no client names,
 
 ---
 
+## Build status (2026-09-26)
+
+| Phase | Status | Commit |
+|---|---|---|
+| 0 Terminology | Done | 9c503c1 |
+| 1 Hero & positioning | Done (H1 "Your overflow design team — without the hire.") | 0d222df |
+| 2 CTAs | Done: 2a call, 2b `/test-sheet/`, 2d estimator secondary. **2c sample-set download deferred** (needs asset 6) | 227ac0f |
+| 3 Proof assets | **Deferred — owner collecting files.** See the guide below | — |
+| 4 Firms-first IA | Done: "How we plug in" chapter, How We Work, `/for-homeowners/`, nav/footer, testimonials | 6ce2d7e |
+| 5 Service pages | Done, incl. case-study client/handover facts (turnaround not supplied, left out) | 6ce2d7e |
+| 6 Trust signals | Trust line done. Firm quotes and Clutch/GoodFirms footer link: owner-side | 4f87251 |
+| 7 QA & launch | Build, prerender, sitemap, canonicals, 375 px checks and `cta_click` tracking done. Outreach templates updated. Owner: send one live test through `/test-sheet/`; mark `cta_click` as a key event in GA4. Lighthouse re-check after the video swap (Phase 3) | 4f87251 |
+
+### Phase 3 — owner's guide (do it yourself, any time)
+
+Drop files into `source-material/process/` (the folder is git-ignored, so originals with client names are safe there — no need to anonymize, just say which names to hide). Then ask Claude: *"publish the Phase 3 assets in source-material/process"*. Everything below is optional and can arrive one item at a time.
+
+| # | What to capture | How | File |
+|---|---|---|---|
+| 1 | Archicad file hygiene | Screenshot (Win+Shift+S) at full screen: Layer Combinations dialog, Pen Set, a Composite in Composites dialog, the Organizer with the View Map and Layout Book open, one converted Revit family as a GDL object in the Object settings. 4–6 images | `01-*.png` |
+| 2 | Redline round-trip | The marked-up PDF page and the same sheet revised. If you have the email/date of each, note it in a `02-notes.txt` ("markups 3 Mar 10:00, returned 4 Mar 09:00") | `02-before.pdf`, `02-after.pdf` |
+| 3 | Grasshopper → output | Already covered by existing screenshots; add more only if you have a better one | — |
+| 4 | Automation (Tapir / Python) | Screenshot of the script or GH definition + one line: what it did and time saved ("renumbered 240 doors: 2 min vs ~2 h") in `04-notes.txt` | `04-*.png` |
+| 5 | LOD 300 → 350 recording | Win+Alt+R (Xbox Game Bar) or OBS, 1920×1080, 60–90 s, no audio needed. Orbit the model, then switch on/show the added detail. Raw file is fine — Claude compresses it like the existing hero videos | `05-lod.mp4` |
+| 6 | Sample CD set | 8–12 sheets from one project, printed to PDF. Leave client names in; list them in `06-notes.txt` and they'll be masked | `06-set.pdf` |
+
+What happens after: assets go to `public/portfolio/process/` with WebP thumbs, get a "Proof of process" block on the homepage "How we plug in" section and the BIM/CAD page, the homepage hero video is swapped to #5, and #6 is wired into an email-capture download (2c) on the homepage and BIM/CAD page.
+
+---
+
 ## Order of execution and dependencies
 
 ```
