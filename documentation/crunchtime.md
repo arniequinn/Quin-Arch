@@ -64,10 +64,10 @@ site better.
 
 | # | Task | Notes | Source |
 |---|---|---|---|
-| D1 | **Daylight-saving-proof hours.** The hero and the "How we plug in" facts say "9–3 Eastern", which is wrong from 2026-11-01 (it becomes 8–2). Show the hours in the visitor's own time zone (worked out in the browser from 18:00–24:00 PKT), with "9 am – 3 pm Eastern" as the prerendered fallback | Otherwise the copy needs changing by hand twice a year. The Cal.com event description needs the same change on 1 Nov (you, or Claude in the built-in browser) | v3.3 D7 note |
+| D1 | ✅ **Done 2026-09-26.** **Daylight-saving-proof hours.** The hero and the "How we plug in" facts say "9–3 Eastern", which is wrong from 2026-11-01 (it becomes 8–2). Show the hours in the visitor's own time zone (worked out in the browser from 18:00–24:00 PKT), with "9 am – 3 pm Eastern" as the prerendered fallback | Otherwise the copy needs changing by hand twice a year. The Cal.com event description needs the same change on 1 Nov (you, or Claude in the built-in browser) | v3.3 D7 note |
 | D2 | **One asymmetric layout module** (offset image and caption columns) on the BIM/CAD or How We Work page | Design polish from the elite-studio audit | Front-end audit Phase D |
 | D3 | **Fold `CASE_STUDY_SLUGS` into `architecturalData.ts`** | Code tidy-up; only worth doing if more case studies are coming | Front-end audit Phase C |
-| D4 | **Test-sheet form: Web3Forms honeypot field** | A hidden `botcheck` field Web3Forms supports. It cuts bot spam, so the spam filter can stay loose enough for real leads | New (from today's form test) |
+| D4 | ✅ **Done 2026-09-26 (both forms).** **Test-sheet form: Web3Forms honeypot field** | A hidden `botcheck` field Web3Forms supports. It cuts bot spam, so the spam filter can stay loose enough for real leads | New (from today's form test) |
 | D5 | **Outreach tracker columns for the new funnel** | Add "test sheet sent" and "call booked" columns to `private/outreach-tracker.csv` | v3.3 7.8 |
 | D6 | **v3.3 30-day review template** | A short section in `operationoverflow-v3.3.md` to fill in on about 2026-10-26: emails sent, `cta_click` by CTA, calls, test sheets, and whether to change the H1 | v3.3 7.8 |
 

@@ -12,6 +12,7 @@ import { FILMSTRIP_TEMPLATES } from "./data/filmstrips";
 import { galleryImage, projectBySlug, thumbOf } from "./data/galleryProjects";
 import { BOOKING_URL, caseStudyHref, projectHref, ROUTES } from "./data/routes";
 import { SpecialistProfile, TrackImage } from "./types";
+import { useOnlineHours } from "./utils/onlineHours";
 import { isOwnerAuthorized } from "./services/ownerAuth";
 import { SPECIALIST_PROFILE_STORAGE_KEY } from "./services/specialistProfile";
 
@@ -76,6 +77,7 @@ export default function App({ initialSpecialist }: AppProps) {
   // Specialist Profile state (persisted locally in this browser only)
   const [specialist, setSpecialist] = useState<SpecialistProfile>(initialSpecialist);
   const [isSpecialistEditorOpen, setIsSpecialistEditorOpen] = useState(false);
+  const onlineHours = useOnlineHours();
 
   // Update specialist profile (restricted to the owner's passkey-unlocked browser session)
   const handleSaveSpecialistProfile = (updated: SpecialistProfile) => {
@@ -133,8 +135,8 @@ export default function App({ initialSpecialist }: AppProps) {
 
                   <p className="text-outlined mx-auto mt-3 max-w-2xl text-small sm:mt-6 sm:text-body">
                     A PCATP-registered architect (A-07767) producing CD sets, LOD 300–350 Archicad models and
-                    parametric geometry in your templates and standards — redlines back in 24–48 hours, online
-                    9 am – 3 pm Eastern, six days a week.
+                    parametric geometry in your templates and standards — redlines back in 24–48 hours, online{" "}
+                    {onlineHours.long}, six days a week.
                   </p>
 
                   {/* One primary action, one secondary (v3.0 point 16: no LOD link on the landing page) */}

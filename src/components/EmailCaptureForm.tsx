@@ -29,6 +29,7 @@ export const EmailCaptureForm: React.FC<EmailCaptureFormProps> = ({
 }) => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [bot, setBot] = useState(false);
 
   const mailtoFallback = `mailto:${specialistEmail}?subject=${encodeURIComponent(
     `Send me ${resource}`
@@ -51,6 +52,7 @@ export const EmailCaptureForm: React.FC<EmailCaptureFormProps> = ({
           email,
           subject: `New ${resource} request`,
           message: `Requested via: ${source}`,
+          botcheck: bot,
         }),
       });
       const data = await res.json();
@@ -77,6 +79,8 @@ export const EmailCaptureForm: React.FC<EmailCaptureFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row gap-2.5 ${className}`}>
+      {/* Honeypot (Web3Forms botcheck): hidden from people, filled in by bots, which get rejected. */}
+      <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" onChange={(e) => setBot(e.target.checked)} />
       <div className="relative flex-1">
         <Mail className="w-4 h-4 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2" />
         <input

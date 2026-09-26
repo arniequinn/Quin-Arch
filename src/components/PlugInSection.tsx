@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "./Button";
 import { BOOKING_URL, ROUTES } from "../data/routes";
+import { useOnlineHours } from "../utils/onlineHours";
 
 // v3.3 Phase 4: how overflow work plugs into a firm — four steps, the working facts, and the two
 // actions. Used as the first homepage chapter (in the void between the ribbons) and in full on
@@ -12,8 +13,8 @@ export const PLUG_IN_STEPS = [
   { title: "Redlines in 24–48 h", body: "Markups in, corrected sheets out — while your team moves on." },
 ];
 
+// The first fact, the online hours, is added per visitor (see onlineHours.ts).
 export const PLUG_IN_FACTS = [
-  "Online 9–3 Eastern, 6 days",
   "PCATP-registered architect, A-07767",
   "Archicad · IFC · RVT · DWG · PDF",
   "NDA signed; IP stays yours",
@@ -21,7 +22,9 @@ export const PLUG_IN_FACTS = [
   "Prepared for your architect of record to stamp",
 ];
 
-export const PlugInChapter: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
+export const PlugInChapter: React.FC<{ compact?: boolean }> = ({ compact = false }) => {
+  const hours = useOnlineHours();
+  return (
   <section className={`relative bg-neutral-950 ${compact ? "py-2" : "py-6"}`}>
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-3xl text-center">
@@ -47,7 +50,7 @@ export const PlugInChapter: React.FC<{ compact?: boolean }> = ({ compact = false
 
       {!compact && (
         <ul className="mx-auto mt-7 flex max-w-5xl flex-wrap justify-center gap-x-6 gap-y-2 text-label text-neutral-400">
-          {PLUG_IN_FACTS.map((fact) => (
+          {[`Online ${hours.short}, 6 days`, ...PLUG_IN_FACTS].map((fact) => (
             <li key={fact} className="font-mono">
               {fact}
             </li>
@@ -65,4 +68,5 @@ export const PlugInChapter: React.FC<{ compact?: boolean }> = ({ compact = false
       </div>
     </div>
   </section>
-);
+  );
+};

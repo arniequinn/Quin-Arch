@@ -56,6 +56,7 @@ const summary = (f: Fields) =>
 const TestSheetForm: React.FC<{ specialistEmail: string }> = ({ specialistEmail }) => {
   const [fields, setFields] = useState<Fields>(EMPTY);
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [bot, setBot] = useState(false);
 
   const set = (key: keyof Fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setFields((f) => ({ ...f, [key]: e.target.value }));
@@ -74,7 +75,7 @@ const TestSheetForm: React.FC<{ specialistEmail: string }> = ({ specialistEmail 
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ access_key: ACCESS_KEY, email: fields.email, subject, message: summary(fields) }),
+        body: JSON.stringify({ access_key: ACCESS_KEY, email: fields.email, subject, message: summary(fields), botcheck: bot }),
       });
       const data = await res.json();
       if (data.success) {
@@ -99,6 +100,8 @@ const TestSheetForm: React.FC<{ specialistEmail: string }> = ({ specialistEmail 
 
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      {/* Honeypot (Web3Forms botcheck): hidden from people, filled in by bots, which get rejected. */}
+      <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" onChange={(e) => setBot(e.target.checked)} />
       <label className="text-label text-neutral-400">
         Name
         <input required value={fields.name} onChange={set("name")} autoComplete="name" className={INPUT} />
