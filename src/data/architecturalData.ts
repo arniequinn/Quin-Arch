@@ -209,6 +209,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
       sheets: 4,
       drawings: "Plans for every level, south and north elevations",
       role: "Design consultant",
+      clientType: "Private homeowner, USA",
     },
     specs: [
       { label: "Foundation", value: "Heavy timber piling & braced posts" },
@@ -244,6 +245,8 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
       sheets: 11,
       drawings: "Floor plans, HVAC, lighting & electrical, plumbing, kitchen elevations and 5 renders",
       role: "Architecture design consultant",
+      clientType: "Restaurant owner, UK",
+      handover: "The business itself — no concept or drawings; the design was developed from scratch",
     },
     specs: [
       { label: "Scope", value: "Storefront, dining and commercial kitchen" },
@@ -271,6 +274,8 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
       sheets: 9,
       drawings: "Perspective, furniture, structural and MEP plans for each floor, and building sections",
       role: "Design consultant",
+      clientType: "Construction firm, UK",
+      handover: "Schematic drawings, developed into a BIM model and drawing set",
     },
     specs: [
       { label: "Style", value: "Traditional brick residential" },
@@ -295,6 +300,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
       sheets: 2,
       drawings: "Basement structural plan, building section, quantity schedule",
       role: "Design consultant",
+      handover: "Nothing — designed from scratch, together with the interiors of the same building (Serene Suites)",
     },
     specs: [
       { label: "Typology", value: "Multi-family apartment flats" },

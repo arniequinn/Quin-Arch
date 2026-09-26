@@ -11,7 +11,7 @@ const DESTINATIONS: Array<[label: string, href: string]> = [
   ["Case Studies", ROUTES.caseStudies],
   ["Scope Estimator", ROUTES.scopeEstimator],
   ["LOD Guide", ROUTES.lodGuide],
-  ["Why Work With Us", ROUTES.whyWorkWithUs],
+  ["How We Work", ROUTES.whyWorkWithUs],
 ];
 
 // Served by GitHub Pages (as /404.html) for any URL that doesn't exist — typically an old or

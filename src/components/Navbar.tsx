@@ -16,8 +16,7 @@ export const NAV_LINKS = [
   { label: "Services", href: ROUTES.services },
   { label: "Project Library", href: ROUTES.projects },
   { label: "Case Studies", href: ROUTES.caseStudies },
-  { label: "Why Work With Us", href: ROUTES.whyWorkWithUs },
-  { label: "Design Philosophy", href: ROUTES.designPhilosophy },
+  { label: "How We Work", href: ROUTES.whyWorkWithUs },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({ specialist }) => {

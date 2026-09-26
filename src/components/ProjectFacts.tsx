@@ -23,6 +23,7 @@ export function projectFactRows(item: PortfolioItem, unit: AreaUnit): Array<[str
     ],
     ["Role", f.role],
     ["Client", f.clientType],
+    ["Handed over", f.handover],
     ["Sheets in the set", f.sheets != null ? formatNumber(f.sheets) : undefined],
     ["Drawings", f.drawings],
     ...item.specs.map((s): [string, string] => [s.label, s.value]),

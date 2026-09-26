@@ -1,9 +1,9 @@
 import { PageShell } from "../components/PageShell";
-import { WhyWorkWithUsPage } from "../pages/WhyWorkWithUsPage";
+import { ForHomeownersPage } from "../pages/ForHomeownersPage";
 import { mountPage } from "./mountPage";
 
 export const render = mountPage((specialist) => (
   <PageShell specialist={specialist}>
-    <WhyWorkWithUsPage />
+    <ForHomeownersPage />
   </PageShell>
 ));

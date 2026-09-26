@@ -120,6 +120,8 @@ export interface ProjectFacts {
   sheets?: number;
   drawings?: string;
   clientType?: string;
+  /** What the client handed over at the start (v3.3 Phase 5). */
+  handover?: string;
 }
 
 export interface PortfolioItem {

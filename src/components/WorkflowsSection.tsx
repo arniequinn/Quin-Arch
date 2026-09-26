@@ -40,7 +40,7 @@ const PRODUCTION_IMAGES = [
   galleryImage("sheets/flats-section-quantities.webp", "Building section with its quantity takeoff", { title: "Urban flats" }),
 ];
 
-// The case for firms and contractors, on the Why Work With Us page.
+// The case for firms and contractors, on the How We Work page.
 export const WorkflowsSection: React.FC = () => (
   <Section id="firms" raised>
     <Container>

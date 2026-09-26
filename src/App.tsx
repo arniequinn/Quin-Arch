@@ -5,6 +5,7 @@ import { SpecialistProfileCard } from "./components/SpecialistProfileCard";
 import { SpecialistDataModal } from "./components/SpecialistDataModal";
 import { RibbonSequence } from "./components/filmstrip/RibbonSequence";
 import { ChapterCard, ChapterImage } from "./components/ChapterCard";
+import { PlugInChapter } from "./components/PlugInSection";
 import { Button } from "./components/Button";
 import { BIM_PRODUCTION_IMAGES, COMPUTATIONAL_IMAGES } from "./data/architecturalData";
 import { FILMSTRIP_TEMPLATES } from "./data/filmstrips";
@@ -13,7 +14,6 @@ import { BOOKING_URL, caseStudyHref, projectHref, ROUTES } from "./data/routes";
 import { SpecialistProfile, TrackImage } from "./types";
 import { isOwnerAuthorized } from "./services/ownerAuth";
 import { SPECIALIST_PROFILE_STORAGE_KEY } from "./services/specialistProfile";
-import { assetUrl } from "./utils/assetPath";
 
 interface AppProps {
   /** Resolved by mountPage: the default profile, or the owner's locally saved edit. */
@@ -41,17 +41,6 @@ const workflow = (file: string, href: string) =>
 
 // v3.0 point 4: three larger tiles per chapter, all colour renders or black-on-white sheets, each
 // linking to its project. The Cran Residence model view is gone.
-const WHY_IMAGES: ChapterImage[] = [
-  {
-    src: assetUrl("/portfolio/thumbs/barn-residence-render.webp"),
-    srcSet: `${assetUrl("/portfolio/thumbs/barn-residence-render.webp")} 640w, ${assetUrl("/portfolio/barn-residence-render.jpg")} 1109w`,
-    alt: "Barn-style residence, finished render",
-    kind: "render",
-    href: ROUTES.designPhilosophy,
-  },
-  cover("dark-living-room"),
-  cover("classical-apartment"),
-];
 const BIM_IMAGES: ChapterImage[] = [
   tile(
     galleryImage("sheets/13-coordinated-mep-overlay.webp", "Coordinated drawing set"),
@@ -179,17 +168,7 @@ export default function App({ initialSpecialist }: AppProps) {
           // v3.0 point 1: "Why work with us" takes the slot between the two takeovers; the profile
           // card comes last, so the principal's introduction leads straight into the footer.
           chapters={[
-            (compact) => (
-              <ChapterCard
-                compact={compact}
-                eyebrow="Why work with us"
-                title="Senior production capacity, on your standards."
-                description="For firms and contractors with more work than hands: one accountable architect who drafts in your titleblocks and layering, answers during your morning, and has the overnight work waiting when you start the next day."
-                images={WHY_IMAGES}
-                cta={{ label: "Why work with us", href: ROUTES.whyWorkWithUs }}
-                secondary={{ label: "Design Philosophy", href: ROUTES.designPhilosophy }}
-              />
-            ),
+            (compact) => <PlugInChapter compact={compact} />,
             (compact) => (
               <ChapterCard
                 compact={compact}
@@ -204,19 +183,19 @@ export default function App({ initialSpecialist }: AppProps) {
             (compact) => (
               <ChapterCard
                 compact={compact}
-                eyebrow="Architect consultant"
-                title="A second set of expert eyes."
-                description="Design coordination, code-compliance review, and computational or parametric consulting for studios and contractors — billed hourly at one flat worldwide rate."
+                eyebrow="Parametric & automation"
+                title="Scripts that save your team hours."
+                description="Grasshopper and Python, connected to Archicad through Tapir: parametric geometry, quantity takeoffs, environmental analysis and batch model edits for firms — billed hourly at one flat worldwide rate."
                 images={CONSULTANT_IMAGES}
-                cta={{ label: "Explore consultancy", href: ROUTES.consultancy }}
+                cta={{ label: "Explore parametric consulting", href: ROUTES.consultancy }}
               />
             ),
             (compact) => (
               <ChapterCard
                 compact={compact}
-                eyebrow="Photorealistic visualization"
-                title="See it before it is built."
-                description="Photorealistic interior and exterior renders in Twinmotion, live-linked to the Archicad model — built from an existing model, CAD drawings, or sketches."
+                eyebrow="Add-on: visualization"
+                title="Renders from your model, for your client meeting."
+                description="Interior and exterior renders in Twinmotion, live-linked to the Archicad model — built from your model, CAD drawings or sketches, priced per view."
                 images={VISUALIZATION_IMAGES}
                 cta={{ label: "Explore visualization", href: ROUTES.visualization }}
                 secondary={{ label: "Project Library", href: `${ROUTES.projects}#visualization` }}

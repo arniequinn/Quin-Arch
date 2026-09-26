@@ -111,7 +111,7 @@ export const VisualizationServicePage: React.FC<VisualizationServicePageProps> =
           ]}
           eyebrow="Architectural visualization"
           title="Photorealistic Rendering, Interior & Exterior"
-          intro="Interior, exterior and aerial renders in Twinmotion and Coohom — built from an existing model, CAD drawings or concept sketches, and priced per view."
+          intro="For firms: renders from your model for client presentations. Interior, exterior and aerial views in Twinmotion and Coohom — built from your model, CAD drawings or concept sketches, and priced per view."
         >
           <Button href="#renders" variant="link">
             See the renders

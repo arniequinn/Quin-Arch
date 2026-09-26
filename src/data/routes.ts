@@ -15,6 +15,7 @@ export const ROUTES = {
   lodGuide: `${base}guides/lod-guide/`,
   scopeEstimator: `${base}scope-estimator/`,
   testSheet: `${base}test-sheet/`,
+  forHomeowners: `${base}for-homeowners/`,
 } as const;
 
 /** The site's primary action (v3.3 Phase 2a): a 20-minute capacity call on Cal.com, opened in a

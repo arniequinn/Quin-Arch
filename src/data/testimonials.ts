@@ -62,11 +62,11 @@ export const TESTIMONIALS: Record<"q1" | "q2" | "q3" | "q4" | "q5" | "q6" | "q7"
 };
 
 /** The quotes that rotate in the footer's contact band. */
+// v3.3 Phase 4: the most professional-sounding first; q4 ("very fair costs") is left out — it works
+// against the premium positioning.
 export const FOOTER_TESTIMONIALS: Testimonial[] = [
-  TESTIMONIALS.q4,
-  TESTIMONIALS.q5,
-  TESTIMONIALS.q6,
   TESTIMONIALS.q7,
+  TESTIMONIALS.q5,
   TESTIMONIALS.q8,
 ];
 

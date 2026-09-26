@@ -45,6 +45,7 @@ export default defineConfig(() => {
           guideLod: path.resolve(__dirname, 'guides/lod-guide/index.html'),
           scopeEstimator: path.resolve(__dirname, 'scope-estimator/index.html'),
           testSheet: path.resolve(__dirname, 'test-sheet/index.html'),
+          forHomeowners: path.resolve(__dirname, 'for-homeowners/index.html'),
           designPhilosophy: path.resolve(__dirname, 'design-philosophy/index.html'),
           projects: path.resolve(__dirname, 'projects/index.html'),
           whyWorkWithUs: path.resolve(__dirname, 'why-work-with-us/index.html'),

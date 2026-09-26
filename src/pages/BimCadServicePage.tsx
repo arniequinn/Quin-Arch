@@ -43,6 +43,13 @@ const SOFTWARE = [
   "Twinmotion (live link) · Coohom · BIMx",
 ];
 
+// v3.3 Phase 5: the firm's standards are the brief.
+const YOUR_STANDARDS = [
+  { title: "Your template", body: "Your titleblock, sheet sizes, numbering and sheet index — or a past set of yours to match." },
+  { title: "Your layering", body: "DWG exports mapped to your layer standard, pens and line weights, so sheets drop straight into your set." },
+  { title: "Your content", body: "Your details, keynotes and annotation style. Revit families are converted to GDL so the model matches." },
+];
+
 const FORMATS = ["Native Archicad", "IFC", "DWG (your layer standard)", "RVT export (geometry, no editable families)", "Vector PDF", "BIMx"];
 
 const ON_YOUR_LICENCE = ["Navisworks Manage", "AutoCAD / AutoCAD MEP", "Bluebeam Revu", "Cabinet Vision", "V-Ray", "Lumion"];
@@ -159,9 +166,9 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
               { label: "Services", href: ROUTES.services },
               { label: "BIM / CAD Drafting" },
             ]}
-            eyebrow="BIM / CAD drafting & construction documentation"
+            eyebrow="Overflow production for firms"
             title="Construction Documentation & BIM Production"
-            intro="Code-compliant permit sets and BIM models delivered remotely — IBC, IRC, California Title 24 and Florida FBC — to LOD 350 as standard, with 24–48 hour turnaround on plan-check redlines."
+            intro="Extra production capacity for architecture firms and contractors: permit sets, CDs and Archicad models to LOD 350, drawn in your templates and standards — IBC, IRC, California Title 24 and Florida FBC — with 24–48 hour turnaround on redlines."
           >
             <Button href="#production-work" variant="link">
               See the production work
@@ -209,6 +216,29 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
               <div className="lg:col-span-7">
                 <Figure image={WHATS_INCLUDED_IMAGE} displayWidth={700} />
               </div>
+            </div>
+          </Container>
+        </Section>
+
+        <Section>
+          <Container>
+            <SectionHeader
+              eyebrow="Your standards, not ours"
+              title="Drawn to look like your office drew it"
+              intro="Send your template and a past set. Every sheet comes back in your titleblock, layering and annotation — ready to issue under your name."
+            />
+            <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-10 sm:grid-cols-3">
+              {YOUR_STANDARDS.map((item) => (
+                <div key={item.title} className="border-t border-neutral-700 pt-6">
+                  <h3 className="heading-3 text-neutral-100">{item.title}</h3>
+                  <p className="mt-3 text-small text-neutral-400">{item.body}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-12 flex justify-center">
+              <Button href={ROUTES.testSheet} variant="secondary">
+                Send a test sheet — first one free
+              </Button>
             </div>
           </Container>
         </Section>

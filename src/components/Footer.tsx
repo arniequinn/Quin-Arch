@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Check, Compass, Copy, FileText, Instagram, Linkedin, Mail, MessageSquare, Youtube } from "lucide-react";
 import { SpecialistProfile } from "../types";
-import { BOOKING_URL, projectHref, ROUTES } from "../data/routes";
+import { BOOKING_URL, ROUTES } from "../data/routes";
 import { FOOTER_TESTIMONIALS } from "../data/testimonials";
 import { mailtoHref, whatsappHref } from "../services/contact";
 import { trackEvent } from "../services/analytics";
@@ -30,13 +30,13 @@ const LINK_COLUMNS: Array<{ heading: string; links: FooterLink[] }> = [
     links: [
       { label: "Project Library", href: ROUTES.projects },
       { label: "Case Studies", href: ROUTES.caseStudies },
-      { label: "Furniture & Virtual Staging", href: projectHref("furniture") },
     ],
   },
   {
     heading: "Studio",
     links: [
-      { label: "Why Work With Us", href: ROUTES.whyWorkWithUs },
+      { label: "How We Work", href: ROUTES.whyWorkWithUs },
+      { label: "For Homeowners", href: ROUTES.forHomeowners },
       { label: "Design Philosophy", href: ROUTES.designPhilosophy },
       { label: "LOD Guide", href: ROUTES.lodGuide },
     ],

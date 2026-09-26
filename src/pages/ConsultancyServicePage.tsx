@@ -25,16 +25,16 @@ interface ConsultancyServicePageProps {
 }
 
 const COVERS = [
+  "Parametric and computational design — Rhino + Grasshopper, connected to Archicad through Tapir",
+  "Automation — Python scripts that batch-edit properties, place elements and pull schedules from the Archicad model",
+  "Environmental and quantity analysis — solar, wind and takeoffs straight from the model",
   "Design review and a second-opinion sign-off before a scheme goes to production",
   "Code-compliance strategy — a jurisdiction pre-check before drafting begins, not after",
-  "Client-facing technical coordination, as an embedded advisor in project meetings",
-  "Parametric and computational design strategy (Rhino + Grasshopper workflow planning)",
-  "Structural and MEP coordination oversight ahead of formal clash detection",
   "Plan-check response strategy for contested or unusual review comments",
 ];
 
 const WHO_ITS_FOR = [
-  { title: "Architecture studios", description: "Overflow senior judgment on a specific design question, without hiring for it." },
+  { title: "Architecture studios", description: "A script or parametric workflow your team needs once, or senior judgment on a design question — without hiring for it." },
   { title: "Contractors & builders", description: "A code-compliance check before committing to a full drafting engagement." },
   { title: "Developers", description: "Independent technical review of a design or a consultant's work before signing it off." },
 ];
@@ -135,9 +135,9 @@ export const ConsultancyServicePage: React.FC<ConsultancyServicePageProps> = ({ 
             { label: "Services", href: ROUTES.services },
             { label: "Architect Consultant" },
           ]}
-          eyebrow="Architect consultant"
-          title="Hourly Design & Strategy Consulting"
-          intro="Design review, code strategy and client-facing coordination — a principal architect's judgment, billed hourly and separately from drafting, at one flat rate worldwide."
+          eyebrow="Parametric, automation & design consulting"
+          title="Computational Design & Automation for Firms"
+          intro="Grasshopper and Python, connected to Archicad through Tapir — parametric geometry, batch model edits, quantity takeoffs and environmental analysis — plus design and code review. A principal architect's judgment, billed hourly at one flat rate worldwide."
         >
           <Button href="#pricing" variant="link" arrow={false}>
             See pricing ↓
