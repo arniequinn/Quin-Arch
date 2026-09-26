@@ -10,6 +10,7 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
   phone: "+92 322 4316477",
   whatsapp: "+923224316477",
   location: "Lahore, Pakistan (Delivering to USA, UK, Canada, Australia & International)",
+  registration: "PCATP-registered architect (A-07767)",
   education: "Bachelor of Architecture (B.Arch, Distinction in Design) — National College of Arts (NCA)",
   logoUrl: assetUrl("/portfolio/quin-arch-logo.png"),
   // 240px WebP (~7 KB): the avatar never renders above 80 CSS px. The full-size
@@ -47,7 +48,7 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
   yearsExperience: 9,
   completedProjectsCount: 380,
   baseHourlyRate: 45,
-  bio: "Senior Architect & Computational Technologist with a B.Arch (Distinction in Design) from the prestigious National College of Arts (NCA). Backed by 9+ years of independent remote consulting and firm coordination across residential, commercial, and hospitality sectors. Specializing in code-compliant permit packages, high-detail 3D BIM models, parametric solar/wind analysis, and zero-headache digital project delivery for international architects and builders."
+  bio: "PCATP-registered architect (A-07767) and computational technologist with a B.Arch (Distinction in Design) from the prestigious National College of Arts (NCA). Backed by 9+ years of independent remote consulting and firm coordination across residential, commercial, and hospitality sectors. Specializing in code-compliant permit packages, high-detail 3D BIM models, parametric solar/wind analysis, and overflow production for architecture firms and builders in the US, UK, Canada and Australia — authored in Archicad, delivered in your standards."
 };
 
 export const PROJECT_TYPES: ProjectTypeOption[] = [

@@ -130,23 +130,22 @@ export default function App({ initialSpecialist }: AppProps) {
 
               <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-4xl text-center">
-                  {/* Disciplines — a plain line, not a row of chips competing with the headline */}
+                  {/* The buyer, not the disciplines (v3.3 Phase 1) */}
                   <p className="eyebrow text-outlined mb-3 sm:mb-7">
-                    Virtual Design & Construction · Parametric Modeling · BIM to LOD 350 · Computational Analysis
+                    For architecture firms, developers & design-build contractors
                   </p>
 
                   {/* Editorial headline — the dominant element on first paint */}
                   <h1 className="font-display text-[clamp(1.75rem,min(9vw,4.6vh),3rem)] font-semibold leading-[1.05] tracking-tight text-neutral-100 sm:text-[clamp(2.75rem,min(7vw,8.5vh),6rem)]">
-                    Computational Design,{" "}
+                    Your overflow drafting team{" "}
                     <br className="hidden sm:block" />
-                    Virtual Design & Construction.{" "}
-                    <span className="text-amber-400">Delivered Globally.</span>
+                    <span className="text-amber-400">— without the hire.</span>
                   </h1>
 
                   <p className="text-outlined mx-auto mt-3 max-w-2xl text-small sm:mt-6 sm:text-body">
-                    NCA-trained principal architect delivering code-compliant BIM production, parametric modeling
-                    (LOD 100–350, LOD 400 by request) and full-scope construction documentation across IBC / IRC / CBC
-                    jurisdictions — remotely, from concept to closeout.
+                    A PCATP-registered architect (A-07767) producing CD sets, LOD 300–350 Archicad models and
+                    parametric geometry in your templates and standards — redlines back in 24–48 hours, online
+                    9 am – 3 pm Eastern, six days a week.
                   </p>
 
                   {/* One primary action, one secondary (v3.0 point 16: no LOD link on the landing page) */}
@@ -157,8 +156,8 @@ export default function App({ initialSpecialist }: AppProps) {
                     </Button>
                   </div>
 
-                  {/* Credentials — only on screens tall enough to hold them without crowding */}
-                  <dl className="mt-8 hidden grid-cols-4 gap-6 border-t border-neutral-800/60 pt-6 [@media(min-height:1000px)]:grid">
+                  {/* Credentials — always shown; 2×2 on phones */}
+                  <dl className="mx-auto mt-6 grid max-w-3xl grid-cols-2 gap-4 border-t border-neutral-800/60 pt-4 sm:mt-8 sm:grid-cols-4 sm:gap-6 sm:pt-6">
                     {[
                       ["AIA · NCS", "Layering standards"],
                       ["LOD 100–350", "BIM models, 400 by request"],
@@ -182,8 +181,8 @@ export default function App({ initialSpecialist }: AppProps) {
               <ChapterCard
                 compact={compact}
                 eyebrow="Why work with us"
-                title="Principal-level architecture, delivered remotely."
-                description="One accountable architect for homeowners planning a build — and senior production capacity for firms and contractors who have more work than hands."
+                title="Senior production capacity, on your standards."
+                description="For firms and contractors with more work than hands: one accountable architect who drafts in your titleblocks and layering, answers during your morning, and has the overnight work waiting when you start the next day."
                 images={WHY_IMAGES}
                 cta={{ label: "Why work with us", href: ROUTES.whyWorkWithUs }}
                 secondary={{ label: "Design Philosophy", href: ROUTES.designPhilosophy }}

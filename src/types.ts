@@ -89,6 +89,8 @@ export interface SpecialistProfile {
   phone: string;
   whatsapp: string;
   location: string;
+  /** Professional registration, e.g. "PCATP-registered architect (A-07767)". */
+  registration?: string;
   education?: string;
   socials: SpecialistSocials;
   availableFor: string[];

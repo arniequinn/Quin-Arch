@@ -1,5 +1,5 @@
 import React from "react";
-import { FileText, GraduationCap, Instagram, Linkedin, MapPin, Youtube } from "lucide-react";
+import { BadgeCheck, FileText, GraduationCap, Instagram, Linkedin, MapPin, Youtube } from "lucide-react";
 import { SpecialistProfile } from "../types";
 import { assetUrl } from "../utils/assetPath";
 import { ROUTES } from "../data/routes";
@@ -40,6 +40,12 @@ export const SpecialistProfileCard: React.FC<SpecialistProfileCardProps> = ({ sp
         <p className="mt-1 text-small text-neutral-300">{specialist.title}</p>
 
         <div className="mt-3 flex flex-col items-center gap-1.5 text-label text-neutral-400 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-5">
+          {specialist.registration && (
+            <span className="inline-flex items-start gap-1.5">
+              <BadgeCheck className="mt-px h-4 w-4 shrink-0 text-neutral-500" aria-hidden="true" />
+              {specialist.registration}
+            </span>
+          )}
           {specialist.education && (
             <span className="inline-flex items-start gap-1.5">
               <GraduationCap className="mt-px h-4 w-4 shrink-0 text-neutral-500" aria-hidden="true" />
