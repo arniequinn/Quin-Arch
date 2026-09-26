@@ -63,7 +63,7 @@ Live case study URLs (base `https://quinarch.design/`):
 > model, fast enough to keep momentum before they second-guess the design.
 >
 > For this traditional two-story brick residence, the goal wasn't a construction document set —
-> it was a coordinated 3D BIM massing study built directly from hand sketches, turned around
+> it was a coordinated Archicad BIM model developed from the construction firm's schematic drawings, turned around
 > asynchronously so the client could sign off on the design direction before full CDs began.
 >
 > That's a different skill than production drafting: knowing exactly how much model detail a

@@ -521,4 +521,4 @@ Build tasks (Claude can do these on request):
 12. ~~Create an outreach tracker.~~ **Done (2026-09-26):** `documentation/private/`
     contains `outreach-tracker.csv` and `client-asks-tracker.csv`. The folder is git-ignored
     because it holds contacts and the repo is public.
-13. Fix the signature email in `phase2-guest-pitch.md`.
+13. ~~Fix the signature email in `phase2-guest-pitch.md`.~~ **Done (2026-09-26):** now arslan.qaiser1991@gmail.com, with the PCATP line.

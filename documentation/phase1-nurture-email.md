@@ -22,7 +22,7 @@ reply here or use the estimator on the site: https://quinarch.design/
 
 Best,
 Arslan Qaiser
-Principal Architect, BIM/Computational Specialist
+PCATP-registered architect (A-07767), Quintessential Architecture
 
 ---
 

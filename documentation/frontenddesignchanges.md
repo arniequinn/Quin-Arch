@@ -8,8 +8,8 @@ Snøhetta, OMA-tier positioning).
 Profile, Workflows/Engagement, Deliverables Gallery, Combined Pricing, 3× Image Slideshow
 Bands, Scope Estimator entry point, LOD Guide, Footer.
 
-**Status:** Analysis + proposal only. No code has been changed. Everything below is a
-recommendation for discussion before implementation.
+**Status (2026-09-26): SUPERSEDED — historical record only.** Its findings were built or replaced by
+`frontenddesignchanges-2026-09.md`, `final-polish-v2.0.md`, v3.0 and v3.3. Don't work from this file.
 
 ---
 

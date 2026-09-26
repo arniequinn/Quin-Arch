@@ -14,6 +14,11 @@ fixed, and identifies what's left.
 
 ---
 
+> **Status (2026-09-26):** Phase A done (badges, pulse dot, stat and pill are gone from the code).
+> Phase B superseded by v3.3: `WorkflowsSection` now lives on How We Work. Open: Phase C (the BIM
+> estimator still shows the in-house cost benchmark; `CASE_STUDY_SLUGS` not folded) and Phase D
+> (one asymmetric layout module; reveal motion exists as `Reveal.tsx`). Tracked in `crunchtime.md`.
+
 ## 1. What's already fixed since the original audit
 
 Worth stating plainly, since the original audit is still in the repo and could otherwise read

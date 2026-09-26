@@ -37,8 +37,8 @@ approve a resource link than a service-page link):
 
 Hi BIM Heroes team,
 
-I'm Arslan Qaiser, a Principal Architect and BIM/computational specialist who's spent the last
-several years delivering full LOD 100–400 BIM production and CD sets for firms in the US, UK,
+I'm Arslan Qaiser, a PCATP-registered architect and BIM/computational specialist who's spent the last
+several years delivering Archicad BIM production (LOD 100–350, LOD 400 by request) and CD sets for firms in the US, UK,
 Canada, and Australia (portfolio: https://quinarch.design/).
 
 I'd like to pitch a guest article for BIM Heroes: **"What 'LOD 350' Actually Means When You're
@@ -59,7 +59,8 @@ better.
 
 Best,
 Arslan Qaiser
-faizanqaiser9@gmail.com
+PCATP-registered architect (A-07767), Quintessential Architecture
+arslan.qaiser1991@gmail.com
 [LinkedIn link]
 
 ---
