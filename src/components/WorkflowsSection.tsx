@@ -23,12 +23,12 @@ const BENEFITS = [
   {
     icon: Cloud,
     title: "Your cloud, your templates",
-    body: "BIM 360, Autodesk Construction Cloud, cloud worksharing, Google Drive or Dropbox — delivered into your office's own titleblocks and CAD layering.",
+    body: "Your shared drive — Dropbox, Google Drive or your own platform — with BIMx models for review, delivered into your office's own titleblocks and CAD layering.",
   },
   {
     icon: FileCode2,
     title: "National CAD Standard & AIA layering",
-    body: "Proper line weights, dimension styles, annotation and parametric families on every plan, section and detail — ready for pricing or a stamp.",
+    body: "Proper line weights, dimension styles, annotation and parametric GDL objects on every plan, section and detail — ready for pricing or a stamp.",
   },
 ];
 

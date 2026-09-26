@@ -25,7 +25,7 @@ const SERVICES = [
   {
     title: "Architectural Visualization",
     description:
-      "Photorealistic interior, exterior and aerial renders in V-Ray, Lumion and Twinmotion — built from an existing model, CAD drawings or sketches.",
+      "Photorealistic interior, exterior and aerial renders in Twinmotion (live-linked to the Archicad model) and Coohom — built from an existing model, CAD drawings or sketches.",
     href: ROUTES.visualization,
     image: "visualization-showcase-05-classical-dining.webp",
     drawing: false,
@@ -99,7 +99,7 @@ export const ServicesHubPage: React.FC<ServicesHubPageProps> = ({ specialist }) 
                 items={[
                   "Milestone-based payments",
                   "Two rounds of plan-check revisions included",
-                  "Native BIM, DWG and vector PDF",
+                  "Archicad · IFC · RVT · DWG · PDF",
                   "An agreed completion date",
                 ]}
               />
@@ -120,7 +120,7 @@ export const ServicesHubPage: React.FC<ServicesHubPageProps> = ({ specialist }) 
                 className="mt-6 flex-1" size="small"
                 items={[
                   "Dedicated weekly capacity (20–40 hours a week)",
-                  "Your studio's own templates and families",
+                  "Your studio's templates, layer standards and titleblocks — Revit families converted to GDL when needed",
                   "Direct Slack or Teams communication",
                   "A priority 24-hour turnaround queue",
                 ]}

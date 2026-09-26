@@ -32,7 +32,7 @@ const PROCESS_STEPS = [
   {
     title: "Material and lighting setup",
     description:
-      "Real-world materials, fixtures and lighting are set up in V-Ray, Lumion or Twinmotion to match the mood and context you're after.",
+      "Real-world materials, fixtures and lighting are set up in Twinmotion, live-linked to the Archicad model, to match the mood and context you're after.",
   },
   {
     title: "First pass for review",
@@ -60,7 +60,7 @@ const FAQS = [
   {
     question: "What software and resolutions do you render in?",
     answer:
-      "V-Ray for photorealistic stills, and Lumion or Twinmotion for real-time work. Stills come in Standard 2K, High 4K or Hero 6K+, plus 360° panoramas and animation.",
+      "Twinmotion, live-linked to the Archicad model, for stills and real-time work, and Coohom for interiors — V-Ray or Lumion on your licence if your office standardises on them. Stills come in Standard 2K, High 4K or Hero 6K+, plus 360° panoramas and animation.",
   },
   {
     question: "What file formats are renders delivered in?",
@@ -111,7 +111,7 @@ export const VisualizationServicePage: React.FC<VisualizationServicePageProps> =
           ]}
           eyebrow="Architectural visualization"
           title="Photorealistic Rendering, Interior & Exterior"
-          intro="Interior, exterior and aerial renders in V-Ray, Lumion and Twinmotion — built from an existing model, CAD drawings or concept sketches, and priced per view."
+          intro="Interior, exterior and aerial renders in Twinmotion and Coohom — built from an existing model, CAD drawings or concept sketches, and priced per view."
         >
           <Button href="#renders" variant="link">
             See the renders

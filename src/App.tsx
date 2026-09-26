@@ -163,7 +163,7 @@ export default function App({ initialSpecialist }: AppProps) {
                       ["AIA · NCS", "Layering standards"],
                       ["LOD 100–350", "BIM models, 400 by request"],
                       ["24–48 h", "Redline turnaround"],
-                      ["IFC · DWG · PDF", "Native delivery"],
+                      ["Archicad · IFC · RVT · DWG · PDF", "Delivery formats"],
                     ].map(([value, label]) => (
                       <div key={value} className="flex flex-col">
                         <dt className="text-outlined text-label">{label}</dt>
@@ -215,7 +215,7 @@ export default function App({ initialSpecialist }: AppProps) {
                 compact={compact}
                 eyebrow="Photorealistic visualization"
                 title="See it before it is built."
-                description="Photorealistic interior and exterior renders in V-Ray, Lumion and Twinmotion — built from an existing model, CAD drawings, or sketches."
+                description="Photorealistic interior and exterior renders in Twinmotion, live-linked to the Archicad model — built from an existing model, CAD drawings, or sketches."
                 images={VISUALIZATION_IMAGES}
                 cta={{ label: "Explore visualization", href: ROUTES.visualization }}
                 secondary={{ label: "Project Library", href: `${ROUTES.projects}#visualization` }}

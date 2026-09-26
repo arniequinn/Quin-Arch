@@ -360,19 +360,19 @@ export interface DeliverableSpec {
 export const OTHER_DELIVERABLES: DeliverableSpec[] = [
   {
     id: "drawing-files",
-    title: "Print-ready PDF set (ARCH D, 24 × 36 in) and AutoCAD DWG files",
+    title: "Print-ready PDF set (ARCH D, 24 × 36 in) and DWG files on your layer standard",
     addedBy: [...PRODUCTION, "millwork_shop_drawings"],
     priceAs: { lod: "LOD 100", sheets: 0 },
   },
   {
     id: "bim-model",
-    title: "BIM model — native file and IFC export",
+    title: "BIM model — native Archicad file, IFC, and .rvt export (no editable families)",
     addedBy: ["bim_modeling"],
     priceAs: { lod: "LOD 350", sheets: 1 },
   },
   {
     id: "clash-report",
-    title: "Clash-detection report and coordination issues log (Navisworks)",
+    title: "Clash-detection report and coordination issues log (Navisworks Manage or Archicad, depending on model size)",
     addedBy: ["mep_structural_coordination"],
     priceAs: { lod: "LOD 350", sheets: 1 },
   },

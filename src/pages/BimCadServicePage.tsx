@@ -27,19 +27,25 @@ const INCLUDED = [
   "Virtual Design & Construction (VDC) — full remote production",
   "Construction documentation packages (IBC, IRC, Title 24, FBC)",
   "BIM models at LOD 100–350, with LOD 400 by request",
-  "Parametric & computational design (Rhino + Grasshopper)",
-  "MEP & structural clash detection (Navisworks Manage)",
+  "Parametric & computational design (Rhino + Grasshopper, connected to Archicad through Tapir)",
+  "Clash detection & coordination (Archicad Collision Detection; Navisworks Manage for large federated models)",
   "Millwork and casework documentation",
 ];
 
+// Toolset in tiers (v3.3 Phase 0): what the work is authored in, what's delivered, and what
+// runs on the client's licence.
 const SOFTWARE = [
-  "3D BIM modeling (LOD 100–350)",
-  "AutoCAD Architectural & detailing",
-  "Rhino 7 / Grasshopper",
+  "Archicad — modeling, drafting & detailing (LOD 100–350)",
+  "GDL — parametric objects",
+  "Rhino + Grasshopper, connected to Archicad through Tapir",
+  "Python — Archicad automation through Tapir",
   "Ladybug & Karamba 3D (solar / structural)",
-  "Autodesk Navisworks (clash detection)",
-  "Bluebeam Revu (plan-check QA/QC)",
+  "Twinmotion (live link) · Coohom · BIMx",
 ];
+
+const FORMATS = ["Native Archicad", "IFC", "DWG (your layer standard)", "RVT export (geometry, no editable families)", "Vector PDF", "BIMx"];
+
+const ON_YOUR_LICENCE = ["Navisworks Manage", "AutoCAD / AutoCAD MEP", "Bluebeam Revu", "Cabinet Vision", "V-Ray", "Lumion"];
 
 // Each step of the process beside a sheet from a real set (v3.0 point 8).
 const PROCESS_STEPS = [
@@ -64,7 +70,7 @@ const PROCESS_STEPS = [
   {
     title: "Delivery and rapid redlines",
     description:
-      "Sheets in native BIM, DWG and vector PDF. Plan-check comments or structural markups are turned around in 24–48 hours.",
+      "Sheets as native Archicad, IFC, DWG and vector PDF, with an .rvt export for Revit offices. Plan-check comments or structural markups are turned around in 24–48 hours.",
     image: galleryImage("sheets/flats-building-section.webp", "Coordination", { title: "Urban flats — building section" }),
   },
 ];
@@ -82,7 +88,27 @@ const FAQS = [
   {
     question: "Do you work in my jurisdiction's code and CAD standard?",
     answer:
-      "Drawings follow the National CAD Standard / AIA layering and are prepared against IBC, IRC, California Title 24, Florida FBC (high-velocity wind zone), NYC DOB, UK Building Regulations, Canadian NBC and the Australian NCC — matched to your project's jurisdiction.",
+      "Drawings follow the National CAD Standard / AIA layering and are prepared against IBC, IRC, California Title 24, Florida FBC (high-velocity wind zone), NYC DOB, UK Building Regulations, Canadian NBC and the Australian NCC — matched to your project's jurisdiction. DWG exports are mapped to your layers, pens and titleblock.",
+  },
+  {
+    question: "Do you work in Revit?",
+    answer:
+      "Work is authored in Archicad and delivered as IFC and an .rvt export of the model — geometry, not editable families. Send your Revit families and they're converted to GDL to match your content.",
+  },
+  {
+    question: "Can you work in our Navisworks, AutoCAD or Bluebeam files?",
+    answer:
+      "Yes. Provide a temporary seat on your licence and the work is done directly in your files. Large federated models are clash-checked in Navisworks Manage.",
+  },
+  {
+    question: "Are you licensed?",
+    answer:
+      "PCATP-registered architect (Pakistan Council of Architects and Town Planners, A-07767). Sets are prepared for your architect or engineer of record to review and stamp.",
+  },
+  {
+    question: "When are you online?",
+    answer:
+      "9 am – 3 pm Eastern (8 am – 2 pm in winter), six days a week. Hand off by lunch, review first thing tomorrow.",
   },
 ];
 
@@ -244,8 +270,15 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
                 </ul>
               </div>
               <div>
-                <h3 className="eyebrow text-neutral-400">Software & standards</h3>
+                <h3 className="eyebrow text-neutral-400">Authored in</h3>
                 <ItemList items={SOFTWARE} className="mt-5" size="small" />
+                <h3 className="eyebrow mt-10 text-neutral-400">Delivered as</h3>
+                <p className="mt-4 text-small text-neutral-300">{FORMATS.join(" · ")}</p>
+                <h3 className="eyebrow mt-10 text-neutral-400">On your licence</h3>
+                <p className="mt-4 text-small text-neutral-300">{ON_YOUR_LICENCE.join(" · ")}</p>
+                <p className="mt-2 text-label text-neutral-500">
+                  Familiar with your stack. Provide a temporary seat and we work directly in your files.
+                </p>
               </div>
             </div>
           </Container>

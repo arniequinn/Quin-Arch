@@ -29,20 +29,20 @@ export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
     "Virtual Design & Construction (VDC) — Full Remote Production",
     "Construction Documentation Packages (IBC, IRC, Title 24, FBC)",
     "BIM Models (LOD 100–350; LOD 400 by request)",
-    "Parametric & Computational Design (Rhino + Grasshopper)",
-    "MEP & Structural Clash Detection (Navisworks Manage)",
+    "Parametric & Computational Design (Rhino + Grasshopper, connected to Archicad through Tapir)",
+    "Clash Detection & Coordination (Archicad Collision Detection; Navisworks Manage for large federated models)",
     "Millwork / Casework Documentation",
-    "Photorealistic Architectural Visualization (V-Ray / Lumion / Twinmotion)",
+    "Architectural Visualization (Twinmotion live link, Coohom)",
     "Dedicated White-Label BIM/VDC Retainers for Architecture & Engineering Firms"
   ],
   softwareProficiencies: [
-    "3D BIM Modeling (LOD 100–350)",
-    "AutoCAD Architectural & Detailing",
-    "Rhino 7 / Grasshopper Algorithmic",
+    "Archicad — BIM modeling, drafting & detailing (LOD 100–350)",
+    "GDL — parametric objects",
+    "Rhino + Grasshopper, connected to Archicad through Tapir",
+    "Python — Archicad automation through Tapir",
     "Ladybug & Karamba 3D (Solar/Structural)",
-    "Autodesk Navisworks (Clash Detection)",
-    "V-Ray / Lumion / Twinmotion 4K",
-    "Bluebeam Revu (Plan Check QA/QC)"
+    "Twinmotion (live link), Coohom",
+    "BIMx — client model review"
   ],
   yearsExperience: 9,
   completedProjectsCount: 380,
@@ -124,15 +124,15 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "Construction documentation",
     description: "The permit submission: site plan, dimensioned floor plans, elevations, sections, door and window schedules, and code sheets where the project type needs them.",
     standardTurnaroundDays: 7,
-    softwareUsed: ["AutoCAD 2024", "3D BIM Software", "Bluebeam Revu"],
+    softwareUsed: ["Archicad", "DWG export", "Bluebeam Revu (client licence)"],
   },
   {
     id: "bim_modeling",
     name: "BIM Model (LOD 100–350)",
     shortName: "BIM model",
-    description: "A coordinated model with parametric families, wall assemblies and schedules, delivered as the native file and an IFC export.",
+    description: "A coordinated Archicad model with parametric GDL objects, composites and schedules — delivered as the native file, IFC, and an .rvt export on request (geometry only, no editable families).",
     standardTurnaroundDays: 8,
-    softwareUsed: ["3D BIM Software", "Navisworks", "BIM 360", "IFC"],
+    softwareUsed: ["Archicad", "GDL", "IFC", "BIMx"],
   },
   {
     id: "construction_docs",
@@ -140,7 +140,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "Details & working drawings",
     description: "Large-scale drawings for contractor pricing and construction: wall sections, envelope, foundation and stair details, enlarged plans.",
     standardTurnaroundDays: 7,
-    softwareUsed: ["AutoCAD", "3D BIM Software", "AIA CAD Standards"],
+    softwareUsed: ["Archicad", "DWG export", "AIA CAD Standards"],
   },
   {
     id: "millwork_shop_drawings",
@@ -148,7 +148,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "Millwork documentation",
     description: "Interior elevations and joinery details for kitchens, vanities, counters and bespoke cabinetry, with materials and hardware.",
     standardTurnaroundDays: 5,
-    softwareUsed: ["AutoCAD", "Cabinet Vision", "3D BIM Software"],
+    softwareUsed: ["Archicad", "DWG export", "Cabinet Vision (client licence)"],
   },
   {
     id: "mep_structural_coordination",
@@ -156,7 +156,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     shortName: "Multi-discipline coordination",
     description: "Clash detection between the architectural, structural and MEP models, with an issues log — resolved on screen before anyone is on site.",
     standardTurnaroundDays: 5,
-    softwareUsed: ["Navisworks Manage", "3D BIM Software", "AutoCAD MEP"],
+    softwareUsed: ["Archicad", "Navisworks Manage (client licence)", "IFC"],
   },
 ];
 
@@ -192,7 +192,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     title: "Texas Coastal Beach House Residence",
     category: "CAD Permit Sets",
     description: "Architectural permit drawing package for an elevated coastal residence in Texas. Designed for high-velocity coastal hurricane wind zones with deep piling foundation, wraparound cantilever sundeck, open cathedral living, and IRC storm compliance.",
-    software: ["AutoCAD", "3D BIM", "IRC / Coastal Code Standards"],
+    software: ["Archicad", "DWG export", "IRC / Coastal Code Standards"],
     sheetDetails: "Floor plans for every level and elevations",
     cover: sheet("beach-house-south-elevation.webp", "South elevation", "Sheet A.02.1 — south elevation", 1815, 723),
     images: [
@@ -225,7 +225,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     title: "Slamburger Commercial Fast-Food Restaurant & Kitchen",
     category: "CAD Permit Sets",
     description: "Complete commercial hospitality and food-service architectural documentation. Produced front-of-house customer dining layout, commercial kitchen hood chases, grease trap routing, ADA compliant restrooms, and branded exterior facade elevations.",
-    software: ["3D BIM", "AutoCAD MEP", "Health & Fire Code"],
+    software: ["Archicad", "DWG export", "Health & Fire Code"],
     sheetDetails: "Plans, services layouts, kitchen elevations and renders",
     cover: img("/portfolio/sheets/slamburger-render-counter.webp", 1632, 1224, "Counter and booth seating", "Render from the drawing set", "render"),
     images: [
@@ -255,7 +255,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     title: "Cran Residence — Traditional Two-Story Home",
     category: "3D BIM",
     description: "Classic two-story red brick residence with a pitched roof, bay-fronted entry, and fenced front garden. Modeled from client sketches into a coordinated 3D BIM massing study for early design sign-off ahead of full construction documentation.",
-    software: ["3D BIM Software", "AutoCAD"],
+    software: ["Archicad", "Twinmotion"],
     sheetDetails: "Working model: plans by discipline, sections",
     cover: img("/portfolio/cran-perspective.jpg", 1478, 754, "Perspective", "Sheet 01.1 — perspective from the working model", "drawing"),
     images: [
@@ -282,7 +282,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     title: "Urban Multi-Family Residential Flats & Layouts",
     category: "3D BIM",
     description: "Space-optimized multi-unit residential apartment layout and unit typologies, fire egress stairs, MEP shafts, and structural grid alignment for urban development.",
-    software: ["3D BIM Software", "AutoCAD", "IBC Code Standards"],
+    software: ["Archicad", "DWG export", "IBC Code Standards"],
     sheetDetails: "Structural grid plan, building section and quantities",
     cover: sheet("flats-basement-plan-crop.webp", "Basement plan", "Basement plan on the structural grid", 2072, 1393),
     images: [
@@ -416,7 +416,7 @@ export const TIMELINE_OPTIONS = [
 // realistic onshore benchmark instead of a generic figure.
 //
 // Benchmarks are researched blended-market rates (Sept 2026):
-//  - BIM/CAD technician: freelance/outsourced Revit & BIM drafting runs
+//  - BIM/CAD technician: freelance/outsourced BIM drafting runs
 //    ~$35-95/hr with US/EU clients (CAD-only $25-70/hr); North America &
 //    Oceania sit at the top of that band (~$40-80/hr blended).
 //  - Architect consultant: mid-level (3-7yr) freelance consulting runs
