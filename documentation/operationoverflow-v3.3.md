@@ -256,7 +256,7 @@ Owner supplies originals (D6). All assets are anonymized, carry no client names,
 
 ---
 
-## Build status (2026-09-26)
+## Build status (2026-09-26) — v3.3 launched; only Phase 3 (+2c, video swap, Lighthouse re-check) remains, waiting on owner files
 
 | Phase | Status | Commit |
 |---|---|---|
@@ -267,7 +267,7 @@ Owner supplies originals (D6). All assets are anonymized, carry no client names,
 | 4 Firms-first IA | Done: "How we plug in" chapter, How We Work, `/for-homeowners/`, nav/footer, testimonials | 6ce2d7e |
 | 5 Service pages | Done, incl. case-study client/handover facts (turnaround not supplied, left out) | 6ce2d7e |
 | 6 Trust signals | Trust line done. Firm quotes and Clutch/GoodFirms footer link: owner-side | 4f87251 |
-| 7 QA & launch | Build, prerender, sitemap, canonicals, 375 px checks and `cta_click` tracking done. Outreach templates updated. Owner: send one live test through `/test-sheet/`; mark `cta_click` as a key event in GA4. Lighthouse re-check after the video swap (Phase 3) | 4f87251 |
+| 7 QA & launch | Build, prerender, sitemap, canonicals, 375 px checks and `cta_click` tracking done. Outreach templates updated. Live form test passed 2026-09-26 (delivered to arslan.qaiser1991@gmail.com; Web3Forms form renamed "Quinarch Site Form" — a junk-looking test lands in its Spam tab, which keeps 7 days on the free plan). Owner: mark `cta_click` as a key event in GA4. Lighthouse re-check after the video swap (Phase 3) | 4f87251 |
 
 ### Phase 3 — owner's guide (do it yourself, any time)
 
