@@ -1,6 +1,6 @@
 # Crunch Time — v3.33
 
-**Date:** 2026-09-26 · **Status:** the v3.33 plan. **v3.32 is live** (tag `v3.32`, commit `01bb53e`): D1 and D4 below.
+**Date:** 2026-09-27 · **Status:** the v3.33 plan. **v3.33 part 1 is live** (commits `30d665d`, `a1399d5` and the "free" removal): new hero headline, new hero video, no "free" anywhere on the site. v3.32 (D1, D4) is live too.
 Everything else is open. v3.33 ships when the section C decisions come back (C6–C12). The Phase 3 assets (C1–C3) can follow
 as v3.34 if the files take longer.
 
@@ -8,9 +8,10 @@ as v3.34 if the files take longer.
 
 | Version | Date | What shipped |
 |---|---|---|
-| v3.3 | 2026-09-26 | Operation Overflow: B2B overflow positioning, capacity call, free test sheet, How We Work, `/for-homeowners/` (see `operationoverflow-v3.3.md`) |
+| v3.3 | 2026-09-26 | Operation Overflow: B2B overflow positioning, capacity call, test sheet, How We Work, `/for-homeowners/` (see `operationoverflow-v3.3.md`) |
 | v3.32 | 2026-09-26 | Online hours shown in the visitor's time zone (DST-proof); honeypot anti-spam field on the test-sheet and LOD-guide forms |
-| v3.33 | planned | Section C decisions (C6–C12) and D2, D3, D5, D6 — see "v3.33 scope" below |
+| v3.33 part 1 | 2026-09-27 | Homepage hero headline "Architecture that listens" (futureprospects.md Option A, for the 1-second US bounce); new 1080p walkthrough hero video (8.7 MB) plus a 720p phone version (3.3 MB); the word "free" removed from every page and meta tag |
+| v3.33 part 2 | planned | Section C decisions (C6–C12) and D2, D3, D5, D6 — see "v3.33 scope" below |
 
 Everything still open across the planning docs, in one place. It's gathered from
 `operationoverflow-v3.3.md`, `v3.0-gallery-expansion.md`, `final-polish-v2.0.md`,
@@ -35,7 +36,7 @@ site better.
 | A1 | Message every past client (last 5 years): ask for a Clutch review, permission to quote them by name and firm, and one introduction to a firm that's stretched | Reviews unlock Clutch and GoodFirms and give firm-facing quotes for the site (C3) | Business plan §9.2 A; v3.3 6.1 |
 | A2 | Set up `arslan@quinarch.design` (Zoho free or Google Workspace) with SPF, DKIM and DMARC | Emails from a practice domain reach inboxes and read as a firm, not a freelancer | §9.5 item 2 |
 | A3 | Add the first 25 firms to `documentation/private/outreach-tracker.csv` and pick the 1–2 project types to lead with | The main source of new clients | §9.2 B |
-| A4 | Start sending: 5 emails a day using templates 1–2 (they now offer the free test sheet and carry UTM tags) | — | `outreach-email-templates.md` |
+| A4 | Start sending: 5 emails a day using templates 1–2 (they offer the test sheet and carry UTM tags; reworded without "free" 2026-09-27) | — | `outreach-email-templates.md` |
 | A5 | Set the render pilot price, the only placeholder left (`[PILOT PRICE]` in email 3) | Template 3 can't go out without it | Templates §3 |
 | A6 | Update the website link on Upwork, Cad Crowd, Fiverr, Freelancer and Instagram to `https://quinarch.design` | Marketplace visitors land on the new site | §9.5 item 5 |
 | A7 | Publish the LinkedIn posts, one a week (the Cran post wording was updated today), with 10–15 connection requests to firms on the tracker | Firms have seen your name before your email arrives | `phase2-linkedin-posts.md` |
@@ -92,7 +93,22 @@ site better.
 
 ---
 
-## Done today (2026-09-26), so not on the list
+## Done 2026-09-27 (v3.33 part 1)
+
+- **Hero copy:** H1 changed from "Your overflow design team — without the hire" to "Architecture that listens"; the
+  jargon subhead (CD sets, LOD 300–350) replaced with "On time, on budget, exactly what you imagined …". og and
+  twitter titles match. The page `<title>` (search-facing) is unchanged. **Interim line:** you want a stronger H1
+  later; judge this one on GA4 US bounce and engagement over 3–5 days first (to about 2026-10-01).
+- **Hero video:** the new 1080p apartment walkthrough replaces `hero-home.mp4` (30 MB original compressed to 8.7 MB,
+  30 fps, no audio, black lead-in/out trimmed, new poster). Phones under 768 px get `hero-home-720.mp4` (3.3 MB)
+  via `mobileSrc` in `HeroVideo.tsx`. The original is in `source-material/video/`. C3 is now only the LOD 300 → 350
+  recording plus the Lighthouse re-check.
+- **No "free" on the site:** buttons now say "Send a test sheet"; the test-sheet page reads "See the work before you
+  commit"; the "Free test sheet" step is "Start with a test sheet"; test-sheet and How We Work meta tags reworded;
+  the LOD 300 "clash-free" line reworded. Rule: the offer is implied, never worded as free. Outreach
+  templates 1–2 reworded the same way ("start with a test sheet", "send me one sheet first").
+
+## Done 2026-09-26, so not on the list
 
 - v3.3 Phases 0, 1, 2 (except 2c), 4, 5, 6 (trust line) and 7 (launch, form test, tracking): live.
 - Guest pitch signature changed from faizanqaiser9@ to arslan.qaiser1991@gmail.com, with the PCATP
@@ -126,4 +142,5 @@ commit → tag → push (GitHub Actions deploys).
 1. **This week:** A1–A7 and B1–B7 (you). ~~Claude does D1 and D4~~ done in v3.32.
 2. **As you go:** answer C6–C12 (one line each is enough) → Claude builds v3.33 in one batch with D2, D3, D5, D6.
 3. **When the files are ready:** C1–C3 (Phase 3) as v3.34, then C13 on your phone.
-4. **About 2026-10-26:** the 30-day review (D6), then decide on the H1, the offer and which firms to target.
+4. **About 2026-10-01:** read GA4 US bounce for the new hero (v3.33 part 1) and decide whether to write a stronger H1 now.
+5. **About 2026-10-26:** the 30-day review (D6), then decide on the H1, the offer and which firms to target.

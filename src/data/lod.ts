@@ -79,7 +79,7 @@ export const LOD_LEVELS: LodLevel[] = [
     definition:
       "The element, as designed, is modeled so that its quantity, size, shape, location and orientation can be measured directly from the model.",
     meaning:
-      "“Exactly this, exactly here, as designed.” Precise — but not yet checked against the other trades, so LOD 300 elements aren't guaranteed to be clash-free.",
+      "“Exactly this, exactly here, as designed.” Precise — but not yet checked against the other trades, so LOD 300 elements may still clash with other trades.",
     usedFor: "Construction documents, permit submissions, reliable quantities.",
     windowExample:
       "The specified window type at its actual rough-opening size, with head and sill heights and its exact position in the wall.",

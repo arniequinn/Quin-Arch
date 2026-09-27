@@ -237,7 +237,7 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
             </div>
             <div className="mt-12 flex justify-center">
               <Button href={ROUTES.testSheet} variant="secondary">
-                Send a test sheet — first one free
+                Send a test sheet
               </Button>
             </div>
           </Container>
@@ -365,7 +365,7 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
                     Price a single project
                   </Button>
                   <Button href={ROUTES.testSheet} variant="link" size="sm">
-                    Or send a test sheet — first one free
+                    Or send a test sheet
                   </Button>
                 </div>
               </div>

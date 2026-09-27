@@ -16,7 +16,7 @@ Sheets. Delete the `EXAMPLE` row before you start.
   you can't write one, skip the firm.
 - **Include one link**, matching the work to their project type (see the segment table). Never
   send the homepage and three other links.
-- **Make one ask:** the free test sheet (firms and builders), a 20-minute capacity call, or a paid render pilot (developers) — never more than one.
+- **Make one ask:** the test sheet (firms and builders), a 20-minute capacity call, or a paid render pilot (developers) — never more than one.
 - **Tag every site link** with `?utm_source=outreach&utm_medium=email&utm_campaign=overflow` (change `utm_source` per channel, e.g. `linkedin`) so GA4 shows which emails lead to calls and test sheets.
 - **Voice:** senior, specific and calm. No "affordable", no percentages saved, no "I hope this
   email finds you well", and no platform names (Upwork, Fiverr).
@@ -63,7 +63,7 @@ Not relevant? Reply "no" and I won't email again.
 > Here's a recent [project type] set, with the sheets and the code strategy:
 > [segment link]
 >
-> If a project is stacking up, the first test sheet is free: send one plan or elevation and
+> If a project is stacking up, start with a test sheet: send one plan or elevation and
 > judge the work on your own project before committing to anything:
 > https://quinarch.design/test-sheet/?utm_source=outreach&utm_medium=email&utm_campaign=overflow
 >
@@ -86,7 +86,7 @@ Not relevant? Reply "no" and I won't email again.
 >
 > A comparable set I delivered: [segment link]
 >
-> If you have a build waiting on drawings, the first sheet is free, so you see the quality
+> If you have a build waiting on drawings, send me one sheet first, so you see the quality
 > before the full set: https://quinarch.design/test-sheet/?utm_source=outreach&utm_medium=email&utm_campaign=overflow
 >
 > Would that be useful?

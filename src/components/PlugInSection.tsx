@@ -8,7 +8,7 @@ import { useOnlineHours } from "../utils/onlineHours";
 // the How We Work page.
 export const PLUG_IN_STEPS = [
   { title: "Send your standards", body: "Template, titleblock, layer standard and pens — or a past set to match." },
-  { title: "Free test sheet", body: "One plan or elevation drawn to your standards, back in 2 working days." },
+  { title: "Start with a test sheet", body: "One plan or elevation drawn to your standards, back in 2 working days." },
   { title: "Weekly capacity block", body: "A set number of hours each week on your projects, booked ahead." },
   { title: "Redlines in 24–48 h", body: "Markups in, corrected sheets out — while your team moves on." },
 ];
@@ -63,7 +63,7 @@ export const PlugInChapter: React.FC<{ compact?: boolean }> = ({ compact = false
           Book a 20-min capacity call
         </Button>
         <Button href={ROUTES.testSheet} variant="link" size={compact ? "sm" : "md"}>
-          Send a test sheet — first one free
+          Send a test sheet
         </Button>
       </div>
     </div>

@@ -8,14 +8,14 @@ import { BOOKING_URL, ROUTES } from "../data/routes";
 import { trackEvent } from "../services/analytics";
 import { SpecialistProfile } from "../types";
 
-// v3.3 Phase 2b: the low-risk trial for a firm — one sheet, drawn free, in their own template.
+// v3.3 Phase 2b: the low-risk trial for a firm — one sheet, drawn before they commit, in their own template.
 // Files are shared as a link (Dropbox / Drive / WeTransfer); nothing is uploaded to this site.
 // Posts to Web3Forms like EmailCaptureForm, with the same mailto fallback when no key is set.
 const ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
 // Offer terms (D4).
 const TERMS = [
-  "One sheet, free — a floor plan or an elevation",
+  "One sheet, before you commit to anything — a floor plan or an elevation",
   "Drawn in your template, titleblock and layer standard",
   "Capped at about 4 hours of production",
   "Back within 2 working days, as native Archicad, DWG and PDF",
@@ -171,7 +171,7 @@ export const TestSheetPage: React.FC<{ specialist: SpecialistProfile }> = ({ spe
         { label: "Test sheet" },
       ]}
       eyebrow="Try before you commit"
-      title="Send a test sheet — the first one is free."
+      title="Send a test sheet. See the work before you commit."
       intro="The quickest way to judge overflow help is to see it on your own project. Send one sheet's worth of work and get it back drawn to your standards."
     />
     <Section raised>

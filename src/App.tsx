@@ -144,7 +144,7 @@ export default function App({ initialSpecialist }: AppProps) {
                       Book a 20-min capacity call
                     </Button>
                     <Button href={ROUTES.testSheet} variant="secondary">
-                      Send a test sheet — first one free
+                      Send a test sheet
                     </Button>
                   </div>
 

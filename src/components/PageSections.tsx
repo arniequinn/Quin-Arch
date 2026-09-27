@@ -90,7 +90,7 @@ export const NotIncludedSection: React.FC<{ service: EstimatorService; raised?: 
   ) : null;
 
 /** The closing call to action on every page that sells something (v3.3 Phase 2): the capacity
- *  call, plus the free test sheet — or, for visualization, pricing a single project.
+ *  call, plus the test sheet — or, for visualization, pricing a single project.
  *  Email and WhatsApp live in the footer's contact band, directly below. */
 export const ContactSection: React.FC<{
   title: string;
@@ -110,7 +110,7 @@ export const ContactSection: React.FC<{
             </Button>
           ) : (
             <Button href={ROUTES.testSheet} variant="secondary">
-              Send a test sheet — first one free
+              Send a test sheet
             </Button>
           )}
         </div>
