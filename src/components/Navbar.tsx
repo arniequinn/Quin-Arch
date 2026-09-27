@@ -42,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({ specialist }) => {
           </span>
         </a>
 
-        <nav aria-label="Main" className="hidden items-center gap-8 nav:flex">
+        <nav aria-label="Main" className="ml-auto hidden items-center gap-8 nav:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
