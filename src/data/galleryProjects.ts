@@ -401,7 +401,10 @@ const CONTENT: Record<string, ProjectContent> = {
       "A new air-conditioning, extract and fresh-air system for an existing office floor. The existing building was modelled first, then every duct, grille and diffuser was placed in 3D around its columns, stair core and ceiling heights.",
       "The same model produced the drawings and the bill of quantities: duct lengths, fittings and terminals counted from the model, not measured off a plan by hand.",
     ],
-    facts: [{ label: "Role", value: "BIM consultant" }],
+    facts: [
+      { label: "Role", value: "BIM consultant" },
+      { label: "Sheets", value: "6" },
+    ],
     items: [
       hvac("sheets/office-hvac-duct-axonometric-boq.webp", "Every duct, grille and diffuser in 3D, with the terminal and ducting quantities beside it"),
       hvac("sheets/office-hvac-ducting-plan.webp", "Over the existing floor, colour-coded: insulated supply, exhaust and fresh air, each run tagged with size and level"),
@@ -440,6 +443,7 @@ const CONTENT: Record<string, ProjectContent> = {
       "A two-storey family house: five bedrooms and five bathrooms, a drawing room, a study and a double garage, drawn as furnished plans with the area of every room.",
       "The materials schedule is generated from the BIM model — every slab, wall and stair by storey, with thickness, area and volume — so the quantities stay in step with the design.",
     ],
+    facts: [{ label: "Sheets", value: "2" }],
     items: [
       villa("sheets/villa-ground-floor-plan.webp", "Master bedroom and bedroom 2, living, dining, kitchen, drawing room and the double garage — every room with its area"),
       villa("sheets/villa-first-floor-plan.webp", "Bedrooms 3 to 5, a family living room, the study and a front terrace"),
@@ -452,7 +456,10 @@ const CONTENT: Record<string, ProjectContent> = {
     description: [
       "Preliminary drawings for a working horse barn: fourteen stalls either side of a 14-foot passage, two feed rooms, wash and grooming stalls, a tack room, laundry and utility, with living quarters and an office at the entrance end.",
     ],
-    facts: [{ label: "Stage", value: "Preliminary design" }],
+    facts: [
+      { label: "Stage", value: "Preliminary design" },
+      { label: "Sheets", value: "3" },
+    ],
     items: [
       barn("sheets/barn-perspective.webp", "The barn from the model: the entrance gable, cupolas and the stall wing", { kind: "model" }),
       barn("sheets/barn-ground-floor-plan.webp", "Fourteen stalls on a 14-foot passage, feed rooms, wash and grooming stalls, and the living quarters"),
@@ -466,7 +473,10 @@ const CONTENT: Record<string, ProjectContent> = {
       "The client behind the first Foxhole House came back a couple of years later with a new plot and a smaller brief. This is the preliminary submission for it: basement, ground and first floors and an attic, four elevations, and two sections through the stair and the living spaces.",
       "Cut-away views of each floor, taken from the model, show the layout in three dimensions.",
     ],
-    facts: [{ label: "Client", value: "Returning — after the first Foxhole House" }],
+    facts: [
+      { label: "Client", value: "Returning — after the first Foxhole House" },
+      { label: "Sheets", value: "5" },
+    ],
     items: [
       foxhole("sheets/foxhole-section-and-exterior.webp", "Cut through the living spaces, and the house in its setting"),
       foxhole("sheets/foxhole-floor-plans.webp", "Ground floor with the living rooms; first floor with the bedrooms under the hipped roof"),
@@ -485,6 +495,9 @@ export const GALLERY_PROJECTS: GalleryProject[] = PROJECT_PAGES.map((page) => {
   if (!cover) throw new Error(`galleryProjects: ${page.slug}'s cover ${page.cover} isn't one of its items`);
   return { ...content, slug: page.slug, title: page.title, kind: page.kind, summary: page.summary, cover };
 });
+
+/** Sheets in a project's drawing set, from its "Sheets" fact (0 when it has none). */
+export const sheetCountOf = (project: GalleryProject) => Number(project.facts?.find((f) => f.label === "Sheets")?.value ?? 0);
 
 export const projectBySlug = (slug: string) => GALLERY_PROJECTS.find((p) => p.slug === slug);
 export const projectsIn = (category: GalleryCategory) => GALLERY_PROJECTS.filter((p) => p.category === category);
