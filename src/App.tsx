@@ -128,15 +128,14 @@ export default function App({ initialSpecialist }: AppProps) {
 
                   {/* Editorial headline — the dominant element on first paint */}
                   <h1 className="font-display text-[clamp(1.75rem,min(9vw,4.6vh),3rem)] font-semibold leading-[1.05] tracking-tight text-neutral-100 sm:text-[clamp(2.75rem,min(7vw,8.5vh),6rem)]">
-                    Shelter. Light.{" "}
+                    Your vision.{" "}
                     <br className="hidden sm:block" />
-                    <span className="text-amber-400">Comfort. Calm.</span>
+                    <span className="text-amber-400">Our project.</span>
                   </h1>
 
                   <p className="text-outlined mx-auto mt-3 max-w-2xl text-small sm:mt-6 sm:text-body">
-                    Quintessential architecture: the four things every good building gets right. A registered
-                    architect who draws them in your standards, with revisions back in 24–48 hours, online{" "}
-                    {onlineHours.long}, six days a week.
+                    We treat your drawings like our own: drawn by a registered architect in your standards, with
+                    revisions back in 24–48 hours, online {onlineHours.long}, six days a week.
                   </p>
 
                   {/* One primary action, one secondary (v3.0 point 16: no LOD link on the landing page) */}
