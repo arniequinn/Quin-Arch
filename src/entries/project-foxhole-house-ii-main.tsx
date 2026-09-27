@@ -4,7 +4,7 @@ import { GalleryProjectPage } from "../pages/GalleryProjectPage";
 import { projectBySlug } from "../data/galleryProjects";
 import { mountPage } from "./mountPage";
 
-const project = projectBySlug("foxhole-house")!;
+const project = projectBySlug("foxhole-house-ii")!;
 
 export const render = mountPage((specialist) => (
   <PageShell specialist={specialist}>

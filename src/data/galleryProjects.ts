@@ -165,7 +165,7 @@ const hvac = inProject("office-hvac-retrofit");
 const reno = inProject("residence-renovation");
 const villa = inProject("two-storey-villa");
 const barn = inProject("fourteen-stall-barn");
-const foxhole = inProject("foxhole-house");
+const foxhole = inProject("foxhole-house-ii");
 
 const CONTENT: Record<string, ProjectContent> = {
   "dark-living-room": {
@@ -459,20 +459,19 @@ const CONTENT: Record<string, ProjectContent> = {
     ],
     services: ["bim"],
   },
-  "foxhole-house": {
+  "foxhole-house-ii": {
     category: "drawings",
     description: [
-      "A preliminary submission for a family house in the Weald: basement, ground and first floors and an attic, four elevations, and two sections through the stair and the living spaces.",
+      "The client behind the first Foxhole House came back a couple of years later with a new plot and a smaller brief. This is the preliminary submission for it: basement, ground and first floors and an attic, four elevations, and two sections through the stair and the living spaces.",
       "Cut-away views of each floor, taken from the model, show the layout in three dimensions.",
     ],
-    facts: [{ label: "Location", value: "Wealden, England" }],
+    facts: [{ label: "Client", value: "Returning — after the first Foxhole House" }],
     items: [
       foxhole("sheets/foxhole-section-and-exterior.webp", "Cut through the living spaces, and the house in its setting"),
       foxhole("sheets/foxhole-floor-plans.webp", "Ground floor with the living rooms; first floor with the bedrooms under the hipped roof"),
       foxhole("sheets/foxhole-elevations.webp", "All four sides, weatherboard over a stone plinth"),
       foxhole("sheets/foxhole-stair-section.webp", "Through the stair, from the basement to the roof"),
       foxhole("sheets/foxhole-iso-views.webp", "Each floor lifted off and seen from above, furnished", { kind: "model" }),
-      foxhole("sheets/06-foxhole-house-wealden-elevation-and-plan.webp", "Elevation and ground-floor plan"),
     ],
     services: ["bim"],
   },
