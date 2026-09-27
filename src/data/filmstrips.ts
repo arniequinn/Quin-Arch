@@ -76,16 +76,28 @@ const sheet = (file: string, title: string) => fromPath(`sheets/${file}`, title,
 // T3: sheets from the drawing sets, trimmed to the drawing, alternating between projects.
 const DRAFTING = [
   sheet("beach-house-a011-first-level.webp", "Texas beach house — first-level plan"),
+  sheet("office-hvac-ducting-plan.webp", "Office HVAC retrofit — ducting plan"),
   sheet("slamburger-a01-floor-plans.webp", "Slamburger restaurant — floor plans"),
+  sheet("villa-ground-floor-plan.webp", "Two-storey villa — ground floor plan"),
+  sheet("reno-master-bath-plans.webp", "Residence renovation — master bath, demolition to new"),
   sheet("02-kids-room-elevation-a.webp", "Kids room — interior elevation"),
+  sheet("barn-perspective.webp", "Fourteen-stall barn — perspective"),
   sheet("flats-basement-plan.webp", "Urban flats — basement plan"),
+  sheet("cran-017-first-floor-mep.webp", "Cran Residence — first-floor services"),
+  sheet("foxhole-elevations.webp", "Foxhole House II — elevations"),
   sheet("cran-015-first-floor.webp", "Cran Residence — first-floor plan"),
+  sheet("office-hvac-duct-elevations.webp", "Office HVAC retrofit — duct elevations"),
   sheet("beach-house-a021-elevations.webp", "Texas beach house — elevations"),
+  sheet("reno-kitchen-plans.webp", "Residence renovation — kitchen"),
   sheet("05-foster-home-australia-axonometrics.webp", "Foster home, Australia — axonometric views"),
+  sheet("barn-ground-floor-plan.webp", "Fourteen-stall barn — ground floor plan"),
   sheet("slamburger-a06-kitchen-elevations.webp", "Slamburger restaurant — kitchen elevations"),
+  sheet("villa-first-floor-plan.webp", "Two-storey villa — first floor plan"),
   sheet("flats-section-quantities.webp", "Urban flats — section and quantities"),
+  sheet("slamburger-a03-hvac-first.webp", "Slamburger restaurant — first-floor HVAC"),
   sheet("03-kids-room-elevation-b.webp", "Kids room — interior elevation"),
   sheet("cran-018-sections.webp", "Cran Residence — sections"),
+  sheet("reno-master-plan-demo-and-new.webp", "Residence renovation — whole-house demolition and new work"),
   sheet("beach-house-a012-second-level.webp", "Texas beach house — second-level plan"),
   sheet("slamburger-a04-lighting-electrical.webp", "Slamburger restaurant — lighting and electrical"),
 ];
@@ -93,10 +105,12 @@ const DRAFTING = [
 // T4: whole screens as captured — model, sheet and schedule side by side — and model views. The two
 // 543 px triple screens stay off the strip: they'd hold the whole band to a third of the stage.
 const BIM = [
+  sheet("office-hvac-duct-axonometric-boq.webp", "Office HVAC retrofit — duct model and quantities"),
   ribbonFile("ribbon/screens/structural-and-analytical-model.webp", "Structural and analytical model, with its script"),
   fromPath("exterior-showcase/timber-cabin/02-3d-model.webp", "Timber cabin — 3D model", "model"),
   fromPath("bimcad-workflow/originals/03-barndominium-plan-and-script.webp", "Barndominium plan, linked to its script", "screenshot"),
   fromPath("visualization-showcase/master-bathroom/01-isometric-view.webp", "Master bathroom — isometric view", "model"),
+  sheet("villa-materials-schedule.webp", "Two-storey villa — materials schedule from the model"),
   fromPath("exterior-showcase/pavilion-restaurant/02-3d-model.webp", "Pavilion restaurant — 3D model", "model"),
 ];
 

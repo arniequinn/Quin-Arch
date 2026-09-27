@@ -496,6 +496,14 @@ export const RIBBON_FILES: Record<string, { w: number; h: number }> = {
     "w": 1446,
     "h": 1200
   },
+  "ribbon/sheets/barn-ground-floor-plan.webp": {
+    "w": 2416,
+    "h": 1200
+  },
+  "ribbon/sheets/barn-perspective.webp": {
+    "w": 2509,
+    "h": 1181
+  },
   "ribbon/sheets/beach-house-a011-first-level.webp": {
     "w": 1709,
     "h": 1200
@@ -512,6 +520,10 @@ export const RIBBON_FILES: Record<string, { w: number; h: number }> = {
     "w": 1725,
     "h": 1200
   },
+  "ribbon/sheets/cran-017-first-floor-mep.webp": {
+    "w": 1890,
+    "h": 1200
+  },
   "ribbon/sheets/cran-018-sections.webp": {
     "w": 1725,
     "h": 1200
@@ -524,8 +536,40 @@ export const RIBBON_FILES: Record<string, { w: number; h: number }> = {
     "w": 1799,
     "h": 1090
   },
+  "ribbon/sheets/foxhole-elevations.webp": {
+    "w": 2219,
+    "h": 1200
+  },
+  "ribbon/sheets/office-hvac-duct-axonometric-boq.webp": {
+    "w": 1818,
+    "h": 1200
+  },
+  "ribbon/sheets/office-hvac-duct-elevations.webp": {
+    "w": 1912,
+    "h": 1200
+  },
+  "ribbon/sheets/office-hvac-ducting-plan.webp": {
+    "w": 1787,
+    "h": 1200
+  },
+  "ribbon/sheets/reno-kitchen-plans.webp": {
+    "w": 1677,
+    "h": 1200
+  },
+  "ribbon/sheets/reno-master-bath-plans.webp": {
+    "w": 1779,
+    "h": 1200
+  },
+  "ribbon/sheets/reno-master-plan-demo-and-new.webp": {
+    "w": 2548,
+    "h": 1200
+  },
   "ribbon/sheets/slamburger-a01-floor-plans.webp": {
     "w": 1725,
+    "h": 1200
+  },
+  "ribbon/sheets/slamburger-a03-hvac-first.webp": {
+    "w": 1327,
     "h": 1200
   },
   "ribbon/sheets/slamburger-a04-lighting-electrical.webp": {
@@ -534,6 +578,18 @@ export const RIBBON_FILES: Record<string, { w: number; h: number }> = {
   },
   "ribbon/sheets/slamburger-a06-kitchen-elevations.webp": {
     "w": 1725,
+    "h": 1200
+  },
+  "ribbon/sheets/villa-first-floor-plan.webp": {
+    "w": 685,
+    "h": 1200
+  },
+  "ribbon/sheets/villa-ground-floor-plan.webp": {
+    "w": 605,
+    "h": 1200
+  },
+  "ribbon/sheets/villa-materials-schedule.webp": {
+    "w": 2178,
     "h": 1200
   },
   "ribbon/visualization-showcase/master-bathroom/01-isometric-view.webp": {
@@ -649,15 +705,29 @@ export const RIBBON_OF: Record<string, string> = {
   "sheets/02-kids-room-elevation-a.webp": "ribbon/sheets/02-kids-room-elevation-a.webp",
   "sheets/03-kids-room-elevation-b.webp": "ribbon/sheets/03-kids-room-elevation-b.webp",
   "sheets/05-foster-home-australia-axonometrics.webp": "ribbon/sheets/05-foster-home-australia-axonometrics.webp",
+  "sheets/barn-ground-floor-plan.webp": "ribbon/sheets/barn-ground-floor-plan.webp",
+  "sheets/barn-perspective.webp": "ribbon/sheets/barn-perspective.webp",
   "sheets/beach-house-a011-first-level.webp": "ribbon/sheets/beach-house-a011-first-level.webp",
   "sheets/beach-house-a012-second-level.webp": "ribbon/sheets/beach-house-a012-second-level.webp",
   "sheets/beach-house-a021-elevations.webp": "ribbon/sheets/beach-house-a021-elevations.webp",
   "sheets/cran-015-first-floor.webp": "ribbon/sheets/cran-015-first-floor.webp",
+  "sheets/cran-017-first-floor-mep.webp": "ribbon/sheets/cran-017-first-floor-mep.webp",
   "sheets/cran-018-sections.webp": "ribbon/sheets/cran-018-sections.webp",
   "sheets/flats-basement-plan.webp": "ribbon/sheets/flats-basement-plan.webp",
   "sheets/flats-section-quantities.webp": "ribbon/sheets/flats-section-quantities.webp",
+  "sheets/foxhole-elevations.webp": "ribbon/sheets/foxhole-elevations.webp",
+  "sheets/office-hvac-duct-axonometric-boq.webp": "ribbon/sheets/office-hvac-duct-axonometric-boq.webp",
+  "sheets/office-hvac-duct-elevations.webp": "ribbon/sheets/office-hvac-duct-elevations.webp",
+  "sheets/office-hvac-ducting-plan.webp": "ribbon/sheets/office-hvac-ducting-plan.webp",
+  "sheets/reno-kitchen-plans.webp": "ribbon/sheets/reno-kitchen-plans.webp",
+  "sheets/reno-master-bath-plans.webp": "ribbon/sheets/reno-master-bath-plans.webp",
+  "sheets/reno-master-plan-demo-and-new.webp": "ribbon/sheets/reno-master-plan-demo-and-new.webp",
   "sheets/slamburger-a01-floor-plans.webp": "ribbon/sheets/slamburger-a01-floor-plans.webp",
+  "sheets/slamburger-a03-hvac-first.webp": "ribbon/sheets/slamburger-a03-hvac-first.webp",
   "sheets/slamburger-a04-lighting-electrical.webp": "ribbon/sheets/slamburger-a04-lighting-electrical.webp",
   "sheets/slamburger-a06-kitchen-elevations.webp": "ribbon/sheets/slamburger-a06-kitchen-elevations.webp",
+  "sheets/villa-first-floor-plan.webp": "ribbon/sheets/villa-first-floor-plan.webp",
+  "sheets/villa-ground-floor-plan.webp": "ribbon/sheets/villa-ground-floor-plan.webp",
+  "sheets/villa-materials-schedule.webp": "ribbon/sheets/villa-materials-schedule.webp",
   "visualization-showcase/master-bathroom/01-isometric-view.webp": "ribbon/visualization-showcase/master-bathroom/01-isometric-view.webp"
 };
