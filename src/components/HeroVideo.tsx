@@ -5,7 +5,7 @@ import { useAfterLoad } from "./filmstrip/useAfterLoad";
 // The hero background videos (v3.0 phase 9), made by scripts/build-hero-videos.mjs from the
 // owner's own reels — self-hosted, so there's no player to download, no cookies and no branding.
 export const HERO_VIDEOS = {
-  home: { src: "/video/hero-home.mp4", poster: "/video/hero-home.webp" },
+  home: { src: "/video/hero-home.mp4", mobileSrc: "/video/hero-home-720.mp4", poster: "/video/hero-home.webp" },
   bimCad: { src: "/video/hero-bim-cad.mp4", poster: "/video/hero-bim-cad.webp" },
   visualization: { src: "/video/hero-visualization.mp4", poster: "/video/hero-visualization.webp" },
 } as const;
@@ -20,6 +20,8 @@ export const SCRIM = {
 
 interface HeroVideoProps {
   src: string;
+  /** Lighter cut for phone-width screens; falls back to `src`. */
+  mobileSrc?: string;
   poster: string;
   scrim?: string;
 }
@@ -32,7 +34,7 @@ interface HeroVideoProps {
 //   paint).
 // - It pauses whenever it's scrolled out of view (the ribbons carry the hero off the top).
 // - Under reduced motion only the poster shows.
-export const HeroVideo: React.FC<HeroVideoProps> = ({ src, poster, scrim = SCRIM.centred }) => {
+export const HeroVideo: React.FC<HeroVideoProps> = ({ src, mobileSrc, poster, scrim = SCRIM.centred }) => {
   const ready = useAfterLoad();
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLVideoElement>(null);
@@ -59,7 +61,8 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({ src, poster, scrim = SCRIM
       {ready && !reduceMotion && (
         <video
           ref={ref}
-          src={src}
+          // Chosen once at mount; the video only mounts client-side, after load.
+          src={mobileSrc && window.matchMedia("(max-width: 767px)").matches ? mobileSrc : src}
           poster={poster}
           muted
           loop
