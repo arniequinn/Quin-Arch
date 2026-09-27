@@ -46,8 +46,8 @@ export const ForHomeownersPage: React.FC = () => (
     <PageHeader
       breadcrumbs={[{ label: "Home", href: ROUTES.home }, { label: "For Homeowners" }]}
       eyebrow="For homeowners and individual clients"
-      title="A building designed around how you actually live."
-      intro="Building or renovating is a big decision and a lot of paperwork. You get one accountable architect who handles the design thinking and the technical documentation together."
+      title="Shelter. Light. Comfort. Calm."
+      intro="The four things a good home gets right, designed around how you actually live. Building or renovating is a big decision and a lot of paperwork, so you get one accountable architect who handles the design and the technical drawings together."
     />
     <Section raised>
       <Container>
