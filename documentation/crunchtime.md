@@ -45,7 +45,7 @@ site better.
 
 | # | Task | Where |
 |---|---|---|
-| B1 | Mark `cta_click`, `contact_click` and `generate_lead` as key events. Register `cta`, `method`, `link_location` and `lead_source` as event-scoped custom dimensions | GA4 → Admin → Events / Custom definitions |
+| B1 | ✅ **Mostly done 2026-09-27 (by Claude in the built-in browser).** `cta_click` and `generate_lead` are key events; the four dimensions exist. **Left:** star `contact_click` once it appears in Admin → Events (after the first real email/WhatsApp tap). Originally: mark `cta_click`, `contact_click` and `generate_lead` as key events. Register `cta`, `method`, `link_location` and `lead_source` as event-scoped custom dimensions | GA4 → Admin → Events / Custom definitions |
 | B2 | Tick **Enforce HTTPS** if it isn't already | GitHub → repo → Settings → Pages |
 | B3 | Import the site from Search Console, and run the Rich Results Test on the homepage and one case study | Bing Webmaster Tools; search.google.com/test/rich-results |
 | B4 | Check GoodFirms and Clutch approval. When the GoodFirms portfolio unlocks, paste in the three entries (updated today with PCATP and Archicad wording) and the company-profile lines in its Notes | `phase4-goodfirms-portfolio.md` |
