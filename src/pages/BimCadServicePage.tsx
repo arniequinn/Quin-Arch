@@ -123,7 +123,7 @@ const FAQS = [
 const STRIPS = pageFilmstrips("bimCad");
 
 const PROOF_SAMPLE_IDS = ["sample-beach-house", "sample-cran-residence", "sample-urban-flats"];
-const PROOF_PROJECTS = ["serene-suites", "vip-lounge-dubai"];
+const PROOF_PROJECTS = ["office-hvac-retrofit", "residence-renovation", "serene-suites", "vip-lounge-dubai"];
 
 const WHATS_INCLUDED_IMAGE = galleryImage("sheets/02-kids-room-elevation-a.webp", "Interior elevation — drawn for the joiner", {
   project: "kids-room",

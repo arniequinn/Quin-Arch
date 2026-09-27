@@ -121,6 +121,8 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = () => (
         </Reveal>
         <SubHeading>Built and documented</SubHeading>
         <ProjectCards projects={byslug("serene-suites", "vip-lounge-dubai", "barndo-florida")} />
+        <SubHeading>More drawing sets</SubHeading>
+        <ProjectCards projects={projectsIn("drawings")} />
         <SubHeading>Client stories</SubHeading>
         <ClientStories stories={CLIENT_STORIES} />
         <SubHeading>Details and elevations</SubHeading>

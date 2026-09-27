@@ -161,6 +161,11 @@ const apartment = inProject("apartment-interiors");
 const serene = inProject("serene-suites");
 const vip = inProject("vip-lounge-dubai");
 const barndo = inProject("barndo-florida");
+const hvac = inProject("office-hvac-retrofit");
+const reno = inProject("residence-renovation");
+const villa = inProject("two-storey-villa");
+const barn = inProject("fourteen-stall-barn");
+const foxhole = inProject("foxhole-house");
 
 const CONTENT: Record<string, ProjectContent> = {
   "dark-living-room": {
@@ -387,6 +392,87 @@ const CONTENT: Record<string, ProjectContent> = {
       barndo("sheets/11-barndo-florida-floor-plans.webp", "Main and mezzanine floor plans"),
       barndo("sheets/12-barndo-florida-wall-section.webp", "Wall section"),
       barndo("bimcad-workflow/10a-barndominium-plan.webp", "Dimensioned ground-floor plan", { title: "Barndo, Florida — ground-floor plan" }),
+    ],
+    services: ["bim"],
+  },
+  "office-hvac-retrofit": {
+    category: "drawings",
+    description: [
+      "A new air-conditioning, extract and fresh-air system for an existing office floor. The existing building was modelled first, then every duct, grille and diffuser was placed in 3D around its columns, stair core and ceiling heights.",
+      "The same model produced the drawings and the bill of quantities: duct lengths, fittings and terminals counted from the model, not measured off a plan by hand.",
+    ],
+    facts: [{ label: "Role", value: "BIM consultant" }],
+    items: [
+      hvac("sheets/office-hvac-duct-axonometric-boq.webp", "3D duct model, with the terminals and ducting quantities"),
+      hvac("sheets/office-hvac-ducting-plan.webp", "Ducting plan over the existing floor — supply, exhaust and fresh air"),
+      hvac("sheets/office-hvac-duct-elevations.webp", "Three duct elevations, with heights above the floor"),
+      hvac("sheets/office-hvac-ducting-boq.webp", "Ducting bill of quantities, by fitting type"),
+    ],
+    services: ["bim"],
+  },
+  "residence-renovation": {
+    category: "drawings",
+    description: [
+      "A whole-house renovation, organised as six chapters: the master bath, the bedrooms and hall, a second bathroom, the stair, the kitchen and bar, and a third bathroom. Each room is drawn four ways on one sheet — what comes out, the shell after demolition, the new work, and the finished plan — so a contractor can price and sequence it without guessing.",
+      "Lighting, electrical and plumbing get their own sheets per room, and every wall, door, light and fitting that is removed or added is scheduled from the model.",
+    ],
+    facts: [
+      { label: "Role", value: "BIM manager" },
+      { label: "Sheets", value: "15" },
+    ],
+    items: [
+      reno("sheets/reno-master-plan-demo-and-new.webp", "Master plan — demolition (red) and new work (yellow)"),
+      reno("sheets/reno-demolition-schedules.webp", "Schedules of everything removed: zones, walls, doors, lights and electrical"),
+      reno("sheets/reno-master-bath-plans.webp", "Master bath — demolition, after demolition, new work, planned"),
+      reno("sheets/reno-master-bath-lighting.webp", "Master bath — ceiling and lighting"),
+      reno("sheets/reno-master-bath-plumbing.webp", "Master bath — plumbing"),
+      reno("sheets/reno-bedrooms-plans.webp", "Bedrooms and hall"),
+      reno("sheets/reno-bedrooms-lighting.webp", "Bedrooms and hall — ceiling and lighting"),
+      reno("sheets/reno-kitchen-plans.webp", "Kitchen and bar"),
+      reno("sheets/reno-kitchen-lighting.webp", "Kitchen and bar — lighting"),
+      reno("sheets/reno-bath-3-plans.webp", "Bathroom 3"),
+    ],
+    services: ["bim"],
+  },
+  "two-storey-villa": {
+    category: "drawings",
+    description: [
+      "A two-storey family house: five bedrooms and five bathrooms, a drawing room, a study and a double garage, drawn as furnished plans with the area of every room.",
+      "The materials schedule is generated from the BIM model — every slab, wall and stair by storey, with thickness, area and volume — so the quantities stay in step with the design.",
+    ],
+    items: [
+      villa("sheets/villa-floor-plans.webp", "Ground and first floor, furnished, with room areas"),
+      villa("sheets/villa-materials-schedule.webp", "Materials schedule from the model — area and volume by element"),
+    ],
+    services: ["bim"],
+  },
+  "fourteen-stall-barn": {
+    category: "drawings",
+    description: [
+      "Preliminary drawings for a working horse barn: fourteen stalls either side of a 14-foot passage, two feed rooms, wash and grooming stalls, a tack room, laundry and utility, with living quarters and an office at the entrance end.",
+    ],
+    facts: [{ label: "Stage", value: "Preliminary design" }],
+    items: [
+      barn("sheets/barn-perspective.webp", "Perspective from the model", { kind: "model" }),
+      barn("sheets/barn-ground-floor-plan.webp", "Ground floor — stalls, passage and the apartment"),
+      barn("sheets/barn-upper-floor-plan.webp", "Upper floor over the apartment, and the roof framing"),
+    ],
+    services: ["bim"],
+  },
+  "foxhole-house": {
+    category: "drawings",
+    description: [
+      "A preliminary submission for a family house in the Weald: basement, ground and first floors and an attic, four elevations, and two sections through the stair and the living spaces.",
+      "Cut-away views of each floor, taken from the model, show the layout in three dimensions.",
+    ],
+    facts: [{ label: "Location", value: "Wealden, England" }],
+    items: [
+      foxhole("sheets/foxhole-section-and-exterior.webp", "Section through the house, and the exterior from the model"),
+      foxhole("sheets/foxhole-floor-plans.webp", "Ground and first floor plans"),
+      foxhole("sheets/foxhole-elevations.webp", "East, north, south and west elevations"),
+      foxhole("sheets/foxhole-stair-section.webp", "Section through the stair"),
+      foxhole("sheets/foxhole-iso-views.webp", "Cut-away views of the ground and first floors", { kind: "model" }),
+      foxhole("sheets/06-foxhole-house-wealden-elevation-and-plan.webp", "Elevation and ground-floor plan"),
     ],
     services: ["bim"],
   },

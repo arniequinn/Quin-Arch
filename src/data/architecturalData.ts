@@ -1,5 +1,6 @@
 import { ProjectTypeOption, ServiceOption, PortfolioItem, SpecialistProfile, TargetMarket, MarketBenchmarkRates, TrackImage } from "../types";
 import { assetUrl } from "../utils/assetPath";
+import { GALLERY_ASSETS } from "./galleryAssets";
 
 export const DEFAULT_SPECIALIST_PROFILE: SpecialistProfile = {
   name: "Arslan Qaiser",
@@ -187,6 +188,13 @@ const img = (
 const sheet = (file: string, title: string, caption: string, width = 2000, height = 1415) =>
   img(`/portfolio/sheets/${file}`, width, height, title, caption, "drawing");
 
+/** A sheet published by the gallery pipeline; its size comes from galleryAssets.ts. */
+const built = (file: string, title: string, caption: string, kind: "drawing" | "render" = "drawing") => {
+  const asset = GALLERY_ASSETS[`sheets/${file}`];
+  if (!asset) throw new Error(`architecturalData: sheets/${file} isn't in galleryAssets.ts`);
+  return img(`/portfolio/sheets/${file}`, asset.w, asset.h, title, caption, kind);
+};
+
 export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
   {
     id: "sample-beach-house",
@@ -236,8 +244,10 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
       img("/portfolio/sheets/slamburger-render-dining.webp", 1632, 1224, "Service counter", "Render — the counter and open kitchen from the dining room", "render"),
       img("/portfolio/sheets/slamburger-render-seating.webp", 1632, 1224, "Dining room", "Render — booth and table seating", "render"),
       img("/portfolio/sheets/slamburger-render-kitchen.webp", 1632, 1224, "Commercial kitchen", "Render — cooking line and prep area", "render"),
+      built("slamburger-render-corridor.webp", "Kitchen corridor", "Render — the cooking line from the back-of-house door", "render"),
       sheet("slamburger-a01-floor-plans.webp", "Floor plans", "Sheet A.01 — ground and first floor, with the 21-item kitchen equipment schedule"),
       sheet("slamburger-a02-hvac-ground.webp", "HVAC plan", "Sheet A.02 — ground floor HVAC: hood, air curtains, supply and exhaust"),
+      built("slamburger-a03-hvac-first.webp", "First floor HVAC", "Sheet A.03 — first floor HVAC: heat pumps, wall units and extract fan"),
       sheet("slamburger-a04-lighting-electrical.webp", "Lighting & electrical", "Sheet A.04 — lighting and power layouts with the device legend"),
       sheet("slamburger-a05-plumbing.webp", "Plumbing", "Sheet A.05 — waste, grey-water and fresh-water runs"),
       sheet("slamburger-a06-kitchen-elevations.webp", "Kitchen elevations", "Sheet A.06 — the four kitchen elevations, keyed to a plan"),
@@ -270,7 +280,9 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
       sheet("cran-015-first-floor.webp", "First floor", "Sheet 01.5 — first floor, furniture layout"),
       sheet("cran-014-ground-floor-mep.webp", "Ground floor MEP", "Sheet 01.4 — ground floor services"),
       sheet("cran-016-first-floor-structure.webp", "First floor structure", "Sheet 01.6 — first floor joist layout"),
+      built("cran-017-first-floor-mep.webp", "First floor MEP", "Sheet 01.7 — first floor services: supply, waste and heating runs"),
       sheet("cran-018-sections.webp", "Building sections", "Sheet 01.8 — building sections through both floors"),
+      built("cran-019-sections.webp", "Long sections", "Sheet 01.9 — long sections: roof build-up, floor joists and the stair"),
     ],
     facts: {
       floors: "2",

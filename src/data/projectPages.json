@@ -96,5 +96,40 @@
     "kind": "Residential design and documentation",
     "summary": "Environmental analysis driving the form, then the drawings a steel-frame fabricator builds from.",
     "cover": "exterior-showcase/barndo-florida/01-exterior-at-dusk.webp"
+  },
+  {
+    "slug": "office-hvac-retrofit",
+    "title": "Office HVAC Retrofit",
+    "kind": "BIM coordination",
+    "summary": "A full ducting retrofit for an office floor: modelled in 3D, drawn in plan and elevation, and costed from the model.",
+    "cover": "sheets/office-hvac-duct-axonometric-boq.webp"
+  },
+  {
+    "slug": "residence-renovation",
+    "title": "Residence Renovation",
+    "kind": "Renovation drawing set",
+    "summary": "Six rooms, each drawn four ways — demolition, after demolition, new work and the finished plan — with lighting, plumbing and the schedules behind them.",
+    "cover": "sheets/reno-master-bath-plans.webp"
+  },
+  {
+    "slug": "two-storey-villa",
+    "title": "Two-Storey Villa",
+    "kind": "BIM drawing set",
+    "summary": "Furnished plans for both floors, and a materials schedule taken straight from the model.",
+    "cover": "sheets/villa-floor-plans.webp"
+  },
+  {
+    "slug": "fourteen-stall-barn",
+    "title": "Fourteen-Stall Barn",
+    "kind": "Preliminary design",
+    "summary": "A horse barn with living quarters: fourteen stalls, feed and wash bays, and living quarters at one end.",
+    "cover": "sheets/barn-perspective.webp"
+  },
+  {
+    "slug": "foxhole-house",
+    "title": "Foxhole House, Wealden",
+    "kind": "Planning drawings",
+    "summary": "A preliminary submission for a family house: plans, four elevations, sections and cut-away views of each floor.",
+    "cover": "sheets/foxhole-section-and-exterior.webp"
   }
 ]
