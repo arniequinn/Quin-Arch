@@ -120,6 +120,29 @@ site better.
 - **v3.32:** D1 (local-time hours) and D4 (honeypot) built, verified and pushed.
 - The first front-end audit marked superseded; the follow-up audit given a status line.
 
+## v3.33 status (2026-09-27, end of session)
+
+**Done, committed locally, NOT pushed** (commits since `ec9ff3b`, latest `9b0103f`):
+- D2, D3, D5, D6 (above).
+- Sheet PDFs inventoried (`private/sheets-inventory-2026-09-27.md`), cropped with title blocks removed
+  (`scripts/build-sheet-crops.mjs`), and published: five new drawing-set projects (Office HVAC Retrofit, Residence
+  Renovation, Two-Storey Villa, Fourteen-Stall Barn, Foxhole House II) plus new sheets on Cran and Slamburger.
+- Case Studies hub lists the drawing sets with sheet counts (9 sets, 57 sheets); card voids fixed.
+- Site-wide void check (desktop + 375 px): homepage BIM tile now the HVAC duct model; Cran perspective treated as a render.
+- Filmstrips: drafting strip +12 new sheets; BIM strip + duct model and materials schedule. Interior/exterior strips
+  unchanged (owner, 2026-09-27).
+
+**Still needed to complete v3.33:**
+1. **Owner answers C6–C12** (one line each) → Claude builds them in one batch:
+   C6 exclusions live · C7 visualization rates · C8 default sheet list · C9 LOD stance · C10 project facts ·
+   C11 in-house benchmark keep/remove · C12 BIM/CAD page length.
+2. **Small open questions from the sheets work:** a location for Foxhole House II (or leave it out); confirm the
+   renovation bath-3 caption; optionally a 5th image for the HVAC project to fill its short last gallery row.
+3. **Optional if ready in time:** C4 firm testimonials, C5 Clutch/GoodFirms URL.
+4. **Release:** build → prerender/sitemap check → 375 px + desktop preview → **owner review of all unpushed commits**
+   → tag v3.33 → push (GitHub Actions deploys). Then B7 (LinkedIn Post Inspector) for the changed pages.
+5. Update the release-history table and memory once live.
+
 ## v3.33 scope
 
 **Ships in v3.33 (once you answer):**
