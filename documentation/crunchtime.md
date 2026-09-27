@@ -136,8 +136,8 @@ site better.
 1. **Owner answers C6–C12** (one line each) → Claude builds them in one batch:
    C6 exclusions live · C7 visualization rates · C8 default sheet list · C9 LOD stance · C10 project facts ·
    C11 in-house benchmark keep/remove · C12 BIM/CAD page length.
-2. **Small open questions from the sheets work:** a location for Foxhole House II (or leave it out); confirm the
-   renovation bath-3 caption; optionally a 5th image for the HVAC project to fill its short last gallery row.
+2. ~~Small open questions from the sheets work~~ ✅ Answered 2026-09-27: Foxhole House II location stays out; bath-3 caption approved. Still optional: 
+   a 5th image for the HVAC project to fill its short last gallery row.
 3. **Optional if ready in time:** C4 firm testimonials, C5 Clutch/GoodFirms URL.
 4. **Release:** build → prerender/sitemap check → 375 px + desktop preview → **owner review of all unpushed commits**
    → tag v3.33 → push (GitHub Actions deploys). Then B7 (LinkedIn Post Inspector) for the changed pages.
