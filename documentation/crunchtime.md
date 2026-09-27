@@ -11,6 +11,7 @@ as v3.34 if the files take longer.
 | v3.3 | 2026-09-26 | Operation Overflow: B2B overflow positioning, capacity call, test sheet, How We Work, `/for-homeowners/` (see `operationoverflow-v3.3.md`) |
 | v3.32 | 2026-09-26 | Online hours shown in the visitor's time zone (DST-proof); honeypot anti-spam field on the test-sheet and LOD-guide forms |
 | v3.33 part 1 | 2026-09-27 | Homepage hero headline "Your vision – Our project" (after brief runs of "Architecture that listens" and "Shelter. Light. Comfort. Calm."; for the 1-second US bounce); `/for-homeowners/` headline "Shelter. Light. Comfort. Calm."; nav links right-aligned; hero video cropped of baked-in black bars; new 1080p walkthrough hero video (8.7 MB) plus a 720p phone version (3.3 MB); the word "free" removed from every page and meta tag |
+| v3.33 | 2026-09-27 | Tag v3.33: five new drawing-set projects from the sheet PDFs (HVAC retrofit, renovation, villa, barn, Foxhole II), Case Studies hub with drawing sets and sheet totals, How We Work coordination module (D2), void fixes, filmstrips, "Not included" lists live, in-house benchmark removed, D3/D5/D6 |
 | v3.33 part 2 | planned | Section C decisions (C6–C12) and D2, D3, D5, D6 — see "v3.33 scope" below |
 
 Everything still open across the planning docs, in one place. It's gathered from
@@ -122,7 +123,7 @@ site better.
 
 ## v3.33 status (2026-09-27, end of session)
 
-**Done, committed locally, NOT pushed** (commits since `ec9ff3b`, latest `9b0103f`):
+**Shipped 2026-09-27 as tag v3.33 (live).** Was: (commits since `ec9ff3b`, latest `9b0103f`):
 - D2, D3, D5, D6 (above).
 - Sheet PDFs inventoried (`private/sheets-inventory-2026-09-27.md`), cropped with title blocks removed
   (`scripts/build-sheet-crops.mjs`), and published: five new drawing-set projects (Office HVAC Retrofit, Residence
