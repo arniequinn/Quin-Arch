@@ -133,8 +133,7 @@ site better.
   unchanged (owner, 2026-09-27).
 
 **Still needed to complete v3.33:**
-1. **Owner answers C6–C12** (one line each) → Claude builds them in one batch:
-   C6 exclusions live · C7 visualization rates · C8 default sheet list · C9 LOD stance · C10 project facts ·
+1. ✅ **C6–C12 answered 2026-09-27** (C7 excepted): C6 exclusions live as written (owner: no site visits — already listed); C8 default sheets approved; C9 LOD stance confirmed; C10 no facts to add; C11 in-house benchmark removed from the BIM estimator; C12 BIM/CAD length kept. **Still open: C7 visualization rates** (approve, or give numbers).
    C11 in-house benchmark keep/remove · C12 BIM/CAD page length.
 2. ~~Small open questions from the sheets work~~ ✅ Answered 2026-09-27: Foxhole House II location stays out; bath-3 caption approved. Still optional: 
    a 5th image for the HVAC project to fill its short last gallery row.

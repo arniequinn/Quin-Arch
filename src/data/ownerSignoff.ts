@@ -3,7 +3,7 @@
 // the deployed site — only show what's been confirmed here. Flip a flag to publish it.
 export const OWNER_CONFIRMED = {
   /** Point 7: the "Not included" lists, including the licensing/stamping line. */
-  exclusions: false,
+  exclusions: true,
 };
 
 export function showDraft(key: keyof typeof OWNER_CONFIRMED): boolean {

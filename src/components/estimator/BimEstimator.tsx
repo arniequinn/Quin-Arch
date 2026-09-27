@@ -3,7 +3,6 @@ import { Check, RotateCcw } from "lucide-react";
 import {
   JURISDICTIONS,
   JURISDICTION_TO_MARKET,
-  MARKET_IN_PHRASE,
   PROJECT_STAGES,
   PROJECT_TYPES,
   SERVICE_OPTIONS,
@@ -96,7 +95,6 @@ export const BimEstimator: React.FC<BimEstimatorProps> = ({ specialist, unit, on
 
   const includedSheets = result.sheets.filter((s) => s.included);
   const seriesIncluded = SHEET_SERIES_ORDER.filter((series) => includedSheets.some((s) => s.series === series));
-  const marketName = MARKET_IN_PHRASE[result.marketId] ?? MARKET_IN_PHRASE.us;
   const serviceNames = SERVICE_OPTIONS.filter((s) => services.includes(s.id)).map((s) => s.shortName);
   const fee = result.estimatedFeeMax > 0 ? formatUsdRange(result.estimatedFeeMin, result.estimatedFeeMax) : "—";
 
@@ -322,12 +320,6 @@ export const BimEstimator: React.FC<BimEstimatorProps> = ({ specialist, unit, on
                 : []),
               ...result.deliverables.map((d) => d.title),
             ]}
-            comparison={
-              <p>
-                Typical in-house cost of this scope in {marketName}:{" "}
-                <span className="font-mono text-neutral-200">{formatUsd(result.inHouseCostEstimate)}</span> (benchmark, Sept 2026).
-              </p>
-            }
             message={{
               subject: `BIM / CAD scope — ${projectTitle || projectType.name}`,
               lines: [
