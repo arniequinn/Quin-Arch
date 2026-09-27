@@ -286,6 +286,40 @@ What happens after: assets go to `public/portfolio/process/` with WebP thumbs, g
 
 ---
 
+## 30-day review — fill in about 2026-10-26
+
+Period: 2026-09-26 → 2026-10-26. Sources: `documentation/private/outreach-tracker.csv`, GA4 (Reports → Engagement → Events, filter by `cta`), Cal.com bookings, Web3Forms submissions.
+
+**Outreach**
+
+| Metric | Count | Notes |
+|---|---|---|
+| Emails sent (email_1_date filled) | | Target ≈ 100 (5/day) |
+| Replies | | |
+| Test sheets requested / sent | | tracker `test_sheet_sent` |
+| Capacity calls booked | | tracker `call_booked` |
+| Pilots quoted / won | | |
+
+**Site (GA4)**
+
+| Event | Count | Notes |
+|---|---|---|
+| `cta_click` — capacity call | | |
+| `cta_click` — test sheet | | |
+| `cta_click` — estimator | | |
+| `generate_lead` (forms) | | by `lead_source` |
+| `contact_click` (email / WhatsApp) | | |
+| US bounce / engagement rate, homepage | | compare with the week before the H1 change |
+
+**Decisions**
+
+- H1 "Your vision – Our project": keep / replace with: …
+- Offer (test sheet vs. capacity call first): …
+- Firm types to target next month: …
+- Anything to cut or add on the site: …
+
+---
+
 ## Order of execution and dependencies
 
 ```

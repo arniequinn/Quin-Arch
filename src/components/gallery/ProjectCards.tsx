@@ -30,7 +30,7 @@ export const projectCard = (project: GalleryProject): Card => ({
 /** A drawing-set case study, in the same card style. */
 export const caseStudyCard = (sample: PortfolioItem): Card => ({
   key: sample.id,
-  href: caseStudyHref(sample.id),
+  href: caseStudyHref(sample.caseStudySlug!),
   cover: sample.cover,
   eyebrow: "Drawing set",
   title: sample.title,

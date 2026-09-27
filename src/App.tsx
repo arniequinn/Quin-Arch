@@ -50,7 +50,7 @@ const BIM_IMAGES: ChapterImage[] = [
   ),
   tile(
     galleryImage("sheets/beach-house-first-level-plan.webp", "First-level plan", { title: "Texas beach house" }),
-    caseStudyHref("sample-beach-house"),
+    caseStudyHref("texas-coastal-beach-house"),
     "Texas beach house, first-level plan"
   ),
   tile(

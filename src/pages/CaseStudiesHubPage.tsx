@@ -2,10 +2,10 @@ import React from "react";
 import { Container } from "../components/Container";
 import { PageHeader } from "../components/SectionHeader";
 import { PORTFOLIO_SAMPLES } from "../data/architecturalData";
-import { CASE_STUDY_SLUGS, caseStudyHref, ROUTES } from "../data/routes";
+import { caseStudyHref, ROUTES } from "../data/routes";
 
 export const CaseStudiesHubPage: React.FC = () => {
-  const studies = PORTFOLIO_SAMPLES.filter((s) => CASE_STUDY_SLUGS[s.id]);
+  const studies = PORTFOLIO_SAMPLES.filter((s) => s.caseStudySlug);
 
   return (
     <main className="flex-1">
@@ -22,7 +22,7 @@ export const CaseStudiesHubPage: React.FC = () => {
           {studies.map((sample) => {
             const drawing = sample.cover.kind === "drawing";
             return (
-              <a key={sample.id} href={caseStudyHref(sample.id)} className="group flex flex-col text-center">
+              <a key={sample.id} href={caseStudyHref(sample.caseStudySlug!)} className="group flex flex-col text-center">
                 <div className={`aspect-[4/3] overflow-hidden rounded-sm ${drawing ? "bg-white p-4" : "bg-neutral-900"}`}>
                   <img
                     src={sample.cover.src}

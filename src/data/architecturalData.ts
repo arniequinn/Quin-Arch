@@ -190,6 +190,7 @@ const sheet = (file: string, title: string, caption: string, width = 2000, heigh
 export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
   {
     id: "sample-beach-house",
+    caseStudySlug: "texas-coastal-beach-house",
     title: "Texas Coastal Beach House Residence",
     category: "CAD Permit Sets",
     description: "Architectural permit drawing package for an elevated coastal residence in Texas. Designed for high-velocity coastal hurricane wind zones with deep piling foundation, wraparound cantilever sundeck, open cathedral living, and IRC storm compliance.",
@@ -224,6 +225,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
   },
   {
     id: "sample-slamburger",
+    caseStudySlug: "slamburger-restaurant",
     title: "Slamburger Commercial Fast-Food Restaurant & Kitchen",
     category: "CAD Permit Sets",
     description: "Complete commercial hospitality and food-service architectural documentation. Produced front-of-house customer dining layout, commercial kitchen hood chases, grease trap routing, ADA compliant restrooms, and branded exterior facade elevations.",
@@ -256,6 +258,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
   },
   {
     id: "sample-cran-residence",
+    caseStudySlug: "cran-residence",
     title: "Cran Residence — Traditional Two-Story Home",
     category: "3D BIM",
     description: "Classic two-story red brick residence with a pitched roof, bay-fronted entry, and fenced front garden. Modeled from client sketches into a coordinated 3D BIM massing study for early design sign-off ahead of full construction documentation.",
@@ -285,6 +288,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
   },
   {
     id: "sample-urban-flats",
+    caseStudySlug: "urban-multi-family-flats",
     title: "Urban Multi-Family Residential Flats & Layouts",
     category: "3D BIM",
     description: "Space-optimized multi-unit residential apartment layout and unit typologies, fire egress stairs, MEP shafts, and structural grid alignment for urban development.",

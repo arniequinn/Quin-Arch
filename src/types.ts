@@ -131,6 +131,8 @@ export interface PortfolioItem {
   description: string;
   software: string[];
   sheetDetails: string;
+  /** URL slug of the case-study page under /case-studies/, if the project has one. */
+  caseStudySlug?: string;
   /** Cover image for cards and the case-study hero. */
   cover: TrackImage;
   /** Sheets and renders from the project itself, for the floating window and case-study page. */

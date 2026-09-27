@@ -31,14 +31,7 @@ export function estimatorHref(service?: EstimatorService): string {
   return service ? `${ROUTES.scopeEstimator}?service=${service}` : ROUTES.scopeEstimator;
 }
 
-export const CASE_STUDY_SLUGS: Record<string, string> = {
-  "sample-beach-house": "texas-coastal-beach-house",
-  "sample-slamburger": "slamburger-restaurant",
-  "sample-cran-residence": "cran-residence",
-  "sample-urban-flats": "urban-multi-family-flats",
-};
-
-export const caseStudyHref = (sampleId: string) => `${ROUTES.caseStudies}${CASE_STUDY_SLUGS[sampleId]}/`;
+export const caseStudyHref = (slug: string) => `${ROUTES.caseStudies}${slug}/`;
 
 /** A gallery project's own page (v3.0 §7), e.g. /projects/kids-room/. */
 export const projectHref = (slug: string) => `${ROUTES.projects}${slug}/`;
