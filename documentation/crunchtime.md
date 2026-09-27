@@ -10,7 +10,7 @@ as v3.34 if the files take longer.
 |---|---|---|
 | v3.3 | 2026-09-26 | Operation Overflow: B2B overflow positioning, capacity call, test sheet, How We Work, `/for-homeowners/` (see `operationoverflow-v3.3.md`) |
 | v3.32 | 2026-09-26 | Online hours shown in the visitor's time zone (DST-proof); honeypot anti-spam field on the test-sheet and LOD-guide forms |
-| v3.33 part 1 | 2026-09-27 | Homepage hero headline "Architecture that listens" (futureprospects.md Option A, for the 1-second US bounce); new 1080p walkthrough hero video (8.7 MB) plus a 720p phone version (3.3 MB); the word "free" removed from every page and meta tag |
+| v3.33 part 1 | 2026-09-27 | Homepage hero headline "Shelter. Light. Comfort. Calm." (after a day on "Architecture that listens", futureprospects.md Option A; for the 1-second US bounce); nav links right-aligned; hero video cropped of baked-in black bars; new 1080p walkthrough hero video (8.7 MB) plus a 720p phone version (3.3 MB); the word "free" removed from every page and meta tag |
 | v3.33 part 2 | planned | Section C decisions (C6–C12) and D2, D3, D5, D6 — see "v3.33 scope" below |
 
 Everything still open across the planning docs, in one place. It's gathered from
@@ -95,7 +95,7 @@ site better.
 
 ## Done 2026-09-27 (v3.33 part 1)
 
-- **Hero copy:** H1 changed from "Your overflow design team — without the hire" to "Architecture that listens"; the
+- **Hero copy:** H1 changed from "Your overflow design team — without the hire" to "Architecture that listens", then (same day) to "Shelter. Light. Comfort. Calm." with the subhead "Quintessential architecture: the four things every good building gets right …"; the
   jargon subhead (CD sets, LOD 300–350) replaced with "On time, on budget, exactly what you imagined …". og and
   twitter titles match. The page `<title>` (search-facing) is unchanged. **Interim line:** you want a stronger H1
   later; judge this one on GA4 US bounce and engagement over 3–5 days first (to about 2026-10-01).

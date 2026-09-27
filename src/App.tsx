@@ -128,14 +128,15 @@ export default function App({ initialSpecialist }: AppProps) {
 
                   {/* Editorial headline — the dominant element on first paint */}
                   <h1 className="font-display text-[clamp(1.75rem,min(9vw,4.6vh),3rem)] font-semibold leading-[1.05] tracking-tight text-neutral-100 sm:text-[clamp(2.75rem,min(7vw,8.5vh),6rem)]">
-                    Architecture{" "}
-                    <span className="text-amber-400">that listens.</span>
+                    Shelter. Light.{" "}
+                    <br className="hidden sm:block" />
+                    <span className="text-amber-400">Comfort. Calm.</span>
                   </h1>
 
                   <p className="text-outlined mx-auto mt-3 max-w-2xl text-small sm:mt-6 sm:text-body">
-                    On time, on budget, exactly what you imagined. A registered architect who works to your
-                    standards, sends revisions back in 24–48 hours, and is online {onlineHours.long}, six days a
-                    week.
+                    Quintessential architecture: the four things every good building gets right. A registered
+                    architect who draws them in your standards, with revisions back in 24–48 hours, online{" "}
+                    {onlineHours.long}, six days a week.
                   </p>
 
                   {/* One primary action, one secondary (v3.0 point 16: no LOD link on the landing page) */}
