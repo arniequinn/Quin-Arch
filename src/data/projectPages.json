@@ -116,7 +116,7 @@
     "title": "Two-Storey Villa",
     "kind": "BIM drawing set",
     "summary": "Furnished plans for both floors, and a materials schedule taken straight from the model.",
-    "cover": "sheets/villa-ground-floor-plan.webp"
+    "cover": "sheets/villa-materials-schedule.webp"
   },
   {
     "slug": "fourteen-stall-barn",
@@ -130,6 +130,6 @@
     "title": "Foxhole House II",
     "kind": "Planning drawings",
     "summary": "A second house for a returning client, on a new plot: plans, four elevations, sections and cut-away views of each floor.",
-    "cover": "sheets/foxhole-section-and-exterior.webp"
+    "cover": "sheets/foxhole-iso-views.webp"
   }
 ]

@@ -46,7 +46,7 @@ const TOTAL_SHEETS = ALL.reduce((sum, c) => sum + c.sheets, 0);
 const Card: React.FC<{ card: StudyCard }> = ({ card }) => {
   const drawing = card.cover.kind !== "render";
   return (
-    <a href={card.href} className="group flex flex-col text-center">
+    <a href={card.href} className="group flex w-full flex-col text-center md:w-[calc(50%-1.25rem)]">
       <div className={`aspect-[4/3] overflow-hidden rounded-sm ${drawing ? "bg-white p-4" : "bg-neutral-900"}`}>
         <img
           src={card.cover.src}
@@ -70,7 +70,8 @@ const Card: React.FC<{ card: StudyCard }> = ({ card }) => {
 };
 
 const Grid: React.FC<{ cards: StudyCard[] }> = ({ cards }) => (
-  <div className="mx-auto grid max-w-6xl grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-2">
+  // Flex, not grid, so an odd last card sits centred instead of leaving an empty column.
+  <div className="mx-auto flex max-w-6xl flex-wrap justify-center gap-x-10 gap-y-16">
     {cards.map((card) => (
       <Card key={card.key} card={card} />
     ))}
