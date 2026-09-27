@@ -274,7 +274,7 @@ export const PORTFOLIO_SAMPLES: PortfolioItem[] = [
     description: "Classic two-story red brick residence with a pitched roof, bay-fronted entry, and fenced front garden. Modeled from client sketches into a coordinated 3D BIM massing study for early design sign-off ahead of full construction documentation.",
     software: ["Archicad", "Twinmotion"],
     sheetDetails: "Working model: plans by discipline, sections",
-    cover: img("/portfolio/cran-perspective.jpg", 1478, 754, "Perspective", "Sheet 01.1 — perspective from the working model", "drawing"),
+    cover: img("/portfolio/cran-perspective.jpg", 1478, 754, "Perspective", "Sheet 01.1 — perspective from the working model", "render"),
     images: [
       sheet("cran-012-ground-floor.webp", "Ground floor", "Sheet 01.2 — ground floor, furniture layout"),
       sheet("cran-015-first-floor.webp", "First floor", "Sheet 01.5 — first floor, furniture layout"),

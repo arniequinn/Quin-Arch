@@ -44,9 +44,9 @@ const workflow = (file: string, href: string) =>
 // linking to its project. The Cran Residence model view is gone.
 const BIM_IMAGES: ChapterImage[] = [
   tile(
-    galleryImage("sheets/13-coordinated-mep-overlay.webp", "Coordinated drawing set"),
-    ROUTES.bimCad,
-    "Plumbing, structure and electrical plans overlaid as one coordinated set"
+    galleryImage("sheets/office-hvac-duct-axonometric-boq.webp", "Duct model and quantities", { title: "Office HVAC retrofit" }),
+    projectHref("office-hvac-retrofit"),
+    "Office HVAC retrofit: the 3D duct model with its bill of quantities"
   ),
   tile(
     galleryImage("sheets/beach-house-first-level-plan.webp", "First-level plan", { title: "Texas beach house" }),

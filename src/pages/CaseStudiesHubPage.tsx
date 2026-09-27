@@ -20,10 +20,9 @@ interface StudyCard {
 }
 
 // Card-only covers where a case study's own cover is a poor fit for a 4:3 card: the beach house's
-// cover is a 2.5:1 elevation strip, and the Cran perspective is a colour model view, not a sheet.
+// cover is a 2.5:1 elevation strip.
 const CARD_COVER: Record<string, { cover?: TrackImage; fill?: boolean }> = {
   "sample-beach-house": { cover: galleryImage("sheets/beach-house-first-level-plan.webp", "First level plan", { title: "Texas beach house — first level plan" }) },
-  "sample-cran-residence": { fill: true },
 };
 
 const CASE_STUDIES: StudyCard[] = PORTFOLIO_SAMPLES.filter((s) => s.caseStudySlug).map((s) => ({
