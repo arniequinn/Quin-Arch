@@ -128,7 +128,7 @@ export default function App({ initialSpecialist }: AppProps) {
 
                   {/* Editorial headline — the dominant element on first paint */}
                   <h1 className="font-display text-[clamp(1.75rem,min(9vw,4.6vh),3rem)] font-semibold leading-[1.05] tracking-tight text-neutral-100 sm:text-[clamp(2.75rem,min(7vw,8.5vh),6rem)]">
-                    Your vision/ <span className="text-amber-400">Our project</span>
+                    Your vision – <span className="text-amber-400">Our project</span>
                   </h1>
 
                   <p className="text-outlined mx-auto mt-3 max-w-2xl text-small sm:mt-6 sm:text-body">
