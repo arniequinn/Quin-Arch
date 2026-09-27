@@ -5,7 +5,7 @@ import { PageHeader, SectionHeader } from "../components/SectionHeader";
 import { ContactSection, Section } from "../components/PageSections";
 import { Button } from "../components/Button";
 import { GallerySection } from "../components/gallery/GallerySection";
-import { surfaceOf } from "../components/gallery/JustifiedGrid";
+import { LARGE_ROW_HEIGHTS, surfaceOf } from "../components/gallery/JustifiedGrid";
 import { FURNITURE_BY_CATEGORY, GalleryProject, SERVICE_LINKS, thumbOf } from "../data/galleryProjects";
 import { projectHref, ROUTES } from "../data/routes";
 
@@ -98,7 +98,12 @@ export const GalleryProjectPage: React.FC<{ project: GalleryProject }> = ({ proj
               </div>
             ))
           ) : (
-            <GallerySection className="mt-14" items={project.items} currentProject={project.slug} />
+            <GallerySection
+              className="mt-14"
+              items={project.items}
+              currentProject={project.slug}
+              rowHeights={project.category === "drawings" && project.items.length <= 3 ? LARGE_ROW_HEIGHTS : undefined}
+            />
           )}
         </Container>
       </Section>

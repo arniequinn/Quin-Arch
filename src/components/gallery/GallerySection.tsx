@@ -12,6 +12,7 @@ interface GallerySectionProps {
   showAllLabel?: string;
   currentProject?: string;
   className?: string;
+  rowHeights?: string;
 }
 
 // A justified grid with its own lightbox. The lightbox moves through the whole section, including
@@ -22,6 +23,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
   showAllLabel,
   currentProject,
   className = "",
+  rowHeights,
 }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [expanded, setExpanded] = useState(false);
@@ -30,7 +32,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
 
   return (
     <div className={className}>
-      <JustifiedGrid items={visible} onOpen={setOpenIndex} currentProject={currentProject} />
+      <JustifiedGrid items={visible} onOpen={setOpenIndex} currentProject={currentProject} rowHeights={rowHeights} />
       {folded && (
         <div className="mt-10 flex justify-center">
           <Button variant="secondary" onClick={() => setExpanded(true)}>

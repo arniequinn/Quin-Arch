@@ -441,7 +441,8 @@ const CONTENT: Record<string, ProjectContent> = {
       "The materials schedule is generated from the BIM model — every slab, wall and stair by storey, with thickness, area and volume — so the quantities stay in step with the design.",
     ],
     items: [
-      villa("sheets/villa-floor-plans.webp", "Ground and first floor, furnished, with the area of every room"),
+      villa("sheets/villa-ground-floor-plan.webp", "Master bedroom and bedroom 2, living, dining, kitchen, drawing room and the double garage — every room with its area"),
+      villa("sheets/villa-first-floor-plan.webp", "Bedrooms 3 to 5, a family living room, the study and a front terrace"),
       villa("sheets/villa-materials-schedule.webp", "Slabs, walls and stairs by storey — thickness, area and volume, straight from the model"),
     ],
     services: ["bim"],

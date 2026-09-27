@@ -17,6 +17,8 @@ import { projectBySlug, thumbOf } from "../../data/galleryProjects";
 // real cap: a lone image there should simply fill the column.
 export const ROW_HEIGHTS = "[--row-h:120px] [--grow:9] sm:[--row-h:210px] sm:[--grow:1.75] lg:[--row-h:240px]";
 export const CARD_ROW_HEIGHTS = "[--row-h:200px] [--grow:9] sm:[--row-h:220px] sm:[--grow:1.9] lg:[--row-h:260px]";
+/** Short drawing sets: sheets need the size to be read, and a lone short row otherwise leaves portrait sheets tiny. */
+export const LARGE_ROW_HEIGHTS = "[--row-h:200px] [--grow:9] sm:[--row-h:340px] sm:[--grow:1.75] lg:[--row-h:440px]";
 export const COMPACT_CARD_ROW_HEIGHTS = "[--row-h:160px] [--grow:9] sm:[--row-h:170px] sm:[--grow:1.6] lg:[--row-h:185px]";
 
 const aspectOf = (img: TrackImage) => img.width / img.height;
@@ -69,11 +71,13 @@ interface JustifiedGridProps {
   /** Items of this project don't link to it again. */
   currentProject?: string;
   className?: string;
+  /** Row-height classes; ROW_HEIGHTS unless given. */
+  rowHeights?: string;
 }
 
-export const JustifiedGrid: React.FC<JustifiedGridProps> = ({ items, onOpen, currentProject, className = "" }) => (
+export const JustifiedGrid: React.FC<JustifiedGridProps> = ({ items, onOpen, currentProject, className = "", rowHeights = ROW_HEIGHTS }) => (
   <ul
-    className={`flex flex-wrap items-start gap-x-3 gap-y-7 sm:gap-x-4 sm:gap-y-8 after:grow-[1000000] after:content-[''] ${ROW_HEIGHTS} ${className}`}
+    className={`flex flex-wrap items-start gap-x-3 gap-y-7 sm:gap-x-4 sm:gap-y-8 after:grow-[1000000] after:content-[''] ${rowHeights} ${className}`}
   >
     {items.map((img, i) => {
       const sources = tileSources(img);
