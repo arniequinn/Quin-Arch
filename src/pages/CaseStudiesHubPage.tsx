@@ -2,7 +2,7 @@ import React from "react";
 import { Container } from "../components/Container";
 import { PageHeader } from "../components/SectionHeader";
 import { PORTFOLIO_SAMPLES } from "../data/architecturalData";
-import { projectsIn, sheetCountOf } from "../data/galleryProjects";
+import { galleryImage, projectsIn, sheetCountOf } from "../data/galleryProjects";
 import { caseStudyHref, projectHref, ROUTES } from "../data/routes";
 import { TrackImage } from "../types";
 
@@ -15,12 +15,22 @@ interface StudyCard {
   summary: string;
   sheets: number;
   cta: string;
+  /** Crop the cover to fill the card (colour images), instead of showing it whole on white. */
+  fill?: boolean;
 }
+
+// Card-only covers where a case study's own cover is a poor fit for a 4:3 card: the beach house's
+// cover is a 2.5:1 elevation strip, and the Cran perspective is a colour model view, not a sheet.
+const CARD_COVER: Record<string, { cover?: TrackImage; fill?: boolean }> = {
+  "sample-beach-house": { cover: galleryImage("sheets/beach-house-first-level-plan.webp", "First level plan", { title: "Texas beach house — first level plan" }) },
+  "sample-cran-residence": { fill: true },
+};
 
 const CASE_STUDIES: StudyCard[] = PORTFOLIO_SAMPLES.filter((s) => s.caseStudySlug).map((s) => ({
   key: s.id,
   href: caseStudyHref(s.caseStudySlug!),
-  cover: s.cover,
+  cover: CARD_COVER[s.id]?.cover ?? s.cover,
+  fill: CARD_COVER[s.id]?.fill,
   eyebrow: s.category,
   title: s.title,
   summary: s.description,
@@ -44,7 +54,7 @@ const ALL = [...CASE_STUDIES, ...DRAWING_SETS];
 const TOTAL_SHEETS = ALL.reduce((sum, c) => sum + c.sheets, 0);
 
 const Card: React.FC<{ card: StudyCard }> = ({ card }) => {
-  const drawing = card.cover.kind !== "render";
+  const drawing = card.cover.kind !== "render" && !card.fill;
   return (
     <a href={card.href} className="group flex w-full flex-col text-center md:w-[calc(50%-1.25rem)]">
       <div className={`aspect-[4/3] overflow-hidden rounded-sm ${drawing ? "bg-white p-4" : "bg-neutral-900"}`}>
