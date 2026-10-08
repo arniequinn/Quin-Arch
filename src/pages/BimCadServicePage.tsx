@@ -212,6 +212,12 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
                     Read the LOD guide →
                   </a>
                 </p>
+                <p className="mt-3 text-small text-neutral-400">
+                  An Archicad office?{" "}
+                  <a href={ROUTES.archicad} className="font-semibold text-amber-400 hover:text-amber-300">
+                    Archicad drafting for firms →
+                  </a>
+                </p>
               </div>
               <div className="lg:col-span-7">
                 <Figure image={WHATS_INCLUDED_IMAGE} displayWidth={700} />

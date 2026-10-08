@@ -6,6 +6,7 @@ export const ROUTES = {
   home: base,
   services: `${base}services/`,
   bimCad: `${base}services/bim-cad-drafting/`,
+  archicad: `${base}services/archicad-drafting/`,
   visualization: `${base}services/visualization/`,
   consultancy: `${base}services/consultancy/`,
   projects: `${base}projects/`,

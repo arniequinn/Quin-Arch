@@ -36,6 +36,7 @@ export default defineConfig(() => {
           servicesHub: path.resolve(__dirname, 'services/index.html'),
           servicesVisualization: path.resolve(__dirname, 'services/visualization/index.html'),
           servicesBimCad: path.resolve(__dirname, 'services/bim-cad-drafting/index.html'),
+          servicesArchicad: path.resolve(__dirname, 'services/archicad-drafting/index.html'),
           servicesConsultancy: path.resolve(__dirname, 'services/consultancy/index.html'),
           caseStudiesHub: path.resolve(__dirname, 'case-studies/index.html'),
           caseStudyBeachHouse: path.resolve(__dirname, 'case-studies/texas-coastal-beach-house/index.html'),
