@@ -62,6 +62,15 @@ export const FAQS = [
       "Yes. Archicad is the authoring tool for every project — modeling, drafting, detailing and schedules. You receive the native Archicad file along with IFC, DWG and vector PDF.",
   },
   {
+    question: "Which version of Archicad do you use?",
+    answer: "Archicad 26.",
+  },
+  {
+    question: "Can you work in our Teamwork project?",
+    answer:
+      "Yes, as long as your office provides an Archicad licence and access to your Teamwork server. The work then happens directly in your shared project, alongside your team.",
+  },
+  {
     question: "Can you match our office template and standards?",
     answer:
       "Yes. Send your template and a past set, and sheets come back in your titleblock, sheet numbering, pen weights and annotation style. DWG exports are mapped to your layer standard.",
