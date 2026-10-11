@@ -147,6 +147,8 @@ export const GALLERY_ASSETS: Record<string, GalleryAsset> = {
   "sheets/11-barndo-florida-floor-plans.webp": {"w":969,"h":680,"tw":800,"th":561,"title":"Barndo, Florida — floor plans"},
   "sheets/12-barndo-florida-wall-section.webp": {"w":973,"h":647,"tw":800,"th":532,"title":"Barndo, Florida — wall section"},
   "sheets/13-coordinated-mep-overlay.webp": {"w":2048,"h":1146,"tw":800,"th":448,"title":"Coordinated set: plumbing, structure, electrical"},
+  "sheets/b3-raft-mep-coordination-axonometric.webp": {"w":2600,"h":1839,"tw":800,"th":566,"title":"Basement MEP coordination — axonometric"},
+  "sheets/b3-raft-mep-coordination-plan.webp": {"w":2600,"h":1839,"tw":800,"th":566,"title":"Basement MEP coordination — plan"},
   "sheets/barn-ground-floor-plan.webp": {"w":2600,"h":1334,"tw":800,"th":410,"title":"Fourteen-stall barn — ground floor plan"},
   "sheets/barn-perspective.webp": {"w":2600,"h":1272,"tw":800,"th":391,"title":"Fourteen-stall barn — perspective"},
   "sheets/barn-upper-floor-plan.webp": {"w":2600,"h":1280,"tw":800,"th":394,"title":"Fourteen-stall barn — upper floor and roof framing"},

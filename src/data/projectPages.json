@@ -105,6 +105,13 @@
     "cover": "sheets/office-hvac-duct-axonometric-boq.webp"
   },
   {
+    "slug": "basement-mep-coordination",
+    "title": "Basement MEP Coordination",
+    "kind": "BIM coordination",
+    "summary": "Structure and four services modelled together in Archicad on a piled basement raft, with clashes logged and resolved in a coordination register.",
+    "cover": "sheets/b3-raft-mep-coordination-axonometric.webp"
+  },
+  {
     "slug": "residence-renovation",
     "title": "Residence Renovation",
     "kind": "Renovation drawing set",

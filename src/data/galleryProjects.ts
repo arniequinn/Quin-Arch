@@ -162,6 +162,7 @@ const serene = inProject("serene-suites");
 const vip = inProject("vip-lounge-dubai");
 const barndo = inProject("barndo-florida");
 const hvac = inProject("office-hvac-retrofit");
+const mep = inProject("basement-mep-coordination");
 const reno = inProject("residence-renovation");
 const villa = inProject("two-storey-villa");
 const barn = inProject("fourteen-stall-barn");
@@ -410,6 +411,24 @@ const CONTENT: Record<string, ProjectContent> = {
       hvac("sheets/office-hvac-ducting-plan.webp", "Over the existing floor, colour-coded: insulated supply, exhaust and fresh air, each run tagged with size and level"),
       hvac("sheets/office-hvac-duct-elevations.webp", "Three runs in elevation, dimensioned from the lower ground level"),
       hvac("sheets/office-hvac-ducting-boq.webp", "Bends, straights, take-offs and transitions counted from the model, with plan and surface areas"),
+    ],
+    services: ["bim"],
+  },
+  "basement-mep-coordination": {
+    category: "drawings",
+    description: [
+      "The lowest basement level of a building on a piled raft, with a vehicle ramp up to the level above. The structure and four services were modelled together in one Archicad model from the engineering DXF drawings: fire protection, storm water and sewer, cold water, and electrical.",
+      "Every element carries its Archicad element ID, and clashes are tracked in a numbered coordination register: a fire riser through a beam, a cable tray dipping under the ramp 16.5 mm from a column. Each was reviewed and closed before the next revision.",
+      "An internal coordination exercise. The services are modelled as the engineering drawings show them; the work here is the BIM authoring and coordination, not the system design.",
+    ],
+    facts: [
+      { label: "Role", value: "BIM author and coordinator" },
+      { label: "Model", value: "Archicad 26" },
+      { label: "Type", value: "Internal coordination exercise" },
+    ],
+    items: [
+      mep("sheets/b3-raft-mep-coordination-axonometric.webp", "The raft level in 3D: structure, fire protection, storm and sewer, cold water and electrical, each numbered to the key"),
+      mep("sheets/b3-raft-mep-coordination-plan.webp", "The same level in plan, colour-coded by service, with the grid, the ramp and the storm tank"),
     ],
     services: ["bim"],
   },

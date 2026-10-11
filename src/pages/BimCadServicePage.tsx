@@ -12,7 +12,7 @@ import { BIM_PRODUCTION_IMAGES, JURISDICTIONS, PORTFOLIO_SAMPLES } from "../data
 import { CLIENT_STORIES, galleryImage, projectBySlug, thumbOf } from "../data/galleryProjects";
 import { LOD_COVERAGE, LOD_500_NOTE } from "../data/lod";
 import { testimonialCredit } from "../data/testimonials";
-import { ROUTES } from "../data/routes";
+import { ROUTES, projectHref } from "../data/routes";
 import { SpecialistProfile } from "../types";
 import { calculateScope } from "../utils/calculator";
 import { formatUsdRange } from "../utils/format";
@@ -128,6 +128,18 @@ const PROOF_PROJECTS = ["office-hvac-retrofit", "residence-renovation", "serene-
 const WHATS_INCLUDED_IMAGE = galleryImage("sheets/02-kids-room-elevation-a.webp", "Interior elevation — drawn for the joiner", {
   project: "kids-room",
 });
+const MEP_IMAGE = galleryImage(
+  "sheets/b3-raft-mep-coordination-axonometric.webp",
+  "Basement raft: structure, fire protection, storm and sewer, cold water and electrical in one model",
+  { project: "basement-mep-coordination" },
+);
+
+const MEP_COORDINATION = [
+  "Fire protection, plumbing, storm and sewer, and electrical modelled from your engineers' DWG or DXF",
+  "Clashes logged in a coordination register, with element IDs, clearances and revision status",
+  "Coordinated plans and axonometrics, colour-coded by service",
+];
+
 const PRICING_IMAGE = galleryImage("sheets/slamburger-a01-floor-plans.webp", "One sheet of a priced set", {
   title: "Slamburger restaurant — floor plans",
 });
@@ -351,7 +363,35 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
           </Container>
         </Section>
 
-        <Section id="pricing" raised>
+        <Section raised>
+          <Container>
+            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
+              <div className="lg:col-span-5">
+                <p className="eyebrow text-amber-400">MEP coordination</p>
+                <h2 className="heading-2 mt-4 text-neutral-100">Services coordinated before the pour</h2>
+                <p className="mt-5 text-body text-neutral-400">
+                  Send your consultants' DWG or DXF drawings. Every service is modelled into the Archicad model around the
+                  structure, and each clash is logged and closed with your team before the next revision.
+                </p>
+                <ItemList items={MEP_COORDINATION} className="mt-8" size="small" />
+                <p className="mt-8 border-t border-neutral-800 pt-5 text-small text-neutral-400">
+                  Coordination, not engineering: MEP and fire and life-safety systems aren't designed or sized here. They're
+                  modelled as your engineers drew them and stay their responsibility.
+                </p>
+                <div className="mt-6">
+                  <Button href={projectHref("basement-mep-coordination")} variant="link" size="sm">
+                    See the basement coordination model
+                  </Button>
+                </div>
+              </div>
+              <div className="lg:col-span-7">
+                <Figure image={MEP_IMAGE} displayWidth={700} />
+              </div>
+            </div>
+          </Container>
+        </Section>
+
+        <Section id="pricing">
           <Container>
             <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
               <div className="lg:col-span-6">
@@ -382,7 +422,7 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
           </Container>
         </Section>
 
-        <Section>
+        <Section raised>
           <Container width="text">
             <SectionHeader eyebrow="Questions" title="Common questions" />
             <div className="mt-12">
@@ -390,7 +430,7 @@ export const BimCadServicePage: React.FC<BimCadServicePageProps> = () => {
             </div>
           </Container>
         </Section>
-        <ContactSection service="bim" title="More work than hands this month?" raised />
+        <ContactSection service="bim" title="More work than hands this month?" />
       </RibbonSequence>
     </main>
   );
