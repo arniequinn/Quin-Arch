@@ -8,7 +8,7 @@ import { ProjectCards, caseStudyCard } from "../components/gallery/ProjectCards"
 import { PORTFOLIO_SAMPLES } from "../data/architecturalData";
 import { galleryImage } from "../data/galleryProjects";
 import { TESTIMONIALS, testimonialCredit } from "../data/testimonials";
-import { BOOKING_URL, ROUTES } from "../data/routes";
+import { BOOKING_URL, ROUTES, projectHref } from "../data/routes";
 
 // Landing page for the Archicad niche: firms that author in Archicad and can't find overflow help
 // that works natively in it. Every claim here repeats one already made on the BIM/CAD page, the
@@ -161,6 +161,12 @@ export const ArchicadDraftingPage: React.FC = () => {
                 Not sure what LOD to ask for?{" "}
                 <a href={ROUTES.lodGuide} className="font-semibold text-amber-400 hover:text-amber-300">
                   Read the LOD guide →
+                </a>
+              </p>
+              <p className="mt-3 text-small text-neutral-400">
+                Consultants' MEP drawings modelled into Archicad and clash-checked:{" "}
+                <a href={projectHref("basement-mep-coordination")} className="font-semibold text-amber-400 hover:text-amber-300">
+                  See the basement coordination model →
                 </a>
               </p>
             </div>
