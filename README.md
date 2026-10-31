@@ -34,7 +34,7 @@ If you rename the repository, update `BASE_PATH` in `vite.config.ts` and the URL
 
 ## Editing the specialist profile
 
-Press **Ctrl + Shift + E** on the homepage and enter the owner passkey to unlock editing (the editor has no link in the public pages). Saved changes are stored in `localStorage` in that browser only — they are not shared across visitors or devices (there's no backend to sync them). To change the passkeys, edit `src/services/ownerAuth.ts`.
+Press **Ctrl + Shift + E** on the homepage and enter the owner passkey to unlock editing (the editor has no link in the public pages). Saved changes are stored in `localStorage` in that browser only — they are not shared across visitors or devices (there's no backend to sync them). The passkey is a long random value kept in `documentation/private/owner-passkey.txt` (git-ignored); only its SHA-256 fingerprint is in `src/services/ownerAuth.ts`. To change it, replace the fingerprint there.
 
 > **Deploys go through GitHub Actions only.** Pushing to `main` builds and publishes the site. The
 > `npm run deploy` script (gh-pages branch) is not needed and is not what the live site serves.

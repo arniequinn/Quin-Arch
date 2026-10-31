@@ -52,9 +52,9 @@ export const SpecialistDataModal: React.FC<SpecialistDataModalProps> = ({
 
   const isAuthorized = sessionUnlocked;
 
-  const handleVerifyPasskey = (e: React.FormEvent) => {
+  const handleVerifyPasskey = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (verifyOwnerPasskey(passkeyInput)) {
+    if (await verifyOwnerPasskey(passkeyInput)) {
       setSessionUnlocked(true);
       setPasskeyError(false);
       setPasskeyInput("");

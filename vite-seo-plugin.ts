@@ -47,6 +47,14 @@ const GA_SNIPPET = `
     </script>
 `;
 
+// GitHub Pages can't send security headers, so the ones a <meta> tag can carry go in every page.
+// Deliberately narrow: no plugins, no injected <base>, no form posting off-site. Script and
+// connection sources are left open on purpose so Google Analytics and the Web3Forms forms keep working.
+const SECURITY_META = `
+    <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+`;
+
 export function seoPlugin(): Plugin[] {
   return [analyticsPlugin(), sitemapPlugin(), prerenderPlugin()];
 }
@@ -61,7 +69,7 @@ function analyticsPlugin(): Plugin {
     transformIndexHtml: {
       order: 'pre',
       handler: (html) =>
-        html.includes('googletagmanager.com') ? html : html.replace('<head>', () => `<head>${GA_SNIPPET}`),
+        html.includes('googletagmanager.com') ? html : html.replace('<head>', () => `<head>${SECURITY_META}${GA_SNIPPET}`),
     },
   };
 }

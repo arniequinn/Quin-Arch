@@ -1,19 +1,14 @@
 export const OWNER_EMAIL = "arslan.qaiser1991@gmail.com";
 
-// NOTE: This is NOT a real access control boundary. This is a static site with
-// no backend, so these passkeys ship in plaintext in the client JS bundle and
-// are trivially readable via view-source or devtools. This gate only decides
-// whether SpecialistDataModal writes to the visitor's own browser localStorage
-// (archscope_specialist_profile_v4) — it does not protect any shared/server-side
-// data, so bypassing it only lets someone change what they personally see
-// locally. Treated as an acceptable low-risk speed bump, not real security.
-// Accepted owner master passkeys (case-insensitive)
-const ACCEPTED_PASSKEYS = [
-  "quinarch1991",
-  "arslan1991",
-  "archscope1991",
-  "quintessential1991",
-];
+// NOTE: This is NOT a real access control boundary. This is a static site with no backend, so
+// this gate only decides whether SpecialistDataModal writes to the visitor's own browser
+// localStorage (archscope_specialist_profile_v4). It protects no shared or server-side data.
+//
+// The public code holds only the SHA-256 fingerprint of the passkey, not the passkey itself, so the
+// passkey can't be read out of the page or the repository. The passkey is a long random value kept
+// in documentation/private/owner-passkey.txt (git-ignored). To change it, hash the new one
+// (lowercase, trimmed) with SHA-256 and replace the fingerprint below.
+const PASSKEY_SHA256 = "9b4daa34c8472119015d7bf24da631756389fbd37a5f12dccd3e1c26f60575ab";
 
 const PASSKEY_SESSION_KEY = "archscope_owner_session_authenticated";
 
@@ -28,13 +23,24 @@ export function isOwnerPasskeyVerified(): boolean {
   }
 }
 
+/** SHA-256 of the trimmed, lowercased input, as lowercase hex. */
+async function sha256Hex(input: string): Promise<string> {
+  const bytes = new TextEncoder().encode(input.trim().toLowerCase());
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 /**
- * Verifies a provided owner passkey against the authorized list.
+ * Verifies a provided owner passkey against the stored fingerprint.
  */
-export function verifyOwnerPasskey(inputKey: string): boolean {
+export async function verifyOwnerPasskey(inputKey: string): Promise<boolean> {
   if (!inputKey) return false;
-  const clean = inputKey.trim().toLowerCase();
-  const isValid = ACCEPTED_PASSKEYS.includes(clean);
+  let isValid = false;
+  try {
+    isValid = (await sha256Hex(inputKey)) === PASSKEY_SHA256;
+  } catch {
+    return false; // no Web Crypto (very old browser or insecure context)
+  }
   if (isValid) {
     try {
       sessionStorage.setItem(PASSKEY_SESSION_KEY, "true");
