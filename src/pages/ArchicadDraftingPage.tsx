@@ -51,7 +51,7 @@ const STEPS = [
   },
   {
     title: "Hand off by lunch",
-    body: "Online 9 am – 3 pm Eastern, six days a week. Send markups in the morning and review the revised sheets first thing the next day.",
+    body: "Online 9 am – 3 pm Eastern (8 am – 2 pm in winter), six days a week. Send markups in the morning and review the revised sheets first thing the next day.",
   },
 ];
 
