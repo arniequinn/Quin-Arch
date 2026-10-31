@@ -30,8 +30,20 @@ const GA_SNIPPET = `
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${GA_ID}');
+      // Count the live site only: not local previews, and not the owner's own devices.
+      // Open any page once with ?notrack=1 to stop counting that browser (?notrack=0 undoes it).
+      (function () {
+        var off = null;
+        try {
+          var m = location.search.match(/[?&]notrack=([01])/);
+          if (m) localStorage.setItem('qa-notrack', m[1]);
+          off = localStorage.getItem('qa-notrack');
+        } catch (e) {}
+        if (location.hostname === 'quinarch.design' && off !== '1') {
+          gtag('js', new Date());
+          gtag('config', '${GA_ID}');
+        }
+      })();
     </script>
 `;
 
